@@ -1,9 +1,11 @@
 package po;
 
+import java.io.Serializable;
+
 /**
  * Created by 常德隆 on 2016/11/19.
  */
-public class WebworkerPO {
+public class WebworkerPO implements Serializable{
         private long ID;
         private String webworkerName;
         private Authority authority;//权限

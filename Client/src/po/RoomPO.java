@@ -1,9 +1,11 @@
 package po;
 
+import java.io.Serializable;
+
 /**
  * Created by 常德隆 on 2016/11/19.
  */
-public class RoomPO {
+public class RoomPO implements Serializable{
     //图片
     private String[] roomType;//房间类型
     private int[] roomTotalNumber;//房间总数量

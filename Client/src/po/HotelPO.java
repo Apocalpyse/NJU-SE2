@@ -1,9 +1,10 @@
 package po;
+import java.io.Serializable;
 import java.util.ArrayList;
 /**
  * Created by 常德隆 on 2016/11/19.
  */
-public class HotelPO {
+public class HotelPO implements Serializable{
     private String password;//密码
     private String hotelName;//酒店名称
     private String tradeArea;//所属商圈

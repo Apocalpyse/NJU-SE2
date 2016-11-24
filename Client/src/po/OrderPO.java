@@ -21,6 +21,7 @@ public class OrderPO {
     private OrderState os;
     private boolean isExistChild;
     private int customerNumber;
+    private long masterId;
 
     public OrderPO(){}
 
@@ -181,5 +182,13 @@ public class OrderPO {
 
     public void setCustomerNumber(int customerNumber) {
         this.customerNumber = customerNumber;
+    }
+
+    public long getMasterId() {
+        return masterId;
+    }
+
+    public void setMasterId(long masterId) {
+        this.masterId = masterId;
     }
 }

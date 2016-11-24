@@ -1,9 +1,11 @@
 package po;
 
+import java.io.Serializable;
+
 /**
  * Created by 常德隆 on 2016/11/19.
  */
-public class CustomerPO {
+public class CustomerPO implements Serializable{
     private String customerName;
     private int[] customerPhone;
     private boolean isNormalMember;
@@ -12,6 +14,9 @@ public class CustomerPO {
     private String companyName;
     private double credit;
     private long id;
+    private int creditNum;
+    private String[] creditRecord;
+    private long[] orderId;
 
     public CustomerPO(){}
 
@@ -88,5 +93,29 @@ public class CustomerPO {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public void setCreditNum(int creditNum) {
+        this.creditNum = creditNum;
+    }
+
+    public int getCreditNum() {
+        return creditNum;
+    }
+
+    public String[] getCreditRecord() {
+        return creditRecord;
+    }
+
+    public void setCreditRecord(String[] creditRecord) {
+        this.creditRecord = creditRecord;
+    }
+
+    public long[] getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(long[] orderId) {
+        this.orderId = orderId;
     }
 }
