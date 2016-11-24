@@ -3,6 +3,7 @@ package businesslogic.orderbl;
 /**
  * Created by 常德隆 on 2016/11/19.
  */
+import businesslogic.promotionbl.PromotionBL;
 import dataservice.orderdataservice.OrderDataService;
 import po.*;
 import vo.OrderVO;
@@ -15,10 +16,7 @@ public class OrderBL {
     public boolean createOrder(OrderVO vo){
 
         OrderPO o=new OrderPO();
-        HotelPromotionPO P1=new HotelPromotionPO();
-        WebPromotionPO P2=new WebPromotionPO();
-        double p1;
-        double p2;
+        PromotionBL pbl=new PromotionBL();
         double[] roomPrice;
         double totalPrice=0;
         String date;
@@ -35,15 +33,7 @@ public class OrderBL {
         o.setRoomNumber(vo.getRoomNumber());
         o.setRoomPrice(vo.getRoomPrice());
         o.setMasterId(vo.getMasterId());
-
-        p1=P1.getDiscount();
-        p2=P2.getDiscount();
-        if(p1>p2){
-            o.setDiscount(p2);
-        }
-        else{
-            o.setDiscount(p1);
-        }//获得最优优惠；
+        o.setDiscount(pbl.getDiscount(o.getMasterId(),o.getRoomNumber(),o.getRoomPrice()));//获得折扣；
 
         roomPrice=vo.getRoomPrice();
         for(int i=0;i<vo.getRoomPrice().length;i++){
