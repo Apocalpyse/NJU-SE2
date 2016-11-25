@@ -4,14 +4,15 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import businesslogic.customerbl.CustomerController;
+import dataservice.customerdataservice.CustomerDataService;
 import dataservice.promotiondataservice.PromotionDataService;
 import po.*;
 import vo.*;
 
 public class PromotionBL {
-	static long countMemberID;
-	static long countHotelID;
-	static long countWebID;
+	static long countMemberID=50000;
+	static long countHotelID=60000;
+	static long countWebID=70000;
 
 	public double getDiscount(long id, int[] room, double[] price) {
 		double lowestDiscount = 1;
@@ -22,17 +23,14 @@ public class PromotionBL {
 		String birth;
 		double amount = 0;
 		int rooms = 0;
-
-		CustomerController cc = new CustomerController();
-		PromotionController pc = new PromotionController();//供数据库构建成功后调用对应的策略使用
-		
-		CustomerVO vo = cc.getCustomer(id);
+		CustomerDataService cds=new CustomerDataService();
+		CustomerPO cppo=cds.find(id);
 		HotelPromotionPO hppo = new HotelPromotionPO();
 		MemberPromotionPO mppo = new MemberPromotionPO();
 		WebPromotionPO wppo=new WebPromotionPO();
 		double level[] = mppo.getCredit();
 		double discount[] = mppo.getDiscountForMember();
-		double credit = vo.getCredit();
+		double credit = cppo.getCredit();
 		for (int i = 0; i < level.length; i++) {
 			if (credit < level[i]) {
 				memberDiscount = discount[i];
@@ -62,7 +60,7 @@ public class PromotionBL {
 			}
 		}
 		// 3
-		birth = vo.getBirthday();
+		birth = cppo.getBirthday();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String date;
 		Date now = new Date();

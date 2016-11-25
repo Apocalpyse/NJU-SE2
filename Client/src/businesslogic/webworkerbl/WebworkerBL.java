@@ -4,6 +4,7 @@ import dataservice.webworkerdataservice.WebworkerDataService;
 import po.WebworkerPO;
 import vo.WebworkerVO;
 public class WebworkerBL {
+	static long countWeb=80000;
     public WebworkerVO getWebworker(long id){
         WebworkerVO vo=new WebworkerVO();
         WebworkerDataService wds=new WebworkerDataService();
@@ -19,7 +20,8 @@ public class WebworkerBL {
     	WebworkerDataService wds=new WebworkerDataService();
         WebworkerPO po = new WebworkerPO();
         po.setAuthority(vo.getAuthority());
-        po.setID(vo.getID());
+        countWeb++;
+        po.setID(countWeb);
         po.setPassword(vo.getPassword());
         po.setWebworkerName(vo.getWebworkerName());
         return wds.creat(po);
