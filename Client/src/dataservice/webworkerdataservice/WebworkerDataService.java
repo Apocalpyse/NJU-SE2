@@ -1,7 +1,23 @@
 package dataservice.webworkerdataservice;
 
-/**
- * Created by 常德隆 on 2016/11/20.
- */
+import po.WebworkerPO;
+
 public class WebworkerDataService {
+	WebworkerPO po;
+	public WebworkerPO get(long id){
+		return null;
+	}
+	public boolean change(WebworkerPO po){
+		return false;
+		
+	}
+	public boolean creat(WebworkerPO po){
+		return false;
+		
+	}
+	public boolean update(){
+		return false;
+	
+	}
+
 }

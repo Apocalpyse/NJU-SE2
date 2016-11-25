@@ -1,6 +1,9 @@
-package po;
+package vo;
 
-public class WebPromotionPO extends PromotionPO{
+import po.MemberType;
+import po.UsageState;
+
+public class WebPromotionVO {
 	private long ID;//编号
 	private String promotionName;//名称
 	private String createdTime;//创建时间
@@ -10,21 +13,7 @@ public class WebPromotionPO extends PromotionPO{
 	private String businessDistrict[];//针对商圈
 	private MemberType memberType;//针对用户类型
 	private double discount;//折扣
-	//constructor
-	public WebPromotionPO(){
-		
-	}
-	public WebPromotionPO(long ID,String promotionName,String createdTime,UsageState usageState,String beginTime,String endTime,String businessDistrict[],MemberType memberType,double discount){
-		this.ID=ID;
-		this.promotionName=promotionName;
-		this.createdTime=createdTime;
-		this.usageState=usageState;
-		this.beginTime=beginTime;
-		this.endTime=endTime;
-		this.businessDistrict=businessDistrict;
-		this.memberType=memberType;
-		this.discount=discount;
-	}
+	
 	public String[] getBusinessDistrict() {
 		return businessDistrict;
 	}

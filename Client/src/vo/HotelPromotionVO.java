@@ -1,6 +1,9 @@
-package po;
+package vo;
 
-public class HotelPromotionPO extends PromotionPO{
+import po.MemberType;
+import po.UsageState;
+
+public class HotelPromotionVO {
 	private long ID;//编号
 	private String promotionName;//名称
 	private String createdTime;//创建时间
@@ -14,25 +17,7 @@ public class HotelPromotionPO extends PromotionPO{
 	private double discountForLargerAmount[];//更高金额折扣
 	private double discountforlargeramount[];//对应金额折扣
 	private double birthDiscount;//生日折扣
-	public HotelPromotionPO(){
-		
-	}
-	public HotelPromotionPO(long ID, String promotionName, String createdTime, UsageState usageState, String beginTime,
-			String endTime, MemberType memberType, double discount,int discountForMoreRoom[],double discountformoreroom[]
-					,double discountForLargerAmount[],double discountforlargeramount[],double birthDiscount) {
-		this.ID = ID;
-		this.promotionName = promotionName;
-		this.createdTime = createdTime;
-		this.usageState = usageState;
-		this.beginTime = beginTime;
-		this.endTime = endTime;
-		this.memberType = memberType;
-		this.discount = discount;
-		this.discountForMoreRoom=discountForMoreRoom;
-		this.discountformoreroom=discountformoreroom;
-		this.discountForLargerAmount=discountForLargerAmount;
-		this.discountforlargeramount=discountforlargeramount;
-	}
+	
 	public double getBirthDiscount() {
 		return birthDiscount;
 	}
@@ -111,7 +96,6 @@ public class HotelPromotionPO extends PromotionPO{
 	public void setDiscount(double discount) {
 		this.discount = discount;
 	}
-
 
 	
 }
