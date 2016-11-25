@@ -7,9 +7,9 @@ import vo.RoomVO;
  */
 public class RoomBL {
     public RoomVO getRoom(String rommStyle){
-
+       return null;
     }
     public boolean changeRoom(RoomVO rv){
-
+       return false;
     }
 }

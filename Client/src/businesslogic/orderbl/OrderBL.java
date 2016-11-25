@@ -33,7 +33,8 @@ public class OrderBL {
         o.setRoomNumber(vo.getRoomNumber());
         o.setRoomPrice(vo.getRoomPrice());
         o.setMasterId(vo.getMasterId());
-        o.setDiscount(pbl.getDiscount(o.getMasterId(),o.getRoomNumber(),o.getRoomPrice()));//获得折扣；
+        //o.setDiscount(pbl.getDiscount(o.getMasterId(),o.getRoomNumber(),o.getRoomPrice()));
+        //获得折扣；
 
         roomPrice=vo.getRoomPrice();
         for(int i=0;i<vo.getRoomPrice().length;i++){
