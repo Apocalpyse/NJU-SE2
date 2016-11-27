@@ -1,15 +1,34 @@
 package businesslogic.roombl;
 
+import dataservice.roomdataservice.RoomDataService;
+import po.RoomPO;
 import vo.RoomVO;
 
-/**
- * Created by 常德隆 on 2016/11/20.
- */
 public class RoomBL {
-    public RoomVO getRoom(String rommStyle){
-       return null;
-    }
-    public boolean changeRoom(RoomVO rv){
-       return false;
-    }
+	public RoomVO getRoom(String roomStyle){
+		RoomDataService roomDataService=new RoomDataService();
+		RoomVO rv=new RoomVO();
+		RoomPO rp;
+		rp=roomDataService.find(roomStyle);
+		
+		rv.setRoomType(rp.getRoomType());
+		rv.setRoomTotalNumber(rp.getRoomTotalNumber());
+		rv.setRoomAccessNumber(rp.getRoomAccessNumber());
+		rv.setRoomPrice(rp.getRoomPrice()); 
+		
+		return rv;
+	}
+	public boolean changeRoom(RoomVO rv){
+		boolean result=false;
+		RoomDataService roomDataService2=new RoomDataService();
+		RoomPO rp2;
+		rp2=roomDataService2.find(rv.getRoomType());
+		
+		rp2.setRoomType(rv.getRoomType());
+		rp2.setRoomTotalNumber(rv.getRoomTotalNumber());
+		rp2.setRoomAccessNumber(rv.getRoomAccessNumber());
+		rp2.setRoomPrice(rv.getRoomPrice());
+		result=true;
+		return result;
+	}
 }
