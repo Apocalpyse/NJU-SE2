@@ -3,7 +3,8 @@ package vo;
 /**
  * Created by 常德隆 on 2016/11/19.
  */
-//图片
+public class RoomVO {
+	//图片
 	String roomType;//房间类型
 	int roomTotalNumber;//房间总数量
 	int roomAccessNumber;//可预定的房间数量
