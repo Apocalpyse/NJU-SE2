@@ -8,22 +8,19 @@ import po.OrderState;
 public class OrderVO {
     private long id;
     private String customerName;
-    private int[] customerPhone;
+    private String customerPhone;
     private String hotelName;
-    private int[] hotelPhone;
+    private String hotelPhone;
     private String hotelLocation;
-    private String[] roomType;
-    private int[] roomNumber;
-    private double[] roomPrice;
+    private String roomType;
+    private int roomNumber;
+    private double roomPrice;
     private double discount;
     private String startTime;
     private String endTime;
-    private String executeTime;
     private double totalPrice;
-    private OrderState os;
     private boolean isExistChild;
     private int customerNumber;
-    private long masterId;
 
     public long getId(){
         return id;
@@ -41,11 +38,11 @@ public class OrderVO {
         this.customerName=name;
     }
 
-    public int[] getCustomerPhone(){
+    public String getCustomerPhone(){
         return customerPhone;
     }
 
-    public void setCustomerPhone(int[] phone){
+    public void setCustomerPhone(String phone){
         this.customerPhone=phone;
     }
 
@@ -57,11 +54,11 @@ public class OrderVO {
         this.hotelName = hotelName;
     }
 
-    public int[] getHotelPhone() {
+    public String getHotelPhone() {
         return hotelPhone;
     }
 
-    public void setHotelPhone(int[] hotelPhone) {
+    public void setHotelPhone(String hotelPhone) {
         this.hotelPhone = hotelPhone;
     }
 
@@ -73,27 +70,27 @@ public class OrderVO {
         this.hotelLocation = hotelLocation;
     }
 
-    public String[] getRoomType() {
+    public String getRoomType() {
         return roomType;
     }
 
-    public void setRoomType(String[] roomType) {
+    public void setRoomType(String roomType) {
         this.roomType = roomType;
     }
 
-    public int[] getRoomNumber() {
+    public int getRoomNumber() {
         return roomNumber;
     }
 
-    public void setRoomNumber(int[] roomNumber) {
+    public void setRoomNumber(int roomNumber) {
         this.roomNumber = roomNumber;
     }
 
-    public double[] getRoomPrice() {
+    public double getRoomPrice() {
         return roomPrice;
     }
 
-    public void setRoomPrice(double[] roomPrice) {
+    public void setRoomPrice(double roomPrice) {
         this.roomPrice = roomPrice;
     }
 
@@ -121,28 +118,12 @@ public class OrderVO {
         this.endTime = endTime;
     }
 
-    public String getExecuteTime() {
-        return executeTime;
-    }
-
-    public void setExecuteTime(String executeTime) {
-        this.executeTime = executeTime;
-    }
-
     public double getTotalPrice() {
         return totalPrice;
     }
 
     public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
-    }
-
-    public OrderState getOs() {
-        return os;
-    }
-
-    public void setOs(OrderState os) {
-        this.os = os;
     }
 
     public boolean getIsExistChild() {
@@ -159,13 +140,5 @@ public class OrderVO {
 
     public void setCustomerNumber(int customerNumber) {
         this.customerNumber = customerNumber;
-    }
-
-    public long getMasterId() {
-        return masterId;
-    }
-
-    public void setMasterId(long masterId) {
-        this.masterId = masterId;
     }
 }

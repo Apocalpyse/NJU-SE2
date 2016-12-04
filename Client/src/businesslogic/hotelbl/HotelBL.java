@@ -2,6 +2,7 @@ package businesslogic.hotelbl;
 
 import java.util.ArrayList;
 
+import businesslogicservice.hotelbusinesslogicservice.HotelBusinessLogicService;
 import dataservice.hoteldataservice.HotelDataService;
 import dataservice.orderdataservice.OrderDataService;
 import dataservice.promotiondataservice.PromotionDataService;
@@ -14,7 +15,7 @@ import po.RoomPO;
 import vo.HotelVO;
 import vo.RoomVO;
 
-public class HotelBL {
+public class HotelBL implements HotelBusinessLogicService{
 	public HotelVO getHotel(long id){
 		HotelDataService hotelDataService=new HotelDataService();
 		HotelVO hv=new HotelVO();

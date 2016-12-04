@@ -1,16 +1,16 @@
 package businesslogic.roombl;
 
+import businesslogicservice.roombusinesslogicservice.RoomBusinessLogicService;
 import dataservice.roomdataservice.RoomDataService;
 import po.RoomPO;
 import vo.RoomVO;
 
-public class RoomBL {
+public class RoomBL implements RoomBusinessLogicService{
 	public RoomVO getRoom(String roomStyle){
 		RoomDataService roomDataService=new RoomDataService();
 		RoomVO rv=new RoomVO();
 		RoomPO rp;
 		rp=roomDataService.find(roomStyle);
-		
 		rv.setRoomType(rp.getRoomType());
 		rv.setRoomTotalNumber(rp.getRoomTotalNumber());
 		rv.setRoomAccessNumber(rp.getRoomAccessNumber());

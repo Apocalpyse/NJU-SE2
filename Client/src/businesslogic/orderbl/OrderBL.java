@@ -4,6 +4,7 @@ package businesslogic.orderbl;
  * Created by 常德隆 on 2016/11/19.
  */
 import businesslogic.promotionbl.PromotionBL;
+import businesslogicservice.orderbusnesslogicservice.OrderBusinessLogicService;
 import dataservice.orderdataservice.OrderDataService;
 import po.*;
 import vo.OrderVO;
@@ -11,13 +12,15 @@ import vo.OrderVO;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class OrderBL {
+public class OrderBL implements OrderBusinessLogicService{
+
+    private long OrderId=40000;
 
     public boolean createOrder(OrderVO vo){
 
         OrderPO o=new OrderPO();
         PromotionBL pbl=new PromotionBL();
-        double[] roomPrice;
+        double roomPrice;
         double totalPrice=0;
         String date;
         Date now =new Date();
@@ -32,14 +35,11 @@ public class OrderBL {
         o.setRoomType(vo.getRoomType());
         o.setRoomNumber(vo.getRoomNumber());
         o.setRoomPrice(vo.getRoomPrice());
-        o.setMasterId(vo.getMasterId());
-        //o.setDiscount(pbl.getDiscount(o.getMasterId(),o.getRoomNumber(),o.getRoomPrice()));
+        o.setDiscount(pbl.getDiscount(o.getMasterId(),o.getRoomNumber(),o.getRoomPrice()));
         //获得折扣；
 
         roomPrice=vo.getRoomPrice();
-        for(int i=0;i<vo.getRoomPrice().length;i++){
-            totalPrice=totalPrice+roomPrice[i];
-        }
+        totalPrice=roomPrice*(o.getRoomNumber());
         totalPrice=totalPrice*o.getDiscount();//根据折扣计算出订单总价值；
 
         date=dateFormat.format(now);//获得当前时间，作为订单的下单时间；
@@ -51,6 +51,8 @@ public class OrderBL {
         o.setOs(OrderState.unexecute);//将生成的订单的状态设为未执行；
         o.setIsExistChild(vo.getIsExistChild());
         o.setCustomerNumber(vo.getCustomerNumber());
+        OrderId++;
+        o.setId(OrderId);
         result=true;
 
         return result;
@@ -74,9 +76,7 @@ public class OrderBL {
         v.setDiscount(p.getDiscount());
         v.setTotalPrice(p.getTotalPrice());
         v.setStartTime(p.getStartTime());
-        v.setExecuteTime(p.getExecuteTime());
         v.setEndTime(p.getEndTime());
-        v.setOs(p.getOs());
         v.setIsExistChild(p.getIsExistChild());//根据id获得订单信息；
 
         return v;

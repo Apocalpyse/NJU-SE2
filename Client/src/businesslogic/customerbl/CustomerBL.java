@@ -1,5 +1,6 @@
 package businesslogic.customerbl;
 
+import businesslogicservice.customerbusinesslogicservice.CustomerBusinessLogicService;
 import dataservice.customerdataservice.CustomerDataService;
 import dataservice.hoteldataservice.HotelDataService;
 import dataservice.orderdataservice.OrderDataService;
@@ -16,7 +17,7 @@ import java.util.Date;
 /**
  * Created by 常德隆 on 2016/11/19.
  */
-public class CustomerBL {
+public class CustomerBL implements CustomerBusinessLogicService {
 
     public CustomerVO getCustomer(long id){
         CustomerVO vo=new CustomerVO();
@@ -103,9 +104,7 @@ public class CustomerBL {
             vo[i].setDiscount(po[i].getDiscount());
             vo[i].setTotalPrice(po[i].getTotalPrice());
             vo[i].setStartTime(po[i].getStartTime());
-            vo[i].setExecuteTime(po[i].getExecuteTime());
             vo[i].setEndTime(po[i].getEndTime());
-            vo[i].setOs(po[i].getOs());
             vo[i].setIsExistChild(po[i].getIsExistChild());
         }
         return vo;

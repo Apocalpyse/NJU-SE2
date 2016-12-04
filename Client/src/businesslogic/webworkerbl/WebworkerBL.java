@@ -1,9 +1,10 @@
 package businesslogic.webworkerbl;
 
+import businesslogicservice.webworkerbusinesslogicservice.WebworkerBusinessLogicService;
 import dataservice.webworkerdataservice.WebworkerDataService;
 import po.WebworkerPO;
 import vo.WebworkerVO;
-public class WebworkerBL {
+public class WebworkerBL implements WebworkerBusinessLogicService{
 	static long countWeb=80000;
     public WebworkerVO getWebworker(long id){
         WebworkerVO vo=new WebworkerVO();

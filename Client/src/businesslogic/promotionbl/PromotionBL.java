@@ -4,25 +4,26 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import businesslogic.customerbl.CustomerController;
+import businesslogicservice.promotionbusinesslogicservice.PromotionBusinessLogicService;
 import dataservice.customerdataservice.CustomerDataService;
 import dataservice.promotiondataservice.PromotionDataService;
 import po.*;
 import vo.*;
 
-public class PromotionBL {
+public class PromotionBL implements PromotionBusinessLogicService{
 	static long countMemberID=50000;
 	static long countHotelID=60000;
 	static long countWebID=70000;
 
-	public double getDiscount(long id, int[] room, double[] price) {
+	public double getDiscount(long id, int room, double price) {
 		double lowestDiscount = 1;
 		double memberDiscount = 1;
 		double roomDiscount = 1;
 		double amountDiscount = 1;
 		double birthDiscount=1;
 		String birth;
-		double amount = 0;
-		int rooms = 0;
+		double amount = price;
+		int rooms = room;
 		CustomerDataService cds=new CustomerDataService();
 		CustomerPO cppo=cds.find(id);
 		HotelPromotionPO hppo = new HotelPromotionPO();
@@ -38,9 +39,6 @@ public class PromotionBL {
 			}
 		}
 		// 1
-		for (int i = 0; i < room.length; i++) {
-			rooms = rooms + room[i];
-		}
 		int discountForMoreRoom[] = hppo.getDiscountForMoreRoom();// 更多房间折扣
 		double discountformoreroom[] = hppo.getDiscountformoreroom();// 对应房间数目折扣
 		for (int i = 0; i < discountForMoreRoom.length; i++) {
@@ -49,9 +47,6 @@ public class PromotionBL {
 			}
 		}
 		// 2
-		for (int i = 0; i < room.length; i++) {
-			amount = amount + room[i] * price[i];
-		}
 		double discountForLargerAmount[] = hppo.getDiscountForLargerAmount();// 更高金额折扣
 		double discountforlargeramount[] = hppo.getDiscountforlargeramount();// 对应金额折扣
 		for (int i = 0; i < discountForLargerAmount.length; i++) {

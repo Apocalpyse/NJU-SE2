@@ -6,13 +6,13 @@ package po;
 public class OrderPO {
     private long id;
     private String customerName;
-    private int[] customerPhone;
+    private String customerPhone;
     private String hotelName;
-    private int[] hotelPhone;
+    private String hotelPhone;
     private String hotelLocation;
-    private String[] roomType;
-    private int[] roomNumber;
-    private double[] roomPrice;
+    private String roomType;
+    private int roomNumber;
+    private double roomPrice;
     private double discount;
     private String startTime;
     private String endTime;
@@ -25,8 +25,8 @@ public class OrderPO {
 
     public OrderPO(){}
 
-    public OrderPO(long id,String customerName,int[] customerPhone,String hotelName,int[] hotelPhone,
-                   String hotelLocation,String[] roomType,int[] roomNumber,double[] roomPrice,
+    public OrderPO(long id,String customerName,String customerPhone,String hotelName,String hotelPhone,
+                   String hotelLocation,String roomType,int roomNumber,double roomPrice,
                    double discount,String startTime,String endTime,String executeTime,double totalPrice,
                    OrderState os,boolean isExistChild,int customerNumber){
         this.id=id;
@@ -64,11 +64,11 @@ public class OrderPO {
         this.customerName=name;
     }
 
-    public int[] getCustomerPhone(){
+    public String getCustomerPhone(){
         return customerPhone;
     }
 
-    public void setCustomerPhone(int[] phone){
+    public void setCustomerPhone(String phone){
         this.customerPhone=phone;
     }
 
@@ -80,11 +80,11 @@ public class OrderPO {
         this.hotelName = hotelName;
     }
 
-    public int[] getHotelPhone() {
+    public String getHotelPhone() {
         return hotelPhone;
     }
 
-    public void setHotelPhone(int[] hotelPhone) {
+    public void setHotelPhone(String hotelPhone) {
         this.hotelPhone = hotelPhone;
     }
 
@@ -96,27 +96,27 @@ public class OrderPO {
         this.hotelLocation = hotelLocation;
     }
 
-    public String[] getRoomType() {
+    public String getRoomType() {
         return roomType;
     }
 
-    public void setRoomType(String[] roomType) {
+    public void setRoomType(String roomType) {
         this.roomType = roomType;
     }
 
-    public int[] getRoomNumber() {
+    public int getRoomNumber() {
         return roomNumber;
     }
 
-    public void setRoomNumber(int[] roomNumber) {
+    public void setRoomNumber(int roomNumber) {
         this.roomNumber = roomNumber;
     }
 
-    public double[] getRoomPrice() {
+    public double getRoomPrice() {
         return roomPrice;
     }
 
-    public void setRoomPrice(double[] roomPrice) {
+    public void setRoomPrice(double roomPrice) {
         this.roomPrice = roomPrice;
     }
 
