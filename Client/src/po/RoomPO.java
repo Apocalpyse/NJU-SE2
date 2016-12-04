@@ -1,6 +1,7 @@
 package po;
 
-//图片
+public class RoomPO {
+	//图片
 	String roomType;//房间类型
 	int roomTotalNumber;//房间总数量
 	int roomAccessNumber;//可预定的房间数量
