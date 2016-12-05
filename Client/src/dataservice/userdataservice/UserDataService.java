@@ -3,14 +3,13 @@ package dataservice.userdataservice;
 import po.UserPO;
 
 /**
- * Created by 常德隆 on 2016/11/20.
+ * Created by 常德隆 on 2016/12/4.
  */
-public class UserDataService {
-    public UserPO find(String accout){
-        UserPO po=new UserPO();
-        return po;
-    }
-    public void insert(UserPO po){
-
-    }
+public interface UserDataService {
+    public UserPO find(String account);
+    public void insert(UserPO po);
+    public void delete(long id);
+    public void updata(UserPO po);
+    public void init();
+    public void finish();
 }

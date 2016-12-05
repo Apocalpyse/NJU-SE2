@@ -1,38 +1,20 @@
 package dataservice.promotiondataservice;
 
-import po.*;
+import po.HotelPromotionPO;
+import po.MemberPromotionPO;
+import po.PromotionPO;
+import po.WebPromotionPO;
 
-public class PromotionDataService {
-	PromotionPO po;
-	public MemberPromotionPO getMemberPromotion(long id){
-		return null;
-	}
-	public HotelPromotionPO getHotelPromotion(long id){
-		return null;
-	}
-	public WebPromotionPO getWebPromotion(long id){
-		return null;
-	}
-	public boolean change(MemberPromotionPO po){
-		return false;
-	}
-	public boolean change(HotelPromotionPO po){
-		return false;
-	}
-	public boolean change(WebPromotionPO po){
-		return false;
-	}
-	public boolean creat(MemberPromotionPO po){
-		return false;
-	}
-	public boolean creat(HotelPromotionPO po){
-		return false;
-	}
-	public boolean creat(WebPromotionPO po){
-		return false;
-	}
-	public boolean update(){
-		return false;
-	
-	}
+/**
+ * Created by 常德隆 on 2016/12/4.
+ */
+public interface PromotionDataService {
+    public MemberPromotionPO find1(long id);
+    public HotelPromotionPO find2(long id);
+    public WebPromotionPO find3(long id);
+    public void insert(PromotionPO po);
+    public void delete(long id);
+    public void updata(PromotionPO po);
+    public void init();
+    public void finish();
 }

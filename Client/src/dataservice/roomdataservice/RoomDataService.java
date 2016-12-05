@@ -1,18 +1,15 @@
 package dataservice.roomdataservice;
 
-/**
- * Created by 常德隆 on 2016/11/20.
- */
-import po.HotelPO;
 import po.RoomPO;
 
-public class RoomDataService {
-    public RoomPO find(String roomStyle){
-		return null;
-	}
-    public void updata(RoomPO roompo){
-		
-	}
-	
+/**
+ * Created by 常德隆 on 2016/12/4.
+ */
+public interface RoomDataService {
+    public RoomPO find(long id);
+    public void insert(RoomPO po);
+    public void delete(long id);
+    public void updata(RoomPO po);
+    public void init();
+    public void finish();
 }
-

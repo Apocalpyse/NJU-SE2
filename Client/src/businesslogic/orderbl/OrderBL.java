@@ -6,6 +6,7 @@ package businesslogic.orderbl;
 import businesslogic.promotionbl.PromotionBL;
 import businesslogicservice.orderbusnesslogicservice.OrderBusinessLogicService;
 import dataservice.orderdataservice.OrderDataService;
+import dataservice.orderdataservice.OrderDataServiceSqlImpl;
 import po.*;
 import vo.OrderVO;
 
@@ -14,6 +15,7 @@ import java.util.Date;
 
 public class OrderBL implements OrderBusinessLogicService{
 
+    OrderDataServiceSqlImpl ods;
     private long OrderId=40000;
 
     public boolean createOrder(OrderVO vo){
@@ -61,8 +63,7 @@ public class OrderBL implements OrderBusinessLogicService{
     public OrderVO getOrder(long id){
         OrderVO v=new OrderVO();
         OrderPO p;
-        OrderDataService ods=new OrderDataService();
-        p=ods.find(id);
+        p=this.ods.find(id);
 
         v.setCustomerName(p.getCustomerName());
         v.setCustomerPhone(p.getCustomerPhone());
@@ -84,14 +85,13 @@ public class OrderBL implements OrderBusinessLogicService{
 
     public double cancelOrder(long id) {
         double result=0;
-        OrderDataService ods=new OrderDataService();
         OrderPO po;
         String now;
         String startTime;
         Date date=new Date();
         SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         now=sdf.format(date);
-        po=ods.find(id);
+        po=this.ods.find(id);
         po.setOs(OrderState.canceled);//根据id获得订单，并将此订单的状态设为已撤销；
         startTime=po.getStartTime();
         long diff=0;
@@ -116,9 +116,8 @@ public class OrderBL implements OrderBusinessLogicService{
 
     public double completeOrder(long id){
         double result=0;
-        OrderDataService ods=new OrderDataService();
         OrderPO po;
-        po=ods.find(id);
+        po=this.ods.find(id);
         po.setOs(OrderState.normal);
         result=po.getTotalPrice();//根据id获得订单，并将此订单的状态设为正常状态,加上对应的信用值；
 
@@ -127,9 +126,8 @@ public class OrderBL implements OrderBusinessLogicService{
 
     public double recoverOrder(long id){
         double result=0;
-        OrderDataService ods=new OrderDataService();
         OrderPO po;
-        po=ods.find(id);
+        po=this.ods.find(id);
         po.setOs(OrderState.normal);
         result=po.getTotalPrice();//根据id获得订单，并将此订单的状态设为正常状态；
 

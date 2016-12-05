@@ -13,7 +13,7 @@ public class WebworkerData {
     private ResultSet rs;
 
     public WebworkerData(){
-        String url = "jdbc:sqlserver://127.0.0.1:1368;databaseName=DS_HRS;user=sa;password=";//sa身份连接
+        String url = "jdbc:sqlserver://127.0.0.1:1368;databaseName=DS_HRS_WebworkerData;user=sa;password=";//sa身份连接
 
         // Declare the JDBC objects.
         Connection con = null;

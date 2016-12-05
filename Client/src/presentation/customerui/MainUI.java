@@ -1,9 +1,14 @@
 package presentation.customerui;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
+import javax.swing.text.TableView;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import static com.sun.xml.internal.fastinfoset.alphabet.BuiltInRestrictedAlphabets.table;
 
 /**
  * Created by 常德隆 on 2016/11/29.
@@ -92,17 +97,33 @@ public class MainUI {
         businessArea.setBounds(700,100,150,60);
         label2.setBounds(100,200,120,60);
         price1.setBounds(270,200,120,60);
+        price1.setBackground(Color.LIGHT_GRAY);
         price2.setBounds(440,200,120,60);
+        price2.setBackground(Color.LIGHT_GRAY);
         price3.setBounds(610,200,120,60);
+        price3.setBackground(Color.LIGHT_GRAY);
         price4.setBounds(780,200,120,60);
+        price4.setBackground(Color.LIGHT_GRAY);
         label3.setBounds(100,300,100,60);
         star1.setBounds(240,300,100,60);
+        star1.setBackground(Color.LIGHT_GRAY);
         star2.setBounds(380,300,100,60);
+        star2.setBackground(Color.LIGHT_GRAY);
         star3.setBounds(520,300,100,60);
+        star3.setBackground(Color.LIGHT_GRAY);
         star4.setBounds(660,300,100,60);
+        star4.setBackground(Color.LIGHT_GRAY);
         star5.setBounds(800,300,100,60);
+        star5.setBackground(Color.LIGHT_GRAY);
         button.setBounds(440,460,120,40);
         panel1.add(button);
+
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                SearchResultUI ui=new SearchResultUI();
+            }
+        });
 
         //个人信息界面；
         panel2.setLayout(null);
@@ -158,22 +179,116 @@ public class MainUI {
             }
         });
         button2.setFont(font);
-        label7.setBounds(400,60,50,60);
-        name.setBounds(460,60,150,60);
-        label8.setBounds(620,60,50,60);
-        phone.setBounds(680,60,150,60);
-        label9.setBounds(400,180,50,60);
-        member.setBounds(460,180,150,60);
-        label10.setBounds(620,180,50,60);
-        credit.setBounds(680,180,150,60);
-
+        panel2.add(label7);
+        label7.setBounds(300,60,70,60);
+        panel2.add(name);
+        name.setBounds(380,60,150,60);
+        panel2.add(label8);
+        label8.setBounds(540,60,70,60);
+        panel2.add(phone);
+        phone.setBounds(620,60,150,60);
+        panel2.add(label9);
+        label9.setBounds(300,180,70,60);
+        panel2.add(member);
+        member.setBounds(380,180,150,60);
+        panel2.add(label10);
+        label10.setBounds(540,180,70,60);
+        panel2.add(credit);
+        credit.setBounds(620,180,150,60);
+        panel2.add(label11);
+        label11.setBounds(300,300,70,60);
+        panel2.add(birthday);
+        birthday.setBounds(380,300,150,60);
+        panel2.add(label12);
+        label12.setBounds(540,300,70,60);
+        panel2.add(companyName);
+        companyName.setBounds(620,300,150,60);
+        panel2.add(button1);
+        panel2.add(button2);
+        button1.setBounds(600,500,80,40);
+        button2.setBounds(720,500,80,40);
 
         //订单浏览界面；
-
+        Object[][] obj1=new Object[10][5];
+        Object[][] obj2=new Object[10][5];
+        Object[][] obj3=new Object[10][5];
+        Object[][] obj4=new Object[10][5];
+        obj1[0][0]="50000";
+        obj1[0][1]="2016-8-18";
+        obj1[0][2]="2016-8-19";
+        obj1[0][3]="南京大酒店";
+        obj1[0][4]="正常";
+        String[] colunName={"订单编号","预计执行日期","预计结束日期","酒店名称","订单状态"};
+        DefaultTableModel dt1=new DefaultTableModel(obj1,colunName);
+        DefaultTableModel dt2=new DefaultTableModel(obj2,colunName);
+        DefaultTableModel dt3=new DefaultTableModel(obj3,colunName);
+        DefaultTableModel dt4=new DefaultTableModel(obj4,colunName);
+        JTable table1=new JTable(dt1);
+        JTable table2=new JTable(dt2);
+        JTable table3=new JTable(dt3);
+        JTable table4=new JTable(dt4);
+        JScrollPane scrollPane1=new JScrollPane(table1);
+        JScrollPane scrollPane2=new JScrollPane(table2);
+        JScrollPane scrollPane3=new JScrollPane(table3);
+        JScrollPane scrollPane4=new JScrollPane(table4);
+        JPanel panel5=new JPanel();
+        JPanel panel6=new JPanel();
+        JPanel panel7=new JPanel();
+        JPanel panel8=new JPanel();
+        JTabbedPane jtp2=new JTabbedPane(JTabbedPane.NORTH);
+        panel5.add(scrollPane1);
+        panel6.add(scrollPane2);
+        panel7.add(scrollPane3);
+        panel8.add(scrollPane4);
+        table1.getTableHeader().setFont(font);
+        table2.getTableHeader().setFont(font);
+        table3.getTableHeader().setFont(font);
+        table4.getTableHeader().setFont(font);
+        table1.setPreferredScrollableViewportSize(new Dimension(750,400));
+        table2.setPreferredScrollableViewportSize(new Dimension(750,400));
+        table3.setPreferredScrollableViewportSize(new Dimension(750,400));
+        table4.setPreferredScrollableViewportSize(new Dimension(750,400));
+        table1.setRowHeight(40);
+        table2.setRowHeight(40);
+        table3.setRowHeight(40);
+        table4.setRowHeight(40);
+        jtp2.add("正常订单",panel5);
+        jtp2.add("异常订单",panel6);
+        jtp2.add("已撤销订单",panel7);
+        jtp2.add("未执行订单",panel8);
+        jtp2.setFont(font);
+        table1.setFont(font);
+        table2.setFont(font);
+        table3.setFont(font);
+        table4.setFont(font);
+        panel3.setLayout(null);
+        panel3.add(jtp2);
+        jtp2.setBounds(0,0,1000,600);
 
         //信用查看界面；
+        Object[][] obj5=new Object[15][3];
+        String[] colunName2={"时间","变化数量","变化来源"};
+        DefaultTableModel dt5=new DefaultTableModel(obj5,colunName2);
+        JTable table5=new JTable(dt5);
+        JScrollPane scrollPane5=new JScrollPane(table5);
+        table5.getTableHeader().setFont(font);
+        panel4.add(scrollPane5);
+        table5.setFont(font);
+        table5.setPreferredScrollableViewportSize(new Dimension(780,400));
+        table5.setRowHeight(30);
 
 
+        panel1.setBackground(Color.LIGHT_GRAY);
+        panel2.setBackground(Color.LIGHT_GRAY);
+        panel3.setBackground(Color.LIGHT_GRAY);
+        panel4.setBackground(Color.LIGHT_GRAY);
+        panel5.setBackground(Color.LIGHT_GRAY);
+        panel6.setBackground(Color.LIGHT_GRAY);
+        panel7.setBackground(Color.LIGHT_GRAY);
+        panel8.setBackground(Color.LIGHT_GRAY);
+        jtp.setBackground(Color.LIGHT_GRAY);
+        jtp2.setBackground(Color.LIGHT_GRAY);
+        frame.setBackground(Color.LIGHT_GRAY);
         frame.setFont(font);
         frame.getContentPane().add(jtp);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

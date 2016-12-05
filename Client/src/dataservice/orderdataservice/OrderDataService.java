@@ -3,11 +3,13 @@ package dataservice.orderdataservice;
 import po.OrderPO;
 
 /**
- * Created by 常德隆 on 2016/11/20.
+ * Created by 常德隆 on 2016/12/4.
  */
-public class OrderDataService {
-    public OrderPO find(long id){
-        OrderPO po=new OrderPO();
-        return po;
-    }
+public interface OrderDataService {
+    public OrderPO find(long id);
+    public void insert(OrderPO po);
+    public void delete(long id);
+    public void updata(OrderPO po);
+    public void init();
+    public void finish();
 }

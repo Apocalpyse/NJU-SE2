@@ -2,8 +2,11 @@ package businesslogic.customerbl;
 
 import businesslogicservice.customerbusinesslogicservice.CustomerBusinessLogicService;
 import dataservice.customerdataservice.CustomerDataService;
+import dataservice.customerdataservice.CustomerDataServiceSqlImpl;
 import dataservice.hoteldataservice.HotelDataService;
+import dataservice.hoteldataservice.HotelDataServiceSqlImpl;
 import dataservice.orderdataservice.OrderDataService;
+import dataservice.orderdataservice.OrderDataServiceSqlImpl;
 import po.CustomerPO;
 import po.HotelPO;
 import po.OrderPO;
@@ -19,12 +22,15 @@ import java.util.Date;
  */
 public class CustomerBL implements CustomerBusinessLogicService {
 
+    CustomerDataServiceSqlImpl cds;
+    HotelDataServiceSqlImpl hds;
+    OrderDataServiceSqlImpl ods;
+
     public CustomerVO getCustomer(long id){
         CustomerVO vo=new CustomerVO();
-        CustomerDataService cds=new CustomerDataService();
         CustomerPO po;
 
-        po=cds.find(id);
+        po=this.cds.find(id);
         vo.setCustomerName(po.getCustomerName());
         vo.setCustomerPhone(po.getCustomerPhone());
         vo.setCredit(po.getCredit());
@@ -40,20 +46,18 @@ public class CustomerBL implements CustomerBusinessLogicService {
     public boolean changeCustomer(CustomerVO vo){
         boolean result=false;
         CustomerPO po;
-        CustomerDataService cds=new CustomerDataService();
-        po=cds.find(vo.getId());
+        po=this.cds.find(vo.getId());
         po.setCustomerName(vo.getCustomerName());
         po.setCustomerPhone(vo.getCustomerPhone());
         po.setBirthday(vo.getBirthday());
         po.setCompanyName(vo.getCompanyName());
-        cds.update(po);
+        cds.updata(po);
         result=true;
         return result;
     }
 
     public boolean registerMember(CustomerVO vo){
         CustomerPO po=new CustomerPO();
-        CustomerDataService cds=new CustomerDataService();
         po.setCustomerName(vo.getCustomerName());
         po.setCustomerPhone(vo.getCustomerPhone());
         po.setCredit(vo.getCredit());
@@ -62,27 +66,35 @@ public class CustomerBL implements CustomerBusinessLogicService {
         po.setBirthday(vo.getBirthday());
         po.setCompanyName(vo.getCompanyName());
         po.setId(123456);
-        cds.insert(po);
+        this.cds.insert(po);
         return false;
     }
 
-    public HotelVO[] searchHotel(String province,String city,String businessArea,double price,int star){
-        HotelVO[] vo=new HotelVO[100];
-        HotelDataService hds=new HotelDataService();
+    public HotelVO[] searchHotel(String province,String city,String businessArea,String price,String star){
+        HotelVO[] vo=new HotelVO[10];
         long id=10000;
         int i=0;
+        int j=0;
         HotelPO[] po=new HotelPO[100];
-        while(hds.find(id)!=null){
-            po[i]=hds.find(id);
+        while(this.hds.find(id)!=null){
+            if(i>9){
+              break;
+            }
+            po[i]=this.hds.find(id);
             i++;
             po[i].getHotelLocation();
+            po[i].getID();
+            if(po[i].getStars()==star){
+                vo[j].setHotelName(po[i].getHotelName());
+                vo[j].setHotelPhone(po[i].getHotelPhone());
+                vo[j].setHotelLocation(po[i].getHotelLocation());
+            }
         }
         return vo;
     }
 
     public OrderVO[] viewOrder(long id){
-        CustomerDataService cds=new CustomerDataService();
-        OrderDataService ods=new OrderDataService();
+        CustomerDataServiceSqlImpl cds=new CustomerDataServiceSqlImpl();
         CustomerPO p;
         OrderVO[] vo;
         OrderPO[] po;
@@ -91,7 +103,7 @@ public class CustomerBL implements CustomerBusinessLogicService {
         vo=new OrderVO[idTemp.length];
         po=new OrderPO[idTemp.length];
         for(int i=0;i<idTemp.length;i++){
-            po[i]=ods.find(idTemp[i]);
+            po[i]=this.ods.find(idTemp[i]);
             vo[i].setCustomerName(po[i].getCustomerName());
             vo[i].setCustomerPhone(po[i].getCustomerPhone());
             vo[i].setCustomerNumber(po[i].getCustomerNumber());
@@ -111,20 +123,18 @@ public class CustomerBL implements CustomerBusinessLogicService {
     }
 
     public CustomerVO viewCredit(long id){
-        CustomerDataService cds=new CustomerDataService();
         CustomerPO po;
         CustomerVO vo=new CustomerVO();
-        po=cds.find(id);
+        po=this.cds.find(id);
         vo.setCreditRecord(po.getCreditRecord());
         return vo;
     }
 
     public void recordCredit(long id,double creditChange){
         String[] record=null;
-        CustomerDataService cds=new CustomerDataService();
         CustomerPO po;
         int num;
-        po=cds.find(id);
+        po=this.cds.find(id);
         num=po.getCreditNum();
         num=num+2;
         po.setCreditNum(num);

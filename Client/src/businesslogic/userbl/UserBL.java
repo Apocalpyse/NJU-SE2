@@ -2,6 +2,7 @@ package businesslogic.userbl;
 
 import businesslogicservice.userbusinesslogicservice.UserBusinessLogicService;
 import dataservice.userdataservice.UserDataService;
+import dataservice.userdataservice.UserDataServiceSqlImpl;
 import po.UserPO;
 
 /**
@@ -9,13 +10,13 @@ import po.UserPO;
  */
 public class UserBL implements UserBusinessLogicService{
 
+    UserDataServiceSqlImpl uds;
     private long UserID=10000;
 
     public boolean login(String account,String password){
         boolean result=false;
-        UserDataService uds=new UserDataService();
         UserPO po;
-        po=uds.find(account);
+        po=this.uds.find(account);
         if(po.getPassword()==password){
             result=true;
         }
@@ -23,9 +24,8 @@ public class UserBL implements UserBusinessLogicService{
     }
     public boolean register(String account,String password){
         boolean result=false;
-        UserDataService uds=new UserDataService();
         UserPO po;
-        po=uds.find(account);
+        po=this.uds.find(account);
         if(po.getAccount()!=null){
             result=false;
         }
