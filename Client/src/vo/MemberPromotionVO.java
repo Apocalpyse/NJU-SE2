@@ -9,7 +9,16 @@ public class MemberPromotionVO {
 	private UsageState usageState;//使用状态
 	private double credit[];//会员等级划分
 	private double discountForMember[];//对各等级折扣
-	
+	public MemberPromotionVO(long iD, String promotionName, String createdTime, UsageState usageState, double[] credit,
+			double[] discountForMember) {
+		super();
+		ID = iD;
+		this.promotionName = promotionName;
+		this.createdTime = createdTime;
+		this.usageState = usageState;
+		this.credit = credit;
+		this.discountForMember = discountForMember;
+	}
 	public long getID() {
 		return ID;
 	}
@@ -37,6 +46,7 @@ public class MemberPromotionVO {
 	public double[] getCredit() {
 		return credit;
 	}
+	
 	public void setCredit(double[] credit) {
 		this.credit = credit;
 	}

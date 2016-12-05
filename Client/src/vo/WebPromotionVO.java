@@ -14,6 +14,19 @@ public class WebPromotionVO {
 	private MemberType memberType;//针对用户类型
 	private double discount;//折扣
 	
+	public WebPromotionVO(long iD, String promotionName, String createdTime, UsageState usageState, String beginTime,
+			String endTime, String[] businessDistrict, MemberType memberType, double discount) {
+		super();
+		ID = iD;
+		this.promotionName = promotionName;
+		this.createdTime = createdTime;
+		this.usageState = usageState;
+		this.beginTime = beginTime;
+		this.endTime = endTime;
+		this.businessDistrict = businessDistrict;
+		this.memberType = memberType;
+		this.discount = discount;
+	}
 	public String[] getBusinessDistrict() {
 		return businessDistrict;
 	}
