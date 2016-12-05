@@ -2,7 +2,7 @@ package po;
 import java.util.ArrayList;
 
 public class HotelPO {
-	int id;
+	Long id;
 	String password;//密码
 	String hotelName;//酒店名称
 	String tradeArea;//所属商圈
@@ -12,7 +12,7 @@ public class HotelPO {
 	String instruction;//酒店简介
 	ArrayList<Evaluation> eval;//酒店评价
 	String cooperatateCompany;//酒店合作企业
-	public HotelPO(int i,String hn,String ta,String hl,String hp,String st,String in,Evaluation eva,String cc){
+	public HotelPO(Long i,String hn,String ta,String hl,String hp,String st,String in,Evaluation eva,String cc){
 		id=i;
 		hotelName=hn;
 		tradeArea=ta;
@@ -23,7 +23,7 @@ public class HotelPO {
 		eval.add(eva);
 		cooperatateCompany=cc;
 	}
-	public void setID(int i){
+	public void setID(Long i){
 		id=i;
 	}
 	public void setPassword(String pw){
@@ -54,7 +54,7 @@ public class HotelPO {
 		cooperatateCompany=str;
 	}
 	
-	public int getID(){
+	public Long getID(){
 		return id;
 	}
 	public String getPassword(){
