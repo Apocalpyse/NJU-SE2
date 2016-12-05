@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import po.Evaluation;
 
 public class HotelVO {
-	int id;
+	Long id;
 	String password;//密码
 	String hotelName;//酒店名称
 	String tradeArea;//所属商圈
@@ -19,7 +19,7 @@ public class HotelVO {
 	ArrayList<Evaluation> eval;//酒店评价
 	String cooperatateCompany;//酒店合作企业
 	
-	public void setID(int i){
+	public void setID(Long i){
 		id=i;
 	}
 	public void setPassword(String pw){
@@ -50,7 +50,7 @@ public class HotelVO {
 		cooperatateCompany=str;
 	}
 	
-	public int getID(){
+	public Long getID(){
 		return id;
 	}
 	public String getPassword(){
@@ -81,4 +81,3 @@ public class HotelVO {
 		return cooperatateCompany;
 	}
 }
-
