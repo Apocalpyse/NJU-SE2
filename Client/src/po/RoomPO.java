@@ -1,16 +1,20 @@
 package po;
 
 public class RoomPO {
-	//图片
+	Long roomID;//房间ID
 	String roomType;//房间类型
 	int roomTotalNumber;//房间总数量
 	int roomAccessNumber;//可预定的房间数量
 	double roomPrice;//房间价格
-	public RoomPO(String st,int rtn,int ran,double rp){
+	public RoomPO(Long i,String st,int rtn,int ran,double rp){
+		roomID=i;
 		roomType=st;
 		roomTotalNumber=rtn;
 		roomAccessNumber=ran;
 		roomPrice=rp;
+	}
+	public void setRoomID(long i){
+		roomID=i;
 	}
 	public void setRoomType(String st){
 		roomType=st;
@@ -25,6 +29,9 @@ public class RoomPO {
 		roomPrice=rp;
 	}
 	
+	public Long getRoomID(){
+		return roomID;
+	}
 	public String getRoomType(){
 		return roomType;
 	}
