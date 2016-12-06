@@ -11,21 +11,20 @@ public class HotelPromotionPO extends PromotionPO{
 	private double discount;//折扣
 	private int discountForMoreRoom;//更多房间折扣
 	private double discountformoreroom;//对应房间数目折扣
+	private double discountForLargerAmount;// 更高金额折扣
+	private double discountforlargeramount;// 对应金额折扣
 	private double birthDiscount;//生日折扣
 	private double companyDiscount;//合作企业折扣
-	public double getCompanyDiscount() {
-		return companyDiscount;
-	}
-	public void setCompanyDiscount(double companyDiscount) {
-		this.companyDiscount = companyDiscount;
-	}
 	public HotelPromotionPO(){
 		
 	}
-	public HotelPromotionPO(long ID, String promotionName, String createdTime, UsageState usageState, String beginTime,
-			String endTime, MemberType memberType, double discount,int discountForMoreRoom,double discountformoreroom
-					,double birthDiscount) {
-		this.ID = ID;
+	
+	public HotelPromotionPO(long iD, String promotionName, String createdTime, UsageState usageState, String beginTime,
+			String endTime, MemberType memberType, double discount, int discountForMoreRoom,
+			double discountformoreroom2, double discountForLargerAmount, double discountforlargeramount2,
+			double birthDiscount, double companyDiscount) {
+		super();
+		ID = iD;
 		this.promotionName = promotionName;
 		this.createdTime = createdTime;
 		this.usageState = usageState;
@@ -33,8 +32,30 @@ public class HotelPromotionPO extends PromotionPO{
 		this.endTime = endTime;
 		this.memberType = memberType;
 		this.discount = discount;
-
+		this.discountForMoreRoom = discountForMoreRoom;
+		discountformoreroom = discountformoreroom2;
+		this.discountForLargerAmount = discountForLargerAmount;
+		discountforlargeramount = discountforlargeramount2;
+		this.birthDiscount = birthDiscount;
+		this.companyDiscount = companyDiscount;
 	}
+
+	public double getCompanyDiscount() {
+		return companyDiscount;
+	}
+	public double getDiscountForLargerAmount() {
+		return discountForLargerAmount;
+	}
+	public void setDiscountForLargerAmount(double discountForLargerAmount) {
+		this.discountForLargerAmount = discountForLargerAmount;
+	}
+	public double getDiscountforlargeramount() {
+		return discountforlargeramount;
+	}
+	public void setCompanyDiscount(double companyDiscount) {
+		this.companyDiscount = companyDiscount;
+	}
+
 	public double getBirthDiscount() {
 		return birthDiscount;
 	}
@@ -101,6 +122,10 @@ public class HotelPromotionPO extends PromotionPO{
 	}
 	public void setDiscount(double discount) {
 		this.discount = discount;
+	}
+	public void setDiscountforlargeramount(double numberOfRoom) {
+		// TODO Auto-generated method stub
+		
 	}
 
 

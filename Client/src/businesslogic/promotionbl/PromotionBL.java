@@ -1,6 +1,7 @@
 package businesslogic.promotionbl;
 
 import java.text.SimpleDateFormat;
+
 import java.util.Date;
 
 import businesslogic.customerbl.CustomerController;
@@ -12,11 +13,11 @@ import dataservice.promotiondataservice.PromotionDataServiceSqlImpl;
 import po.*;
 import vo.*;
 
-public class PromotionBL implements PromotionBusinessLogicService{
+public class PromotionBL implements PromotionBusinessLogicService {
 
-	static long countMemberID=50000;
-	static long countHotelID=60000;
-	static long countWebID=70000;
+	static long countMemberID = 50000;
+	static long countHotelID = 60000;
+	static long countWebID = 70000;
 	CustomerDataServiceSqlImpl cds;
 	PromotionDataServiceSqlImpl pds;
 
@@ -25,69 +26,69 @@ public class PromotionBL implements PromotionBusinessLogicService{
 		double memberDiscount = 1;
 		double roomDiscount = 1;
 		double amountDiscount = 1;
-		double birthDiscount=1;
-		String birth;
+		double birthDiscount = 1;
+		double companyDiscount = 1;
 		double amount = price;
 		int rooms = room;
-		CustomerPO cppo=this.cds.find(id);
+		CustomerPO cppo = this.cds.find(id);
 		HotelPromotionPO hppo = new HotelPromotionPO();
 		MemberPromotionPO mppo = new MemberPromotionPO();
-		WebPromotionPO wppo=new WebPromotionPO();
+		WebPromotionPO wppo = new WebPromotionPO();
 		double level[] = mppo.getCredit();
 		double discount[] = mppo.getDiscountForMember();
 		double credit = cppo.getCredit();
-		for (int i = 0; i < level.length; i++) {
-			if (credit < level[i]) {
-				memberDiscount = discount[i];
-				break;
+		if (!cppo.getIsNormalMember()) {
+			for (int i = 0; i < level.length; i++) {
+				if (credit < level[i]) {
+					memberDiscount = discount[i];
+					break;
+				}
 			}
 		}
-		// 1
-		int discountForMoreRoom[] = hppo.getDiscountForMoreRoom();// 更多房间折扣
-		double discountformoreroom[] = hppo.getDiscountformoreroom();// 对应房间数目折扣
-		for (int i = 0; i < discountForMoreRoom.length; i++) {
-			if (rooms < discountForMoreRoom[i]) {
-				roomDiscount = discountformoreroom[i];
-			}
+		// member discount
+		if (rooms >= hppo.getDiscountForMoreRoom()) {
+			roomDiscount = hppo.getDiscountformoreroom();// 对应房间数目折扣
 		}
 		// 2
-		double discountForLargerAmount[] = hppo.getDiscountForLargerAmount();// 更高金额折扣
-		double discountforlargeramount[] = hppo.getDiscountforlargeramount();// 对应金额折扣
-		for (int i = 0; i < discountForLargerAmount.length; i++) {
-			if (amount < discountForLargerAmount[i]) {
-				amountDiscount = discountforlargeramount[i];
-			}
+		if (amount >= hppo.getDiscountForLargerAmount()) {
+			amountDiscount = hppo.getDiscountforlargeramount();// 对应金额折扣
 		}
 		// 3
-		birth = cppo.getBirthday();
+		if (cppo.getIsCompanyMember()) {
+			companyDiscount = hppo.getCompanyDiscount();
+		}
+		// company discount
+		String birth = cppo.getBirthday();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String date;
 		Date now = new Date();
 		date = dateFormat.format(now);
 		String[] dates = date.split(" ");
 		if (birth.equals(dates[0])) {
-			birthDiscount=hppo.getBirthDiscount();
+			birthDiscount = hppo.getBirthDiscount();
 		}
-		if(lowestDiscount>memberDiscount){
-			lowestDiscount=memberDiscount;
+		// birthday discount
+
+		if (lowestDiscount > memberDiscount) {
+			lowestDiscount = memberDiscount;
 		}
-		if(lowestDiscount>roomDiscount){
-			lowestDiscount=roomDiscount;
+		if (lowestDiscount > roomDiscount) {
+			lowestDiscount = roomDiscount;
 		}
-		if(lowestDiscount>amountDiscount){
-			lowestDiscount=amountDiscount;
+		if (lowestDiscount > amountDiscount) {
+			lowestDiscount = amountDiscount;
 		}
-		if(lowestDiscount>birthDiscount){
-			lowestDiscount=birthDiscount;
+		if (lowestDiscount > birthDiscount) {
+			lowestDiscount = birthDiscount;
 		}
-		if(lowestDiscount>wppo.getDiscount()){
-			lowestDiscount=wppo.getDiscount();
+		if (lowestDiscount > wppo.getDiscount()) {
+			lowestDiscount = wppo.getDiscount();
 		}
 		return lowestDiscount;
 	}
 
 	// 其中，MemberPromotion部分对会员折扣与HotelPromotion的多房间折扣或消费金额折扣或生日折扣以及WebPromotion折扣
-	//***限制：需根据数据库的构建来获取对应的促销策略
+	// ***限制：需根据数据库的构建来获取对应的促销策略
 	public MemberPromotionVO getMemberPromotion(long id) {
 		MemberPromotionVO vo = new MemberPromotionVO();
 		MemberPromotionPO po;
