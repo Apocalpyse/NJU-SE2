@@ -1,11 +1,8 @@
 package businesslogic.customerbl;
 
 import businesslogicservice.customerbusinesslogicservice.CustomerBusinessLogicService;
-import dataservice.customerdataservice.CustomerDataService;
 import dataservice.customerdataservice.CustomerDataServiceSqlImpl;
-import dataservice.hoteldataservice.HotelDataService;
 import dataservice.hoteldataservice.HotelDataServiceSqlImpl;
-import dataservice.orderdataservice.OrderDataService;
 import dataservice.orderdataservice.OrderDataServiceSqlImpl;
 import po.CustomerPO;
 import po.HotelPO;
@@ -94,12 +91,11 @@ public class CustomerBL implements CustomerBusinessLogicService {
     }
 
     public OrderVO[] viewOrder(long id){
-        CustomerDataServiceSqlImpl cds=new CustomerDataServiceSqlImpl();
         CustomerPO p;
         OrderVO[] vo;
         OrderPO[] po;
-        p=cds.find(id);
-        long[] idTemp=p.getOrderId();
+        p=this.cds.find(id);
+        long[] idTemp=p.getOrderId1();
         vo=new OrderVO[idTemp.length];
         po=new OrderPO[idTemp.length];
         for(int i=0;i<idTemp.length;i++){
@@ -131,20 +127,18 @@ public class CustomerBL implements CustomerBusinessLogicService {
     }
 
     public void recordCredit(long id,double creditChange){
-        String[] record=null;
+        String[][] record=new String[100][3];
         CustomerPO po;
-        int num;
         po=this.cds.find(id);
-        num=po.getCreditNum();
-        num=num+2;
-        po.setCreditNum(num);
+        po.setCreditNum(po.getCreditNum()+1);
         Date date=new Date();
         SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        record[po.getCreditNum()-1]=sdf.format(date);
-        record[po.getCreditNum()]=Double.toString(creditChange);
-        String[] temp=po.getCreditRecord();
-        temp[po.getCreditNum()-1]=record[po.getCreditNum()-1];
+        record[po.getCreditNum()][0]=sdf.format(date);
+        record[po.getCreditNum()][1]=Double.toString(creditChange);
+        String[][] temp=po.getCreditRecord();
+        temp[po.getCreditNum()]=record[po.getCreditNum()];
         temp[po.getCreditNum()]=record[po.getCreditNum()];
         po.setCreditRecord(temp);
+        this.cds.updata(po);
     }
 }

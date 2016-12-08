@@ -1,5 +1,18 @@
 package presentation.customerui;
 
+import businesslogic.customerbl.CustomerController;
+import businesslogic.userbl.UserController;
+import dataservice.customerdataservice.CustomerDataServiceSqlImpl;
+import dataservice.hoteldataservice.HotelDataServiceSqlImpl;
+import dataservice.orderdataservice.OrderDataServiceSqlImpl;
+import dataservice.userdataservice.UserDataServiceSqlImpl;
+import po.CustomerPO;
+import po.OrderPO;
+import po.UserPO;
+import vo.CustomerVO;
+import vo.OrderVO;
+import vo.UserVO;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -14,7 +27,11 @@ import static com.sun.xml.internal.fastinfoset.alphabet.BuiltInRestrictedAlphabe
  * Created by 常德隆 on 2016/11/29.
  */
 public class MainUI {
-    public MainUI(){
+
+    CustomerController cc;
+    UserDataServiceSqlImpl uds;
+
+    public MainUI(String account,String password){
         JFrame frame=new JFrame("DS酒店管家");
         JTabbedPane jtp=new JTabbedPane(JTabbedPane.LEFT);
         JPanel panel1=new JPanel();
@@ -265,9 +282,49 @@ public class MainUI {
         panel3.add(jtp2);
         jtp2.setBounds(0,0,1000,600);
 
+        /*CustomerPO cpo;
+        UserPO upo;
+        OrderPO[] opo1=new OrderPO[10];
+        OrderPO[] opo2=new OrderPO[10];
+        OrderPO[] opo3=new OrderPO[10];
+        OrderPO[] opo4=new OrderPO[10];
+        upo=this.uds.find(account);
+        cpo=this.cds.find(upo.getId());
+        long[] tempId1=cpo.getOrderId1();
+        long[] tempId2=cpo.getOrderId2();
+        long[] tempId3=cpo.getOrderId3();
+        long[] tempId4=cpo.getOrderId4();
+        for(int i=0;i<10;i++){
+            opo1[i]=this.ods.find(tempId1[i]);
+            opo2[i]=this.ods.find(tempId2[i]);
+            opo3[i]=this.ods.find(tempId3[i]);
+            opo4[i]=this.ods.find(tempId4[i]);
+            obj1[i][0]=opo1[i].getId();
+            obj2[i][0]=opo2[i].getId();
+            obj3[i][0]=opo3[i].getId();
+            obj4[i][0]=opo4[i].getId();
+            obj1[i][1]=opo1[i].getStartTime();
+            obj2[i][1]=opo2[i].getStartTime();
+            obj3[i][1]=opo3[i].getStartTime();
+            obj4[i][1]=opo4[i].getStartTime();
+            obj1[i][2]=opo1[i].getEndTime();
+            obj2[i][2]=opo2[i].getEndTime();
+            obj3[i][2]=opo3[i].getEndTime();
+            obj4[i][2]=opo4[i].getEndTime();
+            obj1[i][3]=opo1[i].getHotelName();
+            obj2[i][3]=opo2[i].getHotelName();
+            obj3[i][3]=opo3[i].getHotelName();
+            obj4[i][3]=opo4[i].getHotelName();
+            obj1[i][4]=opo1[i].getOs();
+            obj2[i][4]=opo2[i].getOs();
+            obj3[i][4]=opo3[i].getOs();
+            obj4[i][4]=opo4[i].getOs();
+        }*/
+
+
         //信用查看界面；
-        Object[][] obj5=new Object[15][3];
-        String[] colunName2={"时间","变化数量","变化来源"};
+        Object[][] obj5=new Object[15][2];
+        String[] colunName2={"时间","变化数量"};
         DefaultTableModel dt5=new DefaultTableModel(obj5,colunName2);
         JTable table5=new JTable(dt5);
         JScrollPane scrollPane5=new JScrollPane(table5);
@@ -276,6 +333,17 @@ public class MainUI {
         table5.setFont(font);
         table5.setPreferredScrollableViewportSize(new Dimension(780,400));
         table5.setRowHeight(30);
+
+        CustomerVO cvo;
+        UserPO upo;
+        String[][] creditRecord;
+        upo=this.uds.find(account);
+        cvo=this.cc.viewCredit(upo.getId());
+        creditRecord=cvo.getCreditRecord();
+        for(int i=0;i<15;i++){
+            obj5[i][0]=creditRecord[creditRecord.length-i][0];
+            obj5[i][1]=creditRecord[creditRecord.length-i][1];
+        }
 
 
         panel1.setBackground(Color.LIGHT_GRAY);
@@ -296,6 +364,6 @@ public class MainUI {
         frame.setSize(1000,600);
     }
     public static void main(String[] args){
-        MainUI ui=new MainUI();
+        MainUI ui=new MainUI("123456","000");
     }
 }

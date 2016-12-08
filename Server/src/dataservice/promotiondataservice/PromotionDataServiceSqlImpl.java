@@ -7,16 +7,10 @@ import po.PromotionPO;
  */
 public interface PromotionDataServiceSqlImpl extends PromotionDataService {
     @Override
-    void updata(PromotionPO po);
+    void update(PromotionPO po);
 
     @Override
     void insert(PromotionPO po);
-
-    @Override
-    void init();
-
-    @Override
-    void finish();
 
     @Override
     PromotionPO find(long id);

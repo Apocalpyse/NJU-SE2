@@ -13,14 +13,8 @@ public interface CustomerDataServiceSqlImpl extends CustomerDataService {
     void delete(long id);
 
     @Override
-    void finish();
-
-    @Override
-    void init();
-
-    @Override
     void insert(CustomerPO po);
 
     @Override
-    void updata(CustomerPO po);
+    void update(CustomerPO po);
 }

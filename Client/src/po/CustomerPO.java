@@ -8,24 +8,24 @@ import java.io.Serializable;
 public class CustomerPO implements Serializable{
     private String customerName;
     private int[] customerPhone;
-    private boolean isNormalMember;
-    private boolean isCompanyMember;
     private String birthday;
     private String companyName;
     private double credit;
+    private Member member;
     private long id;
     private int creditNum;
-    private String[] creditRecord;
-    private long[] orderId;
+    private String[][] creditRecord;
+    private long[] orderId1;
+    private long[] orderId2;
+    private long[] orderId3;
+    private long[] orderId4;
 
     public CustomerPO(){}
 
-    public CustomerPO(String customerName,int[] customerPhone,boolean isNormalMember,boolean isCompanyMember,
-    String birthday,String companyName,double credit){
+    public CustomerPO(String customerName,int[] customerPhone,Member member ,String birthday,String companyName,double credit){
         this.customerName=customerName;
         this.customerPhone=customerPhone;
-        this.isNormalMember=isNormalMember;
-        this.isCompanyMember=isCompanyMember;
+        this.member=member;
         this.birthday=birthday;
         this.companyName=companyName;
         this.credit=credit;
@@ -47,20 +47,12 @@ public class CustomerPO implements Serializable{
         this.customerPhone = customerPhone;
     }
 
-    public boolean getIsNormalMember() {
-        return isNormalMember;
+    public Member getMember() {
+        return member;
     }
 
-    public void setIsNormalMember(boolean normalMember) {
-        isNormalMember = normalMember;
-    }
-
-    public boolean getIsCompanyMember() {
-        return isCompanyMember;
-    }
-
-    public void setIsCompanyMember(boolean companyMember) {
-        isCompanyMember = companyMember;
+    public void setMember(Member member) {
+        this.member = member;
     }
 
     public String getBirthday() {
@@ -103,19 +95,43 @@ public class CustomerPO implements Serializable{
         return creditNum;
     }
 
-    public String[] getCreditRecord() {
+    public String[][] getCreditRecord() {
         return creditRecord;
     }
 
-    public void setCreditRecord(String[] creditRecord) {
+    public void setCreditRecord(String[][] creditRecord) {
         this.creditRecord = creditRecord;
     }
 
-    public long[] getOrderId() {
-        return orderId;
+    public long[] getOrderId1() {
+        return orderId1;
     }
 
-    public void setOrderId(long[] orderId) {
-        this.orderId = orderId;
+    public void setOrderId1(long[] orderId1) {
+        this.orderId1 = orderId1;
+    }
+
+    public long[] getOrderId2() {
+        return orderId2;
+    }
+
+    public void setOrderId2(long[] orderId2) {
+        this.orderId2 = orderId2;
+    }
+
+    public long[] getOrderId3() {
+        return orderId3;
+    }
+
+    public void setOrderId3(long[] orderId3) {
+        this.orderId3 = orderId3;
+    }
+
+    public long[] getOrderId4() {
+        return orderId4;
+    }
+
+    public void setOrderId4(long[] orderId4) {
+        this.orderId4 = orderId4;
     }
 }

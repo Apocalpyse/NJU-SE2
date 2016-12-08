@@ -10,17 +10,11 @@ public interface RoomDataServiceSqlImpl extends RoomDataService {
     void delete(long id);
 
     @Override
-    void finish();
-
-    @Override
-    void init();
-
-    @Override
     void insert(RoomPO po);
 
     @Override
     RoomPO find(long id);
 
     @Override
-    void updata(RoomPO po);
+    void update(RoomPO po);
 }

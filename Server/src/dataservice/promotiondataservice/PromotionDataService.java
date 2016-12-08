@@ -9,7 +9,5 @@ public interface PromotionDataService {
     public PromotionPO find(long id);
     public void insert(PromotionPO po);
     public void delete(long id);
-    public void updata(PromotionPO po);
-    public void init();
-    public void finish();
+    public void update(PromotionPO po);
 }

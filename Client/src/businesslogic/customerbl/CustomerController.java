@@ -1,6 +1,7 @@
 package businesslogic.customerbl;
 
 import vo.CustomerVO;
+import vo.HotelVO;
 import vo.OrderVO;
 
 /**
@@ -14,6 +15,10 @@ public class CustomerController {
 
     public CustomerVO getCustomer(long id){
         return cbl.getCustomer(id);
+    }
+
+    public HotelVO[] searchHotel(String province,String city,String businessArea,String price,String star){
+        return cbl.searchHotel(province,city,businessArea,price,star);
     }
 
     public boolean changeCustomer(CustomerVO vo){

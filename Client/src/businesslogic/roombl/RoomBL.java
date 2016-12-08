@@ -10,10 +10,10 @@ public class RoomBL implements RoomBusinessLogicService{
 
 	RoomDataServiceSqlImpl roomDataService;
 
-	public RoomVO getRoom(long roomStyle){
+	public RoomVO getRoom(long id){
 		RoomVO rv=new RoomVO();
 		RoomPO rp;
-		rp=this.roomDataService.find(roomStyle);
+		rp=this.roomDataService.find(id);
 		rv.setRoomType(rp.getRoomType());
 		rv.setRoomTotalNumber(rp.getRoomTotalNumber());
 		rv.setRoomAccessNumber(rp.getRoomAccessNumber());
@@ -24,7 +24,7 @@ public class RoomBL implements RoomBusinessLogicService{
 	public boolean changeRoom(RoomVO rv){
 		boolean result=false;
 		RoomPO rp2;
-		rp2=this.roomDataService.find(rv.getID());
+		rp2=this.roomDataService.find(rv.getRoomID());
 		
 		rp2.setRoomType(rv.getRoomType());
 		rp2.setRoomTotalNumber(rv.getRoomTotalNumber());

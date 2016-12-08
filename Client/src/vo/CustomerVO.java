@@ -1,18 +1,20 @@
 package vo;
+
+import po.Member;
+
 /**
  * Created by 常德隆 on 2016/11/19.
  */
 public class CustomerVO {
     private String customerName;
     private int[] customerPhone;
-    private boolean isNormalMember;
-    private boolean isCompanyMember;
     private String birthday;
     private String companyName;
+    private Member member;
     private double credit;
     private long id;
     private int creditNum;
-    private String[] creditRecord;
+    private String[][] creditRecord;
     private long[] orderId;
 
     public String getCustomerName() {
@@ -31,20 +33,12 @@ public class CustomerVO {
         this.customerPhone = customerPhone;
     }
 
-    public boolean getIsNormalMember() {
-        return isNormalMember;
+    public Member getMember() {
+        return member;
     }
 
-    public void setIsNormalMember(boolean normalMember) {
-        isNormalMember = normalMember;
-    }
-
-    public boolean getIsCompanyMember() {
-        return isCompanyMember;
-    }
-
-    public void setIsCompanyMember(boolean companyMember) {
-        isCompanyMember = companyMember;
+    public void setMember(Member member) {
+        this.member = member;
     }
 
     public String getBirthday() {
@@ -87,11 +81,11 @@ public class CustomerVO {
         this.creditNum = creditNum;
     }
 
-    public String[] getCreditRecord() {
+    public String[][] getCreditRecord() {
         return creditRecord;
     }
 
-    public void setCreditRecord(String[] creditRecord) {
+    public void setCreditRecord(String[][] creditRecord) {
         this.creditRecord = creditRecord;
     }
 

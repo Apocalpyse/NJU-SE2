@@ -9,7 +9,5 @@ public interface OrderDataService {
     public OrderPO find(long id);
     public void insert(OrderPO po);
     public void delete(long id);
-    public void updata(OrderPO po);
-    public void init();
-    public void finish();
+    public void update(OrderPO po);
 }

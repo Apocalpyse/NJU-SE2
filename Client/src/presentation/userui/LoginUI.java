@@ -65,7 +65,7 @@ public class LoginUI {
             public void actionPerformed(ActionEvent e) {
                 UserController uc=new UserController();
                 if(uc.login(account.getText(),password.getText())){
-                    MainUI ui=new MainUI();
+                    MainUI ui=new MainUI(account.getText(),password.getText());
                     mainFrame.dispose();
                 }
                 else{

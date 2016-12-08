@@ -9,7 +9,5 @@ public interface CustomerDataService {
     public CustomerPO find(long id);
     public void insert(CustomerPO po);
     public void delete(long id);
-    public void updata(CustomerPO po);
-    public void init();
-    public void finish();
+    public void update(CustomerPO po);
 }

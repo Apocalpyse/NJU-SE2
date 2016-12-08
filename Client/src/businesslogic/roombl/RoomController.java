@@ -9,8 +9,8 @@ public class RoomController {
 	public RoomController(){
 		rbl=new RoomBL();
 	}
-	public RoomVO getRoom(String roomStyle){
-		return rbl.getRoom(roomStyle);
+	public RoomVO getRoom(long id){
+		return rbl.getRoom(id);
 	}
 	public boolean changeRoom(RoomVO rv){
 		return rbl.changeRoom(rv);

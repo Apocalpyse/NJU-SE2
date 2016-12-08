@@ -1,53 +1,128 @@
 package data.promotiondata;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import po.CustomerPO;
+import po.Member;
+
+import java.sql.*;
 
 /**
  * Created by 常德隆 on 2016/11/20.
  */
 public class PromotionData {
-    private Statement stmt;
-    private ResultSet rs;
+    private String sql;
+    private PreparedStatement preparedStatement;
+    private ResultSet resultSet;
+    private Connection con ;
+    String url = "jdbc:sqlserver://127.0.0.1:1368;databaseName=DS_HRS_CustomerData;user=sa;password=";
 
-    public PromotionData(){
-        String url = "jdbc:sqlserver://127.0.0.1:1368;databaseName=DS_HRS_PromotionData;user=sa;password=";//sa身份连接
-
-        // Declare the JDBC objects.
-        Connection con = null;
+    @Override
+    public void update(CustomerPO po) {
+        sql="update 客户信息 set name='"+po.getCustomerName()+"',phone='"+po.getCustomerPhone()+"',credit='"+po.getCredit()+"',creditNum='"+po.getCreditNum()+"',creditRecord='"+po.getCreditRecord()
+                +"',birthday='"+po.getBirthday()+"',companyName'"+po.getCompanyName()+"',member'"+po.getMember()+"',id'"+po.getId()+"',orderId1'"+po.getOrderId1()+"',orderId2'"+po.getOrderId2()+"',orderId3'"
+                +po.getOrderId3()+"',orderId4'"+po.getOrderId4()+"' where ID='"+po.getId()+"'";
 
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            con = DriverManager.getConnection(url);
+            con = DriverManager.getConnection(this.url);
+            preparedStatement=con.prepareStatement(sql);
+            preparedStatement.executeUpdate();
+            con.close();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        catch (Exception e) {
+    }
+
+    @Override
+    public CustomerPO find(long id) {
+        sql="SELECT * from 客户信息 where ID='"+id+"'";
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(this.url);
+            preparedStatement=con.prepareStatement(sql);
+            resultSet=preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                CustomerPO cpo=new CustomerPO();
+                cpo.setCustomerName(resultSet.getString(1));
+                cpo.setCustomerPhone(resultSet.getString(2));
+                cpo.setCredit(resultSet.getString(3));
+                cpo.setCreditNum(resultSet.getString(4));
+                String[] temp1=resultSet.getString(5).split(" ");
+                String[][] temp2=null;
+                int j=0;
+                for(int i=0;i<temp1.length;i=i+3){
+                    temp2[j][0]=temp1[i];
+                    temp2[j][1]=temp1[i+1];
+                    temp2[j][2]=temp1[i+2];
+                    j++;
+                }
+                cpo.setCreditRecord(temp2);
+                cpo.setBirthday(resultSet.getString(6));
+                cpo.setCompanyName(resultSet.getString(7));
+                switch (resultSet.getString(8)){
+                    case "notMember": cpo.setMember(Member.notMember);
+                    case "normalMember": cpo.setMember(Member.normalMember);
+                    case "companyMember": cpo.setMember(Member.companyMember);
+                }
+                cpo.setId(resultSet.getString(9));
+                String[] temp3=resultSet.getString(10).split(" ");
+                String[] temp4=resultSet.getString(11).split(" ");
+                String[] temp5=resultSet.getString(12).split(" ");
+                String[] temp6=resultSet.getString(13).split(" ");
+                cpo.setOrderId1(temp3);
+                cpo.setOrderId2(temp4);
+                cpo.setOrderId3(temp5);
+                cpo.setOrderId4(temp6);
+                con.close();
+                return  cpo;
+            }
+            else {
+                con.close();
+                return null;
+            }
+
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public void insert(CustomerPO po) {
+        sql="insert into 客户信息(name,phone,credit,creditNum,creditRecord,birthday,companyName,member,id,orderId1,orderId2,orderId3,orderId4) values ('"+po.getCustomerName()+"','"+po.getCustomerPhone()+"','"+po.getCredit()+"','"+po.getCreditNum()+"','"+po.getCreditRecord()+"','"+po.getBirthday()+"','"
+                +po.getCompanyName()+"','"+po.getMember()+"','"+po.getId()+"','"+po.getOrderId1()+"','"+po.getOrderId2()+"','"+po.getOrderId3()+"','"+po.getOrderId4()+"')";
+
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(this.url);
+            preparedStatement=con.prepareStatement(sql);
+            preparedStatement.executeUpdate();
+            con.close();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void delete(long id) {
+        sql="delete from 客户信息 where ID='"+id+"'";
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(this.url);
+            PreparedStatement preparedStatement=con.prepareStatement(sql);
+            preparedStatement.executeUpdate();
+            con.close();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        finally {
-            if (con != null)
-                try {
-                    con.close();
-                } catch (Exception e) {
-                }
-        }
-    }
-
-    public Statement getStmt() {
-        return stmt;
-    }
-
-    public void setStmt(Statement stmt) {
-        this.stmt = stmt;
-    }
-
-    public ResultSet getRs() {
-        return rs;
-    }
-
-    public void setRs(ResultSet rs) {
-        this.rs = rs;
     }
 }
