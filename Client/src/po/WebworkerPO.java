@@ -4,16 +4,15 @@ public class WebworkerPO {
 		private long ID;
 		private String webworkerName;
 		private Authority authority;//权限
-		private String password;
 		//constructor
 		public WebworkerPO(){
 			
 		}
-		public WebworkerPO(long ID,String webworkerName,Authority authority,String password){
-			this.ID=ID;
-			this.webworkerName=webworkerName;
-			this.authority=authority;
-			this.password=password;
+		public WebworkerPO(long iD, String webworkerName, Authority authority) {
+			super();
+			ID = iD;
+			this.webworkerName = webworkerName;
+			this.authority = authority;
 		}
 		public long getID() {
 			return ID;
@@ -30,14 +29,9 @@ public class WebworkerPO {
 		public Authority getAuthority() {
 			return authority;
 		}
+	
 		public void setAuthority(Authority authority) {
 			this.authority = authority;
-		}
-		public String getPassword() {
-			return password;
-		}
-		public void setPassword(String password) {
-			this.password = password;
 		}
 		
 }
