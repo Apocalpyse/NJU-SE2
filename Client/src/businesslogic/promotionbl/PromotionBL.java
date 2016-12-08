@@ -20,10 +20,8 @@ public class PromotionBL implements PromotionBusinessLogicService {
 	static long countWebID = 70000;
 	CustomerDataServiceSqlImpl cds;
 	PromotionDataServiceSqlImpl pds;
-
-	// String businessDistrict[]={"NJU","XL"};
-	// WebPromotionVO vo=new
-	// WebPromotionVO(1111,"a","2016-12-06",UsageState.Using,"2016-12-06","2016-12-07",businessDistrict,MemberType.All,0.3);
+//	String businessDistrict[]={"NJU","XL"};
+//	WebPromotionVO vo=new WebPromotionVO(1111,"a","2016-12-06",UsageState.Using,"2016-12-06","2016-12-07",businessDistrict,MemberType.All,0.3);
 	public double getDiscount(long id, int room, double price) {
 		double lowestDiscount = 1;
 		double memberDiscount = 1;
@@ -124,7 +122,7 @@ public class PromotionBL implements PromotionBusinessLogicService {
 		po.setCreatedTime(date);
 		// 设置为系统时间
 
-		po.setUsageState(UsageState.Unused);
+		po.setUsageState(vo.getUsageState());
 
 		po.setPromotionName(vo.getPromotionName());
 		po.setCredit(vo.getCredit());
@@ -181,7 +179,7 @@ public class PromotionBL implements PromotionBusinessLogicService {
 		po.setCreatedTime(date);
 		// 设置为系统时间
 
-		po.setUsageState(UsageState.Unused);
+		po.setUsageState(vo.getUsageState());
 
 		po.setBeginTime(vo.getBeginTime());
 		po.setEndTime(vo.getEndTime());
@@ -201,7 +199,7 @@ public class PromotionBL implements PromotionBusinessLogicService {
 		HotelPromotionPO po = new HotelPromotionPO();
 		po.setID(vo.getID());
 		po.setCreatedTime(vo.getCreatedTime());
-		po.setUsageState(UsageState.Unused);// 更改自动设为未应用中
+		po.setUsageState(vo.getUsageState());// 更改自动设为未应用中
 		po.setBeginTime(vo.getBeginTime());
 		po.setEndTime(vo.getEndTime());
 		po.setDiscount(vo.getDiscount());
@@ -232,7 +230,7 @@ public class PromotionBL implements PromotionBusinessLogicService {
 		vo.setUsageState(po.getUsageState());
 		vo.setBusinessDistrict(po.getBusinessDistrict());
 		return vo;
-		// return this.vo;
+//		return this.vo;
 	}
 
 	public boolean creatWebPromotion(WebPromotionVO vo) {
@@ -249,7 +247,7 @@ public class PromotionBL implements PromotionBusinessLogicService {
 		po.setCreatedTime(date);
 		// 设置为系统时间
 
-		po.setUsageState(UsageState.Unused);
+		po.setUsageState(vo.getUsageState());
 
 		po.setBeginTime(vo.getBeginTime());
 		po.setEndTime(vo.getEndTime());
@@ -265,7 +263,7 @@ public class PromotionBL implements PromotionBusinessLogicService {
 		WebPromotionPO po = new WebPromotionPO();
 		po.setID(vo.getID());
 		po.setCreatedTime(vo.getCreatedTime());
-		po.setUsageState(UsageState.Unused);// 更改自动设为未应用中
+		po.setUsageState(vo.getUsageState());
 		po.setBeginTime(vo.getBeginTime());
 		po.setEndTime(vo.getEndTime());
 		po.setDiscount(vo.getDiscount());

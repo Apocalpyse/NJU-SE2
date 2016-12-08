@@ -15,7 +15,6 @@ public class WebworkerBL implements WebworkerBusinessLogicService{
         po=this.wds.find(id);
         vo.setAuthority(po.getAuthority());
         vo.setID(po.getID());
-        vo.setPassword(po.getPassword());
         vo.setWebworkerName(po.getWebworkerName());
         return vo;
     }
@@ -24,7 +23,6 @@ public class WebworkerBL implements WebworkerBusinessLogicService{
         po.setAuthority(vo.getAuthority());
         countWeb++;
         po.setID(countWeb);
-        po.setPassword(vo.getPassword());
         po.setWebworkerName(vo.getWebworkerName());
         this.wds.insert(po);
         return true;
@@ -33,7 +31,6 @@ public class WebworkerBL implements WebworkerBusinessLogicService{
         WebworkerPO po = new WebworkerPO();
         po.setAuthority(vo.getAuthority());
         po.setID(vo.getID());
-        po.setPassword(vo.getPassword());
         po.setWebworkerName(vo.getWebworkerName());
         this.wds.updata(po);
         return true;
