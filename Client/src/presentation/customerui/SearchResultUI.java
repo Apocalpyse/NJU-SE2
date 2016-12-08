@@ -5,6 +5,7 @@ import businesslogic.hotelbl.HotelBL;
 import businesslogic.hotelbl.HotelController;
 import dataservice.hoteldataservice.HotelDataServiceSqlImpl;
 import po.HotelPO;
+import vo.HotelVO;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -17,7 +18,7 @@ public class SearchResultUI {
 
     HotelDataServiceSqlImpl hds;
 
-    public SearchResultUI(){
+    public SearchResultUI(HotelVO vo){
         Font font=new Font("微软雅黑",Font.BOLD,16);
         JFrame frame=new JFrame("搜索结果");
         JPanel panel=new JPanel();
@@ -34,15 +35,15 @@ public class SearchResultUI {
         table.getTableHeader().setFont(font);
         table.setRowHeight(40);
 
-        //HotelPO[] hpo=new HotelPO[10];
-        //CustomerController cc=new CustomerController();
-        //hpo=cc.searchHotel();
+        HotelVO[] hvo=new HotelVO[10];
 
-        //for(int i=0;i<15;i++){
-        //  obj[i][0]=creditRecord[creditRecord.length-i][0];
-        //  obj[i][1]=creditRecord[creditRecord.length-i][1];
-        //  obj[i][2]=creditRecord[creditRecord.length-i][2];
-        //}
+        CustomerController cc=new CustomerController();
+        hvo=cc.searchHotel(vo);
+        obj[0][0]=hvo[hvo.length-1].getHotelName();
+        obj[0][1]=hvo[hvo.length-1].getHotelPhone();
+        obj[0][2]=hvo[hvo.length-1].getHotelLocation();
+        obj[0][4]=hvo[hvo.length-1].getStars();
+
 
         frame.getContentPane().add(panel);
         frame.setSize(1000,600);

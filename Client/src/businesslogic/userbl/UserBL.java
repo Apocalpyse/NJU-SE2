@@ -13,6 +13,12 @@ public class UserBL implements UserBusinessLogicService{
     UserDataServiceSqlImpl uds;
     private long UserID=10000;
 
+    public UserPO getUser(String id){
+        UserPO po=new UserPO();
+        po=this.uds.find(id);
+        return po;
+    }
+
     public boolean login(String account,String password){
         boolean result=false;
         UserPO po;

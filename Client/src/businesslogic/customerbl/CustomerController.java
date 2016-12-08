@@ -17,8 +17,8 @@ public class CustomerController {
         return cbl.getCustomer(id);
     }
 
-    public HotelVO[] searchHotel(String province,String city,String businessArea,String price,String star){
-        return cbl.searchHotel(province,city,businessArea,price,star);
+    public HotelVO[] searchHotel(HotelVO vo){
+        return cbl.searchHotel(vo);
     }
 
     public boolean changeCustomer(CustomerVO vo){

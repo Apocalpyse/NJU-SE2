@@ -6,6 +6,7 @@ import dataservice.hoteldataservice.HotelDataServiceSqlImpl;
 import dataservice.orderdataservice.OrderDataServiceSqlImpl;
 import po.CustomerPO;
 import po.HotelPO;
+import po.Member;
 import po.OrderPO;
 import vo.CustomerVO;
 import vo.HotelVO;
@@ -31,8 +32,7 @@ public class CustomerBL implements CustomerBusinessLogicService {
         vo.setCustomerName(po.getCustomerName());
         vo.setCustomerPhone(po.getCustomerPhone());
         vo.setCredit(po.getCredit());
-        vo.setIsCompanyMember(po.getIsCompanyMember());
-        vo.setIsNormalMember(po.getIsNormalMember());
+        vo.setMember(po.getMember());
         vo.setBirthday(po.getBirthday());
         vo.setCompanyName(po.getCompanyName());
         vo.setId(po.getId());//根据id获得顾客信息；
@@ -58,21 +58,23 @@ public class CustomerBL implements CustomerBusinessLogicService {
         po.setCustomerName(vo.getCustomerName());
         po.setCustomerPhone(vo.getCustomerPhone());
         po.setCredit(vo.getCredit());
-        po.setIsNormalMember(vo.getIsNormalMember());
-        po.setIsCompanyMember(vo.getIsCompanyMember());
+        po.setMember(Member.normalMember);
         po.setBirthday(vo.getBirthday());
-        po.setCompanyName(vo.getCompanyName());
-        po.setId(123456);
+        if(vo.getCompanyName()!=null){
+            po.setCompanyName(vo.getCompanyName());
+            po.setMember(Member.companyMember);
+        }
+        po.setId(vo.getId());
         this.cds.insert(po);
         return false;
     }
 
-    public HotelVO[] searchHotel(String province,String city,String businessArea,String price,String star){
-        HotelVO[] vo=new HotelVO[10];
+    public HotelVO[] searchHotel(HotelVO vo){
+        HotelVO[] hvo=new HotelVO[10];
         long id=10000;
         int i=0;
         int j=0;
-        HotelPO[] po=new HotelPO[100];
+        HotelPO[] po=new HotelPO[10];
         while(this.hds.find(id)!=null){
             if(i>9){
               break;
@@ -81,13 +83,13 @@ public class CustomerBL implements CustomerBusinessLogicService {
             i++;
             po[i].getHotelLocation();
             po[i].getID();
-            if(po[i].getStars()==star){
-                vo[j].setHotelName(po[i].getHotelName());
-                vo[j].setHotelPhone(po[i].getHotelPhone());
-                vo[j].setHotelLocation(po[i].getHotelLocation());
+            if(po[i].getStars()==vo.getStars()){
+                hvo[j].setHotelName(po[i].getHotelName());
+                hvo[j].setHotelPhone(po[i].getHotelPhone());
+                hvo[j].setHotelLocation(po[i].getHotelLocation());
             }
         }
-        return vo;
+        return hvo;
     }
 
     public OrderVO[] viewOrder(long id){

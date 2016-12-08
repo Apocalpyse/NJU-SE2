@@ -10,6 +10,7 @@ import po.CustomerPO;
 import po.OrderPO;
 import po.UserPO;
 import vo.CustomerVO;
+import vo.HotelVO;
 import vo.OrderVO;
 import vo.UserVO;
 
@@ -134,11 +135,34 @@ public class MainUI {
         star5.setBackground(Color.LIGHT_GRAY);
         button.setBounds(440,460,120,40);
         panel1.add(button);
+        HotelVO vo=new HotelVO();
+        StringBuffer sb=new StringBuffer();
+        sb.append((String) province.getSelectedItem());
+        sb.append((String)city.getSelectedItem());
+        sb.append((String)businessArea.getSelectedItem());
+        vo.setHotelLocation(sb.toString());
+        String[] stars=new String[5];
+        if(star1.isSelected()){
+            stars[0]="1";
+        }
+        if(star2.isSelected()){
+            stars[1]="2";
+        }
+        if(star3.isSelected()){
+            stars[2]="3";
+        }
+        if(star4.isSelected()){
+            stars[3]="4";
+        }
+        if(star5.isSelected()){
+            stars[4]="5";
+        }
+        vo.setStars(stars[0]);
 
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                SearchResultUI ui=new SearchResultUI();
+                SearchResultUI ui=new SearchResultUI(vo);
             }
         });
 
