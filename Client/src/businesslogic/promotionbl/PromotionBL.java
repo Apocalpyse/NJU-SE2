@@ -21,6 +21,9 @@ public class PromotionBL implements PromotionBusinessLogicService {
 	CustomerDataServiceSqlImpl cds;
 	PromotionDataServiceSqlImpl pds;
 
+	// String businessDistrict[]={"NJU","XL"};
+	// WebPromotionVO vo=new
+	// WebPromotionVO(1111,"a","2016-12-06",UsageState.Using,"2016-12-06","2016-12-07",businessDistrict,MemberType.All,0.3);
 	public double getDiscount(long id, int room, double price) {
 		double lowestDiscount = 1;
 		double memberDiscount = 1;
@@ -80,6 +83,9 @@ public class PromotionBL implements PromotionBusinessLogicService {
 		}
 		if (lowestDiscount > birthDiscount) {
 			lowestDiscount = birthDiscount;
+		}
+		if (lowestDiscount > companyDiscount) {
+			lowestDiscount = companyDiscount;
 		}
 		if (lowestDiscount > wppo.getDiscount()) {
 			lowestDiscount = wppo.getDiscount();
@@ -226,6 +232,7 @@ public class PromotionBL implements PromotionBusinessLogicService {
 		vo.setUsageState(po.getUsageState());
 		vo.setBusinessDistrict(po.getBusinessDistrict());
 		return vo;
+		// return this.vo;
 	}
 
 	public boolean creatWebPromotion(WebPromotionVO vo) {
