@@ -9,7 +9,10 @@ import po.Evaluation;
 
 public class HotelVO {
 	Long id;
-	String password;//密码
+	String hotelManager;//酒店工作人员
+	String hotelManPhone;//酒店工作人员电话
+	double goal;//酒店得分
+	double[]  price={0,0,0,0,0,0};//酒店价格
 	String hotelName;//酒店名称
 	String tradeArea;//所属商圈
 	String hotelLocation;//酒店地址
@@ -22,8 +25,18 @@ public class HotelVO {
 	public void setID(Long i){
 		id=i;
 	}
-	public void setPassword(String pw){
-		password=pw;
+	public void setHotelManager(String hm){
+		hotelManager=hm;
+	}
+	public void setHotelManPhone(String hmp){
+		hotelManPhone=hmp;
+	}
+	public void setGoal(double go){
+		goal=go;
+	}
+	
+	public void setPrice(double[] pr){
+		price=pr;
 	}
 	public void setHotelName(String hn){
 		hotelName=hn;
@@ -53,8 +66,18 @@ public class HotelVO {
 	public Long getID(){
 		return id;
 	}
-	public String getPassword(){
-		return password;
+	public String getHotelManager(){
+		return hotelManager;
+	}
+	public String getHotelManPhone(){
+		return hotelManPhone;
+	}
+	public Double getGoal(){
+		return goal;
+	}
+	
+	public double[] getPrice(){
+		return price;
 	}
 	public String getHotelName(){
 		return hotelName;
