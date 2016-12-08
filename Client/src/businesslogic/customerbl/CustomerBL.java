@@ -73,20 +73,15 @@ public class CustomerBL implements CustomerBusinessLogicService {
         HotelVO[] hvo=new HotelVO[10];
         long id=10000;
         int i=0;
-        int j=0;
-        HotelPO[] po=new HotelPO[10];
         while(this.hds.find(id)!=null){
-            if(i>9){
-              break;
-            }
-            po[i]=this.hds.find(id);
-            i++;
-            po[i].getHotelLocation();
-            po[i].getID();
-            if(po[i].getStars()==vo.getStars()){
-                hvo[j].setHotelName(po[i].getHotelName());
-                hvo[j].setHotelPhone(po[i].getHotelPhone());
-                hvo[j].setHotelLocation(po[i].getHotelLocation());
+            if(vo.getHotelLocation()==this.hds.find(id).getHotelLocation()){
+                if(vo.getStars()==this.hds.find(id).getStars()){
+                    hvo[i].setHotelName(this.hds.find(id).getHotelName());
+                    hvo[i].setHotelPhone(this.hds.find(id).getHotelPhone());
+                    hvo[i].setHotelLocation(this.hds.find(id).getHotelLocation());
+                    hvo[i].setStars(this.hds.find(id).getStars());
+                    id++;
+                }
             }
         }
         return hvo;

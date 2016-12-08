@@ -13,9 +13,9 @@ public class UserBL implements UserBusinessLogicService{
     UserDataServiceSqlImpl uds;
     private long UserID=10000;
 
-    public UserPO getUser(String id){
+    public UserPO getUser(String account){
         UserPO po=new UserPO();
-        po=this.uds.find(id);
+        po=this.uds.find(account);
         return po;
     }
 

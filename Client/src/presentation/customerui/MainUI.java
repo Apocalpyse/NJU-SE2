@@ -30,7 +30,7 @@ import static com.sun.xml.internal.fastinfoset.alphabet.BuiltInRestrictedAlphabe
 public class MainUI {
 
     CustomerController cc;
-    UserDataServiceSqlImpl uds;
+    UserController uc;
 
     public MainUI(String account,String password){
         JFrame frame=new JFrame("DS酒店管家");
@@ -135,6 +135,7 @@ public class MainUI {
         star5.setBackground(Color.LIGHT_GRAY);
         button.setBounds(440,460,120,40);
         panel1.add(button);
+
         HotelVO vo=new HotelVO();
         StringBuffer sb=new StringBuffer();
         sb.append((String) province.getSelectedItem());
@@ -144,20 +145,24 @@ public class MainUI {
         String[] stars=new String[5];
         if(star1.isSelected()){
             stars[0]="1";
+            vo.setStars(stars[0]);
         }
         if(star2.isSelected()){
             stars[1]="2";
+            vo.setStars(stars[1]);
         }
         if(star3.isSelected()){
             stars[2]="3";
+            vo.setStars(stars[2]);
         }
         if(star4.isSelected()){
             stars[3]="4";
+            vo.setStars(stars[3]);
         }
         if(star5.isSelected()){
             stars[4]="5";
+            vo.setStars(stars[4]);
         }
-        vo.setStars(stars[0]);
 
         button.addActionListener(new ActionListener() {
             @Override
@@ -361,7 +366,7 @@ public class MainUI {
         CustomerVO cvo;
         UserPO upo;
         String[][] creditRecord;
-        upo=this.uds.find(account);
+        upo=this.uc.getUser(account);
         cvo=this.cc.viewCredit(upo.getId());
         creditRecord=cvo.getCreditRecord();
         for(int i=0;i<15;i++){

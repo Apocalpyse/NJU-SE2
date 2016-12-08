@@ -3,6 +3,7 @@ package presentation.customerui;
 import businesslogic.customerbl.CustomerController;
 import businesslogic.hotelbl.HotelBL;
 import businesslogic.hotelbl.HotelController;
+import businesslogic.roombl.RoomController;
 import dataservice.hoteldataservice.HotelDataServiceSqlImpl;
 import po.HotelPO;
 import vo.HotelVO;
@@ -35,14 +36,26 @@ public class SearchResultUI {
         table.getTableHeader().setFont(font);
         table.setRowHeight(40);
 
-        HotelVO[] hvo=new HotelVO[10];
+        HotelVO[] hvo;
 
         CustomerController cc=new CustomerController();
+        RoomController rc=new RoomController();
         hvo=cc.searchHotel(vo);
-        obj[0][0]=hvo[hvo.length-1].getHotelName();
-        obj[0][1]=hvo[hvo.length-1].getHotelPhone();
-        obj[0][2]=hvo[hvo.length-1].getHotelLocation();
-        obj[0][4]=hvo[hvo.length-1].getStars();
+        for(int i=0;i<10;i++) {
+            long[] roomId = new long[6];
+            roomId[0] = hvo[hvo.length - i-1].getID() * 10 + 1;
+            roomId[1] = hvo[hvo.length - i-1].getID() * 10 + 2;
+            roomId[2] = hvo[hvo.length - i-1].getID() * 10 + 3;
+            roomId[3] = hvo[hvo.length - i-1].getID() * 10 + 4;
+            roomId[4] = hvo[hvo.length - i-1].getID() * 10 + 5;
+            roomId[5] = hvo[hvo.length - i-1].getID() * 10 + 6;
+            obj[i][0] = hvo[hvo.length - i-1].getHotelName();
+            obj[i][1] = hvo[hvo.length - i-1].getHotelPhone();
+            obj[i][2] = hvo[hvo.length - i-1].getHotelLocation();
+            obj[i][3] = (rc.getRoom(roomId[0]).getRoomPrice() + rc.getRoom(roomId[1]).getRoomPrice() + rc.getRoom(roomId[2]).getRoomPrice() +
+                    rc.getRoom(roomId[3]).getRoomPrice() + rc.getRoom(roomId[4]).getRoomPrice() + rc.getRoom(roomId[5]).getRoomPrice()) / 6;
+            obj[i][4] = hvo[hvo.length - 1].getStars();
+        }
 
 
         frame.getContentPane().add(panel);
