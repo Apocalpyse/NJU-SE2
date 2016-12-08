@@ -13,7 +13,7 @@ public class HotelData {
     private PreparedStatement preparedStatement;
     private ResultSet resultSet;
     private Connection con ;
-    String url = "jdbc:sqlserver://127.0.0.1:1368;databaseName=DS_HRS_CustomerData;user=sa;password=";
+    String url = "jdbc:sqlserver://127.0.0.1:1368;databaseName=DS_HRS;user=sa;password=";
 
     @Override
     public void update(CustomerPO po) {
