@@ -6,7 +6,6 @@ public class HotelPO {
 	String hotelManager;//酒店工作人员
 	String hotelManPhone;//酒店工作人员电话
 	double goal;//酒店得分
-	String password;//密码
 	double[]  price={0,0,0,0,0,0};//酒店价格
 	String hotelName;//酒店名称
 	String tradeArea;//所属商圈
@@ -46,9 +45,7 @@ public class HotelPO {
 		goal=go;
 	}
 	
-	public void setPassword(String pw){
-		password=pw;
-	}
+	
 	public void setPrice(double[] pr){
 		price=pr;
 	}
@@ -89,9 +86,7 @@ public class HotelPO {
 	public Double getGoal(){
 		return goal;
 	}
-	public String getPassword(){
-		return password;
-	}
+	
 	public double[] getPrice(){
 		return price;
 	}
