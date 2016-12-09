@@ -111,35 +111,25 @@ public class PromotionBL implements PromotionBusinessLogicService {
 	public boolean creatMemberPromotion(MemberPromotionVO vo) {
 		MemberPromotionPO po = new MemberPromotionPO();
 
-		countMemberID++;// ID计数器
-		po.setID(countMemberID);// 自动生成ID
-
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		String date;
-		Date now = new Date();
-		date = dateFormat.format(now);
-		// 获得当前时间
-		po.setCreatedTime(date);
-		// 设置为系统时间
-
+		po.setID(vo.getID());// 自动生成I
+		po.setCreatedTime(vo.getCreatedTime());
 		po.setUsageState(vo.getUsageState());
-
 		po.setPromotionName(vo.getPromotionName());
 		po.setCredit(vo.getCredit());
 		po.setDiscountForMember(vo.getDiscountForMember());
-		this.pds.insert(po);
+		this.pds.insert1(po);
 		return true;
 	}
 
 	public boolean changeMemberPromotion(MemberPromotionVO vo) {
 		MemberPromotionPO po = new MemberPromotionPO();
 		po.setID(vo.getID());
-		po.setCreatedTime(vo.getCreatedTime());// 改为获取系统时间
+		po.setCreatedTime(vo.getCreatedTime());
 		po.setPromotionName(vo.getPromotionName());
 		po.setUsageState(vo.getUsageState());
 		po.setCredit(vo.getCredit());
 		po.setDiscountForMember(vo.getDiscountForMember());
-		this.pds.updata(po);
+		this.pds.updata1(po);
 		return true;
 	}
 	// MemberPromotionBL
@@ -168,19 +158,9 @@ public class PromotionBL implements PromotionBusinessLogicService {
 	public boolean creatHotelPromotion(HotelPromotionVO vo) {
 		HotelPromotionPO po = new HotelPromotionPO();
 
-		countHotelID++;// ID计数器
-		po.setID(countHotelID);// 自动生成ID
-
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		String date;
-		Date now = new Date();
-		date = dateFormat.format(now);
-		// 获得当前时间
-		po.setCreatedTime(date);
-		// 设置为系统时间
-
+		po.setID(vo.getID());
+		po.setCreatedTime(vo.getCreatedTime());
 		po.setUsageState(vo.getUsageState());
-
 		po.setBeginTime(vo.getBeginTime());
 		po.setEndTime(vo.getEndTime());
 		po.setDiscount(vo.getDiscount());
@@ -191,7 +171,8 @@ public class PromotionBL implements PromotionBusinessLogicService {
 		po.setMemberType(vo.getMemberType());
 		po.setPromotionName(vo.getPromotionName());
 		po.setBirthDiscount(vo.getBirthDiscount());
-		this.pds.insert(po);
+		po.setCompanyDiscount(vo.getCompanyDiscount());
+		this.pds.insert2(po);
 		return true;
 	}
 
@@ -199,7 +180,7 @@ public class PromotionBL implements PromotionBusinessLogicService {
 		HotelPromotionPO po = new HotelPromotionPO();
 		po.setID(vo.getID());
 		po.setCreatedTime(vo.getCreatedTime());
-		po.setUsageState(vo.getUsageState());// 更改自动设为未应用中
+		po.setUsageState(vo.getUsageState());
 		po.setBeginTime(vo.getBeginTime());
 		po.setEndTime(vo.getEndTime());
 		po.setDiscount(vo.getDiscount());
@@ -210,7 +191,8 @@ public class PromotionBL implements PromotionBusinessLogicService {
 		po.setMemberType(vo.getMemberType());
 		po.setPromotionName(vo.getPromotionName());
 		po.setBirthDiscount(vo.getBirthDiscount());
-		this.pds.updata(po);
+		po.setCompanyDiscount(vo.getCompanyDiscount());
+		this.pds.updata2(po);
 		return true;
 	}
 	// HotelPromotionBL
@@ -255,7 +237,7 @@ public class PromotionBL implements PromotionBusinessLogicService {
 		po.setMemberType(vo.getMemberType());
 		po.setPromotionName(vo.getPromotionName());
 		po.setBusinessDistrict(vo.getBusinessDistrict());
-		this.pds.insert(po);
+		this.pds.insert3(po);
 		return true;
 	}
 
@@ -270,7 +252,7 @@ public class PromotionBL implements PromotionBusinessLogicService {
 		po.setMemberType(vo.getMemberType());
 		po.setPromotionName(vo.getPromotionName());
 		po.setBusinessDistrict(vo.getBusinessDistrict());
-		this.pds.updata(po);
+		this.pds.updata3(po);
 		return true;
 	}
 	// WebPromotionBL
