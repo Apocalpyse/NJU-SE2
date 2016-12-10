@@ -19,6 +19,9 @@ public class MemberPromotionVO {
 		this.credit = credit;
 		this.discountForMember = discountForMember;
 	}
+	public MemberPromotionVO() {
+		
+	}
 	public long getID() {
 		return ID;
 	}
