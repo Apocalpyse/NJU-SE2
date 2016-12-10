@@ -1,25 +1,33 @@
 package data.hoteldata;
 
-import po.CustomerPO;
-import po.Member;
+import java.sql.Connection;
 
-import java.sql.*;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import dataservice.hoteldataservice.HotelDataServiceSqlImpl;
+import dataservice.orderdataservice.OrderDataServiceSqlImpl;
+import po.HotelPO;
+
 
 /**
- * Created by 常德隆 on 2016/11/20.
+ * Created by 甯稿痉闅� on 2016/11/20.
  */
-public class HotelData {
+public class HotelData implements HotelDataServiceSqlImpl{
     private String sql;
     private PreparedStatement preparedStatement;
     private ResultSet resultSet;
     private Connection con ;
     String url = "jdbc:sqlserver://127.0.0.1:1368;databaseName=DS_HRS;user=sa;password=";
-
+    
     @Override
-    public void update(CustomerPO po) {
-        sql="update 客户信息 set name='"+po.getCustomerName()+"',phone='"+po.getCustomerPhone()+"',credit='"+po.getCredit()+"',creditNum='"+po.getCreditNum()+"',creditRecord='"+po.getCreditRecord()
-                +"',birthday='"+po.getBirthday()+"',companyName'"+po.getCompanyName()+"',member'"+po.getMember()+"',id'"+po.getId()+"',orderId1'"+po.getOrderId1()+"',orderId2'"+po.getOrderId2()+"',orderId3'"
-                +po.getOrderId3()+"',orderId4'"+po.getOrderId4()+"' where ID='"+po.getId()+"'";
+    public void update(HotelPO po) {
+        sql="update 酒店信息 set id='"+po.getID()+"',hotelManager='"+po.getHotelManager()+"',hotelManPhone='"+po.getHotelManPhone()+"',goal='"+po.getGoal()+"',price='"+po.getPrice()
+                +"',hotelName='"+po.getHotelName()+"',tradeArea'"+po.getTradeArea()+"',hotelLocation'"+po.getHotelLocation()+"',hotelPhone'"+po.getHotelPhone()+"',stars'"+po.getStars()+"',instruction'"+po.getInstruction()+"',evaluation'"
+                +po.getEvaluation()+"',cooperatateCompany'"+po.getCooperatateCompany()+"'where ID='"+po.getID()+"'";
 
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -33,10 +41,9 @@ public class HotelData {
             e.printStackTrace();
         }
     }
-
     @Override
-    public CustomerPO find(long id) {
-        sql="SELECT * from 客户信息 where ID='"+id+"'";
+    public HotelPO find(long id) {
+        sql="SELECT * from 酒店信息 where ID='"+id+"'";
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(this.url);
@@ -44,39 +51,33 @@ public class HotelData {
             resultSet=preparedStatement.executeQuery();
 
             if (resultSet.next()) {
-                CustomerPO cpo=new CustomerPO();
-                cpo.setCustomerName(resultSet.getString(1));
-                cpo.setCustomerPhone(resultSet.getString(2));
-                cpo.setCredit(resultSet.getString(3));
-                cpo.setCreditNum(resultSet.getString(4));
-                String[] temp1=resultSet.getString(5).split(" ");
-                String[][] temp2=null;
-                int j=0;
-                for(int i=0;i<temp1.length;i=i+3){
-                    temp2[j][0]=temp1[i];
-                    temp2[j][1]=temp1[i+1];
-                    temp2[j][2]=temp1[i+2];
-                    j++;
+                HotelPO hpo=new HotelPO();
+                hpo.setID(Long.parseLong(resultSet.getString(1)));
+                hpo.setHotelManager(resultSet.getString(2));
+                hpo.setHotelManPhone(resultSet.getString(3));
+                hpo.setGoal(resultSet.getDouble(4));
+                String str=resultSet.getString(5);
+                String[] st=str.split("");
+                double[] in = null;
+                for(int i=0;i<st.length;i++){
+                	in[i]=Double.parseDouble(st[i]);
                 }
-                cpo.setCreditRecord(temp2);
-                cpo.setBirthday(resultSet.getString(6));
-                cpo.setCompanyName(resultSet.getString(7));
-                switch (resultSet.getString(8)){
-                    case "notMember": cpo.setMember(Member.notMember);
-                    case "normalMember": cpo.setMember(Member.normalMember);
-                    case "companyMember": cpo.setMember(Member.companyMember);
+                hpo.setPrice(in);
+                hpo.setHotelName(resultSet.getString(6));
+                hpo.setTradeArea(resultSet.getString(7));
+                hpo.setHotelLocation(resultSet.getString(8));
+                hpo.setHotelPhone(resultSet.getString(9));
+                hpo.setStars(resultSet.getString(10));
+                hpo.setInstruction(resultSet.getString(11));
+                String str1=resultSet.getString(12);
+                String[] st1=str1.split("");
+                ArrayList b = new ArrayList();
+                for(int i=0;i<st1.length;i++){
+                	b.add(st1[i]);
                 }
-                cpo.setId(resultSet.getString(9));
-                String[] temp3=resultSet.getString(10).split(" ");
-                String[] temp4=resultSet.getString(11).split(" ");
-                String[] temp5=resultSet.getString(12).split(" ");
-                String[] temp6=resultSet.getString(13).split(" ");
-                cpo.setOrderId1(temp3);
-                cpo.setOrderId2(temp4);
-                cpo.setOrderId3(temp5);
-                cpo.setOrderId4(temp6);
-                con.close();
-                return  cpo;
+                hpo.setEvaluation(b);
+                hpo.setCooperatateCompany(resultSet.getString(13));
+                return hpo;
             }
             else {
                 con.close();
@@ -92,9 +93,10 @@ public class HotelData {
     }
 
     @Override
-    public void insert(CustomerPO po) {
-        sql="insert into 客户信息(name,phone,credit,creditNum,creditRecord,birthday,companyName,member,id,orderId1,orderId2,orderId3,orderId4) values ('"+po.getCustomerName()+"','"+po.getCustomerPhone()+"','"+po.getCredit()+"','"+po.getCreditNum()+"','"+po.getCreditRecord()+"','"+po.getBirthday()+"','"
-                +po.getCompanyName()+"','"+po.getMember()+"','"+po.getId()+"','"+po.getOrderId1()+"','"+po.getOrderId2()+"','"+po.getOrderId3()+"','"+po.getOrderId4()+"')";
+    public void insert(HotelPO po) {
+        sql="insert into 酒店信息(hotelManager,hotelManPhone,goal,price,hotelName,tradeArea,hotelLocation,hotelPhone,stars,instruction,evaluation,cooperatateCompany,id," +
+                "," + ") values ('"+po.getHotelManager()+"','"+po.getHotelManPhone()+"','"+po.getGoal()+"','"+po.getPrice()+"','"+po.getHotelName()+"','"+po.getTradeArea()+"','"
+                +po.getHotelLocation()+"','"+po.getHotelPhone()+"','"+po.getStars()+"','"+po.getInstruction()+"','"+po.getEvaluation()+"','"+po.getCooperatateCompany()+"','"+po.getID()+"')";
 
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -111,7 +113,7 @@ public class HotelData {
 
     @Override
     public void delete(long id) {
-        sql="delete from 客户信息 where ID='"+id+"'";
+        sql="delete from 酒店信息 where ID='"+id+"'";
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(this.url);
