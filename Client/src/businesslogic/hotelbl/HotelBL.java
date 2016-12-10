@@ -7,6 +7,7 @@ import dataservice.hoteldataservice.HotelDataServiceSqlImpl;
 import dataservice.orderdataservice.OrderDataServiceSqlImpl;
 import dataservice.userdataservice.UserDataServiceSqlImpl;
 import dataservice.promotiondataservice.PromotionDataServiceSqlImpl;
+import po.Evaluation;
 import po.HotelPO;
 import po.HotelPromotionPO;
 import po.OrderPO;
@@ -32,6 +33,7 @@ public class HotelBL implements HotelBusinessLogicService{
 		hv.setStars(hp.getStars());
 		hv.setInstruction(hp.getInstruction());
 		hv.setEvaluation(hp.getEvaluation());
+		hv.setGoal(hp.getGoal());
 		return hv;
 	}
 
@@ -47,7 +49,23 @@ public class HotelBL implements HotelBusinessLogicService{
 		hp2.setStars(hv.getStars());
 		hp2.setInstruction(hv.getInstruction());
 		hp2.setEvaluation(hv.getEvaluation());
+		hp2.setGoal(hv.getGoal());
 		hp2.setCooperatateCompany(hv.getCooperatateCompany());
+		result=true;
+		return result;
+	}
+	public boolean changeGoal(HotelVO hv,Evaluation eva){
+		boolean result=false;
+		HotelPO hp2;
+		hp2=this.hotelDataService.find(hv.getID());
+		ArrayList<Evaluation> arr=hp2.getEvaluation();
+		arr.add(eva);
+		double d1 = 0,d2;
+		for(int i=0;i<arr.size();i++){
+			d1=0+arr.get(i).getMark();
+		}
+		d2=d1/arr.size();
+		hp2.setGoal(d2);
 		result=true;
 		return result;
 	}
