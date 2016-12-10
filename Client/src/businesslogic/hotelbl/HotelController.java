@@ -2,6 +2,7 @@ package businesslogic.hotelbl;
 
 import java.util.ArrayList;
 
+import po.Evaluation;
 import po.OrderState;
 import vo.HotelVO;
 
@@ -15,6 +16,9 @@ public class HotelController {
 	}
 	public boolean changeHotel(HotelVO hv){
 		return hbl.changeHotel(hv);
+	}
+	public boolean changeGoal(HotelVO hv,Evaluation eva){
+		return hbl.changeGoal(hv, eva);
 	}
 	public boolean changePassWord(String account,String pw){
 		return hbl.changePassWord(account, pw);
