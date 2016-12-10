@@ -10,10 +10,10 @@ public class RoomBL implements RoomBusinessLogicService{
 
 	RoomDataServiceSqlImpl roomDataService;
 
-	public RoomVO getRoom(long id){
+	public RoomVO getRoom(long roomStyle){
 		RoomVO rv=new RoomVO();
 		RoomPO rp;
-		rp=this.roomDataService.find(id);
+		rp=this.roomDataService.find(roomStyle);
 		rv.setRoomType(rp.getRoomType());
 		rv.setRoomTotalNumber(rp.getRoomTotalNumber());
 		rv.setRoomAccessNumber(rp.getRoomAccessNumber());
