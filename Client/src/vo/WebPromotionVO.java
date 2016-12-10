@@ -27,6 +27,9 @@ public class WebPromotionVO {
 		this.memberType = memberType;
 		this.discount = discount;
 	}
+	public WebPromotionVO(){
+		
+	}
 	public String[] getBusinessDistrict() {
 		return businessDistrict;
 	}
