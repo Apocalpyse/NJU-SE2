@@ -19,7 +19,7 @@ public class HotelVO {
 	String hotelPhone;//酒店联系电话
 	String stars;//酒店星级
 	String instruction;//酒店简介
-	ArrayList<Evaluation> eval;//酒店评价
+	ArrayList<Evaluation> evaluation;//酒店评价
 	String cooperatateCompany;//酒店合作企业
 	
 	public void setID(Long i){
@@ -82,7 +82,7 @@ public class HotelVO {
 	public String getHotelName(){
 		return hotelName;
 	}
-	public String gettradeArea(){
+	public String getTradeArea(){
 		return tradeArea;
 	}
 	public String getHotelLocation(){
@@ -98,7 +98,7 @@ public class HotelVO {
 		return instruction;
 	}
 	public ArrayList getEvaluation(){
-		return eval;
+		return evaluation;
 	}
 	public String getCooperatateCompany(){
 		return cooperatateCompany;
