@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public interface HotelBusinessLogicService {
     public HotelVO getHotel(long id);
     public boolean changeHotel(HotelVO hv);
-    public boolean changePassWord(long id,String pw);
+    public boolean changePassWord(String account,String pw);
     public boolean addEvaluation(long id,ArrayList evaluation);
     public boolean changeOraderState(long id, OrderState os);
     public boolean setPromotionOne(double[] numberOfRoom,double[] discount);

@@ -52,9 +52,9 @@ public class HotelBL implements HotelBusinessLogicService{
 		return result;
 	}
 
-	public boolean changePassWord(long id,String pw){
+	public boolean changePassWord(String account,String pw){
 		UserPO up;
-		up=this.userDataService.find(id);
+		up=this.userDataService.find(account);
 		if(pw==up.getPassword()){
 			return true;
 		}

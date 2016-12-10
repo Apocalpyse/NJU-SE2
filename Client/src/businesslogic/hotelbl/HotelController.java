@@ -16,8 +16,8 @@ public class HotelController {
 	public boolean changeHotel(HotelVO hv){
 		return hbl.changeHotel(hv);
 	}
-	public boolean changePassWord(long id,String pw){
-		return hbl.changePassWord(id, pw);
+	public boolean changePassWord(String account,String pw){
+		return hbl.changePassWord(account, pw);
 	}
 	public boolean addEvaluation(long id,ArrayList evaluation){
 		return hbl.addEvaluation(id, evaluation);
