@@ -1,12 +1,11 @@
 package po;
-import java.sql.Array;
 import java.util.ArrayList;
 
 public class HotelPO {
 	Long id;
 	String hotelManager;//酒店工作人员
 	String hotelManPhone;//酒店工作人员电话
-	double goal;//酒店得分
+	double goal;//酒店平均得分
 	double[]  price={0,0,0,0,0,0};//酒店价格
 	String hotelName;//酒店名称
 	String tradeArea;//所属商圈
@@ -19,7 +18,7 @@ public class HotelPO {
 	public HotelPO(){
 		
 	}
-	public HotelPO(Long i,String hm,String hmp,double go,double[] pr,String hn,String ta,String hl,String hp,String st,String in,Evaluation eva,String cc){
+	public HotelPO(Long i,String hm,String hmp,double go,double[] pr,String hn,String ta,String hl,String hp,String st,String in,ArrayList<Evaluation> eva,String cc){
 		id=i;
 		hotelManager=hm;
 		hotelManPhone=hmp;
@@ -31,7 +30,7 @@ public class HotelPO {
 		hotelPhone=hp;
 		stars=st;
 		instruction=in;
-		evaluation.add(eva);
+		evaluation=eva;
 		cooperatateCompany=cc;
 	}
 	public void setID(Long i){
@@ -69,8 +68,8 @@ public class HotelPO {
 	public void setInstruction(String in){
 		instruction=in;
 	}
-	public void setEvaluation(ArrayList b){
-	
+	public void setEvaluation(ArrayList<Evaluation> arrayList){
+		evaluation=arrayList;
 	}
 	public void setCooperatateCompany(String str){
 		cooperatateCompany=str;
@@ -88,6 +87,7 @@ public class HotelPO {
 	public Double getGoal(){
 		return goal;
 	}
+	
 	
 	public double[] getPrice(){
 		return price;
@@ -110,11 +110,10 @@ public class HotelPO {
 	public String getInstruction(){
 		return instruction;
 	}
-	public ArrayList getEvaluation(){
+	public ArrayList<Evaluation> getEvaluation(){
 		return evaluation;
 	}
 	public String getCooperatateCompany(){
 		return cooperatateCompany;
 	}
-	
 }
