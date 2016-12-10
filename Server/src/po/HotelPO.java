@@ -1,38 +1,60 @@
 package po;
+import java.sql.Array;
 import java.util.ArrayList;
 
 public class HotelPO {
 	Long id;
-	String password;//密码
+	String hotelManager;//酒店工作人员
+	String hotelManPhone;//酒店工作人员电话
+	double goal;//酒店得分
+	double[]  price={0,0,0,0,0,0};//酒店价格
 	String hotelName;//酒店名称
 	String tradeArea;//所属商圈
 	String hotelLocation;//酒店地址
 	String hotelPhone;//酒店联系电话
 	String stars;//酒店星级
 	String instruction;//酒店简介
-	ArrayList<Evaluation> eval;//酒店评价
+	ArrayList<Evaluation> evaluation;//酒店评价
 	String cooperatateCompany;//酒店合作企业
-	public HotelPO(Long i,String hn,String ta,String hl,String hp,String st,String in,Evaluation eva,String cc){
+	public HotelPO(){
+		
+	}
+	public HotelPO(Long i,String hm,String hmp,double go,double[] pr,String hn,String ta,String hl,String hp,String st,String in,Evaluation eva,String cc){
 		id=i;
+		hotelManager=hm;
+		hotelManPhone=hmp;
+		goal=go;
+		price=pr;
 		hotelName=hn;
 		tradeArea=ta;
 		hotelLocation=hl;
 		hotelPhone=hp;
 		stars=st;
 		instruction=in;
-		eval.add(eva);
+		evaluation.add(eva);
 		cooperatateCompany=cc;
 	}
 	public void setID(Long i){
 		id=i;
 	}
-	public void setPassword(String pw){
-		password=pw;
+	public void setHotelManager(String hm){
+		hotelManager=hm;
+	}
+	public void setHotelManPhone(String hmp){
+		hotelManPhone=hmp;
+	}
+	public void setGoal(double go){
+		goal=go;
+	}
+	
+	
+	public void setPrice(double[] pr){
+		price=pr;
 	}
 	public void setHotelName(String hn){
 		hotelName=hn;
 	}
-	public void settradeArea(String ta){
+	public void setTradeArea(String ta){
 		tradeArea=ta;
 	}
 	public void setHotelLocation(String hl){
@@ -47,7 +69,7 @@ public class HotelPO {
 	public void setInstruction(String in){
 		instruction=in;
 	}
-	public void setEvaluation(ArrayList arrayList){
+	public void setEvaluation(ArrayList b){
 	
 	}
 	public void setCooperatateCompany(String str){
@@ -57,13 +79,23 @@ public class HotelPO {
 	public Long getID(){
 		return id;
 	}
-	public String getPassword(){
-		return password;
+	public String getHotelManager(){
+		return hotelManager;
+	}
+	public String getHotelManPhone(){
+		return hotelManPhone;
+	}
+	public Double getGoal(){
+		return goal;
+	}
+	
+	public double[] getPrice(){
+		return price;
 	}
 	public String getHotelName(){
 		return hotelName;
 	}
-	public String gettradeArea(){
+	public String getTradeArea(){
 		return tradeArea;
 	}
 	public String getHotelLocation(){
@@ -79,9 +111,10 @@ public class HotelPO {
 		return instruction;
 	}
 	public ArrayList getEvaluation(){
-		return eval;
+		return evaluation;
 	}
 	public String getCooperatateCompany(){
 		return cooperatateCompany;
 	}
+	
 }
