@@ -4,6 +4,7 @@ import businesslogicservice.userbusinesslogicservice.UserBusinessLogicService;
 import dataservice.userdataservice.UserDataService;
 import dataservice.userdataservice.UserDataServiceSqlImpl;
 import po.UserPO;
+import vo.UserVO;
 
 /**
  * Created by 常德隆 on 2016/11/19.
@@ -13,13 +14,27 @@ public class UserBL implements UserBusinessLogicService{
     UserDataServiceSqlImpl uds;
     private long UserID=10000;
 
-    public UserPO getUser(String account){
-        UserPO po=new UserPO();
+    public UserVO getUser(String account){
+        UserVO vo=new UserVO();
+        UserPO po;
         po=this.uds.find(account);
-        return po;
+        vo.setAccout(po.getAccount());
+        vo.setPasssword(po.getPassword());
+        vo.setId(po.getId());
+        return vo;
     }
 
-    public boolean login(String account,String password){
+    @Override
+    public boolean changeUser(UserVO vo) {
+        UserPO po;
+        po=this.uds.find(vo.getAccout());
+        po.setAccount(vo.getAccout());
+        po.setPassword(vo.getPasssword());
+        po.setId(vo.getId());
+        return true;
+    }
+
+    public boolean login(String account, String password){
         boolean result=false;
         UserPO po;
         po=this.uds.find(account);

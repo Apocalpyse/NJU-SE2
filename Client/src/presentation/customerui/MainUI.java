@@ -311,6 +311,8 @@ public class MainUI {
         panel3.add(jtp2);
         jtp2.setBounds(0,0,1000,600);
 
+
+
         /*CustomerPO cpo;
         UserPO upo;
         OrderPO[] opo1=new OrderPO[10];
@@ -363,7 +365,7 @@ public class MainUI {
         table5.setPreferredScrollableViewportSize(new Dimension(780,400));
         table5.setRowHeight(30);
 
-        CustomerVO cvo;
+       /* CustomerVO cvo;
         UserPO upo;
         String[][] creditRecord;
         upo=this.uc.getUser(account);
@@ -372,7 +374,7 @@ public class MainUI {
         for(int i=0;i<15;i++){
             obj5[i][0]=creditRecord[creditRecord.length-i][0];
             obj5[i][1]=creditRecord[creditRecord.length-i][1];
-        }
+        }*/
 
 
         panel1.setBackground(Color.LIGHT_GRAY);

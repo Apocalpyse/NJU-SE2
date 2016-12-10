@@ -14,6 +14,9 @@ import java.awt.geom.Arc2D;
  * Created by 常德隆 on 2016/11/29.
  */
 public class OrderUI {
+
+    OrderController oc;
+
     public OrderUI(boolean is){
         JFrame frame=new JFrame("订单");
         Font font=new Font("微软雅黑",Font.BOLD,16);
@@ -191,6 +194,7 @@ public class OrderUI {
                 ovo.setIsExistChild(isexistchild);
                 ovo.setTotalPrice(Double.parseDouble(totalPrice.getText()));
                 ovo.setCustomerNumber(Integer.parseInt(customerNumber.getText()));
+                oc.createOrder(ovo);
                 if(oc.createOrder(ovo)){
                     Tooltip_one to=new Tooltip_one();
                     frame.dispose();
