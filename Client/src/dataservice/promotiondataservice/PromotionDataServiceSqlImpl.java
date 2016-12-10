@@ -13,25 +13,21 @@ public interface PromotionDataServiceSqlImpl extends PromotionDataService {
 	@Override
 	WebPromotionPO find3(long id);
 	@Override
-	public void insert1(MemberPromotionPO po);
+	insert1(MemberPromotionPO po);
 	@Override
-	public void delete1(long id);
+	delete1(long id);
 	@Override
-	public void updata1(MemberPromotionPO po);
+	update1(MemberPromotionPO po);
 	@Override
 	void insert2(HotelPromotionPO po);
 	@Override
 	void delete2(long id);
 	@Override
-	void updata2(HotelPromotionPO po);
+	void update2(HotelPromotionPO po);
 	@Override
 	void insert3(WebPromotionPO po);
 	@Override
 	void delete3(long id);
 	@Override
-	void updata3(WebPromotionPO po);
-	@Override
-	void init();
-	@Override
-	void finish();
+	void update3(WebPromotionPO po);
 }
