@@ -56,8 +56,8 @@ public class HotelVO {
 	public void setInstruction(String in){
 		instruction=in;
 	}
-	public void setEvaluation(ArrayList arrayList){
-		
+	public void setEvaluation(ArrayList<Evaluation> eva){
+		evaluation=eva;
 	}
 	public void setCooperatateCompany(String str){
 		cooperatateCompany=str;
@@ -97,7 +97,7 @@ public class HotelVO {
 	public String getInstruction(){
 		return instruction;
 	}
-	public ArrayList getEvaluation(){
+	public ArrayList<Evaluation> getEvaluation(){
 		return evaluation;
 	}
 	public String getCooperatateCompany(){
