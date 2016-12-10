@@ -38,7 +38,7 @@ public class PromotionBL implements PromotionBusinessLogicService {
 		double level[] = mppo.getCredit();
 		double discount[] = mppo.getDiscountForMember();
 		double credit = cppo.getCredit();
-		if (!cppo.getIsNormalMember()) {
+		if (!cppo.getMember().equals(Member.notMember)) {
 			for (int i = 0; i < level.length; i++) {
 				if (credit < level[i]) {
 					memberDiscount = discount[i];
@@ -55,8 +55,8 @@ public class PromotionBL implements PromotionBusinessLogicService {
 			amountDiscount = hppo.getDiscountforlargeramount();// 对应金额折扣
 		}
 		// 3
-		if (cppo.getIsCompanyMember()) {
-			companyDiscount = hppo.getCompanyDiscount();
+		if (!cppo.getMember().equals(Member.notMember)){
+			companyDiscount = hppo.getCompanyDiscount();//企业会员与普通会员共享折扣
 		}
 		// company discount
 		String birth = cppo.getBirthday();
@@ -129,7 +129,7 @@ public class PromotionBL implements PromotionBusinessLogicService {
 		po.setUsageState(vo.getUsageState());
 		po.setCredit(vo.getCredit());
 		po.setDiscountForMember(vo.getDiscountForMember());
-		this.pds.updata1(po);
+		this.pds.update1(po);
 		return true;
 	}
 	// MemberPromotionBL
@@ -192,7 +192,7 @@ public class PromotionBL implements PromotionBusinessLogicService {
 		po.setPromotionName(vo.getPromotionName());
 		po.setBirthDiscount(vo.getBirthDiscount());
 		po.setCompanyDiscount(vo.getCompanyDiscount());
-		this.pds.updata2(po);
+		this.pds.update2(po);
 		return true;
 	}
 	// HotelPromotionBL
@@ -252,7 +252,7 @@ public class PromotionBL implements PromotionBusinessLogicService {
 		po.setMemberType(vo.getMemberType());
 		po.setPromotionName(vo.getPromotionName());
 		po.setBusinessDistrict(vo.getBusinessDistrict());
-		this.pds.updata3(po);
+		this.pds.update3(po);
 		return true;
 	}
 	// WebPromotionBL
