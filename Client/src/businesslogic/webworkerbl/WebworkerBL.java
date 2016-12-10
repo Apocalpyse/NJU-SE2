@@ -16,14 +16,15 @@ public class WebworkerBL implements WebworkerBusinessLogicService{
         vo.setAuthority(po.getAuthority());
         vo.setID(po.getID());
         vo.setWebworkerName(po.getWebworkerName());
+        vo.setWebworkerPhone(po.getWebworkerPhone());
         return vo;
     }
     public boolean creatWebworker(WebworkerVO vo){
         WebworkerPO po = new WebworkerPO();
         po.setAuthority(vo.getAuthority());
-        countWeb++;
-        po.setID(countWeb);
+        po.setID(vo.getID());
         po.setWebworkerName(vo.getWebworkerName());
+        po.setWebworkerPhone(vo.getWebworkerPhone());
         this.wds.insert(po);
         return true;
     }
@@ -32,6 +33,7 @@ public class WebworkerBL implements WebworkerBusinessLogicService{
         po.setAuthority(vo.getAuthority());
         po.setID(vo.getID());
         po.setWebworkerName(vo.getWebworkerName());
+        po.setWebworkerPhone(vo.getWebworkerPhone());
         this.wds.updata(po);
         return true;
     }
