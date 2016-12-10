@@ -13,10 +13,8 @@ public class HotelPO {
 	String hotelPhone;//酒店联系电话
 	String stars;//酒店星级
 	String instruction;//酒店简介
-	ArrayList<Evaluation> eval;//酒店评价
+	ArrayList<Evaluation> evaluation;//酒店评价
 	String cooperatateCompany;//酒店合作企业
-	String workerName;//管理人员名称
-	String worekrPhone;//对应电话
 	public HotelPO(Long i,String hm,String hmp,double go,double[] pr,String hn,String ta,String hl,String hp,String st,String in,Evaluation eva,String cc){
 		id=i;
 		hotelManager=hm;
@@ -29,7 +27,7 @@ public class HotelPO {
 		hotelPhone=hp;
 		stars=st;
 		instruction=in;
-		eval.add(eva);
+		evaluation.add(eva);
 		cooperatateCompany=cc;
 	}
 	public void setID(Long i){
@@ -52,7 +50,7 @@ public class HotelPO {
 	public void setHotelName(String hn){
 		hotelName=hn;
 	}
-	public void settradeArea(String ta){
+	public void setTradeArea(String ta){
 		tradeArea=ta;
 	}
 	public void setHotelLocation(String hl){
@@ -68,7 +66,7 @@ public class HotelPO {
 		instruction=in;
 	}
 	public void setEvaluation(ArrayList arrayList){
-	
+		
 	}
 	public void setCooperatateCompany(String str){
 		cooperatateCompany=str;
@@ -93,7 +91,7 @@ public class HotelPO {
 	public String getHotelName(){
 		return hotelName;
 	}
-	public String gettradeArea(){
+	public String getTradeArea(){
 		return tradeArea;
 	}
 	public String getHotelLocation(){
@@ -109,7 +107,7 @@ public class HotelPO {
 		return instruction;
 	}
 	public ArrayList getEvaluation(){
-		return eval;
+		return evaluation;
 	}
 	public String getCooperatateCompany(){
 		return cooperatateCompany;
