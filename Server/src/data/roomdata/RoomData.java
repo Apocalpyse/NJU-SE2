@@ -1,128 +1,107 @@
 package data.roomdata;
 
-import po.CustomerPO;
-import po.Member;
+import java.sql.Connection;
 
-import java.sql.*;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import dataservice.roomdataservice.RoomDataServiceSqlImpl;
+
+import po.HotelPO;
+import po.RoomPO;
 
 /**
- * Created by 常德隆 on 2016/11/20.
+ * Created by 甯稿痉闅� on 2016/11/20.
  */
-public class RoomData {
-    private String sql;
-    private PreparedStatement preparedStatement;
-    private ResultSet resultSet;
-    private Connection con ;
-    String url = "jdbc:sqlserver://127.0.0.1:1368;databaseName=DS_HRS;user=sa;password=";
+public class RoomData implements RoomDataServiceSqlImpl{
+	 	private String sql;
+	    private PreparedStatement preparedStatement;
+	    private ResultSet resultSet;
+	    private Connection con ;
+	    String url = "jdbc:sqlserver://127.0.0.1:1368;databaseName=DS_HRS;user=sa;password=";
+	    @Override
+	    public void update(RoomPO po) {
+	        sql="update 房间信息 set roomID='"+po.getRoomID()+"',roomType='"+po.getRoomType()+"',roomTotalNumber='"+po.getRoomTotalNumber()+"',roomAccessNumber='"+po.getRoomAccessNumber()+"',price='"+po.getRoomPrice()
+	        	+"'where ID='"+po.getRoomID()+"'";
 
-    @Override
-    public void update(CustomerPO po) {
-        sql="update 客户信息 set name='"+po.getCustomerName()+"',phone='"+po.getCustomerPhone()+"',credit='"+po.getCredit()+"',creditNum='"+po.getCreditNum()+"',creditRecord='"+po.getCreditRecord()
-                +"',birthday='"+po.getBirthday()+"',companyName'"+po.getCompanyName()+"',member'"+po.getMember()+"',id'"+po.getId()+"',orderId1'"+po.getOrderId1()+"',orderId2'"+po.getOrderId2()+"',orderId3'"
-                +po.getOrderId3()+"',orderId4'"+po.getOrderId4()+"' where ID='"+po.getId()+"'";
+	        try {
+	            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+	            con = DriverManager.getConnection(this.url);
+	            preparedStatement=con.prepareStatement(sql);
+	            preparedStatement.executeUpdate();
+	            con.close();
+	        } catch (ClassNotFoundException e) {
+	            e.printStackTrace();
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+	    }
+	    @Override
+	    public RoomPO find(long id) {
+	        sql="SELECT * from 房间信息 where ID='"+id+"'";
+	        try {
+	            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+	            con = DriverManager.getConnection(this.url);
+	            preparedStatement=con.prepareStatement(sql);
+	            resultSet=preparedStatement.executeQuery();
 
-        try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            con = DriverManager.getConnection(this.url);
-            preparedStatement=con.prepareStatement(sql);
-            preparedStatement.executeUpdate();
-            con.close();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+	            if (resultSet.next()) {
+	                RoomPO rpo=new RoomPO();
+	                rpo.setRoomID(Long.parseLong(resultSet.getString(1)));
+	                rpo.setRoomType(resultSet.getString(2));
+	                rpo.setRoomTotalNumber(resultSet.getInt(3));
+	                rpo.setRoomAccessNumber(resultSet.getInt(4));
+	                rpo.setRoomPrice(resultSet.getDouble(5));
+	           
+	                return rpo;
+	            }
+	            else {
+	                con.close();
+	                return null;
+	            }
 
-    @Override
-    public CustomerPO find(long id) {
-        sql="SELECT * from 客户信息 where ID='"+id+"'";
-        try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            con = DriverManager.getConnection(this.url);
-            preparedStatement=con.prepareStatement(sql);
-            resultSet=preparedStatement.executeQuery();
+	        } catch (ClassNotFoundException e) {
+	            e.printStackTrace();
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+	        return null;
+	    }
 
-            if (resultSet.next()) {
-                CustomerPO cpo=new CustomerPO();
-                cpo.setCustomerName(resultSet.getString(1));
-                cpo.setCustomerPhone(resultSet.getString(2));
-                cpo.setCredit(resultSet.getString(3));
-                cpo.setCreditNum(resultSet.getString(4));
-                String[] temp1=resultSet.getString(5).split(" ");
-                String[][] temp2=null;
-                int j=0;
-                for(int i=0;i<temp1.length;i=i+3){
-                    temp2[j][0]=temp1[i];
-                    temp2[j][1]=temp1[i+1];
-                    temp2[j][2]=temp1[i+2];
-                    j++;
-                }
-                cpo.setCreditRecord(temp2);
-                cpo.setBirthday(resultSet.getString(6));
-                cpo.setCompanyName(resultSet.getString(7));
-                switch (resultSet.getString(8)){
-                    case "notMember": cpo.setMember(Member.notMember);
-                    case "normalMember": cpo.setMember(Member.normalMember);
-                    case "companyMember": cpo.setMember(Member.companyMember);
-                }
-                cpo.setId(resultSet.getString(9));
-                String[] temp3=resultSet.getString(10).split(" ");
-                String[] temp4=resultSet.getString(11).split(" ");
-                String[] temp5=resultSet.getString(12).split(" ");
-                String[] temp6=resultSet.getString(13).split(" ");
-                cpo.setOrderId1(temp3);
-                cpo.setOrderId2(temp4);
-                cpo.setOrderId3(temp5);
-                cpo.setOrderId4(temp6);
-                con.close();
-                return  cpo;
-            }
-            else {
-                con.close();
-                return null;
-            }
+	    @Override
+	    public void insert(RoomPO po) {
+	        sql="insert into 房间信息(roomType,roomTotalNumber,roomAccessNumber,roomPrice,roomID," +
+	                "," + ") values ('"+po.getRoomType()+"','"+po.getRoomTotalNumber()+"','"+po.getRoomAccessNumber()+"','"+po.getRoomPrice()+"','"+po.getRoomID()+"')";
 
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
+	        try {
+	            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+	            con = DriverManager.getConnection(this.url);
+	            preparedStatement=con.prepareStatement(sql);
+	            preparedStatement.executeUpdate();
+	            con.close();
+	        } catch (ClassNotFoundException e) {
+	            e.printStackTrace();
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+	    }
 
-    @Override
-    public void insert(CustomerPO po) {
-        sql="insert into 客户信息(name,phone,credit,creditNum,creditRecord,birthday,companyName,member,id,orderId1,orderId2,orderId3,orderId4) values ('"+po.getCustomerName()+"','"+po.getCustomerPhone()+"','"+po.getCredit()+"','"+po.getCreditNum()+"','"+po.getCreditRecord()+"','"+po.getBirthday()+"','"
-                +po.getCompanyName()+"','"+po.getMember()+"','"+po.getId()+"','"+po.getOrderId1()+"','"+po.getOrderId2()+"','"+po.getOrderId3()+"','"+po.getOrderId4()+"')";
+	    @Override
+	    public void delete(long id) {
+	        sql="delete from 房间信息 where ID='"+id+"'";
+	        try {
+	            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+	            con = DriverManager.getConnection(this.url);
+	            PreparedStatement preparedStatement=con.prepareStatement(sql);
+	            preparedStatement.executeUpdate();
+	            con.close();
+	        } catch (ClassNotFoundException e) {
+	            e.printStackTrace();
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
 
-        try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            con = DriverManager.getConnection(this.url);
-            preparedStatement=con.prepareStatement(sql);
-            preparedStatement.executeUpdate();
-            con.close();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+	    }
+	}
 
-    @Override
-    public void delete(long id) {
-        sql="delete from 客户信息 where ID='"+id+"'";
-        try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            con = DriverManager.getConnection(this.url);
-            PreparedStatement preparedStatement=con.prepareStatement(sql);
-            preparedStatement.executeUpdate();
-            con.close();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-    }
-}
