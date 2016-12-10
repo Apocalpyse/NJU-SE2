@@ -1,3 +1,5 @@
+package po;
+
 public class RoomPO {
 	Long roomID;//鎴块棿ID
 	String roomType;//鎴块棿绫诲瀷

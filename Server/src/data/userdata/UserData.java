@@ -22,7 +22,7 @@ public class UserData implements UserDataServiceSqlImpl{
         sql="update 登录信息 set account='"+po.getAccount()+"',password='"+po.getPassword()+"',id='"+po.getId()+"'";
 
         try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection(this.url);
             preparedStatement=con.prepareStatement(sql);
             preparedStatement.executeUpdate();
@@ -38,7 +38,7 @@ public class UserData implements UserDataServiceSqlImpl{
     public UserPO find(String account) {
         sql="SELECT * from 登录信息 where ID='"+account+"'";
         try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection(this.url);
             preparedStatement=con.prepareStatement(sql);
             resultSet=preparedStatement.executeQuery();
@@ -68,7 +68,7 @@ public class UserData implements UserDataServiceSqlImpl{
         sql="insert into 登录信息(account,password,id) values ('"+po.getAccount()+"','"+po.getPassword()+"','"+po.getId()+"')";
 
         try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection(this.url);
             preparedStatement=con.prepareStatement(sql);
             preparedStatement.executeUpdate();
@@ -84,7 +84,7 @@ public class UserData implements UserDataServiceSqlImpl{
     public void delete(long id) {
         sql="delete from 登录信息 where ID='"+id+"'";
         try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection(this.url);
             PreparedStatement preparedStatement=con.prepareStatement(sql);
             preparedStatement.executeUpdate();

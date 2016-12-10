@@ -21,7 +21,7 @@ public class HotelData implements HotelDataServiceSqlImpl{
     private PreparedStatement preparedStatement;
     private ResultSet resultSet;
     private Connection con ;
-    String url = "jdbc:sqlserver://127.0.0.1:1368;databaseName=DS_HRS;user=sa;password=";
+    String url = "jdbc:mysql://127.0.0.1:3306;databaseName=DS_HRS;user=sa;password=";
     
     @Override
     public void update(HotelPO po) {
@@ -30,7 +30,7 @@ public class HotelData implements HotelDataServiceSqlImpl{
                 +po.getEvaluation()+"',cooperatateCompany'"+po.getCooperatateCompany()+"'where ID='"+po.getID()+"'";
 
         try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection(this.url);
             preparedStatement=con.prepareStatement(sql);
             preparedStatement.executeUpdate();
@@ -45,7 +45,7 @@ public class HotelData implements HotelDataServiceSqlImpl{
     public HotelPO find(long id) {
         sql="SELECT * from 酒店信息 where ID='"+id+"'";
         try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection(this.url);
             preparedStatement=con.prepareStatement(sql);
             resultSet=preparedStatement.executeQuery();
@@ -99,7 +99,7 @@ public class HotelData implements HotelDataServiceSqlImpl{
                 +po.getHotelLocation()+"','"+po.getHotelPhone()+"','"+po.getStars()+"','"+po.getInstruction()+"','"+po.getEvaluation()+"','"+po.getCooperatateCompany()+"','"+po.getID()+"')";
 
         try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection(this.url);
             preparedStatement=con.prepareStatement(sql);
             preparedStatement.executeUpdate();
@@ -115,7 +115,7 @@ public class HotelData implements HotelDataServiceSqlImpl{
     public void delete(long id) {
         sql="delete from 酒店信息 where ID='"+id+"'";
         try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection(this.url);
             PreparedStatement preparedStatement=con.prepareStatement(sql);
             preparedStatement.executeUpdate();

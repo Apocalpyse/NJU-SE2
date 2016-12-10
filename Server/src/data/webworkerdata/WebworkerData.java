@@ -17,7 +17,7 @@ public class WebworkerData implements WebworkerDataServiceSqlImpl{
 	private PreparedStatement preparedStatement;
 	private ResultSet resultSet;
 	private Connection con;
-	String url = "jdbc:sqlserver://127.0.0.1:1368;databaseName=DS_HRS;user=sa;password=";
+	String url = "jdbc:mysql://127.0.0.1:3306;databaseName=DS_HRS;user=sa;password=";
 
 	@Override
 	public void update(WebworkerPO po) {
@@ -25,7 +25,7 @@ public class WebworkerData implements WebworkerDataServiceSqlImpl{
 				+ "',authority'" + po.getAuthority() + "',id'" + po.getID() + "' where ID='" + po.getID() + "'";
 
 		try {
-			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+			Class.forName("com.mysql.jdbc.Driver");
 			con = DriverManager.getConnection(this.url);
 			preparedStatement = con.prepareStatement(sql);
 			preparedStatement.executeUpdate();
@@ -41,7 +41,7 @@ public class WebworkerData implements WebworkerDataServiceSqlImpl{
 	public WebworkerPO find(long id) {
 		sql = "SELECT * from 网站营销人员信息 where ID='" + id + "'";
 		try {
-			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+			Class.forName("com.mysql.jdbc.Driver");
 			con = DriverManager.getConnection(this.url);
 			preparedStatement = con.prepareStatement(sql);
 			resultSet = preparedStatement.executeQuery();
@@ -71,7 +71,7 @@ public class WebworkerData implements WebworkerDataServiceSqlImpl{
 				+ po.getWebworkerPhone() + "','" + po.getAuthority() + "','" + po.getID() + "')";
 
 		try {
-			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+			Class.forName("com.mysql.jdbc.Driver");
 			con = DriverManager.getConnection(this.url);
 			preparedStatement = con.prepareStatement(sql);
 			preparedStatement.executeUpdate();
@@ -87,7 +87,7 @@ public class WebworkerData implements WebworkerDataServiceSqlImpl{
 	public void delete(long id) {
 		sql = "delete from 网站营销人员信息  where ID='" + id + "'";
 		try {
-			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+			Class.forName("com.mysql.jdbc.Driver");
 			con = DriverManager.getConnection(this.url);
 			PreparedStatement preparedStatement = con.prepareStatement(sql);
 			preparedStatement.executeUpdate();

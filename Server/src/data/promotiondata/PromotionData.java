@@ -20,7 +20,7 @@ public class PromotionData implements PromotionDataServiceSqlImpl{
 	private PreparedStatement preparedStatement;
 	private ResultSet resultSet;
 	private Connection con;
-	String url = "jdbc:sqlserver://127.0.0.1:1368;databaseName=DS_HRS;user=sa;password=";
+	String url = "jdbc:mysql://127.0.0.1:3306;databaseName=DS_HRS;user=sa;password=";
 
 	@Override
 	public void update1(MemberPromotionPO po) {
@@ -29,7 +29,7 @@ public class PromotionData implements PromotionDataServiceSqlImpl{
 				+ po.getUsageState()+"',id'"+po.getID() + "' where ID='" + po.getID() + "'";
 
 		try {
-			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+			Class.forName("com.mysql.jdbc.Driver");
 			con = DriverManager.getConnection(this.url);
 			preparedStatement = con.prepareStatement(sql);
 			preparedStatement.executeUpdate();
@@ -45,7 +45,7 @@ public class PromotionData implements PromotionDataServiceSqlImpl{
 	public MemberPromotionPO find1(long id) {
 		sql = "SELECT * from 会员制度信息 where ID='" + id + "'";
 		try {
-			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+			Class.forName("com.mysql.jdbc.Driver");
 			con = DriverManager.getConnection(this.url);
 			preparedStatement = con.prepareStatement(sql);
 			resultSet = preparedStatement.executeQuery();
@@ -99,7 +99,7 @@ public class PromotionData implements PromotionDataServiceSqlImpl{
 				+ po.getDiscountForMember() + "'," + "','" + po.getUsageState() + "','" + po.getID() + "')";
 
 		try {
-			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+			Class.forName("com.mysql.jdbc.Driver");
 			con = DriverManager.getConnection(this.url);
 			preparedStatement = con.prepareStatement(sql);
 			preparedStatement.executeUpdate();
@@ -115,7 +115,7 @@ public class PromotionData implements PromotionDataServiceSqlImpl{
 	public void delete1(long id) {
 		sql = "delete from 会员制度信息  where ID='" + id + "'";
 		try {
-			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+			Class.forName("com.mysql.jdbc.Driver");
 			con = DriverManager.getConnection(this.url);
 			PreparedStatement preparedStatement = con.prepareStatement(sql);
 			preparedStatement.executeUpdate();
@@ -149,7 +149,7 @@ public class PromotionData implements PromotionDataServiceSqlImpl{
 				+ po.getID() + "'";
 
 		try {
-			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+			Class.forName("com.mysql.jdbc.Driver");
 			con = DriverManager.getConnection(this.url);
 			preparedStatement = con.prepareStatement(sql);
 			preparedStatement.executeUpdate();
@@ -165,7 +165,7 @@ public class PromotionData implements PromotionDataServiceSqlImpl{
 	public HotelPromotionPO find2(long id) {
 		sql = "SELECT * from 酒店促销策略信息  where ID='" + id + "'";
 		try {
-			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+			Class.forName("com.mysql.jdbc.Driver");
 			con = DriverManager.getConnection(this.url);
 			preparedStatement = con.prepareStatement(sql);
 			resultSet = preparedStatement.executeQuery();
@@ -238,7 +238,7 @@ public class PromotionData implements PromotionDataServiceSqlImpl{
 				+ po.getUsageState() + "','" + po.getID() + "')";
 
 		try {
-			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+			Class.forName("com.mysql.jdbc.Driver");
 			con = DriverManager.getConnection(this.url);
 			preparedStatement = con.prepareStatement(sql);
 			preparedStatement.executeUpdate();
@@ -254,7 +254,7 @@ public class PromotionData implements PromotionDataServiceSqlImpl{
 	public void delete2(long id) {
 		sql = "delete from 酒店促销策略信息  where ID='" + id + "'";
 		try {
-			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+			Class.forName("com.mysql.jdbc.Driver");
 			con = DriverManager.getConnection(this.url);
 			PreparedStatement preparedStatement = con.prepareStatement(sql);
 			preparedStatement.executeUpdate();
@@ -280,7 +280,7 @@ public class PromotionData implements PromotionDataServiceSqlImpl{
 				+ po.getDiscount() + "',memberType='" + po.getMemberType() + "',businessDistrict='"
 				+ po.getBusinessDistrict() + "',usageState='" + po.getUsageState() + "',id='" + po.getID() + "' where ID='" + po.getID() + "'";
 		try {
-			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+			Class.forName("com.mysql.jdbc.Driver");
 			con = DriverManager.getConnection(this.url);
 			preparedStatement = con.prepareStatement(sql);
 			preparedStatement.executeUpdate();
@@ -297,7 +297,7 @@ public class PromotionData implements PromotionDataServiceSqlImpl{
 	public WebPromotionPO find3(long id) {
 		sql = "SELECT * from 网站促销策略信息  where ID='" + id + "'";
 		try {
-			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+			Class.forName("com.mysql.jdbc.Driver");
 			con = DriverManager.getConnection(this.url);
 			preparedStatement = con.prepareStatement(sql);
 			resultSet = preparedStatement.executeQuery();
@@ -361,7 +361,7 @@ public class PromotionData implements PromotionDataServiceSqlImpl{
 				+ po.getUsageState() + "','" + po.getID()  + "')";
 	
 	 try {
-	 Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+	 Class.forName("com.mysql.jdbc.Driver");
 	 con = DriverManager.getConnection(this.url);
 	 preparedStatement=con.prepareStatement(sql);
 	 preparedStatement.executeUpdate();
@@ -377,7 +377,7 @@ public class PromotionData implements PromotionDataServiceSqlImpl{
 	public void delete3(long id) {
 		sql = "delete from 网站促销策略信息  where ID='" + id + "'";
 		try {
-			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+			Class.forName("com.mysql.jdbc.Driver");
 			con = DriverManager.getConnection(this.url);
 			PreparedStatement preparedStatement = con.prepareStatement(sql);
 			preparedStatement.executeUpdate();

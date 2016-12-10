@@ -23,7 +23,7 @@ public class OrderData implements OrderDataServiceSqlImpl{
                 +po.getExecuteTime()+"',totalPrice'"+po.getTotalPrice()+"',orderState'"+po.getOs()+"',isExistChild'"+po.getIsExistChild()+"',customerNumber'"+po.getCustomerNumber()+"',masterId'"+po.getMasterId()+"',id'"+po.getId()+"' where ID='"+po.getId()+"'";
 
         try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection(this.url);
             preparedStatement=con.prepareStatement(sql);
             preparedStatement.executeUpdate();
@@ -39,7 +39,7 @@ public class OrderData implements OrderDataServiceSqlImpl{
     public OrderPO find(long id) {
         sql="SELECT * from 订单信息 where ID='"+id+"'";
         try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection(this.url);
             preparedStatement=con.prepareStatement(sql);
             resultSet=preparedStatement.executeQuery();
@@ -92,7 +92,7 @@ public class OrderData implements OrderDataServiceSqlImpl{
                 +po.getIsExistChild()+"','"+po.getCustomerNumber()+"','"+po.getMasterId()+"','"+po.getId()+"')";
 
         try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection(this.url);
             preparedStatement=con.prepareStatement(sql);
             preparedStatement.executeUpdate();
@@ -108,7 +108,7 @@ public class OrderData implements OrderDataServiceSqlImpl{
     public void delete(long id) {
         sql="delete from 订单信息 where ID='"+id+"'";
         try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection(this.url);
             PreparedStatement preparedStatement=con.prepareStatement(sql);
             preparedStatement.executeUpdate();

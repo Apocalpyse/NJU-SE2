@@ -24,7 +24,7 @@ public class CustomerData implements CustomerDataServiceSqlImpl{
               +po.getOrderId3()+"',orderId4'"+po.getOrderId4()+"' where ID='"+po.getId()+"'";
 
         try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection(this.url);
             preparedStatement=con.prepareStatement(sql);
             preparedStatement.executeUpdate();
@@ -40,7 +40,7 @@ public class CustomerData implements CustomerDataServiceSqlImpl{
     public CustomerPO find(long id) {
         sql="SELECT * from 客户信息 where ID='"+id+"'";
         try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection(this.url);
             preparedStatement=con.prepareStatement(sql);
             resultSet=preparedStatement.executeQuery();
@@ -99,7 +99,7 @@ public class CustomerData implements CustomerDataServiceSqlImpl{
                 +po.getCompanyName()+"','"+po.getMember()+"','"+po.getId()+"','"+po.getOrderId1()+"','"+po.getOrderId2()+"','"+po.getOrderId3()+"','"+po.getOrderId4()+"')";
 
         try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection(this.url);
             preparedStatement=con.prepareStatement(sql);
             preparedStatement.executeUpdate();
@@ -115,7 +115,7 @@ public class CustomerData implements CustomerDataServiceSqlImpl{
     public void delete(long id) {
         sql="delete from 客户信息 where ID='"+id+"'";
         try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection(this.url);
             PreparedStatement preparedStatement=con.prepareStatement(sql);
             preparedStatement.executeUpdate();

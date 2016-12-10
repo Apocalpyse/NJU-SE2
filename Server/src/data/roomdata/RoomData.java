@@ -19,14 +19,14 @@ public class RoomData implements RoomDataServiceSqlImpl{
 	    private PreparedStatement preparedStatement;
 	    private ResultSet resultSet;
 	    private Connection con ;
-	    String url = "jdbc:sqlserver://127.0.0.1:1368;databaseName=DS_HRS;user=sa;password=";
+	    String url = "jdbc:mysql://127.0.0.1:3306;databaseName=DS_HRS;user=sa;password=";
 	    @Override
 	    public void update(RoomPO po) {
 	        sql="update 房间信息 set roomID='"+po.getRoomID()+"',roomType='"+po.getRoomType()+"',roomTotalNumber='"+po.getRoomTotalNumber()+"',roomAccessNumber='"+po.getRoomAccessNumber()+"',price='"+po.getRoomPrice()
 	        	+"'where ID='"+po.getRoomID()+"'";
 
 	        try {
-	            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+	            Class.forName("com.mysql.jdbc.Driver");
 	            con = DriverManager.getConnection(this.url);
 	            preparedStatement=con.prepareStatement(sql);
 	            preparedStatement.executeUpdate();
@@ -41,7 +41,7 @@ public class RoomData implements RoomDataServiceSqlImpl{
 	    public RoomPO find(long id) {
 	        sql="SELECT * from 房间信息 where ID='"+id+"'";
 	        try {
-	            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+	            Class.forName("com.mysql.jdbc.Driver");
 	            con = DriverManager.getConnection(this.url);
 	            preparedStatement=con.prepareStatement(sql);
 	            resultSet=preparedStatement.executeQuery();
@@ -75,7 +75,7 @@ public class RoomData implements RoomDataServiceSqlImpl{
 	                "," + ") values ('"+po.getRoomType()+"','"+po.getRoomTotalNumber()+"','"+po.getRoomAccessNumber()+"','"+po.getRoomPrice()+"','"+po.getRoomID()+"')";
 
 	        try {
-	            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+	            Class.forName("com.mysql.jdbc.Driver");
 	            con = DriverManager.getConnection(this.url);
 	            preparedStatement=con.prepareStatement(sql);
 	            preparedStatement.executeUpdate();
@@ -91,7 +91,7 @@ public class RoomData implements RoomDataServiceSqlImpl{
 	    public void delete(long id) {
 	        sql="delete from 房间信息 where ID='"+id+"'";
 	        try {
-	            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+	            Class.forName("com.mysql.jdbc.Driver");
 	            con = DriverManager.getConnection(this.url);
 	            PreparedStatement preparedStatement=con.prepareStatement(sql);
 	            preparedStatement.executeUpdate();
