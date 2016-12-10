@@ -1,14 +1,14 @@
 package vo;
 
 /**
- * Created by 常德隆 on 2016/11/19.
+ * Created by 甯稿痉闅� on 2016/11/19.
  */
 public class RoomVO {
-	Long roomID;//房间id
-	String roomType;//房间类型
-	int roomTotalNumber;//房间总数量
-	int roomAccessNumber;//可预定的房间数量
-	double roomPrice;//房间价格
+	Long roomID;//鎴块棿id
+	String roomType;//鎴块棿绫诲瀷
+	int roomTotalNumber;//鎴块棿鎬绘暟閲�
+	int roomAccessNumber;//鍙瀹氱殑鎴块棿鏁伴噺
+	double roomPrice;//鎴块棿浠锋牸
 	
 	public void setRoomID(long i){
 		roomID=i;
