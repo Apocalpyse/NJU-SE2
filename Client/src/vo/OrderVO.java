@@ -1,3 +1,5 @@
+package vo;
+
 import po.OrderState;
 
 /**
