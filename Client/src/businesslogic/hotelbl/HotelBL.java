@@ -1,5 +1,6 @@
 package businesslogic.hotelbl;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 import businesslogicservice.hotelbusinesslogicservice.HotelBusinessLogicService;
@@ -7,7 +8,6 @@ import dataservice.hoteldataservice.HotelDataServiceSqlImpl;
 import dataservice.orderdataservice.OrderDataServiceSqlImpl;
 import dataservice.userdataservice.UserDataServiceSqlImpl;
 import dataservice.promotiondataservice.PromotionDataServiceSqlImpl;
-import po.Evaluation;
 import po.HotelPO;
 import po.HotelPromotionPO;
 import po.OrderPO;
@@ -22,7 +22,7 @@ public class HotelBL implements HotelBusinessLogicService{
 	PromotionDataServiceSqlImpl promotionDataService;
 	UserDataServiceSqlImpl userDataService;
 
-	public HotelVO getHotel(long id){
+	public HotelVO getHotel(long id)throws RemoteException{
 		HotelVO hv=new HotelVO();
 		HotelPO hp;
 		hp=this.hotelDataService.find(id);
@@ -33,11 +33,10 @@ public class HotelBL implements HotelBusinessLogicService{
 		hv.setStars(hp.getStars());
 		hv.setInstruction(hp.getInstruction());
 		hv.setEvaluation(hp.getEvaluation());
-		hv.setGoal(hp.getGoal());
 		return hv;
 	}
 
-	public boolean changeHotel(HotelVO hv){
+	public boolean changeHotel(HotelVO hv)throws RemoteException{
 		boolean result=false;
 		HotelPO hp2;
 		hp2=this.hotelDataService.find(hv.getID());
@@ -49,28 +48,12 @@ public class HotelBL implements HotelBusinessLogicService{
 		hp2.setStars(hv.getStars());
 		hp2.setInstruction(hv.getInstruction());
 		hp2.setEvaluation(hv.getEvaluation());
-		hp2.setGoal(hv.getGoal());
 		hp2.setCooperatateCompany(hv.getCooperatateCompany());
 		result=true;
 		return result;
 	}
-	public boolean changeGoal(HotelVO hv,Evaluation eva){
-		boolean result=false;
-		HotelPO hp2;
-		hp2=this.hotelDataService.find(hv.getID());
-		ArrayList<Evaluation> arr=hp2.getEvaluation();
-		arr.add(eva);
-		double d1 = 0,d2;
-		for(int i=0;i<arr.size();i++){
-			d1=0+arr.get(i).getMark();
-		}
-		d2=d1/arr.size();
-		hp2.setGoal(d2);
-		result=true;
-		return result;
-	}
 
-	public boolean changePassWord(String account,String pw){
+	public boolean changePassWord(String account,String pw)throws RemoteException{
 		UserPO up;
 		up=this.userDataService.find(account);
 		if(pw==up.getPassword()){
@@ -83,7 +66,7 @@ public class HotelBL implements HotelBusinessLogicService{
 	}
 	
 
-	public boolean addEvaluation(long id,ArrayList evaluation){
+	public boolean addEvaluation(long id,ArrayList evaluation)throws RemoteException{
 		boolean result=false;
 		HotelPO hp;
 		hp=this.hotelDataService.find(id);
@@ -91,7 +74,7 @@ public class HotelBL implements HotelBusinessLogicService{
 		result=true;
 		return result;
 	}
-    public boolean changeOraderState(long id,OrderState os){
+    public boolean changeOraderState(long id,OrderState os)throws RemoteException{
     	boolean result=false;
 		OrderPO op;
 		op=this.orderDataService.find(id);
@@ -99,7 +82,7 @@ public class HotelBL implements HotelBusinessLogicService{
 		result=true;
 		return result;
     }
-    public boolean setPromotionOne(double numberOfRoom,double discount){
+    public boolean setPromotionOne(double numberOfRoom,double discount)throws RemoteException{
     	boolean result=false;
     	HotelPromotionPO hpo = null;
     	hpo.setDiscountforlargeramount(numberOfRoom);
@@ -107,14 +90,14 @@ public class HotelBL implements HotelBusinessLogicService{
     	result=true;
     	return true;
     }
-    public boolean setPromotionTwo(double discount){
+    public boolean setPromotionTwo(double discount)throws RemoteException{
     	boolean result=false;
     	HotelPromotionPO hpo = null;
     	hpo.setBirthDiscount(discount);
     	result=true;
     	return true;
     }
-    public boolean setPromotionThree(String beginTime,String endTime){
+    public boolean setPromotionThree(String beginTime,String endTime)throws RemoteException{
     	boolean result=false;
     	HotelPromotionPO hpo = null;
     	hpo.setBeginTime(beginTime);
@@ -124,7 +107,13 @@ public class HotelBL implements HotelBusinessLogicService{
     }
 
 	@Override
-	public boolean setPromotionOne(double[] numberOfRoom, double[] discount) {
+	public boolean setPromotionOne(double[] numberOfRoom, double[] discount)throws RemoteException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean changePassWord(long id, String pw) throws RemoteException{
 		// TODO Auto-generated method stub
 		return false;
 	}

@@ -1,5 +1,7 @@
 package businesslogic.roombl;
 
+import java.rmi.RemoteException;
+
 import businesslogicservice.roombusinesslogicservice.RoomBusinessLogicService;
 import dataservice.roomdataservice.RoomDataService;
 import dataservice.roomdataservice.RoomDataServiceSqlImpl;
@@ -10,7 +12,7 @@ public class RoomBL implements RoomBusinessLogicService{
 
 	RoomDataServiceSqlImpl roomDataService;
 
-	public RoomVO getRoom(long roomStyle){
+	public RoomVO getRoom(long roomStyle)throws RemoteException{
 		RoomVO rv=new RoomVO();
 		RoomPO rp;
 		rp=this.roomDataService.find(roomStyle);
@@ -21,7 +23,7 @@ public class RoomBL implements RoomBusinessLogicService{
 		
 		return rv;
 	}
-	public boolean changeRoom(RoomVO rv){
+	public boolean changeRoom(RoomVO rv)throws RemoteException{
 		boolean result=false;
 		RoomPO rp2;
 		rp2=this.roomDataService.find(rv.getRoomID());
