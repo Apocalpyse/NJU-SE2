@@ -1,6 +1,7 @@
 package presentation.customerui;
 
 import businesslogic.customerbl.CustomerController;
+import businesslogic.orderbl.OrderController;
 import businesslogic.userbl.UserController;
 import dataservice.customerdataservice.CustomerDataServiceSqlImpl;
 import dataservice.hoteldataservice.HotelDataServiceSqlImpl;
@@ -21,6 +22,7 @@ import javax.swing.text.TableView;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.rmi.RemoteException;
 
 import static com.sun.xml.internal.fastinfoset.alphabet.BuiltInRestrictedAlphabets.table;
 
@@ -30,6 +32,7 @@ import static com.sun.xml.internal.fastinfoset.alphabet.BuiltInRestrictedAlphabe
 public class MainUI {
 
     CustomerController cc;
+    OrderController oc;
     UserController uc;
 
     public MainUI(String account,String password){
@@ -311,7 +314,42 @@ public class MainUI {
         panel3.add(jtp2);
         jtp2.setBounds(0,0,1000,600);
 
+        JButton button3=new JButton("撤销");
+        panel8.add(button3);
+        button3.setBounds(460,540,80,60);
+        button3.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    if (table4.getSelectedRow()==-1){
+                        Tooltip_one to=new Tooltip_one();
+                    }
+                    else{
+                        OrderController oc=new OrderController();
+                        String temp=table4.getValueAt(table4.getSelectedRow()-1,1).toString();
+                        oc.cancelOrder(Long.parseLong(temp));
+                        dt4.removeRow(table4.getSelectedRow()-1);
+                    }
+                }catch (RemoteException e1){
+                    e1.printStackTrace();
+                }
+            }
+        });
 
+        JButton button4=new JButton("评价");
+        panel5.add(button4);
+        button3.setBounds(460,540,80,60);
+        button3.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (table1.getSelectedRow()==-1){
+                    Tooltip_one to=new Tooltip_one();
+                }
+                else{
+                   EvaluationUI eui=new EvaluationUI(obj1[table1.getSelectedRow()-1][3].toString());
+                }
+            }
+        });
 
         /*CustomerPO cpo;
         UserPO upo;

@@ -9,6 +9,7 @@ public class UserPO implements Serializable{
     private String account;
     private String password;
     private long id;
+    private User user;
 
     public UserPO(){}
 
@@ -39,5 +40,13 @@ public class UserPO implements Serializable{
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

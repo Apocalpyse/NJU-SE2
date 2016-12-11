@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.rmi.RemoteException;
 
 /**
  * Created by 常德隆 on 2016/11/29.
@@ -25,9 +26,11 @@ public class RegisterUI {
         label3.setFont(font);
         JTextField textField1=new JTextField();
         textField1.setFont(font);
-        JTextField textField2=new JTextField();
+        JPasswordField textField2=new JPasswordField();
+        textField2.setEchoChar('*');
         textField2.setFont(font);
-        JTextField textField3=new JTextField();
+        JPasswordField textField3=new JPasswordField();
+        textField3.setEchoChar('*');
         textField3.setFont(font);
         JButton button1=new JButton("确定");
         button1.setFont(font);
@@ -41,11 +44,11 @@ public class RegisterUI {
         panel1.add(label2);
         panel1.add(label3);
         label1.setBounds(100,0,60,55);
-        textField1.setBounds(160,0,700,55);
+        textField1.setBounds(160,0,600,55);
         label2.setBounds(100,65,60,55);
-        textField2.setBounds(160,65,700,55);
+        textField2.setBounds(160,65,600,55);
         label3.setBounds(60,130,100,55);
-        textField3.setBounds(160,130,660,55);
+        textField3.setBounds(160,130,600,55);
         panel1.setLayout(null);
         panel2.add(button1);
         panel2.add(button2);
@@ -67,20 +70,24 @@ public class RegisterUI {
         button1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(textField2.getText()==textField3.getText()){
-                    UserController uc=new UserController();
-                    if(uc.register(textField1.getText(),textField2.getText())){
-                        Tooltip_two tt=new Tooltip_two();
-                        frame.dispose();
+                String password1=new String(textField2.getPassword());
+                String password2=new String(textField3.getPassword());
+                try {
+                    if (password1.equals(password2)) {
+                        UserController uc = new UserController();
+                        if (uc.register(textField2.getPassword().toString(), textField3.getPassword().toString())) {
+                            Tooltip_two tt = new Tooltip_two();
+                            frame.dispose();
+                        } else {
+                            Tooltip_three tt = new Tooltip_three();
+                        }
+                    } else {
+                        Tooltip_four tf = new Tooltip_four();
                     }
-                    else{
-                        Tooltip_three tt=new Tooltip_three();
-                    }
+                }catch (RemoteException e1){
+                    e1.printStackTrace();
                 }
-                else{
-                         Tooltip_four tf=new Tooltip_four();
-                }
-            }
+        }
         });
         button2.addActionListener(new ActionListener() {
             @Override

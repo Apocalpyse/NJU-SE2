@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.rmi.RemoteException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Enumeration;
@@ -1411,23 +1412,27 @@ public class HotelUI extends JFrame {
 		sure6.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				long ORDERGET = Long.parseLong(table6.getValueAt(table6.getSelectedRow(), 0).toString());
-				long USERIDGET = Long.parseLong(table6.getValueAt(table6.getSelectedRow(), 2).toString());
-				OrderController oc = new OrderController();
-				CustomerController cc = new CustomerController();
-				CustomerVO vo2 = cc.getCustomer(USERIDGET);
-				double credit = vo2.getCredit();
-				// 获取order与customer
-				double CREDITGET = Double.parseDouble(table6.getValueAt(table6.getSelectedRow(), 1).toString());
-				// 获取价格——信用值
-				if (c1.isSelected()) {// 50%
-					vo2.setCredit(credit + CREDITGET / 2);//
-				} else {
-					vo2.setCredit(credit + CREDITGET);//
-				} // 设定返回值
+				try {
+					long ORDERGET = Long.parseLong(table6.getValueAt(table6.getSelectedRow(), 0).toString());
+					long USERIDGET = Long.parseLong(table6.getValueAt(table6.getSelectedRow(), 2).toString());
+					OrderController oc = new OrderController();
+					CustomerController cc = new CustomerController();
+					CustomerVO vo2 = cc.getCustomer(USERIDGET);
+					double credit = vo2.getCredit();
+					// 获取order与customer
+					double CREDITGET = Double.parseDouble(table6.getValueAt(table6.getSelectedRow(), 1).toString());
+					// 获取价格——信用值
+					if (c1.isSelected()) {// 50%
+						vo2.setCredit(credit + CREDITGET / 2);//
+					} else {
+						vo2.setCredit(credit + CREDITGET);//
+					} // 设定返回值
 					// 取消异常订单
-				oc.cancelOrder(ORDERGET);
-				cc.changeCustomer(vo2);
+					oc.cancelOrder(ORDERGET);
+					cc.changeCustomer(vo2);
+				} catch (RemoteException exception) {
+					exception.printStackTrace();
+				}
 			}
 		});
 		cancle6.addActionListener(new ActionListener() {

@@ -142,9 +142,9 @@ public class PromotionData implements PromotionDataServiceSqlImpl{
 		sql = "update 酒店促销策略信息  set name='" + po.getPromotionName() + "',createdTime='" + po.getCreatedTime()
 				+ "',beginTime='" + po.getBeginTime() + "',endTime='" + po.getEndTime() + "',birthDiscount ='"
 				+ po.getBirthDiscount() + "',companyDiscount='" + po.getCompanyDiscount() + "',discount='"
-				+ po.getDiscount() + "',discountForLargerAmount='" + po.getDiscountForLargerAmount()
-				+ "',discountforlargeramount='" + po.getDiscountforlargeramount() + "',discountForMoreRoom='"
-				+ po.getDiscountForMoreRoom() + "',discountformoreroom'" + po.getDiscountformoreroom()
+				+ po.getDiscount() + "',largerAmount='" + po.getDiscountForLargerAmount()
+				+ "',discountForLargerAmount='" + po.getDiscountforlargeramount() + "',moreRoom='"
+				+ po.getDiscountForMoreRoom() + "',discountForMoreRoom'" + po.getDiscountformoreroom()
 				+ "',memberType='" + po.getMemberType() + "',usageState='" + po.getUsageState()+"',id'"+po.getID() + "' where ID='"
 				+ po.getID() + "'";
 

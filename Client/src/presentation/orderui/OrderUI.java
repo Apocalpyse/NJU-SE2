@@ -9,6 +9,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Arc2D;
+import java.rmi.RemoteException;
 
 /**
  * Created by 常德隆 on 2016/11/29.
@@ -171,36 +172,40 @@ public class OrderUI {
         button1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                OrderController oc=new OrderController();
-                OrderVO ovo=new OrderVO();
-                boolean isexistchild;
-                if(isExistChild.getSelectedItem().toString()=="是"){
-                    isexistchild=true;
-                }
-                else {
-                    isexistchild=false;
-                }
-                ovo.setCustomerName(customerName.getText());
-                ovo.setCustomerPhone(customerPhone.getText());
-                ovo.setHotelName(hotelName.getText());
-                ovo.setHotelPhone(hotelPhone.getText());
-                ovo.setHotelLocation(hotelLocation.getText());
-                ovo.setRoomType(roomType.getSelectedItem().toString());
-                ovo.setRoomNumber(Integer.parseInt(roomNumber.getText()));
-                ovo.setRoomPrice(Double.parseDouble(roomPrice.getText()));
-                ovo.setStartTime(startTime.getText());
-                ovo.setEndTime(endTime.getText());
-                ovo.setDiscount(Double.parseDouble(discount.getText()));
-                ovo.setIsExistChild(isexistchild);
-                ovo.setTotalPrice(Double.parseDouble(totalPrice.getText()));
-                ovo.setCustomerNumber(Integer.parseInt(customerNumber.getText()));
-                oc.createOrder(ovo);
-                if(oc.createOrder(ovo)){
-                    Tooltip_one to=new Tooltip_one();
-                    frame.dispose();
-                }
-                else{
-                    Tooltip_two tt=new Tooltip_two();
+                try {
+                    OrderController oc=new OrderController();
+                    OrderVO ovo=new OrderVO();
+                    boolean isexistchild;
+                    if(isExistChild.getSelectedItem().toString()=="是"){
+                        isexistchild=true;
+                    }
+                    else {
+                        isexistchild=false;
+                    }
+                    ovo.setCustomerName(customerName.getText());
+                    ovo.setCustomerPhone(customerPhone.getText());
+                    ovo.setHotelName(hotelName.getText());
+                    ovo.setHotelPhone(hotelPhone.getText());
+                    ovo.setHotelLocation(hotelLocation.getText());
+                    ovo.setRoomType(roomType.getSelectedItem().toString());
+                    ovo.setRoomNumber(Integer.parseInt(roomNumber.getText()));
+                    ovo.setRoomPrice(Double.parseDouble(roomPrice.getText()));
+                    ovo.setStartTime(startTime.getText());
+                    ovo.setEndTime(endTime.getText());
+                    ovo.setDiscount(Double.parseDouble(discount.getText()));
+                    ovo.setIsExistChild(isexistchild);
+                    ovo.setTotalPrice(Double.parseDouble(totalPrice.getText()));
+                    ovo.setCustomerNumber(Integer.parseInt(customerNumber.getText()));
+                    oc.createOrder(ovo);
+                    if(oc.createOrder(ovo)){
+                        Tooltip_one to=new Tooltip_one();
+                        frame.dispose();
+                    }
+                    else{
+                        Tooltip_two tt=new Tooltip_two();
+                    }
+                }catch (RemoteException e1){
+                    e1.printStackTrace();
                 }
             }
         });

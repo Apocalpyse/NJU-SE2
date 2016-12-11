@@ -12,6 +12,7 @@ import vo.CustomerVO;
 import vo.HotelVO;
 import vo.OrderVO;
 
+import java.rmi.RemoteException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -24,7 +25,7 @@ public class CustomerBL implements CustomerBusinessLogicService {
     HotelDataServiceSqlImpl hds;
     OrderDataServiceSqlImpl ods;
 
-    public CustomerVO getCustomer(long id){
+    public CustomerVO getCustomer(long id) throws RemoteException{
         CustomerVO vo=new CustomerVO();
         CustomerPO po;
 
@@ -40,7 +41,7 @@ public class CustomerBL implements CustomerBusinessLogicService {
         return vo;
     }
 
-    public boolean changeCustomer(CustomerVO vo){
+    public boolean changeCustomer(CustomerVO vo) throws RemoteException{
         boolean result=false;
         CustomerPO po;
         po=this.cds.find(vo.getId());
@@ -53,7 +54,7 @@ public class CustomerBL implements CustomerBusinessLogicService {
         return result;
     }
 
-    public boolean registerMember(CustomerVO vo){
+    public boolean registerMember(CustomerVO vo) throws RemoteException{
         CustomerPO po=new CustomerPO();
         po.setCustomerName(vo.getCustomerName());
         po.setCustomerPhone(vo.getCustomerPhone());
@@ -69,7 +70,7 @@ public class CustomerBL implements CustomerBusinessLogicService {
         return false;
     }
 
-    public HotelVO[] searchHotel(HotelVO vo){
+    public HotelVO[] searchHotel(HotelVO vo) throws RemoteException{
         HotelVO[] hvo=new HotelVO[10];
         long id=10000;
         int i=0;
@@ -87,7 +88,12 @@ public class CustomerBL implements CustomerBusinessLogicService {
         return hvo;
     }
 
-    public OrderVO[] viewOrder(long id){
+    public boolean addEvaluation(String score,String evaluation) throws RemoteException{
+
+        return true;
+    }
+
+    public OrderVO[] viewOrder(long id)throws RemoteException{
         CustomerPO p;
         OrderVO[] vo;
         OrderPO[] po;
@@ -115,7 +121,7 @@ public class CustomerBL implements CustomerBusinessLogicService {
         return vo;
     }
 
-    public CustomerVO viewCredit(long id){
+    public CustomerVO viewCredit(long id) throws RemoteException{
         CustomerPO po;
         CustomerVO vo=new CustomerVO();
         po=this.cds.find(id);
@@ -123,7 +129,7 @@ public class CustomerBL implements CustomerBusinessLogicService {
         return vo;
     }
 
-    public void recordCredit(long id,double creditChange){
+    public void recordCredit(long id,double creditChange)throws RemoteException{
         String[][] record=new String[100][3];
         CustomerPO po;
         po=this.cds.find(id);

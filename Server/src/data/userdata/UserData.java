@@ -19,7 +19,7 @@ public class UserData implements UserDataServiceSqlImpl{
 
     @Override
     public void update(UserPO po) {
-        sql="update 登录信息 set account='"+po.getAccount()+"',password='"+po.getPassword()+"',id='"+po.getId()+"'";
+        sql="update 登录信息 set myaccount='"+po.getAccount()+"',mypassword='"+po.getPassword()+"',id='"+po.getId()+"'";
 
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -65,7 +65,7 @@ public class UserData implements UserDataServiceSqlImpl{
 
     @Override
     public void insert(UserPO po) {
-        sql="insert into 登录信息(account,password,id) values ('"+po.getAccount()+"','"+po.getPassword()+"','"+po.getId()+"')";
+        sql="insert into 登录信息(myaccount,mypassword,id) values ('"+po.getAccount()+"','"+po.getPassword()+"','"+po.getId()+"')";
 
         try {
             Class.forName("com.mysql.jdbc.Driver");

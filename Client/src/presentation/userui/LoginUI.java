@@ -1,12 +1,18 @@
 package presentation.userui;
 
         import businesslogic.userbl.UserController;
+        import po.User;
+        import presentation.HotelUI;
         import presentation.customerui.MainUI;
+        import presentation.webmanagerui.WebManagerMainUI;
+        import presentation.webmanagerui.WebmarketerUI;
+        import vo.UserVO;
 
         import javax.swing.*;
         import java.awt.*;
         import java.awt.event.ActionEvent;
         import java.awt.event.ActionListener;
+        import java.rmi.RemoteException;
 
 /**
  * Created by 常德隆 on 2016/11/25.
@@ -19,7 +25,8 @@ public class LoginUI {
         mainFrame.setFont(font);
         JTextField account=new JTextField();
         account.setFont(font);
-        JTextField password=new JTextField();
+        JPasswordField password=new JPasswordField();
+        password.setEchoChar('*');
         password.setFont(font);
         JPanel panel3=new JPanel();
         JPanel panel1=new JPanel();
@@ -63,14 +70,30 @@ public class LoginUI {
         button1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                UserController uc=new UserController();
-                if(uc.login(account.getText(),password.getText())){
-                    MainUI ui=new MainUI(account.getText(),password.getText());
-                    mainFrame.dispose();
+                try {
+                    UserController uc = new UserController();
+                    if (uc.login(account.getText(), password.getPassword().toString())) {
+                        UserVO uvo = uc.getUser(account.getText());
+                        if (uvo.getUser() == User.customer) {
+                            MainUI ui = new MainUI(account.getText(), password.getPassword().toString());
+                        }
+                        if (uvo.getUser() == User.hotel) {
+                            HotelUI hui = new HotelUI();
+                        }
+                        if (uvo.getUser() == User.webmanager) {
+                            WebManagerMainUI wmui = new WebManagerMainUI();
+                        }
+                        if (uvo.getUser() == User.webworker) {
+                            WebmarketerUI wmkui = new WebmarketerUI();
+                        }
+                        mainFrame.dispose();
+                    } else {
+                        Tooltip_one to = new Tooltip_one();
+                    }
+                }catch (RemoteException e2){
+                    e2.printStackTrace();
                 }
-                else{
-                    Tooltip_one to=new Tooltip_one();
-                }
+
             }
         });
         button2.addActionListener(new ActionListener() {

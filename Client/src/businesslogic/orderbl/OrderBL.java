@@ -10,6 +10,7 @@ import dataservice.orderdataservice.OrderDataServiceSqlImpl;
 import po.*;
 import vo.OrderVO;
 
+import java.rmi.RemoteException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -18,7 +19,7 @@ public class OrderBL implements OrderBusinessLogicService{
     OrderDataServiceSqlImpl ods;
     private long OrderId=40000;
 
-    public boolean createOrder(OrderVO vo){
+    public boolean createOrder(OrderVO vo)throws RemoteException{
 
         OrderPO o=new OrderPO();
         PromotionBL pbl=new PromotionBL();
@@ -60,7 +61,7 @@ public class OrderBL implements OrderBusinessLogicService{
         return result;
     }
 
-    public OrderVO getOrder(long id){
+    public OrderVO getOrder(long id) throws RemoteException{
         OrderVO v=new OrderVO();
         OrderPO p;
         p=this.ods.find(id);
@@ -83,7 +84,7 @@ public class OrderBL implements OrderBusinessLogicService{
         return v;
     }
 
-    public double cancelOrder(long id) {
+    public double cancelOrder(long id) throws RemoteException {
         double result=0;
         OrderPO po;
         String now;
@@ -114,7 +115,7 @@ public class OrderBL implements OrderBusinessLogicService{
         return result;
     }
 
-    public double completeOrder(long id){
+    public double completeOrder(long id) throws RemoteException{
         double result=0;
         OrderPO po;
         po=this.ods.find(id);
@@ -124,7 +125,7 @@ public class OrderBL implements OrderBusinessLogicService{
         return result;
     }
 
-    public double recoverOrder(long id){
+    public double recoverOrder(long id) throws RemoteException{
         double result=0;
         OrderPO po;
         po=this.ods.find(id);
