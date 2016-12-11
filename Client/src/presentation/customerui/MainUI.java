@@ -346,7 +346,7 @@ public class MainUI {
                     Tooltip_one to=new Tooltip_one();
                 }
                 else{
-                   EvaluationUI eui=new EvaluationUI(obj1[table1.getSelectedRow()-1][3].toString());
+                   EvaluationUI eui=new EvaluationUI(obj1[table1.getSelectedRow()-1][3].toString(),1111);
                 }
             }
         });

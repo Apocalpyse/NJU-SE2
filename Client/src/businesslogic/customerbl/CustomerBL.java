@@ -81,6 +81,7 @@ public class CustomerBL implements CustomerBusinessLogicService {
                     hvo[i].setHotelPhone(this.hds.find(id).getHotelPhone());
                     hvo[i].setHotelLocation(this.hds.find(id).getHotelLocation());
                     hvo[i].setStars(this.hds.find(id).getStars());
+                    hvo[i].setID(id);
                     id++;
                 }
             }

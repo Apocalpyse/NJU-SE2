@@ -1,18 +1,20 @@
 package presentation.customerui;
 
 import businesslogic.customerbl.CustomerController;
+import businesslogic.hotelbl.HotelController;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 /**
  * Created by 常德隆 on 2016/12/11.
  */
 public class EvaluationUI {
-    public EvaluationUI(String hotelName){
+    public EvaluationUI(String hotelName,long hotelId){
         JFrame frame=new JFrame("评价");
         JPanel panel=new JPanel();
         JLabel label=new JLabel(hotelName);
@@ -49,8 +51,10 @@ public class EvaluationUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    CustomerController cc=new CustomerController();
-                    cc.addEvaluation(star.getSelectedItem().toString(),evaluation.getText());
+                    ArrayList Evaluation=new ArrayList();
+                    Evaluation.add(evaluation.getText());
+                    HotelController hc=new HotelController();
+                    hc.addEvaluation(hotelId,Evaluation);
                     Tooltip_two tt=new Tooltip_two();
                 }
                 catch (RemoteException e1){

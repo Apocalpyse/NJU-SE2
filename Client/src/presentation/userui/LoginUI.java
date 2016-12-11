@@ -4,8 +4,8 @@ package presentation.userui;
         import po.User;
         import presentation.HotelUI;
         import presentation.customerui.MainUI;
-        import presentation.webmanagerui.WebManagerMainUI;
-        import presentation.webmanagerui.WebmarketerUI;
+        import presentation.webmanagerui.WebManagerUI;
+        import presentation.webmarketerui.WebMarketerUI;
         import vo.UserVO;
 
         import javax.swing.*;
@@ -81,10 +81,10 @@ public class LoginUI {
                             HotelUI hui = new HotelUI();
                         }
                         if (uvo.getUser() == User.webmanager) {
-                            WebManagerMainUI wmui = new WebManagerMainUI();
+                            WebManagerUI wmui = new WebManagerUI();
                         }
                         if (uvo.getUser() == User.webworker) {
-                            WebmarketerUI wmkui = new WebmarketerUI();
+                            WebMarketerUI wmkui = new WebMarketerUI();
                         }
                         mainFrame.dispose();
                     } else {
