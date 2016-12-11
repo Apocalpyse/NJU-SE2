@@ -1,5 +1,6 @@
 package data.webworkerdata;
 
+import po.Authority;
 import po.CustomerPO;
 import po.Member;
 import po.WebworkerPO;
@@ -12,12 +13,12 @@ import dataservice.webworkerdataservice.WebworkerDataServiceSqlImpl;
 /**
  * Created by 常德隆 on 2016/11/20.
  */
-public class WebworkerData implements WebworkerDataServiceSqlImpl{
+public class WebworkerData implements WebworkerDataServiceSqlImpl {
 	private String sql;
 	private PreparedStatement preparedStatement;
 	private ResultSet resultSet;
 	private Connection con;
-	String url = "jdbc:mysql://127.0.0.1:3306;databaseName=DS_HRS;user=sa;password=";
+	String url = "jdbc:sqlserver://127.0.0.1:1368;databaseName=DS_HRS;user=sa;password=";
 
 	@Override
 	public void update(WebworkerPO po) {
@@ -25,7 +26,7 @@ public class WebworkerData implements WebworkerDataServiceSqlImpl{
 				+ "',authority'" + po.getAuthority() + "',id'" + po.getID() + "' where ID='" + po.getID() + "'";
 
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
+			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 			con = DriverManager.getConnection(this.url);
 			preparedStatement = con.prepareStatement(sql);
 			preparedStatement.executeUpdate();
@@ -41,7 +42,7 @@ public class WebworkerData implements WebworkerDataServiceSqlImpl{
 	public WebworkerPO find(long id) {
 		sql = "SELECT * from 网站营销人员信息 where ID='" + id + "'";
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
+			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 			con = DriverManager.getConnection(this.url);
 			preparedStatement = con.prepareStatement(sql);
 			resultSet = preparedStatement.executeQuery();
@@ -49,7 +50,13 @@ public class WebworkerData implements WebworkerDataServiceSqlImpl{
 			if (resultSet.next()) {
 				WebworkerPO cpo = new WebworkerPO();
 				cpo.setWebworkerName(resultSet.getString(1));
-
+				cpo.setWebworkerPhone(resultSet.getString(2));
+				if (resultSet.getString(3).equals("Marketer")) {
+					cpo.setAuthority(Authority.Marketer);
+				} else {
+					cpo.setAuthority(Authority.Manager);
+				}
+				cpo.setID(Long.parseLong(resultSet.getString(4)));
 				con.close();
 				return cpo;
 			} else {
@@ -71,7 +78,7 @@ public class WebworkerData implements WebworkerDataServiceSqlImpl{
 				+ po.getWebworkerPhone() + "','" + po.getAuthority() + "','" + po.getID() + "')";
 
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
+			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 			con = DriverManager.getConnection(this.url);
 			preparedStatement = con.prepareStatement(sql);
 			preparedStatement.executeUpdate();
@@ -87,7 +94,7 @@ public class WebworkerData implements WebworkerDataServiceSqlImpl{
 	public void delete(long id) {
 		sql = "delete from 网站营销人员信息  where ID='" + id + "'";
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
+			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 			con = DriverManager.getConnection(this.url);
 			PreparedStatement preparedStatement = con.prepareStatement(sql);
 			preparedStatement.executeUpdate();
