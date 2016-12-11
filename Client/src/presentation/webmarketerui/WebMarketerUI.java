@@ -2,6 +2,7 @@ package presentation.webmarketerui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -52,12 +53,13 @@ public class WebMarketerUI extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Font font = new Font("微软雅黑", Font.BOLD, 16);
+	private Font font = new Font("微软雅黑", Font.BOLD, 14);
 	Dimension preferredSize6 = new Dimension(70, 20);// 设置尺寸短button
 	Dimension preferredSize = new Dimension(85, 20);// 设置尺寸中button
 	Dimension preferredSize2 = new Dimension(95, 20);// 设置尺寸长button
 	Dimension preferredSize3 = new Dimension(800, 70);// 设置尺寸
 	Dimension preferredSize4 = new Dimension(45, 20);// 设置尺寸短label
+	Dimension preferredSize8 = new Dimension(60, 20);// 设置尺寸中label
 	Dimension preferredSize5 = new Dimension(75, 20);// 设置尺寸长label,textarea
 	Dimension preferredSize7 = new Dimension(850, 550);// 设置尺寸
 	private JPanel customer;
@@ -168,15 +170,21 @@ public class WebMarketerUI extends JFrame {
 	public WebMarketerUI() {
 
 		frame = new JFrame();
+		frame.setFont(font);
 		customer = new JPanel();
+		customer.setFont(font);
 		customer.setPreferredSize(preferredSize7);
 		member = new JPanel();
+		member.setFont(font);
 		member.setPreferredSize(preferredSize7);
 		order = new JPanel();
+		order.setFont(font);
 		order.setPreferredSize(preferredSize7);
 		promotion = new JPanel();
+		promotion.setFont(font);
 		promotion.setPreferredSize(preferredSize7);
 		tab = new JTabbedPane(JTabbedPane.LEFT);
+		tab.setFont(font);
 		// 容器
 
 		tab.add(promotion, "促销策略制定");
@@ -218,27 +226,37 @@ public class WebMarketerUI extends JFrame {
 		// 界面框架
 		// promotion
 		panel1 = new JPanel();
+		panel1.setFont(font);
 		panel1.setPreferredSize(preferredSize3);
 		SpringLayout layout = new SpringLayout();
 		panel1.setLayout(layout);
 		panel2 = new JPanel();
+		panel2.setFont(font);
 		panel3 = new JPanel();
 		panel3.setLayout(layout);
+		panel3.setFont(font);
 		panel3.setPreferredSize(preferredSize3);
 		//
 		idInput = new JTextField();
+		idInput.setFont(font);
 		idInput.setPreferredSize(preferredSize2);
 		search = new JButton("搜索");
+		search.setFont(font);
 		search.setPreferredSize(preferredSize6);
 		creat = new JButton("新建");
+		creat.setFont(font);
 		creat.setPreferredSize(preferredSize6);
 		edit = new JButton("编辑");
+		edit.setFont(font);
 		edit.setPreferredSize(preferredSize6);
 		apply = new JButton("应用");
+		apply.setFont(font);
 		apply.setPreferredSize(preferredSize6);
 		prePage = new JButton("上一页");
+		prePage.setFont(font);
 		prePage.setPreferredSize(preferredSize);
 		nextPage = new JButton("下一页");
+		nextPage.setFont(font);
 		nextPage.setPreferredSize(preferredSize);
 		//
 		Object[][] p = { { "600001", "A", "2016-11-29", "2016-11-30", "1%", "ALL", "ALL", "Using", "2016-11-28" },
@@ -257,6 +275,7 @@ public class WebMarketerUI extends JFrame {
 		};
 		;
 		JTable table = new JTable(defaultModel);
+		table.setFont(font);
 		table.setPreferredScrollableViewportSize(new Dimension((int) (panel1.getPreferredSize().getWidth() - 15), 220));
 		table.setRowHeight(25);
 
@@ -295,6 +314,7 @@ public class WebMarketerUI extends JFrame {
 		//
 		creditFrame = new JFrame();
 		creditFrame.setTitle("DS酒店管家");
+		creditFrame.setFont(font);
 		creditFrame.setSize(750, 220);
 		creditFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		creditFrame.setLayout(layout);
@@ -330,6 +350,22 @@ public class WebMarketerUI extends JFrame {
 		button1.setPreferredSize(preferredSize6);
 		JButton button2 = new JButton("取消");
 		button2.setPreferredSize(preferredSize6);
+		text1.setFont(font);
+		label1.setFont(font);
+		text2.setFont(font);
+		label2.setFont(font);
+		text3.setFont(font);
+		label3.setFont(font);
+		text4.setFont(font);
+		label4.setFont(font);
+		text5.setFont(font);
+		label5.setFont(font);
+		text6.setFont(font);
+		label6.setFont(font);
+		text7.setFont(font);
+		label7.setFont(font);
+		button1.setFont(font);
+		button2.setFont(font);
 
 		creditFrame.add(label1);
 		creditFrame.add(text1);
@@ -467,6 +503,7 @@ public class WebMarketerUI extends JFrame {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+					idInput.setText("");
 				}
 			}
 		});
@@ -690,51 +727,72 @@ public class WebMarketerUI extends JFrame {
 		// member
 		SpringLayout layout2 = new SpringLayout();
 		panel12 = new JPanel();
+		panel12.setFont(font);
 		panel12.setPreferredSize(preferredSize3);
 		panel12.setLayout(layout2);
 		panel22 = new JPanel();
+		panel22.setFont(font);
 		panel32 = new JPanel();
+		panel32.setFont(font);
 		panel32.setLayout(layout2);
 		panel32.setPreferredSize(preferredSize3);
 		//
 		ID2 = new Label("ID:");
+		ID2.setFont(font);
 		ID2.setPreferredSize(preferredSize4);
 		id2 = new Label("500001");
+		id2.setFont(font);
 		id2.setPreferredSize(preferredSize5);
 		NAME2 = new Label("NAME:");
-		NAME2.setPreferredSize(preferredSize4);
+		NAME2.setFont(font);
+		NAME2.setPreferredSize(preferredSize8);
 		name2 = new JTextArea("name");
+		name2.setFont(font);
 		name2.setPreferredSize(preferredSize5);
 		TIME2 = new Label("TIME:");
+		TIME2.setFont(font);
 		TIME2.setPreferredSize(preferredSize4);
 		time2 = new Label("2016-11-29");
+		time2.setFont(font);
 		time2.setPreferredSize(preferredSize5);
 		STATE2 = new Label("STATE:");
-		STATE2.setPreferredSize(preferredSize4);
+		STATE2.setFont(font);
+		STATE2.setPreferredSize(preferredSize8);
 		state2 = new Label("Using");
+		state2.setFont(font);
 		state2.setPreferredSize(preferredSize5);
 		idInput2 = new JTextField();
+		idInput2.setFont(font);
 		idInput2.setPreferredSize(preferredSize2);
 		search2 = new JButton("搜索");
+		search2.setFont(font);
 		search2.setPreferredSize(preferredSize6);
 		edit2 = new JButton("编辑");
+		edit2.setFont(font);
 		edit2.setPreferredSize(preferredSize6);
 		creat2 = new JButton("新建");
+		creat2.setFont(font);
 		creat2.setPreferredSize(preferredSize6);
 		save2 = new JButton("保存");
+		save2.setFont(font);
 		save2.setPreferredSize(preferredSize6);
 		apply2 = new JButton("应用");
+		apply2.setFont(font);
 		apply2.setPreferredSize(preferredSize6);
 		prePage2 = new JButton("上一个");
+		prePage2.setFont(font);
 		prePage2.setPreferredSize(preferredSize);
 		nextPage2 = new JButton("下一个");
+		nextPage2.setFont(font);
 		nextPage2.setPreferredSize(preferredSize);
 		newLine2 = new JButton("新增行");
+		newLine2.setFont(font);
 		newLine2.setPreferredSize(preferredSize);
 		delLine2 = new JButton("删除行");
+		delLine2.setFont(font);
 		delLine2.setPreferredSize(preferredSize);
 		//
-		Object[][] p2 = { { new Integer(0), new Integer(0), "1%" }, { new Integer(1), new Integer(1000), "2%" },
+		Object[][] p2 = { { new Integer(1), new Integer(1000), "2%" },
 				{ new Integer(2), new Integer(10000), "4%" }, { new Integer(3), new Integer(50000), "8%" },
 				{ new Integer(4), new Integer(100000), "10%" }, { new Integer(5), new Integer(200000), "15%" },
 				{ new Integer(6), new Integer(400000), "20%" }, { new Integer(7), new Integer(600000), "25%" },
@@ -742,6 +800,7 @@ public class WebMarketerUI extends JFrame {
 		String[] n2 = { "等级", "信用值(>=)", "折扣" };
 		DefaultTableModel defaultModel2 = new DefaultTableModel(p2, n2);
 		JTable table2 = new JTable(defaultModel2);
+		table2.setFont(font);
 		table2.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table2.setPreferredScrollableViewportSize(
 				new Dimension((int) (panel12.getPreferredSize().getWidth() - 15), 220));
@@ -759,7 +818,7 @@ public class WebMarketerUI extends JFrame {
 		layout2.putConstraint(SpringLayout.NORTH, search2, 25, SpringLayout.NORTH, panel12);
 		layout2.putConstraint(SpringLayout.NORTH, idInput2, 25, SpringLayout.NORTH, panel12);
 		layout2.putConstraint(SpringLayout.EAST, idInput2, -10, SpringLayout.WEST, search2);
-		layout2.putConstraint(SpringLayout.WEST, ID2, 20, SpringLayout.WEST, panel12);
+		layout2.putConstraint(SpringLayout.WEST, ID2, 10, SpringLayout.WEST, panel12);
 		layout2.putConstraint(SpringLayout.NORTH, ID2, 25, SpringLayout.NORTH, panel12);
 		layout2.putConstraint(SpringLayout.WEST, id2, 0, SpringLayout.EAST, ID2);
 		layout2.putConstraint(SpringLayout.NORTH, id2, 25, SpringLayout.NORTH, panel12);
@@ -807,7 +866,7 @@ public class WebMarketerUI extends JFrame {
 		layout2.putConstraint(SpringLayout.EAST, newLine2, -10, SpringLayout.WEST, delLine2);
 		layout2.putConstraint(SpringLayout.NORTH, newLine2, 10, SpringLayout.NORTH, panel32);
 
-		layout2.putConstraint(SpringLayout.WEST, STATE2, 20, SpringLayout.WEST, panel32);
+		layout2.putConstraint(SpringLayout.WEST, STATE2, 10, SpringLayout.WEST, panel32);
 		layout2.putConstraint(SpringLayout.NORTH, STATE2, 25, SpringLayout.NORTH, panel32);
 		layout2.putConstraint(SpringLayout.WEST, state2, 0, SpringLayout.EAST, STATE2);
 		layout2.putConstraint(SpringLayout.NORTH, state2, 25, SpringLayout.NORTH, panel32);
@@ -901,6 +960,7 @@ public class WebMarketerUI extends JFrame {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				idInput2.setText("");
 			}
 		});
 		delLine2.addActionListener(new ActionListener() {
@@ -1182,24 +1242,33 @@ public class WebMarketerUI extends JFrame {
 
 		// credit customer
 		creditFrame3 = new JFrame();
+		creditFrame3.setFont(font);
 		panel13 = new JPanel();
+		panel13.setFont(font);
 		panel13.setPreferredSize(preferredSize3);
 		SpringLayout layout3 = new SpringLayout();
 		panel13.setLayout(layout3);
 		panel23 = new JPanel();
+		panel23.setFont(font);
 		panel33 = new JPanel();
+		panel33.setFont(font);
 		panel33.setPreferredSize(preferredSize3);
 		//
 		idInput3 = new JTextField();
+		idInput3.setFont(font);
 		idInput3.setPreferredSize(preferredSize2);
 		search3 = new JButton("搜索");
+		search3.setFont(font);
 		search3.setPreferredSize(preferredSize6);
 		edit3 = new JButton("充值");
+		edit3.setFont(font);
 		edit3.setPreferredSize(preferredSize6);
 		edit3.setEnabled(false);
 		prePage3 = new JButton("上一页");
+		prePage3.setFont(font);
 		prePage3.setPreferredSize(preferredSize);
 		nextPage3 = new JButton("下一页");
+		nextPage3.setFont(font);
 		nextPage3.setPreferredSize(preferredSize);
 		//
 		Object[][] p3 = { { new Integer(666666), "A", new Integer(500), "07316734520", "NJU" },
@@ -1219,6 +1288,7 @@ public class WebMarketerUI extends JFrame {
 		;
 		;
 		JTable table3 = new JTable(defaultModel3);
+		table3.setFont(font);
 		table3.setPreferredScrollableViewportSize(
 				new Dimension((int) (panel12.getPreferredSize().getWidth() - 15), 220));
 		table3.setRowHeight(25);
@@ -1241,16 +1311,22 @@ public class WebMarketerUI extends JFrame {
 		//
 
 		AMOUNT3 = new JLabel("充值额度:");
+		AMOUNT3.setFont(font);
 		AMOUNT3.setPreferredSize(preferredSize5);
 		amount3 = new JTextArea();
+		amount3.setFont(font);
 		amount3.setPreferredSize(preferredSize2);
 		CUSTOMER3 = new JLabel("充值对象:");
+		CUSTOMER3.setFont(font);
 		CUSTOMER3.setPreferredSize(preferredSize5);
 		customer3 = new JLabel();
+		customer3.setFont(font);
 		customer3.setPreferredSize(preferredSize2);
 		sure3 = new JButton("确定");
+		sure3.setFont(font);
 		sure3.setPreferredSize(preferredSize6);
 		cancle3 = new JButton("取消");
+		cancle3.setFont(font);
 		cancle3.setPreferredSize(preferredSize6);
 		//
 		creditFrame3.setBackground(Color.darkGray);
@@ -1338,14 +1414,9 @@ public class WebMarketerUI extends JFrame {
 						CustomerController cc = new CustomerController();
 						CustomerVO vo = cc.getCustomer(ID);
 						// 获取数据
-						int num[] = vo.getCustomerPhone();
-						String phonenum = "";
-						for (int i = 0; i < num.length; i++) {
-							phonenum = phonenum + num[i];
-						}
 						//
-						String[] ob = { vo.getId() + "", vo.getCustomerName(), vo.getCredit() + "", phonenum,
-								vo.getCompanyName() };
+						String[] ob = { vo.getId() + "", vo.getCustomerName(), vo.getCredit() + "",
+								vo.getCustomerPhone(), vo.getCompanyName() };
 						// 处理值
 						for (int i = 0; i < ob.length; i++) {
 							table3.setValueAt(ob[i], 0, i);
@@ -1364,6 +1435,7 @@ public class WebMarketerUI extends JFrame {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+					idInput3.setText("");
 				}
 			}
 		});
@@ -1383,14 +1455,9 @@ public class WebMarketerUI extends JFrame {
 							CustomerVO vo = cc.getCustomer(ID);
 							ID = ID + 1;
 							// 获取数据
-							int num[] = vo.getCustomerPhone();
-							String phonenum = "";
-							for (int i = 0; i < num.length; i++) {
-								phonenum = phonenum + num[i];
-							}
 							//
-							String[] ob = { vo.getId() + "", vo.getCustomerName(), vo.getCredit() + "", phonenum,
-									vo.getCompanyName() };
+							String[] ob = { vo.getId() + "", vo.getCustomerName(), vo.getCredit() + "",
+									vo.getCustomerPhone(), vo.getCompanyName() };
 							// 处理值
 							for (int i = 0; i < ob.length; i++) {
 								table3.setValueAt(ob[i], count, i);
@@ -1423,14 +1490,8 @@ public class WebMarketerUI extends JFrame {
 							CustomerVO vo = cc.getCustomer(ID);
 							ID = ID + 1;
 							// 获取数据
-							int num[] = vo.getCustomerPhone();
-							String phonenum = "";
-							for (int i = 0; i < num.length; i++) {
-								phonenum = phonenum + num[i];
-							}
-							//
-							String[] ob = { vo.getId() + "", vo.getCustomerName(), vo.getCredit() + "", phonenum,
-									vo.getCompanyName() };
+							String[] ob = { vo.getId() + "", vo.getCustomerName(), vo.getCredit() + "",
+									vo.getCustomerPhone(), vo.getCompanyName() };
 							// 处理值
 							for (int i = 0; i < ob.length; i++) {
 								table3.setValueAt(ob[i], count, i);
@@ -1469,8 +1530,8 @@ public class WebMarketerUI extends JFrame {
 							CustomerController cc = new CustomerController();
 							CustomerVO vo = cc.getCustomer(Long.parseLong(customer3.getText()));
 							//
-							CREDITGET = vo.getCredit() + CREDITGET;
-							vo.setCredit(CREDITGET);
+							CREDITGET = Double.parseDouble(vo.getCredit()) + CREDITGET;
+							vo.setCredit(CREDITGET + "");
 							//
 							cc.changeCustomer(vo);
 							// 改变用户信用值
@@ -1504,15 +1565,20 @@ public class WebMarketerUI extends JFrame {
 		SpringLayout layout4 = new SpringLayout();
 
 		panel14 = new JPanel();
+		panel14.setFont(font);
 		panel14.setLayout(new BorderLayout());
 		panel24 = new JPanel();
+		panel24.setFont(font);
 		panel24.setLayout(new BorderLayout());
 		panel34 = new JPanel();
+		panel34.setFont(font);
 		panel34.setLayout(new BorderLayout());
 		panel44 = new JPanel();
+		panel44.setFont(font);
 		panel44.setLayout(new BorderLayout());
 
 		JTabbedPane tab4 = new JTabbedPane();
+		tab4.setFont(font);
 		// 容器
 		tab4.add(panel14, "未处理订单");
 		tab4.add(panel24, "已完成订单");
@@ -1532,13 +1598,17 @@ public class WebMarketerUI extends JFrame {
 		p34.setPreferredSize(preferredSize3);
 		//
 		idInput4 = new JTextField();
+		idInput4.setFont(font);
 		idInput4.setPreferredSize(preferredSize2);
 		search4 = new JButton("搜索");
+		search4.setFont(font);
 		search4.setPreferredSize(preferredSize6);
 		search4.setMaximumSize(preferredSize);
 		prePage4 = new JButton("上一页");
+		prePage4.setFont(font);
 		prePage4.setPreferredSize(preferredSize);
 		nextPage4 = new JButton("下一页");
+		nextPage.setFont(font);
 		nextPage4.setPreferredSize(preferredSize);
 		//
 		Object[][] p4 = {
@@ -1569,6 +1639,7 @@ public class WebMarketerUI extends JFrame {
 		JTable table4 = new JTable(defaultModel4);
 		table4.setPreferredScrollableViewportSize(
 				new Dimension((int) (panel12.getPreferredSize().getWidth() - 15), 220));
+		table4.setFont(font);
 		table4.setRowHeight(25);
 		table4.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		JScrollPane scrollPane4 = new JScrollPane(table4);
@@ -1637,6 +1708,7 @@ public class WebMarketerUI extends JFrame {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+					idInput4.setText("");
 				}
 
 			}
@@ -1716,21 +1788,28 @@ public class WebMarketerUI extends JFrame {
 		// 已完成订单
 
 		p15 = new JPanel();
+		p15.setFont(font);
 		p15.setLayout(layout4);
 		p15.setPreferredSize(preferredSize3);
 		p25 = new JPanel();
+		p25.setFont(font);
 		p35 = new JPanel();
+		p35.setFont(font);
 		p35.setLayout(layout4);
 		p35.setPreferredSize(preferredSize3);
 		//
 		idInput5 = new JTextField();
+		idInput5.setFont(font);
 		idInput5.setPreferredSize(preferredSize2);
 		search5 = new JButton("搜索");
+		search5.setFont(font);
 		search5.setPreferredSize(preferredSize6);
 		search5.setMaximumSize(preferredSize);
 		prePage5 = new JButton("上一页");
+		prePage5.setFont(font);
 		prePage5.setPreferredSize(preferredSize);
 		nextPage5 = new JButton("下一页");
+		nextPage5.setFont(font);
 		nextPage5.setPreferredSize(preferredSize);
 		//
 		Object[][] p5 = {
@@ -1759,6 +1838,7 @@ public class WebMarketerUI extends JFrame {
 		;
 		;
 		JTable table5 = new JTable(defaultModel5);
+		table5.setFont(font);
 		table5.setPreferredScrollableViewportSize(
 				new Dimension((int) (panel12.getPreferredSize().getWidth() - 15), 220));
 		table5.setRowHeight(25);
@@ -1827,6 +1907,7 @@ public class WebMarketerUI extends JFrame {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+					idInput5.setText("");
 				}
 			}
 		});
@@ -1903,23 +1984,31 @@ public class WebMarketerUI extends JFrame {
 
 		// 异常订单处理
 		p16 = new JPanel();
+		p16.setFont(font);
 		p16.setLayout(layout4);
 		p16.setPreferredSize(preferredSize3);
 		p26 = new JPanel();
+		p26.setFont(font);
 		p36 = new JPanel();
 		p36.setLayout(layout4);
+		p36.setFont(font);
 		p36.setPreferredSize(preferredSize3);
 		//
 		idInput6 = new JTextField();
+		idInput6.setFont(font);
 		idInput6.setPreferredSize(preferredSize2);
 		search6 = new JButton("搜索");
+		search6.setFont(font);
 		search6.setPreferredSize(preferredSize6);
 		search6.setMaximumSize(preferredSize);
 		prePage6 = new JButton("上一页");
+		prePage6.setFont(font);
 		prePage6.setPreferredSize(preferredSize);
 		nextPage6 = new JButton("下一页");
+		nextPage6.setFont(font);
 		nextPage6.setPreferredSize(preferredSize);
 		edit6 = new JButton("撤销异常");
+		edit6.setFont(font);
 		edit6.setPreferredSize(preferredSize2);
 		//
 		Object[][] p6 = {
@@ -1948,6 +2037,7 @@ public class WebMarketerUI extends JFrame {
 		;
 		;
 		JTable table6 = new JTable(defaultModel6);
+		table6.setFont(font);
 		table6.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table6.setPreferredScrollableViewportSize(
 				new Dimension((int) (panel12.getPreferredSize().getWidth() - 15), 220));
@@ -1966,7 +2056,7 @@ public class WebMarketerUI extends JFrame {
 		p36.add(prePage6);
 		p36.add(nextPage6);
 		p36.add(edit6);
-		edit6.setVisible(false);// 选中异常订单时设为true
+		edit6.setEnabled(false);// 选中异常订单时设为true
 		layout4.putConstraint(SpringLayout.WEST, prePage6,
 				(int) (p36.getPreferredSize().getWidth() / 2 - prePage6.getPreferredSize().getWidth() - 5),
 				SpringLayout.WEST, p36);
@@ -1982,6 +2072,7 @@ public class WebMarketerUI extends JFrame {
 
 		// 下为信用返回界面
 		creditFrame6 = new JFrame();
+		creditFrame6.setFont(font);
 		creditFrame6.setBackground(Color.darkGray);
 		creditFrame6.setTitle("DS酒店管家");
 		creditFrame6.setSize(400, 250);
@@ -2015,13 +2106,18 @@ public class WebMarketerUI extends JFrame {
 
 		JPanel subPanel = new JPanel();
 		subPanel.setLayout(layout4);
+		subPanel.setFont(font);
 		subPanel.setBorder(BorderFactory.createTitledBorder("请选择合适的信用返回额度:"));
 		JButton sure6 = new JButton("确定");
+		sure6.setFont(font);
 		sure6.setPreferredSize(preferredSize6);
 		JButton cancle6 = new JButton("取消");
+		cancle6.setFont(font);
 		cancle6.setPreferredSize(preferredSize6);
 		JRadioButton c1 = new JRadioButton("50%", true);
+		c1.setFont(font);
 		JRadioButton c2 = new JRadioButton("100%", false);
+		c2.setFont(font);
 		subPanel.add(c1);
 		subPanel.add(c2);
 		subPanel.add(sure6);
@@ -2045,7 +2141,7 @@ public class WebMarketerUI extends JFrame {
 			public void mouseClicked(java.awt.event.MouseEvent e) {
 				if ((table6.getValueAt(table6.getSelectedRow(), table6.getColumnCount() - 1).toString()).toLowerCase()
 						.equals("abnormal")) {
-					edit6.setVisible(true);// 选中异常订单时设为true
+					edit6.setEnabled(true);// 选中异常订单时设为true
 				}
 			}
 		});
@@ -2083,6 +2179,7 @@ public class WebMarketerUI extends JFrame {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+					idInput.setText("");
 				}
 			}
 		});
@@ -2185,14 +2282,14 @@ public class WebMarketerUI extends JFrame {
 					OrderController oc = new OrderController();
 					CustomerController cc = new CustomerController();
 					CustomerVO vo2 = cc.getCustomer(USERIDGET);
-					double credit = vo2.getCredit();
+					double credit = Double.parseDouble(vo2.getCredit());
 					// 获取order与customer
 					double CREDITGET = Double.parseDouble(table6.getValueAt(table6.getSelectedRow(), 1).toString());
 					// 获取价格——信用值
 					if (c1.isSelected()) {// 50%
-						vo2.setCredit(credit + CREDITGET / 2);//
+						vo2.setCredit((credit + CREDITGET / 2) + "");//
 					} else {
-						vo2.setCredit(credit + CREDITGET);//
+						vo2.setCredit((credit + CREDITGET) + "");//
 					} // 设定返回值
 						// 取消异常订单
 					oc.cancelOrder(ORDERGET);
@@ -2216,21 +2313,28 @@ public class WebMarketerUI extends JFrame {
 
 		// 已取消订单
 		p17 = new JPanel();
+		p17.setFont(font);
 		p17.setLayout(layout4);
 		p17.setPreferredSize(preferredSize3);
 		p27 = new JPanel();
+		p27.setFont(font);
 		p37 = new JPanel();
+		p37.setFont(font);
 		p37.setLayout(layout4);
 		p37.setPreferredSize(preferredSize3);
 		//
 		idInput7 = new JTextField();
+		idInput7.setFont(font);
 		idInput7.setPreferredSize(preferredSize2);
 		search7 = new JButton("搜索");
+		search7.setFont(font);
 		search7.setPreferredSize(preferredSize6);
 		search7.setMaximumSize(preferredSize);
 		prePage7 = new JButton("上一页");
+		prePage7.setFont(font);
 		prePage7.setPreferredSize(preferredSize);
 		nextPage7 = new JButton("下一页");
+		nextPage7.setFont(font);
 		nextPage7.setPreferredSize(preferredSize);
 		//
 		Object[][] p7 = {
@@ -2259,6 +2363,7 @@ public class WebMarketerUI extends JFrame {
 		;
 		;
 		JTable table7 = new JTable(defaultModel7);
+		table7.setFont(font);
 		table7.setPreferredScrollableViewportSize(
 				new Dimension((int) (panel12.getPreferredSize().getWidth() - 15), 220));
 		table7.setRowHeight(25);
@@ -2328,6 +2433,7 @@ public class WebMarketerUI extends JFrame {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+					idInput7.setText("");
 				}
 			}
 		});

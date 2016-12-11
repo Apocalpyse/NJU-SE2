@@ -47,7 +47,7 @@ public class WebManagerUI extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Font font = new Font("微软雅黑", Font.BOLD, 16);
+	private Font font = new Font("微软雅黑", Font.BOLD, 14);
 	Dimension preferredSize6 = new Dimension(70, 20);// 设置尺寸短button
 	Dimension preferredSize = new Dimension(85, 20);// 设置尺寸中button
 	Dimension preferredSize2 = new Dimension(95, 20);// 设置尺寸长button
@@ -117,13 +117,18 @@ public class WebManagerUI extends JFrame {
 
 	public WebManagerUI() {
 		frame = new JFrame();
+		frame.setFont(font);
 		customer = new JPanel();
+		customer.setFont(font);
 		customer.setPreferredSize(preferredSize7);
 		hotel = new JPanel();
+		hotel.setFont(font);
 		hotel.setPreferredSize(preferredSize7);
 		hotelworker = new JPanel();
+		hotelworker.setFont(font);
 		hotelworker.setPreferredSize(preferredSize7);
 		webmarketer = new JPanel();
+		webmarketer.setFont(font);
 		webmarketer.setPreferredSize(preferredSize7);
 		tab = new JTabbedPane(JTabbedPane.LEFT);
 		// 容器
@@ -171,6 +176,9 @@ public class WebManagerUI extends JFrame {
 		panel2 = new JPanel();
 		panel3 = new JPanel();
 		panel3.setPreferredSize(preferredSize3);
+		panel1.setFont(font);
+		panel2.setFont(font);
+		panel3.setFont(font);
 		//
 		idInput = new JTextField();
 		idInput.setPreferredSize(preferredSize2);
@@ -182,6 +190,11 @@ public class WebManagerUI extends JFrame {
 		prePage.setPreferredSize(preferredSize);
 		nextPage = new JButton("下一页");
 		nextPage.setPreferredSize(preferredSize);
+		idInput.setFont(font);
+		search.setFont(font);
+		edit.setFont(font);
+		prePage.setFont(font);
+		nextPage.setFont(font);
 		//
 		Object[][] p = { { new Integer(666666), "A", new Integer(500), "07316734520", "NJU" },
 				{ new Integer(666667), "B", new Integer(700), "13007567292", "NJU" },
@@ -199,6 +212,7 @@ public class WebManagerUI extends JFrame {
 		};
 		;
 		JTable table = new JTable(defaultModel);
+		table.setFont(font);
 		table.setPreferredScrollableViewportSize(new Dimension(780, 240));
 		table.setRowHeight(25);
 		JScrollPane scrollPane = new JScrollPane(table);
@@ -269,6 +283,20 @@ public class WebManagerUI extends JFrame {
 		button1.setPreferredSize(preferredSize6);
 		JButton button2 = new JButton("取消");
 		button2.setPreferredSize(preferredSize6);
+		text1.setFont(font);
+		text2.setFont(font);
+		text3.setFont(font);
+		text4.setFont(font);
+		text5.setFont(font);
+		text6.setFont(font);
+		label1.setFont(font);
+		label2.setFont(font);
+		label3.setFont(font);
+		label4.setFont(font);
+		label5.setFont(font);
+		label6.setFont(font);
+		button1.setFont(font);
+		button2.setFont(font);
 		// 添加
 		creditFrame.add(label1);
 		creditFrame.add(text1);
@@ -361,12 +389,7 @@ public class WebManagerUI extends JFrame {
 						long num = Long.parseLong(idInput.getText().toString());
 						CustomerVO vo = pc.getCustomer(num);
 						// 获取
-						String PHONE = "";
-						int phone[] = vo.getCustomerPhone().;
-						for (int i = 0; i < phone.length; i++) {
-							PHONE = PHONE + phone[i];
-						}
-						String[] ob = { vo.getId() + "", vo.getCustomerName(), vo.getCredit() + "", PHONE,
+						String[] ob = { vo.getId() + "", vo.getCustomerName(), vo.getCredit() + "", vo.getCustomerPhone(),
 								vo.getCompanyName() };
 						// 处理值
 						for (int i = 0; i < ob.length; i++) {
@@ -408,13 +431,8 @@ public class WebManagerUI extends JFrame {
 							CustomerVO vo = cc.getCustomer(ID);
 							ID = ID + 1;
 							// 获取数据
-							int num[] = vo.getCustomerPhone();
-							String phonenum = "";
-							for (int i = 0; i < num.length; i++) {
-								phonenum = phonenum + num[i];
-							}
 							//
-							String[] ob = { vo.getId() + "", vo.getCustomerName(), vo.getCredit() + "", phonenum,
+							String[] ob = { vo.getId() + "", vo.getCustomerName(), vo.getCredit() + "", vo.getCustomerPhone(),
 									vo.getCompanyName() };
 							// 处理值
 							for (int i = 0; i < ob.length; i++) {
@@ -451,13 +469,8 @@ public class WebManagerUI extends JFrame {
 							CustomerVO vo = cc.getCustomer(ID);
 							ID = ID + 1;
 							// 获取数据
-							int num[] = vo.getCustomerPhone();
-							String phonenum = "";
-							for (int i = 0; i < num.length; i++) {
-								phonenum = phonenum + num[i];
-							}
 							//
-							String[] ob = { vo.getId() + "", vo.getCustomerName(), vo.getCredit() + "", phonenum,
+							String[] ob = { vo.getId() + "", vo.getCustomerName(), vo.getCredit() + "", vo.getCustomerPhone(),
 									vo.getCompanyName() };
 							// 处理值
 							for (int i = 0; i < ob.length; i++) {
@@ -518,11 +531,7 @@ public class WebManagerUI extends JFrame {
 					vo.setCustomerName(text2.getText());
 					vo.setCredit(text3.getText());
 					//
-					int PHONE[] = new int[text4.getText().length()];
-					for (int i = 0; i < PHONE.length; i++) {
-						PHONE[i] = text4.getText().charAt(i) - '0';
-					} // 转化
-					vo.setCustomerPhone(PHONE);
+					vo.setCustomerPhone(text4.getText());
 					// 处理值
 					vo.setCompanyName(text5.getText());
 					cc.changeCustomer(vo);
@@ -546,23 +555,32 @@ public class WebManagerUI extends JFrame {
 
 		// 酒店信息管理
 		panel12 = new JPanel();
+		panel12.setFont(font);
 		panel12.setPreferredSize(preferredSize3);
 		panel12.setLayout(layout);
 		panel22 = new JPanel();
+		panel22.setFont(font);
 		panel32 = new JPanel();
+		panel32.setFont(font);
 		panel32.setPreferredSize(preferredSize3);
 		//
 		idInput2 = new JTextField();
+		idInput2.setFont(font);
 		idInput2.setPreferredSize(preferredSize2);
 		search2 = new JButton("搜索");
+		search2.setFont(font);
 		search2.setPreferredSize(preferredSize6);
 		creat2 = new JButton("新增");
+		creat2.setFont(font);
 		creat2.setPreferredSize(preferredSize6);
 		edit2 = new JButton("编辑");
+		edit2.setFont(font);
 		edit2.setPreferredSize(preferredSize6);
 		prePage2 = new JButton("上一页");
+		prePage2.setFont(font);
 		prePage2.setPreferredSize(preferredSize);
 		nextPage2 = new JButton("下一页");
+		nextPage2.setFont(font);
 		nextPage2.setPreferredSize(preferredSize);
 		//
 		Object[][] p2 = { { new Integer(666666), "A", "07316734520", "仙林", "南大仙林", "4", "8.7", "NJU" },
@@ -581,6 +599,7 @@ public class WebManagerUI extends JFrame {
 		};
 		;
 		JTable table2 = new JTable(defaultModel2);
+		table2.setFont(font);
 		table2.setPreferredScrollableViewportSize(new Dimension(780, 240));
 		table2.setRowHeight(25);
 		JScrollPane scrollPane2 = new JScrollPane(table2);
@@ -658,7 +677,24 @@ public class WebManagerUI extends JFrame {
 		button12.setPreferredSize(preferredSize6);
 		JButton button22 = new JButton("取消");
 		button22.setPreferredSize(preferredSize6);
-
+		text12.setFont(font);
+		text22.setFont(font);
+		text32.setFont(font);
+		text42.setFont(font);
+		text52.setFont(font);
+		text62.setFont(font);
+		text72.setFont(font);
+		text82.setFont(font);
+		label12.setFont(font);
+		label22.setFont(font);
+		label32.setFont(font);
+		label42.setFont(font);
+		label52.setFont(font);
+		label62.setFont(font);
+		label72.setFont(font);
+		label82.setFont(font);
+		button12.setFont(font);
+		button22.setFont(font);
 		creditFrame2.add(label12);
 		creditFrame2.add(text12);
 		text12.setEditable(false);
@@ -936,21 +972,29 @@ public class WebManagerUI extends JFrame {
 
 		// 酒店管理人员管理
 		panel13 = new JPanel();
+		panel13.setFont(font);
 		panel13.setPreferredSize(preferredSize3);
 		panel13.setLayout(layout);
 		panel23 = new JPanel();
+		panel23.setFont(font);
 		panel33 = new JPanel();
+		panel33.setFont(font);
 		panel33.setPreferredSize(preferredSize3);
 		//
 		idInput3 = new JTextField();
+		idInput3.setFont(font);
 		idInput3.setPreferredSize(preferredSize2);
 		search3 = new JButton("搜索");
+		search3.setFont(font);
 		search3.setPreferredSize(preferredSize6);
 		edit3 = new JButton("编辑");
+		edit3.setFont(font);
 		edit3.setPreferredSize(preferredSize6);
 		prePage3 = new JButton("上一页");
+		prePage3.setFont(font);
 		prePage3.setPreferredSize(preferredSize);
 		nextPage3 = new JButton("下一页");
+		nextPage3.setFont(font);
 		nextPage3.setPreferredSize(preferredSize);
 		//
 		Object[][] p3 = { { new Integer(666666), "A", "07316734520", "NJU-尼玛啊" },
@@ -969,6 +1013,7 @@ public class WebManagerUI extends JFrame {
 		};
 		;
 		JTable table3 = new JTable(defaultModel3);
+		table3.setFont(font);
 		table3.setPreferredScrollableViewportSize(new Dimension(780, 220));
 		table3.setRowHeight(25);
 		JScrollPane scrollPane3 = new JScrollPane(table3);
@@ -1020,7 +1065,18 @@ public class WebManagerUI extends JFrame {
 		button13.setPreferredSize(preferredSize6);
 		JButton button23 = new JButton("取消");
 		button23.setPreferredSize(preferredSize6);
-
+		text13.setFont(font);
+		text23.setFont(font);
+		text33.setFont(font);
+		text43.setFont(font);
+		text53.setFont(font);
+		label13.setFont(font);
+		label23.setFont(font);
+		label33.setFont(font);
+		label43.setFont(font);
+		label53.setFont(font);
+		button13.setFont(font);
+		button23.setFont(font);
 		creditFrame3.add(label13);
 		creditFrame3.add(text13);
 		text13.setEditable(false);
@@ -1266,23 +1322,32 @@ public class WebManagerUI extends JFrame {
 		// 酒店管理人员管理
 		// 网站营销人员
 		panel14 = new JPanel();
+		panel14.setFont(font);
 		panel14.setPreferredSize(preferredSize3);
 		panel14.setLayout(layout);
 		panel24 = new JPanel();
+		panel24.setFont(font);
 		panel34 = new JPanel();
+		panel34.setFont(font);
 		panel34.setPreferredSize(preferredSize3);
 		//
 		idInput4 = new JTextField();
+		idInput4.setFont(font);
 		idInput4.setPreferredSize(preferredSize2);
 		search4 = new JButton("搜索");
+		search4.setFont(font);
 		search4.setPreferredSize(preferredSize6);
 		creat4 = new JButton("新增");
+		creat4.setFont(font);
 		creat4.setPreferredSize(preferredSize6);
 		edit4 = new JButton("编辑");
+		edit4.setFont(font);
 		edit4.setPreferredSize(preferredSize6);
 		prePage4 = new JButton("上一页");
+		prePage4.setFont(font);
 		prePage4.setPreferredSize(preferredSize);
 		nextPage4 = new JButton("下一页");
+		nextPage4.setFont(font);
 		nextPage4.setPreferredSize(preferredSize);
 		//
 		Object[][] p4 = { { new Integer(666666), "A", "07316734520", "NJU-尼玛啊" },
@@ -1301,6 +1366,7 @@ public class WebManagerUI extends JFrame {
 		};
 		;
 		JTable table4 = new JTable(defaultModel4);
+		table4.setFont(font);
 		table4.setPreferredScrollableViewportSize(new Dimension(780, 220));
 		table4.setRowHeight(25);
 		JScrollPane scrollPane4 = new JScrollPane(table4);
@@ -1350,6 +1416,16 @@ public class WebManagerUI extends JFrame {
 		button14.setPreferredSize(preferredSize6);
 		JButton button24 = new JButton("取消");
 		button24.setPreferredSize(preferredSize6);
+		text14.setFont(font);
+		text24.setFont(font);
+		text34.setFont(font);
+		text44.setFont(font);
+		label14.setFont(font);
+		label24.setFont(font);
+		label34.setFont(font);
+		label44.setFont(font);
+		button14.setFont(font);
+		button24.setFont(font);
 
 		creditFrame4.add(label14);
 		creditFrame4.add(text14);
