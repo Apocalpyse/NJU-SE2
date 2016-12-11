@@ -1,4 +1,4 @@
-package presentation;
+package presentation.hotelui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -928,57 +928,64 @@ public class HotelUI extends JFrame {
 		sure4.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				long ORDERGET = Long.parseLong(table4.getValueAt(table4.getSelectedRow(), 0).toString());
-				String HOTELGET = table4.getValueAt(table4.getSelectedRow(), 5).toString();
-				OrderController oc = new OrderController();
-				OrderVO ov=new OrderVO();
-				ov=oc.getOrder(ORDERGET);
-				oc.cancelOrder(ORDERGET);
-				RoomController rc = new RoomController();
-				RoomVO rv0=new RoomVO();
-				rv0=rc.getRoom(Long.parseLong(HOTELGET+"0"));
+				try{
+					long ORDERGET = Long.parseLong(table4.getValueAt(table4.getSelectedRow(), 0).toString());
+					String HOTELGET = table4.getValueAt(table4.getSelectedRow(), 5).toString();
+					OrderController oc = new OrderController();
+					OrderVO ov=new OrderVO();
+					ov=oc.getOrder(ORDERGET);
+					oc.cancelOrder(ORDERGET);
+					RoomController rc = new RoomController();
+					RoomVO rv0=new RoomVO();
+					rv0=rc.getRoom(Long.parseLong(HOTELGET+"0"));
+					
+					RoomVO rv1=new RoomVO();
+					rv0=rc.getRoom(Long.parseLong(HOTELGET+"1"));
+					
+					RoomVO rv2=new RoomVO();
+					rv0=rc.getRoom(Long.parseLong(HOTELGET+"2"));
+					
+					RoomVO rv3=new RoomVO();
+					rv0=rc.getRoom(Long.parseLong(HOTELGET+"3"));
+
+					RoomVO rv4=new RoomVO();
+					rv0=rc.getRoom(Long.parseLong(HOTELGET+"4"));
+					
+					RoomVO rv5=new RoomVO();
+					rv0=rc.getRoom(Long.parseLong(HOTELGET+"5"));
+
+					if(rv0.getRoomType()==ov.getRoomType()){
+						rv0.setRoomAccessNumber(rv0.getRoomAccessNumber()-ov.getRoomNumber());
+					}
+					if(rv1.getRoomType()==ov.getRoomType()){
+						rv1.setRoomAccessNumber(rv1.getRoomAccessNumber()-ov.getRoomNumber());
+					}
+					if(rv2.getRoomType()==ov.getRoomType()){
+						rv2.setRoomAccessNumber(rv2.getRoomAccessNumber()-ov.getRoomNumber());
+					}
+					if(rv3.getRoomType()==ov.getRoomType()){
+						rv3.setRoomAccessNumber(rv3.getRoomAccessNumber()-ov.getRoomNumber());
+					}
+					if(rv4.getRoomType()==ov.getRoomType()){
+						rv4.setRoomAccessNumber(rv4.getRoomAccessNumber()-ov.getRoomNumber());
+					}
+					if(rv5.getRoomType()==ov.getRoomType()){
+						rv5.setRoomAccessNumber(rv5.getRoomAccessNumber()-ov.getRoomNumber());
+					}
+					
+					rc.changeRoom(rv0);
+					rc.changeRoom(rv1);
+					rc.changeRoom(rv2);
+					rc.changeRoom(rv3);
+					rc.changeRoom(rv4);
+					rc.changeRoom(rv5);
+				}
 				
-				RoomVO rv1=new RoomVO();
-				rv0=rc.getRoom(Long.parseLong(HOTELGET+"1"));
-				
-				RoomVO rv2=new RoomVO();
-				rv0=rc.getRoom(Long.parseLong(HOTELGET+"2"));
-				
-				RoomVO rv3=new RoomVO();
-				rv0=rc.getRoom(Long.parseLong(HOTELGET+"3"));
-			
-				RoomVO rv4=new RoomVO();
-				rv0=rc.getRoom(Long.parseLong(HOTELGET+"4"));
-				
-				RoomVO rv5=new RoomVO();
-				rv0=rc.getRoom(Long.parseLong(HOTELGET+"5"));
-		
-				if(rv0.getRoomType()==ov.getRoomType()){
-					rv0.setRoomAccessNumber(rv0.getRoomAccessNumber()-ov.getRoomNumber());
+				catch(RemoteException e){
+					e.printStackTrace();
 				}
-				if(rv1.getRoomType()==ov.getRoomType()){
-					rv1.setRoomAccessNumber(rv1.getRoomAccessNumber()-ov.getRoomNumber());
-				}
-				if(rv2.getRoomType()==ov.getRoomType()){
-					rv2.setRoomAccessNumber(rv2.getRoomAccessNumber()-ov.getRoomNumber());
-				}
-				if(rv3.getRoomType()==ov.getRoomType()){
-					rv3.setRoomAccessNumber(rv3.getRoomAccessNumber()-ov.getRoomNumber());
-				}
-				if(rv4.getRoomType()==ov.getRoomType()){
-					rv4.setRoomAccessNumber(rv4.getRoomAccessNumber()-ov.getRoomNumber());
-				}
-				if(rv5.getRoomType()==ov.getRoomType()){
-					rv5.setRoomAccessNumber(rv5.getRoomAccessNumber()-ov.getRoomNumber());
-				}
-				
-				rc.changeRoom(rv0);
-				rc.changeRoom(rv1);
-				rc.changeRoom(rv2);
-				rc.changeRoom(rv3);
-				rc.changeRoom(rv4);
-				rc.changeRoom(rv5);
 			}
+				
 		});
 		
 		cancle4.addActionListener(new ActionListener() {
@@ -1427,11 +1434,12 @@ public class HotelUI extends JFrame {
 					} else {
 						vo2.setCredit(credit + CREDITGET);//
 					} // 设定返回值
-					// 取消异常订单
+						// 取消异常订单
 					oc.cancelOrder(ORDERGET);
 					cc.changeCustomer(vo2);
-				} catch (RemoteException exception) {
-					exception.printStackTrace();
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 			}
 		});
@@ -1634,17 +1642,22 @@ public class HotelUI extends JFrame {
 			jth14.setEditable(false);
 			jth15.setEditable(false);
 			
-			HotelVO hvo=new HotelVO();
-			hvo.setHotelManager(jth.getText());
-			hvo.setHotelManPhone(jth01.getText());
-			hvo.setHotelName(jth11.getText());
-			hvo.setHotelPhone(jth15.getText());
-			hvo.setHotelLocation(jth13.getText());
-			hvo.setInstruction(jth14.getText());
-			hvo.settradeArea(String.valueOf(jc2.getSelectedItem()));
-			hvo.setStars(String.valueOf(jc6.getSelectedIndex()));
-			/*HotelController hc=new HotelController();
-			hc.changeHotel(hvo);*/
+			try {
+				HotelVO hvo=new HotelVO();
+				hvo.setHotelManager(jth.getText());
+				hvo.setHotelManPhone(jth01.getText());
+				hvo.setHotelName(jth11.getText());
+				hvo.setHotelPhone(jth15.getText());
+				hvo.setHotelLocation(jth13.getText());
+				hvo.setInstruction(jth14.getText());
+				hvo.settradeArea(String.valueOf(jc2.getSelectedItem()));
+				hvo.setStars(String.valueOf(jc6.getSelectedIndex()));
+				/*HotelController hc=new HotelController();
+				hc.changeHotel(hvo);*/
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}	
 	class MyboBox extends AbstractListModel<String> implements ComboBoxModel<String>{
@@ -1705,102 +1718,107 @@ public class HotelUI extends JFrame {
 	}
 	class br2Action implements ActionListener{
 		public void actionPerformed(ActionEvent arg0){
-			jt100.setEditable(false);
-			jt110.setEditable(false);
-			jt120.setEditable(false);
-			jt200.setEditable(false);
-			jt210.setEditable(false);
-			jt220.setEditable(false);
-			jt300.setEditable(false);
-			jt310.setEditable(false);
-			jt320.setEditable(false);
-			jt400.setEditable(false);
-			jt410.setEditable(false);
-			jt420.setEditable(false);
-			jt500.setEditable(false);
-			jt510.setEditable(false);
-			jt520.setEditable(false);
-			jt600.setEditable(false);
-			jt610.setEditable(false);
-			jt620.setEditable(false);
-			
-			RoomVO rvo1=new RoomVO();
-			RoomVO rvo2=new RoomVO();
-			RoomVO rvo3=new RoomVO();
-			RoomVO rvo4=new RoomVO();
-			RoomVO rvo5=new RoomVO();
-			RoomVO rvo6=new RoomVO();
-			
-			rvo1.setRoomType(jt100.getText());
 			try {
-				rvo1.setRoomAccessNumber(Integer.parseInt(jt110.getText()));
-			} catch (NumberFormatException e) {
-			    e.printStackTrace();
-			}
-			try {
-				rvo1.setRoomPrice(Double.parseDouble(jt120.getText()));
-			} catch (NumberFormatException e) {
-			    e.printStackTrace();
-			}
-			
-			rvo2.setRoomType(jt200.getText());
-			try {
-				rvo1.setRoomAccessNumber(Integer.parseInt(jt210.getText()));
-			} catch (NumberFormatException e) {
-			    e.printStackTrace();
-			}
-			try {
-				rvo2.setRoomPrice(Double.parseDouble(jt220.getText()));
-			} catch (NumberFormatException e) {
-			    e.printStackTrace();
-			}
-			
-			rvo3.setRoomType(jt300.getText());
-			try {
-				rvo1.setRoomAccessNumber(Integer.parseInt(jt310.getText()));
-			} catch (NumberFormatException e) {
-			    e.printStackTrace();
-			}
-			try {
-				rvo3.setRoomPrice(Double.parseDouble(jt320.getText()));
-			} catch (NumberFormatException e) {
-			    e.printStackTrace();
-			}
-			
-			rvo4.setRoomType(jt400.getText());
-			try {
-				rvo1.setRoomAccessNumber(Integer.parseInt(jt410.getText()));
-			} catch (NumberFormatException e) {
-			    e.printStackTrace();
-			}
-			try {
-				rvo4.setRoomPrice(Double.parseDouble(jt420.getText()));
-			} catch (NumberFormatException e) {
-			    e.printStackTrace();
-			}
-			
-			rvo5.setRoomType(jt500.getText());
-			try {
-				rvo1.setRoomAccessNumber(Integer.parseInt(jt510.getText()));
-			} catch (NumberFormatException e) {
-			    e.printStackTrace();
-			}
-			try {
-				rvo5.setRoomPrice(Double.parseDouble(jt520.getText()));
-			} catch (NumberFormatException e) {
-			    e.printStackTrace();
-			}
-			
-			rvo6.setRoomType(jt600.getText());
-			try {
-				rvo1.setRoomAccessNumber(Integer.parseInt(jt610.getText()));
-			} catch (NumberFormatException e) {
-			    e.printStackTrace();
-			}
-			try {
-				rvo6.setRoomPrice(Double.parseDouble(jt620.getText()));
-			} catch (NumberFormatException e) {
-			    e.printStackTrace();
+				jt100.setEditable(false);
+				jt110.setEditable(false);
+				jt120.setEditable(false);
+				jt200.setEditable(false);
+				jt210.setEditable(false);
+				jt220.setEditable(false);
+				jt300.setEditable(false);
+				jt310.setEditable(false);
+				jt320.setEditable(false);
+				jt400.setEditable(false);
+				jt410.setEditable(false);
+				jt420.setEditable(false);
+				jt500.setEditable(false);
+				jt510.setEditable(false);
+				jt520.setEditable(false);
+				jt600.setEditable(false);
+				jt610.setEditable(false);
+				jt620.setEditable(false);
+				
+				RoomVO rvo1=new RoomVO();
+				RoomVO rvo2=new RoomVO();
+				RoomVO rvo3=new RoomVO();
+				RoomVO rvo4=new RoomVO();
+				RoomVO rvo5=new RoomVO();
+				RoomVO rvo6=new RoomVO();
+				
+				rvo1.setRoomType(jt100.getText());
+				try {
+					rvo1.setRoomAccessNumber(Integer.parseInt(jt110.getText()));
+				} catch (NumberFormatException e) {
+				    e.printStackTrace();
+				}
+				try {
+					rvo1.setRoomPrice(Double.parseDouble(jt120.getText()));
+				} catch (NumberFormatException e) {
+				    e.printStackTrace();
+				}
+				
+				rvo2.setRoomType(jt200.getText());
+				try {
+					rvo1.setRoomAccessNumber(Integer.parseInt(jt210.getText()));
+				} catch (NumberFormatException e) {
+				    e.printStackTrace();
+				}
+				try {
+					rvo2.setRoomPrice(Double.parseDouble(jt220.getText()));
+				} catch (NumberFormatException e) {
+				    e.printStackTrace();
+				}
+				
+				rvo3.setRoomType(jt300.getText());
+				try {
+					rvo1.setRoomAccessNumber(Integer.parseInt(jt310.getText()));
+				} catch (NumberFormatException e) {
+				    e.printStackTrace();
+				}
+				try {
+					rvo3.setRoomPrice(Double.parseDouble(jt320.getText()));
+				} catch (NumberFormatException e) {
+				    e.printStackTrace();
+				}
+				
+				rvo4.setRoomType(jt400.getText());
+				try {
+					rvo1.setRoomAccessNumber(Integer.parseInt(jt410.getText()));
+				} catch (NumberFormatException e) {
+				    e.printStackTrace();
+				}
+				try {
+					rvo4.setRoomPrice(Double.parseDouble(jt420.getText()));
+				} catch (NumberFormatException e) {
+				    e.printStackTrace();
+				}
+				
+				rvo5.setRoomType(jt500.getText());
+				try {
+					rvo1.setRoomAccessNumber(Integer.parseInt(jt510.getText()));
+				} catch (NumberFormatException e) {
+				    e.printStackTrace();
+				}
+				try {
+					rvo5.setRoomPrice(Double.parseDouble(jt520.getText()));
+				} catch (NumberFormatException e) {
+				    e.printStackTrace();
+				}
+				
+				rvo6.setRoomType(jt600.getText());
+				try {
+					rvo1.setRoomAccessNumber(Integer.parseInt(jt610.getText()));
+				} catch (NumberFormatException e) {
+				    e.printStackTrace();
+				}
+				try {
+					rvo6.setRoomPrice(Double.parseDouble(jt620.getText()));
+				} catch (NumberFormatException e) {
+				    e.printStackTrace();
+				}
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 	}
@@ -1851,11 +1869,9 @@ public class HotelUI extends JFrame {
 			hpvo.setEndTime(jtp54.getText());
 			try {
 				hpvo.setDiscount(Double.parseDouble(jtp56.getText()));
-			} catch (NumberFormatException e) {
+			} catch (RemoteException e) {
 			    e.printStackTrace();
 			}
 		}
 	}
 }
-
-
