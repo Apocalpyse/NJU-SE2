@@ -1,5 +1,5 @@
 package po;
-
+import po.Member;
 import java.io.Serializable;
 
 /**
@@ -7,22 +7,22 @@ import java.io.Serializable;
  */
 public class CustomerPO implements Serializable{
     private String customerName;
-    private int[] customerPhone;
+    private String customerPhone;
     private String birthday;
     private String companyName;
-    private double credit;
+    private String credit;
     private Member member;
     private long id;
-    private int creditNum;
+    private String creditNum;
     private String[][] creditRecord;
-    private long[] orderId1;
-    private long[] orderId2;
-    private long[] orderId3;
-    private long[] orderId4;
+    private String[] orderId1;
+    private String[] orderId2;
+    private String[] orderId3;
+    private String[] orderId4;
 
     public CustomerPO(){}
 
-    public CustomerPO(String customerName,int[] customerPhone,Member member ,String birthday,String companyName,double credit){
+    public CustomerPO(String customerName,String customerPhone,Member member ,String birthday,String companyName,String credit){
         this.customerName=customerName;
         this.customerPhone=customerPhone;
         this.member=member;
@@ -39,11 +39,11 @@ public class CustomerPO implements Serializable{
         this.customerName = customerName;
     }
 
-    public int[] getCustomerPhone() {
+    public String getCustomerPhone() {
         return customerPhone;
     }
 
-    public void setCustomerPhone(int[] customerPhone) {
+    public void setCustomerPhone(String customerPhone) {
         this.customerPhone = customerPhone;
     }
 
@@ -51,8 +51,8 @@ public class CustomerPO implements Serializable{
         return member;
     }
 
-    public void setMember(Member member) {
-        this.member = member;
+    public void setMember(Member normalmember) {
+        this.member = normalmember;
     }
 
     public String getBirthday() {
@@ -71,11 +71,11 @@ public class CustomerPO implements Serializable{
         this.companyName = companyName;
     }
 
-    public double getCredit() {
+    public String getCredit() {
         return credit;
     }
 
-    public void setCredit(double credit) {
+    public void setCredit(String credit) {
         this.credit = credit;
     }
 
@@ -87,12 +87,12 @@ public class CustomerPO implements Serializable{
         this.id = id;
     }
 
-    public void setCreditNum(int creditNum) {
-        this.creditNum = creditNum;
+    public String getCreditNum() {
+        return creditNum;
     }
 
-    public int getCreditNum() {
-        return creditNum;
+    public void setCreditNum(String creditNum) {
+        this.creditNum = creditNum;
     }
 
     public String[][] getCreditRecord() {
@@ -103,35 +103,35 @@ public class CustomerPO implements Serializable{
         this.creditRecord = creditRecord;
     }
 
-    public long[] getOrderId1() {
+    public String[] getOrderId1() {
         return orderId1;
     }
 
-    public void setOrderId1(long[] orderId1) {
+    public void setOrderId1(String[] orderId1) {
         this.orderId1 = orderId1;
     }
 
-    public long[] getOrderId2() {
+    public String[] getOrderId2() {
         return orderId2;
     }
 
-    public void setOrderId2(long[] orderId2) {
+    public void setOrderId2(String[] orderId2) {
         this.orderId2 = orderId2;
     }
 
-    public long[] getOrderId3() {
+    public String[] getOrderId3() {
         return orderId3;
     }
 
-    public void setOrderId3(long[] orderId3) {
+    public void setOrderId3(String[] orderId3) {
         this.orderId3 = orderId3;
     }
 
-    public long[] getOrderId4() {
+    public String[] getOrderId4() {
         return orderId4;
     }
 
-    public void setOrderId4(long[] orderId4) {
+    public void setOrderId4(String[] orderId4) {
         this.orderId4 = orderId4;
     }
 }

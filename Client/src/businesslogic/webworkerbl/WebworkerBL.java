@@ -39,7 +39,7 @@ public class WebworkerBL implements WebworkerBusinessLogicService {
 		po.setID(vo.getID());
 		po.setWebworkerName(vo.getWebworkerName());
 		po.setWebworkerPhone(vo.getWebworkerPhone());
-		this.wds.updata(po);
+		this.wds.update(po);
 		return true;
 	}
 }

@@ -15,7 +15,9 @@ public class CustomerData implements CustomerDataServiceSqlImpl{
     private PreparedStatement preparedStatement;
     private ResultSet resultSet;
     private Connection con ;
-    String url = "jdbc:mysql://127.0.0.1:3306;databaseName=DS_HRS;user=sa;password=";
+    String url = "jdbc:mysql://127.0.0.1:3306/DS_HRS";
+    String name="root";
+    String password="2578";
 
     @Override
     public void update(CustomerPO po) {
@@ -25,7 +27,7 @@ public class CustomerData implements CustomerDataServiceSqlImpl{
 
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            con = DriverManager.getConnection(this.url);
+            con = DriverManager.getConnection(this.url,this.name,this.password);
             preparedStatement=con.prepareStatement(sql);
             preparedStatement.executeUpdate();
             con.close();
@@ -41,7 +43,7 @@ public class CustomerData implements CustomerDataServiceSqlImpl{
         sql="SELECT * from 客户信息 where ID='"+id+"'";
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            con = DriverManager.getConnection(this.url);
+            con = DriverManager.getConnection(this.url,this.name,this.password);
             preparedStatement=con.prepareStatement(sql);
             resultSet=preparedStatement.executeQuery();
 
@@ -84,7 +86,6 @@ public class CustomerData implements CustomerDataServiceSqlImpl{
                 con.close();
                 return null;
             }
-
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (SQLException e) {
@@ -100,7 +101,7 @@ public class CustomerData implements CustomerDataServiceSqlImpl{
 
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            con = DriverManager.getConnection(this.url);
+            con = DriverManager.getConnection(this.url,this.name,this.password);
             preparedStatement=con.prepareStatement(sql);
             preparedStatement.executeUpdate();
             con.close();
@@ -116,7 +117,7 @@ public class CustomerData implements CustomerDataServiceSqlImpl{
         sql="delete from 客户信息 where ID='"+id+"'";
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            con = DriverManager.getConnection(this.url);
+            con = DriverManager.getConnection(this.url,this.name,this.password);
             PreparedStatement preparedStatement=con.prepareStatement(sql);
             preparedStatement.executeUpdate();
             con.close();

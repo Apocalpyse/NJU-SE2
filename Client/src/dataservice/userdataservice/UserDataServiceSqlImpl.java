@@ -7,16 +7,10 @@ import po.UserPO;
  */
 public interface UserDataServiceSqlImpl extends UserDataService {
     @Override
-    void updata(UserPO po);
+    void update(UserPO po);
 
     @Override
     void insert(UserPO po);
-
-    @Override
-    void init();
-
-    @Override
-    void finish();
 
     @Override
     UserPO find(String account);

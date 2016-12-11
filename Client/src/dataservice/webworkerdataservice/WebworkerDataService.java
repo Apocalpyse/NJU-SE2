@@ -9,7 +9,5 @@ public interface WebworkerDataService {
     public WebworkerPO find(long id);
     public void insert(WebworkerPO po);
     public void delete(long id);
-    public void updata(WebworkerPO po);
-    public void init();
-    public void finish();
+    public void update(WebworkerPO po);
 }

@@ -38,8 +38,7 @@ public class UserBL implements UserBusinessLogicService{
 
     public boolean login(String account, String password) throws RemoteException{
         boolean result=false;
-        UserPO po;
-        po=this.uds.find(account);
+        UserPO po=this.uds.find(account);
         if(po.getPassword()==password){
             result=true;
         }

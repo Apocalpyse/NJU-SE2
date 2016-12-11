@@ -113,29 +113,20 @@ public class MainUI {
         label4.setBounds(260,100,30,60);
         province.setBounds(300,100,150,60);
         label5.setBounds(460,100,30,60);
-        city.setBounds(500,100,150,60);
-        label6.setBounds(660,100,30,60);
+        city.setBounds(500,100,130,60);
+        label6.setBounds(640,100,50,60);
         businessArea.setBounds(700,100,150,60);
         label2.setBounds(100,200,120,60);
         price1.setBounds(270,200,120,60);
-        price1.setBackground(Color.LIGHT_GRAY);
         price2.setBounds(440,200,120,60);
-        price2.setBackground(Color.LIGHT_GRAY);
         price3.setBounds(610,200,120,60);
-        price3.setBackground(Color.LIGHT_GRAY);
         price4.setBounds(780,200,120,60);
-        price4.setBackground(Color.LIGHT_GRAY);
         label3.setBounds(100,300,100,60);
         star1.setBounds(240,300,100,60);
-        star1.setBackground(Color.LIGHT_GRAY);
         star2.setBounds(380,300,100,60);
-        star2.setBackground(Color.LIGHT_GRAY);
         star3.setBounds(520,300,100,60);
-        star3.setBackground(Color.LIGHT_GRAY);
         star4.setBounds(660,300,100,60);
-        star4.setBackground(Color.LIGHT_GRAY);
         star5.setBounds(800,300,100,60);
-        star5.setBackground(Color.LIGHT_GRAY);
         button.setBounds(440,460,120,40);
         panel1.add(button);
 
@@ -415,17 +406,6 @@ public class MainUI {
         }*/
 
 
-        panel1.setBackground(Color.LIGHT_GRAY);
-        panel2.setBackground(Color.LIGHT_GRAY);
-        panel3.setBackground(Color.LIGHT_GRAY);
-        panel4.setBackground(Color.LIGHT_GRAY);
-        panel5.setBackground(Color.LIGHT_GRAY);
-        panel6.setBackground(Color.LIGHT_GRAY);
-        panel7.setBackground(Color.LIGHT_GRAY);
-        panel8.setBackground(Color.LIGHT_GRAY);
-        jtp.setBackground(Color.LIGHT_GRAY);
-        jtp2.setBackground(Color.LIGHT_GRAY);
-        frame.setBackground(Color.LIGHT_GRAY);
         frame.setFont(font);
         frame.getContentPane().add(jtp);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

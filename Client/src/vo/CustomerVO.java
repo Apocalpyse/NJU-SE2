@@ -7,18 +7,18 @@ import po.Member;
  */
 public class CustomerVO {
     private String customerName;
-    private int[] customerPhone;
+    private String customerPhone;
     private String birthday;
     private String companyName;
     private Member member;
-    private double credit;
+    private String credit;
     private long id;
-    private int creditNum;
+    private String creditNum;
     private String[][] creditRecord;
-    private long[] orderId1;
-    private long[] orderId2;
-    private long[] orderId3;
-    private long[] orderId4;
+    private String[] orderId1;
+    private String[] orderId2;
+    private String[] orderId3;
+    private String[] orderId4;
 
     public String getCustomerName() {
         return customerName;
@@ -28,11 +28,11 @@ public class CustomerVO {
         this.customerName = customerName;
     }
 
-    public int[] getCustomerPhone() {
+    public String getCustomerPhone() {
         return customerPhone;
     }
 
-    public void setCustomerPhone(int[] customerPhone) {
+    public void setCustomerPhone(String customerPhone) {
         this.customerPhone = customerPhone;
     }
 
@@ -60,11 +60,11 @@ public class CustomerVO {
         this.companyName = companyName;
     }
 
-    public double getCredit() {
+    public String getCredit() {
         return credit;
     }
 
-    public void setCredit(double credit) {
+    public void setCredit(String credit) {
         this.credit = credit;
     }
 
@@ -76,11 +76,11 @@ public class CustomerVO {
         this.id = id;
     }
 
-    public int getCreditNum() {
+    public String getCreditNum() {
         return creditNum;
     }
 
-    public void setCreditNum(int creditNum) {
+    public void setCreditNum(String creditNum) {
         this.creditNum = creditNum;
     }
 
@@ -92,35 +92,35 @@ public class CustomerVO {
         this.creditRecord = creditRecord;
     }
 
-    public long[] getOrderId1() {
+    public String[] getOrderId1() {
         return orderId1;
     }
 
-    public void setOrderId1(long[] orderId1) {
+    public void setOrderId1(String[] orderId1) {
         this.orderId1 = orderId1;
     }
 
-    public long[] getOrderId2() {
+    public String[] getOrderId2() {
         return orderId2;
     }
 
-    public void setOrderId2(long[] orderId2) {
+    public void setOrderId2(String[] orderId2) {
         this.orderId2 = orderId2;
     }
 
-    public long[] getOrderId3() {
+    public String[] getOrderId3() {
         return orderId3;
     }
 
-    public void setOrderId3(long[] orderId3) {
-        this.orderId3 = orderId3;
-    }
-
-    public long[] getOrderId4() {
+    public String[] getOrderId4() {
         return orderId4;
     }
 
-    public void setOrderId4(long[] orderId4) {
+    public void setOrderId4(String[] orderId4) {
         this.orderId4 = orderId4;
+    }
+
+    public void setOrderId3(String[] orderId3) {
+        this.orderId3 = orderId3;
     }
 }

@@ -10,16 +10,10 @@ public interface WebworkerDataServiceSqlImpl extends WebworkerDataService {
     void delete(long id);
 
     @Override
-    void finish();
-
-    @Override
-    void init();
-
-    @Override
     void insert(WebworkerPO po);
 
     @Override
-    void updata(WebworkerPO po);
+    void update(WebworkerPO po);
 
     @Override
     WebworkerPO find(long id);

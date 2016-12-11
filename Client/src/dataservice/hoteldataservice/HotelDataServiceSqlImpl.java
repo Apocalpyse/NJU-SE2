@@ -7,16 +7,10 @@ import po.HotelPO;
  */
 public interface HotelDataServiceSqlImpl extends HotelDataService{
     @Override
-    void updata(HotelPO po);
+    void update(HotelPO po);
 
     @Override
     void insert(HotelPO po);
-
-    @Override
-    void init();
-
-    @Override
-    void finish();
 
     @Override
     HotelPO find(long id);

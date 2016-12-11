@@ -9,7 +9,5 @@ public interface UserDataService {
     public UserPO find(String account);
     public void insert(UserPO po);
     public void delete(long id);
-    public void updata(UserPO po);
-    public void init();
-    public void finish();
+    public void update(UserPO po);
 }

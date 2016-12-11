@@ -10,7 +10,5 @@ public interface HotelDataService {
     public HotelPO find(long id);
     public void insert(HotelPO po);
     public void delete(long id);
-    public void updata(HotelPO po);
-    public void init();
-    public void finish();
+    public void update(HotelPO po);
 }

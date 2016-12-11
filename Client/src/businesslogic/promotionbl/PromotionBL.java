@@ -40,7 +40,7 @@ public class PromotionBL implements PromotionBusinessLogicService {
 		WebPromotionPO wppo = new WebPromotionPO();
 		double level[] = mppo.getCredit();
 		double discount[] = mppo.getDiscountForMember();
-		double credit = cppo.getCredit();
+		double credit = Double.parseDouble(cppo.getCredit());
 		if (!cppo.getMember().equals(Member.notMember)) {
 			for (int i = 0; i < level.length; i++) {
 				if (credit < level[i]) {

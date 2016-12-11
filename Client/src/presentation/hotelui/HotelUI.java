@@ -41,6 +41,7 @@ import javax.swing.plaf.FontUIResource;
 import javax.swing.table.DefaultTableModel;
 
 import businesslogic.customerbl.CustomerController;
+import businesslogic.hotelbl.HotelController;
 import businesslogic.orderbl.OrderController;
 import businesslogic.promotionbl.PromotionController;
 import businesslogic.roombl.RoomController;
@@ -1713,8 +1714,8 @@ public class HotelUI extends JFrame {
 				hvo.setInstruction(jth14.getText());
 				hvo.settradeArea(String.valueOf(jc2.getSelectedItem()));
 				hvo.setStars(String.valueOf(jc6.getSelectedIndex()));
-				/*HotelController hc=new HotelController();
-				hc.changeHotel(hvo);*/
+				HotelController hc=new HotelController();
+				hc.changeHotel(hvo);
 			} catch (RemoteException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -1779,7 +1780,6 @@ public class HotelUI extends JFrame {
 	}
 	class br2Action implements ActionListener{
 		public void actionPerformed(ActionEvent arg0){
-			try {
 				jt100.setEditable(false);
 				jt110.setEditable(false);
 				jt120.setEditable(false);
@@ -1877,10 +1877,6 @@ public class HotelUI extends JFrame {
 				} catch (NumberFormatException e) {
 				    e.printStackTrace();
 				}
-			} catch (RemoteException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 		}
 	}
 	class p1Action implements ActionListener{
@@ -1928,11 +1924,7 @@ public class HotelUI extends JFrame {
 			
 			hpvo.setBeginTime(jtp52.getText());
 			hpvo.setEndTime(jtp54.getText());
-			try {
-				hpvo.setDiscount(Double.parseDouble(jtp56.getText()));
-			} catch (RemoteException e) {
-			    e.printStackTrace();
-			}
+			hpvo.setDiscount(Double.parseDouble(jtp56.getText()));
 		}
 	}
 }

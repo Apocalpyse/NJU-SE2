@@ -362,7 +362,7 @@ public class WebManagerUI extends JFrame {
 						CustomerVO vo = pc.getCustomer(num);
 						// 获取
 						String PHONE = "";
-						int phone[] = vo.getCustomerPhone();
+						int phone[] = vo.getCustomerPhone().;
 						for (int i = 0; i < phone.length; i++) {
 							PHONE = PHONE + phone[i];
 						}
@@ -516,7 +516,7 @@ public class WebManagerUI extends JFrame {
 					//
 					vo.setId((Long.parseLong(text1.getText())));
 					vo.setCustomerName(text2.getText());
-					vo.setCredit(Double.parseDouble(text3.getText()));
+					vo.setCredit(text3.getText());
 					//
 					int PHONE[] = new int[text4.getText().length()];
 					for (int i = 0; i < PHONE.length; i++) {

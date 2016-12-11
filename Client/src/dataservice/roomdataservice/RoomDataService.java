@@ -9,7 +9,5 @@ public interface RoomDataService {
     public RoomPO find(long id);
     public void insert(RoomPO po);
     public void delete(long id);
-    public void updata(RoomPO po);
-    public void init();
-    public void finish();
+    public void update(RoomPO po);
 }

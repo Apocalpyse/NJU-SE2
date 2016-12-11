@@ -10,17 +10,11 @@ public interface OrderDataServiceSqlImpl extends OrderDataService{
     void delete(long id);
 
     @Override
-    void finish();
-
-    @Override
-    void init();
-
-    @Override
     void insert(OrderPO po);
 
     @Override
     OrderPO find(long id);
 
     @Override
-    void updata(OrderPO po);
+    void update(OrderPO po);
 }

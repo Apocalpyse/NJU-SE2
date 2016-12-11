@@ -49,7 +49,7 @@ public class CustomerBL implements CustomerBusinessLogicService {
         po.setCustomerPhone(vo.getCustomerPhone());
         po.setBirthday(vo.getBirthday());
         po.setCompanyName(vo.getCompanyName());
-        cds.updata(po);
+        cds.update(po);
         result=true;
         return result;
     }
@@ -99,11 +99,15 @@ public class CustomerBL implements CustomerBusinessLogicService {
         OrderVO[] vo;
         OrderPO[] po;
         p=this.cds.find(id);
-        long[] idTemp=p.getOrderId1();
+        String[] idTemp=p.getOrderId1();
+        long[] idtemp=null;
+        for(int i=0;i<idTemp.length;i++){
+            idtemp[i]=Long.parseLong(idTemp[i]);
+        }
         vo=new OrderVO[idTemp.length];
         po=new OrderPO[idTemp.length];
         for(int i=0;i<idTemp.length;i++){
-            po[i]=this.ods.find(idTemp[i]);
+            po[i]=this.ods.find(idtemp[i]);
             vo[i].setCustomerName(po[i].getCustomerName());
             vo[i].setCustomerPhone(po[i].getCustomerPhone());
             vo[i].setCustomerNumber(po[i].getCustomerNumber());
@@ -137,12 +141,12 @@ public class CustomerBL implements CustomerBusinessLogicService {
         po.setCreditNum(po.getCreditNum()+1);
         Date date=new Date();
         SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        record[po.getCreditNum()][0]=sdf.format(date);
-        record[po.getCreditNum()][1]=Double.toString(creditChange);
+        record[Integer.parseInt(po.getCreditNum())][0]=sdf.format(date);
+        record[Integer.parseInt(po.getCreditNum())][1]=Double.toString(creditChange);
         String[][] temp=po.getCreditRecord();
-        temp[po.getCreditNum()]=record[po.getCreditNum()];
-        temp[po.getCreditNum()]=record[po.getCreditNum()];
+        temp[Integer.parseInt(po.getCreditNum())][0]=record[Integer.parseInt(po.getCreditNum())][0];
+        temp[Integer.parseInt(po.getCreditNum())][1]=record[Integer.parseInt(po.getCreditNum())][1];
         po.setCreditRecord(temp);
-        this.cds.updata(po);
+        this.cds.update(po);
     }
 }
