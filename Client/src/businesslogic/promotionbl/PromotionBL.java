@@ -1,5 +1,6 @@
 package businesslogic.promotionbl;
 
+import java.rmi.RemoteException;
 import java.text.SimpleDateFormat;
 
 import java.util.Date;
@@ -20,9 +21,11 @@ public class PromotionBL implements PromotionBusinessLogicService {
 	static long countWebID = 70000;
 	CustomerDataServiceSqlImpl cds;
 	PromotionDataServiceSqlImpl pds;
-//	String businessDistrict[]={"NJU","XL"};
-//	WebPromotionVO vo=new WebPromotionVO(1111,"a","2016-12-06",UsageState.Using,"2016-12-06","2016-12-07",businessDistrict,MemberType.All,0.3);
-	public double getDiscount(long id, int room, double price) {
+
+	// String businessDistrict[]={"NJU","XL"};
+	// WebPromotionVO vo=new
+	// WebPromotionVO(1111,"a","2016-12-06",UsageState.Using,"2016-12-06","2016-12-07",businessDistrict,MemberType.All,0.3);
+	public double getDiscount(long id, int room, double price) throws RemoteException {
 		double lowestDiscount = 1;
 		double memberDiscount = 1;
 		double roomDiscount = 1;
@@ -55,8 +58,8 @@ public class PromotionBL implements PromotionBusinessLogicService {
 			amountDiscount = hppo.getDiscountforlargeramount();// 对应金额折扣
 		}
 		// 3
-		if (!cppo.getMember().equals(Member.notMember)){
-			companyDiscount = hppo.getCompanyDiscount();//企业会员与普通会员共享折扣
+		if (!cppo.getMember().equals(Member.notMember)) {
+			companyDiscount = hppo.getCompanyDiscount();// 企业会员与普通会员共享折扣
 		}
 		// company discount
 		String birth = cppo.getBirthday();
@@ -93,7 +96,7 @@ public class PromotionBL implements PromotionBusinessLogicService {
 
 	// 其中，MemberPromotion部分对会员折扣与HotelPromotion的多房间折扣或消费金额折扣或生日折扣以及WebPromotion折扣
 	// ***限制：需根据数据库的构建来获取对应的促销策略
-	public MemberPromotionVO getMemberPromotion(long id) {
+	public MemberPromotionVO getMemberPromotion(long id) throws RemoteException {
 		MemberPromotionVO vo = new MemberPromotionVO();
 		MemberPromotionPO po;
 		po = this.pds.find1(id);
@@ -108,7 +111,7 @@ public class PromotionBL implements PromotionBusinessLogicService {
 		return vo;
 	}
 
-	public boolean creatMemberPromotion(MemberPromotionVO vo) {
+	public boolean creatMemberPromotion(MemberPromotionVO vo) throws RemoteException {
 		MemberPromotionPO po = new MemberPromotionPO();
 
 		po.setID(vo.getID());// 自动生成I
@@ -121,7 +124,7 @@ public class PromotionBL implements PromotionBusinessLogicService {
 		return true;
 	}
 
-	public boolean changeMemberPromotion(MemberPromotionVO vo) {
+	public boolean changeMemberPromotion(MemberPromotionVO vo) throws RemoteException {
 		MemberPromotionPO po = new MemberPromotionPO();
 		po.setID(vo.getID());
 		po.setCreatedTime(vo.getCreatedTime());
@@ -134,7 +137,7 @@ public class PromotionBL implements PromotionBusinessLogicService {
 	}
 	// MemberPromotionBL
 
-	public HotelPromotionVO getHotelPromotion(long id) {
+	public HotelPromotionVO getHotelPromotion(long id) throws RemoteException {
 		HotelPromotionVO vo = new HotelPromotionVO();
 		HotelPromotionPO po;
 		po = this.pds.find2(id);
@@ -155,7 +158,7 @@ public class PromotionBL implements PromotionBusinessLogicService {
 		return vo;
 	}
 
-	public boolean creatHotelPromotion(HotelPromotionVO vo) {
+	public boolean creatHotelPromotion(HotelPromotionVO vo) throws RemoteException {
 		HotelPromotionPO po = new HotelPromotionPO();
 
 		po.setID(vo.getID());
@@ -176,7 +179,7 @@ public class PromotionBL implements PromotionBusinessLogicService {
 		return true;
 	}
 
-	public boolean changeHotelPromotion(HotelPromotionVO vo) {
+	public boolean changeHotelPromotion(HotelPromotionVO vo) throws RemoteException {
 		HotelPromotionPO po = new HotelPromotionPO();
 		po.setID(vo.getID());
 		po.setCreatedTime(vo.getCreatedTime());
@@ -197,7 +200,7 @@ public class PromotionBL implements PromotionBusinessLogicService {
 	}
 	// HotelPromotionBL
 
-	public WebPromotionVO getWebPromotion(long id) {
+	public WebPromotionVO getWebPromotion(long id) throws RemoteException {
 		WebPromotionVO vo = new WebPromotionVO();
 		WebPromotionPO po;
 		po = this.pds.find3(id);
@@ -212,15 +215,13 @@ public class PromotionBL implements PromotionBusinessLogicService {
 		vo.setUsageState(po.getUsageState());
 		vo.setBusinessDistrict(po.getBusinessDistrict());
 		return vo;
-//		return this.vo;
+		// return this.vo;
 	}
 
-	public boolean creatWebPromotion(WebPromotionVO vo) {
+	public boolean creatWebPromotion(WebPromotionVO vo) throws RemoteException {
 		WebPromotionPO po = new WebPromotionPO();
 
-		countWebID++;// ID计数器
-		po.setID(countWebID);// 自动生成ID
-
+		po.setID(vo.getID());
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String date;
 		Date now = new Date();
@@ -228,7 +229,6 @@ public class PromotionBL implements PromotionBusinessLogicService {
 		// 获得当前时间
 		po.setCreatedTime(date);
 		// 设置为系统时间
-
 		po.setUsageState(vo.getUsageState());
 
 		po.setBeginTime(vo.getBeginTime());
@@ -241,7 +241,7 @@ public class PromotionBL implements PromotionBusinessLogicService {
 		return true;
 	}
 
-	public boolean changeWebPromotion(WebPromotionVO vo) {
+	public boolean changeWebPromotion(WebPromotionVO vo) throws RemoteException {
 		WebPromotionPO po = new WebPromotionPO();
 		po.setID(vo.getID());
 		po.setCreatedTime(vo.getCreatedTime());

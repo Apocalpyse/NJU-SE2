@@ -1,4 +1,7 @@
 package businesslogic.promotionbl;
+
+import java.rmi.RemoteException;
+
 import vo.*;
 
 public class PromotionController {
@@ -8,31 +11,39 @@ public class PromotionController {
 		bl = new PromotionBL();
 	}
 
-	public MemberPromotionVO getMemberPromotion(long id) {
+	public MemberPromotionVO getMemberPromotion(long id) throws RemoteException {
 		return bl.getMemberPromotion(id);
 	}
-	public boolean creatMemberPromotion(MemberPromotionVO vo) {
+
+	public boolean creatMemberPromotion(MemberPromotionVO vo) throws RemoteException {
 		return bl.creatMemberPromotion(vo);
 	}
-	public boolean changeMemberPromotion(MemberPromotionVO vo) {
+
+	public boolean changeMemberPromotion(MemberPromotionVO vo) throws RemoteException {
 		return bl.changeMemberPromotion(vo);
 	}
-	public HotelPromotionVO getHotelPromotion(long id) {
+
+	public HotelPromotionVO getHotelPromotion(long id) throws RemoteException {
 		return bl.getHotelPromotion(id);
 	}
-	public boolean creatHotelPromotion(HotelPromotionVO vo) {
+
+	public boolean creatHotelPromotion(HotelPromotionVO vo) throws RemoteException {
 		return bl.creatHotelPromotion(vo);
 	}
-	public boolean changeHotelPromotion(HotelPromotionVO vo) {
+
+	public boolean changeHotelPromotion(HotelPromotionVO vo) throws RemoteException {
 		return bl.changeHotelPromotion(vo);
 	}
-	public WebPromotionVO getWebPromotion(long id) {
+
+	public WebPromotionVO getWebPromotion(long id) throws RemoteException {
 		return bl.getWebPromotion(id);
 	}
-	public boolean creatWebPromotion(WebPromotionVO vo) {
+
+	public boolean creatWebPromotion(WebPromotionVO vo) throws RemoteException {
 		return bl.creatWebPromotion(vo);
 	}
-	public boolean changeWebPromotion(WebPromotionVO vo) {
+
+	public boolean changeWebPromotion(WebPromotionVO vo) throws RemoteException {
 		return bl.changeWebPromotion(vo);
 	}
 }
