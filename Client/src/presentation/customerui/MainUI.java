@@ -307,7 +307,7 @@ public class MainUI {
 
         JButton button3=new JButton("撤销");
         panel8.add(button3);
-        button3.setBounds(460,540,80,60);
+        button3.setBounds(460,500,80,60);
         button3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -329,7 +329,7 @@ public class MainUI {
 
         JButton button4=new JButton("评价");
         panel5.add(button4);
-        button3.setBounds(460,540,80,60);
+        button3.setBounds(460,500,80,60);
         button3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -342,44 +342,46 @@ public class MainUI {
             }
         });
 
-        /*CustomerPO cpo;
-        UserPO upo;
-        OrderPO[] opo1=new OrderPO[10];
-        OrderPO[] opo2=new OrderPO[10];
-        OrderPO[] opo3=new OrderPO[10];
-        OrderPO[] opo4=new OrderPO[10];
-        upo=this.uds.find(account);
-        cpo=this.cds.find(upo.getId());
-        long[] tempId1=cpo.getOrderId1();
-        long[] tempId2=cpo.getOrderId2();
-        long[] tempId3=cpo.getOrderId3();
-        long[] tempId4=cpo.getOrderId4();
-        for(int i=0;i<10;i++){
-            opo1[i]=this.ods.find(tempId1[i]);
-            opo2[i]=this.ods.find(tempId2[i]);
-            opo3[i]=this.ods.find(tempId3[i]);
-            opo4[i]=this.ods.find(tempId4[i]);
-            obj1[i][0]=opo1[i].getId();
-            obj2[i][0]=opo2[i].getId();
-            obj3[i][0]=opo3[i].getId();
-            obj4[i][0]=opo4[i].getId();
-            obj1[i][1]=opo1[i].getStartTime();
-            obj2[i][1]=opo2[i].getStartTime();
-            obj3[i][1]=opo3[i].getStartTime();
-            obj4[i][1]=opo4[i].getStartTime();
-            obj1[i][2]=opo1[i].getEndTime();
-            obj2[i][2]=opo2[i].getEndTime();
-            obj3[i][2]=opo3[i].getEndTime();
-            obj4[i][2]=opo4[i].getEndTime();
-            obj1[i][3]=opo1[i].getHotelName();
-            obj2[i][3]=opo2[i].getHotelName();
-            obj3[i][3]=opo3[i].getHotelName();
-            obj4[i][3]=opo4[i].getHotelName();
-            obj1[i][4]=opo1[i].getOs();
-            obj2[i][4]=opo2[i].getOs();
-            obj3[i][4]=opo3[i].getOs();
-            obj4[i][4]=opo4[i].getOs();
-        }*/
+        UserVO uvo;
+        CustomerVO cvo;
+        OrderVO[] opo1=new OrderVO[10];
+        OrderVO[] opo2=new OrderVO[10];
+        OrderVO[] opo3=new OrderVO[10];
+        OrderVO[] opo4=new OrderVO[10];
+        try{
+            uvo=uc.getUser(account);
+            cvo=cc.getCustomer(uvo.getId());
+            String[] tempId1=cvo.getOrderId1();
+            String[] tempId2=cvo.getOrderId2();
+            String[] tempId3=cvo.getOrderId3();
+            String[] tempId4=cvo.getOrderId4();
+            for(int i=0;i<10;i++){
+                opo1[i]=oc.getOrder(Long.parseLong(tempId1[i]));
+                obj1[i][0]=opo1[i].getId();
+                obj2[i][0]=opo2[i].getId();
+                obj3[i][0]=opo3[i].getId();
+                obj4[i][0]=opo4[i].getId();
+                obj1[i][1]=opo1[i].getStartTime();
+                obj2[i][1]=opo2[i].getStartTime();
+                obj3[i][1]=opo3[i].getStartTime();
+                obj4[i][1]=opo4[i].getStartTime();
+                obj1[i][2]=opo1[i].getEndTime();
+                obj2[i][2]=opo2[i].getEndTime();
+                obj3[i][2]=opo3[i].getEndTime();
+                obj4[i][2]=opo4[i].getEndTime();
+                obj1[i][3]=opo1[i].getHotelName();
+                obj2[i][3]=opo2[i].getHotelName();
+                obj3[i][3]=opo3[i].getHotelName();
+                obj4[i][3]=opo4[i].getHotelName();
+                obj1[i][4]=opo1[i].getOs();
+                obj2[i][4]=opo2[i].getOs();
+                obj3[i][4]=opo3[i].getOs();
+                obj4[i][4]=opo4[i].getOs();
+            }
+
+        }catch (RemoteException e){
+            e.printStackTrace();
+        }
 
 
         //信用查看界面；

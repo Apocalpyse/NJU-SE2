@@ -1515,14 +1515,15 @@ public class HotelUI extends JFrame {
 					OrderController oc = new OrderController();
 					CustomerController cc = new CustomerController();
 					CustomerVO vo2 = cc.getCustomer(USERIDGET);
-					double credit = vo2.getCredit();
+					double credit = Double.parseDouble(vo2.getCredit());
 					// 获取order与customer
 					double CREDITGET = Double.parseDouble(table6.getValueAt(table6.getSelectedRow(), 1).toString());
 					// 获取价格——信用值
 					if (c1.isSelected()) {// 50%
-						vo2.setCredit(credit + CREDITGET / 2);//
+						double temp=credit+CREDITGET/2;
+						vo2.setCredit(Double.toString(temp));//
 					} else {
-						vo2.setCredit(credit + CREDITGET);//
+						vo2.setCredit(Double.toString(credit+CREDITGET));//
 					} // 设定返回值
 						// 取消异常订单
 					oc.cancelOrder(ORDERGET);
