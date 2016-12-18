@@ -7,13 +7,20 @@ import po.User;
  */
 public class UserVO {
     private String accout;
-    private String passsword;
+    private String password;
     private long id;
     private User user;
 
     public UserVO(){
         accout="";
-        passsword="";
+        password="";
+    }
+
+    public UserVO(String account,String password,long id,User user){
+        this.accout=account;
+        this.password=password;
+        this.id=id;
+        this.user=user;
     }
 
     public String getAccout() {
@@ -21,7 +28,7 @@ public class UserVO {
     }
 
     public String getPasssword() {
-        return passsword;
+        return password;
     }
 
     public void setAccout(String accout) {
@@ -29,7 +36,7 @@ public class UserVO {
     }
 
     public void setPasssword(String passsword) {
-        this.passsword = passsword;
+        this.password = passsword;
     }
 
     public long getId() {

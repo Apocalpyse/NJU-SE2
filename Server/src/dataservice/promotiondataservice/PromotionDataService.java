@@ -6,16 +6,16 @@ import po.PromotionPO;
 import po.WebPromotionPO;
 
 public interface PromotionDataService {
-    public MemberPromotionPO find1(long id);
-    public HotelPromotionPO find2(long id);
-    public WebPromotionPO find3(long id);
-    public void insert1(MemberPromotionPO po);
-    public void delete1(long id);
-    public void update1(MemberPromotionPO po);
-    public void insert2(HotelPromotionPO po);
-    public void delete2(long id);
-    public void update2(HotelPromotionPO po);
-    public void insert3(WebPromotionPO po);
-    public void delete3(long id);
-    public void update3(WebPromotionPO po);
+     MemberPromotionPO find1(long id);
+     HotelPromotionPO find2(long id);
+     WebPromotionPO find3(long id);
+     boolean insert1(MemberPromotionPO po);
+     boolean delete1(long id);
+     boolean update1(MemberPromotionPO po);
+     boolean insert2(HotelPromotionPO po);
+     boolean delete2(long id);
+     boolean update2(HotelPromotionPO po);
+     boolean insert3(WebPromotionPO po);
+     boolean delete3(long id);
+     boolean update3(WebPromotionPO po);
 }

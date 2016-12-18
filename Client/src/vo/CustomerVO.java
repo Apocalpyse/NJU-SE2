@@ -20,6 +20,23 @@ public class CustomerVO {
     private String[] orderId3;
     private String[] orderId4;
 
+    public CustomerVO(String customerName,String customerPhone ,String birthday,String companyName,String credit,Member member,long id,String creditNum,String[][] creditRecord,
+                      String[] orderId1,String[] orderId2,String[] orderId3,String[] orderId4 ){
+        this.customerName=customerName;
+        this.customerPhone=customerPhone;
+        this.birthday=birthday;
+        this.companyName=companyName;
+        this.credit=credit;
+        this.member=member;
+        this.id=id;
+        this.creditNum=creditNum;
+        this.creditRecord=creditRecord;
+        this.orderId1=orderId1;
+        this.orderId2=orderId2;
+        this.orderId3=orderId3;
+        this.orderId4=orderId4;
+    }
+
     public String getCustomerName() {
         return customerName;
     }

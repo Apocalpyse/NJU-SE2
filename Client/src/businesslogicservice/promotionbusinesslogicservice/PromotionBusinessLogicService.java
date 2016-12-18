@@ -10,15 +10,15 @@ import vo.WebPromotionVO;
  * Created by 常德隆 on 2016/12/4.
  */
 public interface PromotionBusinessLogicService {
-    public double getDiscount(long id, int room, double price)throws RemoteException ;
-    public MemberPromotionVO getMemberPromotion(long id)throws RemoteException ;
-    public boolean creatMemberPromotion(MemberPromotionVO vo)throws RemoteException ;
-    public boolean changeMemberPromotion(MemberPromotionVO vo)throws RemoteException ;
-    public HotelPromotionVO getHotelPromotion(long id)throws RemoteException ;
-    public boolean creatHotelPromotion(HotelPromotionVO vo)throws RemoteException ;
-    public boolean changeHotelPromotion(HotelPromotionVO vo)throws RemoteException ;
-    public WebPromotionVO getWebPromotion(long id)throws RemoteException ;
-    public boolean creatWebPromotion(WebPromotionVO vo)throws RemoteException ;
-    public boolean changeWebPromotion(WebPromotionVO vo)throws RemoteException ;
+     double getDiscount(long id, int room, double price)throws RemoteException ;
+     MemberPromotionVO getMemberPromotion(long id)throws RemoteException ;
+     boolean creatMemberPromotion(MemberPromotionVO vo)throws RemoteException ;
+     boolean changeMemberPromotion(MemberPromotionVO vo)throws RemoteException ;
+     HotelPromotionVO getHotelPromotion(long id)throws RemoteException ;
+     boolean creatHotelPromotion(HotelPromotionVO vo)throws RemoteException ;
+     boolean changeHotelPromotion(HotelPromotionVO vo)throws RemoteException ;
+     WebPromotionVO getWebPromotion(long id)throws RemoteException ;
+     boolean creatWebPromotion(WebPromotionVO vo)throws RemoteException ;
+     boolean changeWebPromotion(WebPromotionVO vo)throws RemoteException ;
 
 }

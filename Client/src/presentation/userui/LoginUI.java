@@ -2,7 +2,6 @@ package presentation.userui;
 
         import businesslogic.userbl.UserController;
         import po.User;
-        import presentation.hotelui.*;
         import presentation.customerui.MainUI;
         import presentation.hotelui.HotelUI;
         import presentation.webmanagerui.WebManagerUI;
@@ -72,7 +71,6 @@ public class LoginUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    System.out.print(account.getText());
                     UserController uc = new UserController();
                     if (uc.login(account.getText(), password.getPassword().toString())) {
                         UserVO uvo = uc.getUser(account.getText());

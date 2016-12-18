@@ -1,9 +1,9 @@
 package businesslogic.customerbl;
 
 import businesslogicservice.customerbusinesslogicservice.CustomerBusinessLogicService;
-import dataservice.customerdataservice.CustomerDataServiceSqlImpl;
-import dataservice.hoteldataservice.HotelDataServiceSqlImpl;
-import dataservice.orderdataservice.OrderDataServiceSqlImpl;
+import dataservice.customerdataservice.CustomerDataService;
+import dataservice.hoteldataservice.HotelDataService;
+import dataservice.orderdataservice.OrderDataService;
 import po.CustomerPO;
 import po.HotelPO;
 import po.Member;
@@ -21,124 +21,105 @@ import java.util.Date;
  */
 public class CustomerBL implements CustomerBusinessLogicService {
 
-    CustomerDataServiceSqlImpl cds;
-    HotelDataServiceSqlImpl hds;
-    OrderDataServiceSqlImpl ods;
+    CustomerDataService cds=new CustomerDataService() {
+        @Override
+        public CustomerPO find(long id) {
+            return null;
+        }
+
+        @Override
+        public boolean insert(CustomerPO po) {
+            return false;
+        }
+
+        @Override
+        public boolean delete(long id) {
+            return false;
+        }
+
+        @Override
+        public boolean update(CustomerPO po) {
+            return false;
+        }
+    };
+    HotelDataService hds=new HotelDataService() {
+        @Override
+        public HotelPO find(long id) {
+            return null;
+        }
+
+        @Override
+        public boolean insert(HotelPO po) {
+            return false;
+        }
+
+        @Override
+        public boolean delete(long id) {
+            return false;
+        }
+
+        @Override
+        public boolean update(HotelPO po) {
+            return false;
+        }
+    };
+    OrderDataService ods=new OrderDataService() {
+        @Override
+        public OrderPO find(long id) {
+            return null;
+        }
+
+        @Override
+        public boolean insert(OrderPO po) {
+            return false;
+        }
+
+        @Override
+        public boolean delete(long id) {
+            return false;
+        }
+
+        @Override
+        public boolean update(OrderPO po) {
+            return false;
+        }
+    };
 
     public CustomerVO getCustomer(long id) throws RemoteException{
-        CustomerVO vo=new CustomerVO();
-        CustomerPO po;
-
-        po=this.cds.find(id);
-        vo.setCustomerName(po.getCustomerName());
-        vo.setCustomerPhone(po.getCustomerPhone());
-        vo.setCredit(po.getCredit());
-        vo.setMember(po.getMember());
-        vo.setBirthday(po.getBirthday());
-        vo.setCompanyName(po.getCompanyName());
-        vo.setId(po.getId());//根据id获得顾客信息；
-
-        return vo;
+        CustomerPO po=this.cds.find(id);
+        return new CustomerVO(po.getCustomerName(),po.getCustomerPhone(),po.getBirthday(),po.getCompanyName(),po.getCredit()
+        ,po.getMember(),po.getId(),po.getCreditNum(),po.getCreditRecord(),po.getOrderId1(),po.getOrderId2(),po.getOrderId3(),po.getOrderId4());
     }
 
     public boolean changeCustomer(CustomerVO vo) throws RemoteException{
-        boolean result=false;
-        CustomerPO po;
-        po=this.cds.find(vo.getId());
-        po.setCustomerName(vo.getCustomerName());
-        po.setCustomerPhone(vo.getCustomerPhone());
-        po.setBirthday(vo.getBirthday());
-        po.setCompanyName(vo.getCompanyName());
-        cds.update(po);
-        result=true;
-        return result;
+
+        return this.cds.update(new CustomerPO(vo.getCustomerName(),vo.getCustomerPhone(),vo.getBirthday(),vo.getCompanyName()
+        ,vo.getCredit(),vo.getMember(),vo.getId(),vo.getCreditNum(),vo.getCreditRecord(),vo.getOrderId1(),vo.getOrderId2(),vo.getOrderId3(),vo.getOrderId4()));
     }
 
     public boolean registerMember(CustomerVO vo) throws RemoteException{
-        CustomerPO po=new CustomerPO();
-        po.setCustomerName(vo.getCustomerName());
-        po.setCustomerPhone(vo.getCustomerPhone());
-        po.setCredit(vo.getCredit());
-        po.setMember(Member.normalMember);
-        po.setBirthday(vo.getBirthday());
         if(vo.getCompanyName()!=null){
-            po.setCompanyName(vo.getCompanyName());
-            po.setMember(Member.companyMember);
+            return this.cds.insert(new CustomerPO(vo.getCustomerName(),vo.getCustomerPhone(),vo.getBirthday(),vo.getCompanyName(),vo.getCredit(),Member.companyMember,vo.getId(),vo.getCreditNum(),vo.getCreditRecord(),vo.getOrderId1(),vo.getOrderId2(),vo.getOrderId3(),vo.getOrderId4()));
         }
-        po.setId(vo.getId());
-        this.cds.insert(po);
-        return false;
+        return this.cds.insert(new CustomerPO(vo.getCustomerName(),vo.getCustomerPhone(),vo.getBirthday(),vo.getCompanyName(),vo.getCredit(),Member.normalMember,vo.getId(),vo.getCreditNum(),vo.getCreditRecord(),vo.getOrderId1(),vo.getOrderId2(),vo.getOrderId3(),vo.getOrderId4()));
     }
 
-    public HotelVO[] searchHotel(HotelVO vo) throws RemoteException{
-        HotelVO[] hvo=new HotelVO[10];
-        long id=10000;
-        int i=0;
-        while(this.hds.find(id)!=null){
-            if(vo.getHotelLocation()==this.hds.find(id).getHotelLocation()){
-                if(vo.getStars()==this.hds.find(id).getStars()){
-                    hvo[i].setHotelName(this.hds.find(id).getHotelName());
-                    hvo[i].setHotelPhone(this.hds.find(id).getHotelPhone());
-                    hvo[i].setHotelLocation(this.hds.find(id).getHotelLocation());
-                    hvo[i].setStars(this.hds.find(id).getStars());
-                    hvo[i].setID(id);
-                    id++;
-                }
-            }
-        }
-        return hvo;
+    public HotelVO searchHotel(HotelVO vo) throws RemoteException{
+
+        return new HotelVO();
     }
 
-    public boolean addEvaluation(String score,String evaluation) throws RemoteException{
 
-        return true;
+    public OrderVO viewNormalOrder(long id,int i)throws RemoteException{
+        CustomerPO p=this.cds.find(id);
+        OrderPO po=this.ods.find(Long.parseLong(p.getOrderId1()[i]));
+        return new OrderVO(po.getId(),po.getCustomerName(),po.getCustomerPhone(),po.getHotelName(),po.getHotelPhone(),po.getHotelLocation(),po.getRoomType(),po.getRoomNumber(),po.getRoomPrice(),po.getDiscount(),po.getStartTime(),po.getEndTime(),po.getExecuteTime(),po.getTotalPrice(),po.getOs(),po.getIsExistChild(),po.getCustomerNumber(),po.getMasterId());
     }
 
-    public OrderVO[] viewOrder(long id)throws RemoteException{
-        CustomerPO p;
-        OrderVO[] vo;
-        OrderPO[] po;
-        p=this.cds.find(id);
-        String[] idTemp=p.getOrderId1();
-        long[] idtemp=null;
-        for(int i=0;i<idTemp.length;i++){
-            idtemp[i]=Long.parseLong(idTemp[i]);
-        }
-        vo=new OrderVO[idTemp.length];
-        po=new OrderPO[idTemp.length];
-        for(int i=0;i<idTemp.length;i++){
-            po[i]=this.ods.find(idtemp[i]);
-            vo[i].setCustomerName(po[i].getCustomerName());
-            vo[i].setCustomerPhone(po[i].getCustomerPhone());
-            vo[i].setCustomerNumber(po[i].getCustomerNumber());
-            vo[i].setHotelName(po[i].getHotelName());
-            vo[i].setHotelPhone(po[i].getHotelPhone());
-            vo[i].setHotelLocation(po[i].getHotelLocation());
-            vo[i].setRoomType(po[i].getRoomType());
-            vo[i].setRoomNumber(po[i].getRoomNumber());
-            vo[i].setRoomPrice(po[i].getRoomPrice());
-            vo[i].setDiscount(po[i].getDiscount());
-            vo[i].setTotalPrice(po[i].getTotalPrice());
-            vo[i].setStartTime(po[i].getStartTime());
-            vo[i].setEndTime(po[i].getEndTime());
-            vo[i].setIsExistChild(po[i].getIsExistChild());
-        }
-        return vo;
-    }
 
-    public CustomerVO viewCredit(long id) throws RemoteException{
-        CustomerPO po;
-        CustomerVO vo=new CustomerVO();
-        po=this.cds.find(id);
-        vo.setCreditRecord(po.getCreditRecord());
-        return vo;
-    }
-
-    public void recordCredit(long id,double creditChange)throws RemoteException{
+    public boolean recordCredit(long id,double creditChange)throws RemoteException{
         String[][] record=new String[100][3];
-        CustomerPO po;
-        po=this.cds.find(id);
-        po.setCreditNum(po.getCreditNum()+1);
+        CustomerPO po=this.cds.find(id);
         Date date=new Date();
         SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         record[Integer.parseInt(po.getCreditNum())][0]=sdf.format(date);
@@ -146,7 +127,7 @@ public class CustomerBL implements CustomerBusinessLogicService {
         String[][] temp=po.getCreditRecord();
         temp[Integer.parseInt(po.getCreditNum())][0]=record[Integer.parseInt(po.getCreditNum())][0];
         temp[Integer.parseInt(po.getCreditNum())][1]=record[Integer.parseInt(po.getCreditNum())][1];
-        po.setCreditRecord(temp);
-        this.cds.update(po);
+
+        return this.cds.update(new CustomerPO(po.getCustomerName(),po.getCustomerPhone(),po.getBirthday(),po.getCompanyName(),po.getCredit(),po.getMember(),po.getId(),po.getCreditNum()+1,temp,po.getOrderId1(),po.getOrderId2(),po.getOrderId3(),po.getOrderId4()));
     }
 }

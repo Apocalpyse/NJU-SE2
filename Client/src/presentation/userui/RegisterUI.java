@@ -1,6 +1,9 @@
 package presentation.userui;
 
 import businesslogic.userbl.UserController;
+import dataservice.userdataservice.UserDataService;
+import po.User;
+import po.UserPO;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,6 +15,8 @@ import java.rmi.RemoteException;
  * Created by 常德隆 on 2016/11/29.
  */
 public class RegisterUI {
+
+
     public RegisterUI(){
         JFrame frame=new JFrame("注册");
         Font font=new Font("微软雅黑",Font.BOLD,16);
@@ -76,6 +81,28 @@ public class RegisterUI {
                     if (password1.equals(password2)) {
                         UserController uc = new UserController();
                         if (uc.register(textField2.getPassword().toString(), textField3.getPassword().toString())) {
+                            UserDataService uds=new UserDataService() {
+                                @Override
+                                public UserPO find(String account) {
+                                    return null;
+                                }
+
+                                @Override
+                                public boolean insert(UserPO po) {
+                                    return false;
+                                }
+
+                                @Override
+                                public boolean delete(long id) {
+                                    return false;
+                                }
+
+                                @Override
+                                public boolean update(UserPO po) {
+                                    return false;
+                                }
+                            };
+                            uds.insert(new UserPO(textField1.getText(),textField2.getPassword().toString(),10004, User.customer));
                             Tooltip_two tt = new Tooltip_two();
                             frame.dispose();
                         } else {

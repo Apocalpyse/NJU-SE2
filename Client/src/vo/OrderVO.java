@@ -30,7 +30,7 @@ public class OrderVO {
 	    public OrderVO(long id,String customerName,String customerPhone,String hotelName,String hotelPhone,
 	                   String hotelLocation,String roomType,int roomNumber,double roomPrice,
 	                   double discount,String startTime,String endTime,String executeTime,double totalPrice,
-	                   OrderState os,boolean isExistChild,int customerNumber){
+	                   OrderState os,boolean isExistChild,int customerNumber,long masterId){
 	        this.id=id;
 	        this.customerName=customerName;
 	        this.customerPhone=customerPhone;
@@ -48,6 +48,7 @@ public class OrderVO {
 	        this.os=os;
 	        this.isExistChild=isExistChild;
 	        this.customerNumber=customerNumber;
+			this.masterId=masterId;
 	    }
 
 	    public long getId(){

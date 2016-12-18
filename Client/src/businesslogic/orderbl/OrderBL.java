@@ -3,10 +3,11 @@ package businesslogic.orderbl;
 /**
  * Created by 常德隆 on 2016/11/19.
  */
+import businesslogic.customerbl.CustomerController;
 import businesslogic.promotionbl.PromotionBL;
 import businesslogicservice.orderbusnesslogicservice.OrderBusinessLogicService;
+import dataservice.customerdataservice.CustomerDataService;
 import dataservice.orderdataservice.OrderDataService;
-import dataservice.orderdataservice.OrderDataServiceSqlImpl;
 import po.*;
 import vo.OrderVO;
 
@@ -16,122 +17,116 @@ import java.util.Date;
 
 public class OrderBL implements OrderBusinessLogicService{
 
-    OrderDataServiceSqlImpl ods;
+    OrderDataService ods=new OrderDataService() {
+        @Override
+        public OrderPO find(long id) {
+            return null;
+        }
+
+        @Override
+        public boolean insert(OrderPO po) {
+            return false;
+        }
+
+        @Override
+        public boolean delete(long id) {
+            return false;
+        }
+
+        @Override
+        public boolean update(OrderPO po) {
+            return false;
+        }
+    };
+
+    CustomerDataService cds=new CustomerDataService() {
+        @Override
+        public CustomerPO find(long id) {
+            return null;
+        }
+
+        @Override
+        public boolean insert(CustomerPO po) {
+            return false;
+        }
+
+        @Override
+        public boolean delete(long id) {
+            return false;
+        }
+
+        @Override
+        public boolean update(CustomerPO po) {
+            return false;
+        }
+    };
     private long OrderId=40000;
 
     public boolean createOrder(OrderVO vo)throws RemoteException{
 
-        OrderPO o=new OrderPO();
         PromotionBL pbl=new PromotionBL();
-        double roomPrice;
-        double totalPrice=0;
         String date;
         Date now =new Date();
         SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        boolean result=false;
-
-        o.setCustomerName(vo.getCustomerName());
-        o.setCustomerPhone(vo.getCustomerPhone());
-        o.setHotelName(vo.getHotelName());
-        o.setHotelPhone(vo.getHotelPhone());
-        o.setHotelLocation(vo.getHotelLocation());
-        o.setRoomType(vo.getRoomType());
-        o.setRoomNumber(vo.getRoomNumber());
-        o.setRoomPrice(vo.getRoomPrice());
-        o.setDiscount(pbl.getDiscount(o.getMasterId(),o.getRoomNumber(),o.getRoomPrice()));
-        //获得折扣；
-
-        roomPrice=vo.getRoomPrice();
-        totalPrice=roomPrice*(o.getRoomNumber());
-        totalPrice=totalPrice*o.getDiscount();//根据折扣计算出订单总价值；
-
         date=dateFormat.format(now);//获得当前时间，作为订单的下单时间；
 
-        o.setTotalPrice(totalPrice);
-        o.setStartTime(vo.getStartTime());
-        o.setEndTime(vo.getEndTime());
-        o.setExecuteTime(date);
-        o.setOs(OrderState.unexecute);//将生成的订单的状态设为未执行；
-        o.setIsExistChild(vo.getIsExistChild());
-        o.setCustomerNumber(vo.getCustomerNumber());
-        OrderId++;
-        o.setId(OrderId);
-        result=true;
-
-        return result;
+        return this.ods.insert(new OrderPO(vo.getId(),vo.getCustomerName(),vo.getCustomerPhone(),vo.getHotelName(),vo.getHotelPhone(),vo.getHotelLocation()
+        ,vo.getRoomType(),vo.getRoomNumber(),vo.getRoomPrice(),pbl.getDiscount(vo.getMasterId(),vo.getRoomNumber(),vo.getRoomPrice()),vo.getStartTime(),vo.getEndTime(),date,vo.getRoomPrice()*vo.getDiscount()*vo.getRoomNumber(),vo.getOs()
+        ,vo.getIsExistChild(),vo.getCustomerNumber(),vo.getMasterId()));
     }
 
     public OrderVO getOrder(long id) throws RemoteException{
-        OrderVO v=new OrderVO();
-        OrderPO p;
-        p=this.ods.find(id);
+        OrderPO p=this.ods.find(id);
 
-        v.setCustomerName(p.getCustomerName());
-        v.setCustomerPhone(p.getCustomerPhone());
-        v.setCustomerNumber(p.getCustomerNumber());
-        v.setHotelName(p.getHotelName());
-        v.setHotelPhone(p.getHotelPhone());
-        v.setHotelLocation(p.getHotelLocation());
-        v.setRoomType(p.getRoomType());
-        v.setRoomNumber(p.getRoomNumber());
-        v.setRoomPrice(p.getRoomPrice());
-        v.setDiscount(p.getDiscount());
-        v.setTotalPrice(p.getTotalPrice());
-        v.setStartTime(p.getStartTime());
-        v.setEndTime(p.getEndTime());
-        v.setIsExistChild(p.getIsExistChild());//根据id获得订单信息；
-
-        return v;
+        return new OrderVO(p.getId(),p.getCustomerName(),p.getCustomerPhone(),p.getHotelName(),p.getHotelPhone(),p.getHotelLocation(),
+                  p.getRoomType(),p.getRoomNumber(),p.getRoomPrice(),p.getDiscount(),p.getStartTime(),p.getEndTime(),p.getExecuteTime(),p.getTotalPrice(),
+                  p.getOs(),p.getIsExistChild(),p.getCustomerNumber(),p.getMasterId());
     }
 
-    public double cancelOrder(long id) throws RemoteException {
-        double result=0;
-        OrderPO po;
+    public boolean cancelOrder(long id) throws RemoteException {
+        OrderPO po=this.ods.find(id);
         String now;
-        String startTime;
         Date date=new Date();
         SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         now=sdf.format(date);
-        po=this.ods.find(id);
-        po.setOs(OrderState.canceled);//根据id获得订单，并将此订单的状态设为已撤销；
-        startTime=po.getStartTime();
         long diff=0;
         try
         {
             Date d1 = sdf.parse(now);
-            Date d2 = sdf.parse(startTime);
+            Date d2 = sdf.parse(po.getStartTime());
             diff = d1.getTime() - d2.getTime();
         }
         catch (Exception e)
         {
+            e.printStackTrace();
         }
         if(diff / (1000 * 60 * 60 )>=6){
-            result=0;
+           return this.ods.update(new OrderPO(po.getId(),po.getCustomerName(),po.getCustomerPhone(),po.getHotelName(),po.getHotelPhone(),po.getHotelLocation(),po.getRoomType(),po.getRoomNumber(),po.getRoomPrice(),po.getDiscount(),po.getStartTime(),po.getEndTime(),po.getExecuteTime(),po.getTotalPrice(),OrderState.canceled,po.getIsExistChild(),po.getCustomerNumber(),po.getMasterId()));
         }
         else{
-            result=po.getTotalPrice();
+            this.ods.update(new OrderPO(po.getId(),po.getCustomerName(),po.getCustomerPhone(),po.getHotelName(),po.getHotelPhone(),po.getHotelLocation(),po.getRoomType(),po.getRoomNumber(),po.getRoomPrice(),po.getDiscount(),po.getStartTime(),po.getEndTime(),po.getExecuteTime(),po.getTotalPrice(),OrderState.canceled,po.getIsExistChild(),po.getCustomerNumber(),po.getMasterId()));
+            CustomerPO cpo=this.cds.find(po.getMasterId());
+            this.cds.update(new CustomerPO(cpo.getCustomerName(),cpo.getCustomerPhone(),cpo.getBirthday(),cpo.getCompanyName(),Double.toString(Double.parseDouble(cpo.getCredit())-po.getTotalPrice()/2),cpo.getMember(),cpo.getId(),cpo.getCreditNum(),cpo.getCreditRecord(),cpo.getOrderId1(),cpo.getOrderId2(),cpo.getOrderId3(),cpo.getOrderId4()));
+           return false;
         }//根据订单上的预计入住时间和撤销时的时间差，来判断是否要扣除信用值；
 
-        return result;
     }
 
-    public double completeOrder(long id) throws RemoteException{
-        double result=0;
-        OrderPO po;
-        po=this.ods.find(id);
-        po.setOs(OrderState.normal);
-        result=po.getTotalPrice();//根据id获得订单，并将此订单的状态设为正常状态,加上对应的信用值；
-
-        return result;
+    public boolean completeOrder(long id) throws RemoteException{
+        OrderPO po=this.ods.find(id);
+        CustomerPO cpo=this.cds.find(po.getMasterId());
+        this.cds.update(new CustomerPO(cpo.getCustomerName(),cpo.getCustomerPhone(),cpo.getBirthday(),cpo.getCompanyName(),cpo.getCredit()+po.getTotalPrice(),cpo.getMember(),cpo.getId(),cpo.getCreditNum(),cpo.getCreditRecord(),cpo.getOrderId1(),cpo.getOrderId2(),cpo.getOrderId3(),cpo.getOrderId4()));
+        CustomerController cc=new CustomerController();
+        cc.recordCredit(cpo.getId(),po.getTotalPrice());
+        return this.ods.update(new OrderPO(po.getId(),po.getCustomerName(),po.getCustomerPhone(),po.getHotelName(),po.getHotelPhone(),po.getHotelLocation(),po.getRoomType(),po.getRoomNumber(),po.getRoomPrice(),po.getDiscount(),po.getStartTime(),po.getEndTime(),po.getExecuteTime(),po.getTotalPrice(),OrderState.normal,po.getIsExistChild(),po.getCustomerNumber(),po.getMasterId()));
     }
 
-    public double recoverOrder(long id) throws RemoteException{
-        double result=0;
-        OrderPO po;
-        po=this.ods.find(id);
-        po.setOs(OrderState.normal);
-        result=po.getTotalPrice();//根据id获得订单，并将此订单的状态设为正常状态；
-
-        return result;
+    public boolean recoverOrder(long id) throws RemoteException{
+        OrderPO po=this.ods.find(id);
+        CustomerPO cpo=this.cds.find(po.getMasterId());
+        this.cds.update(new CustomerPO(cpo.getCustomerName(),cpo.getCustomerPhone(),cpo.getBirthday(),cpo.getCompanyName(),cpo.getCredit()+po.getTotalPrice(),cpo.getMember(),cpo.getId(),cpo.getCreditNum(),cpo.getCreditRecord(),cpo.getOrderId1(),cpo.getOrderId2(),cpo.getOrderId3(),cpo.getOrderId4()));
+        CustomerController cc=new CustomerController();
+        cc.recordCredit(cpo.getId(),po.getTotalPrice());
+        return this.ods.update(new OrderPO(po.getId(),po.getCustomerName(),po.getCustomerPhone(),po.getHotelName(),po.getHotelPhone(),po.getHotelLocation(),po.getRoomType(),po.getRoomNumber(),po.getRoomPrice(),po.getDiscount(),po.getStartTime(),po.getEndTime(),po.getExecuteTime(),po.getTotalPrice(),OrderState.normal,po.getIsExistChild(),po.getCustomerNumber(),po.getMasterId()));
     }
 }

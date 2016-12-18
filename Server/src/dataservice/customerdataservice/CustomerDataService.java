@@ -6,8 +6,8 @@ import po.CustomerPO;
  * Created by 常德隆 on 2016/12/4.
  */
 public interface CustomerDataService {
-    public CustomerPO find(long id);
-    public void insert(CustomerPO po);
-    public void delete(long id);
-    public void update(CustomerPO po);
+     CustomerPO find(long id);
+     boolean insert(CustomerPO po);
+     boolean delete(long id);
+     boolean update(CustomerPO po);
 }
