@@ -10,4 +10,5 @@ public interface OrderDataService {
      boolean insert(OrderPO po);
      boolean delete(long id);
      boolean update(OrderPO po);
+     long findMaxId();
 }

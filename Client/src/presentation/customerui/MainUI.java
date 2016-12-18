@@ -3,10 +3,8 @@ package presentation.customerui;
 import businesslogic.customerbl.CustomerController;
 import businesslogic.orderbl.OrderController;
 import businesslogic.userbl.UserController;
-import dataservice.customerdataservice.CustomerDataServiceSqlImpl;
-import dataservice.hoteldataservice.HotelDataServiceSqlImpl;
-import dataservice.orderdataservice.OrderDataServiceSqlImpl;
-import dataservice.userdataservice.UserDataServiceSqlImpl;
+import dataservice.customerdataservice.CustomerDataService;
+import dataservice.userdataservice.UserDataService;
 import po.CustomerPO;
 import po.OrderPO;
 import po.UserPO;
@@ -34,6 +32,8 @@ public class MainUI {
     CustomerController cc;
     OrderController oc;
     UserController uc;
+
+
 
     public MainUI(String account,String password){
         JFrame frame=new JFrame("DS酒店管家");
@@ -161,7 +161,13 @@ public class MainUI {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                SearchResultUI ui=new SearchResultUI(vo);
+                try {
+                    CustomerController cc = new CustomerController();
+                    HotelVO resultVo = cc.searchHotel(vo);
+                    SearchResultUI ui = new SearchResultUI(resultVo);
+                }catch(RemoteException e1){
+                    e1.printStackTrace();
+                }
             }
         });
 
@@ -206,16 +212,117 @@ public class MainUI {
                 phone.setEditable(true);
                 birthday.setEditable(true);
                 companyName.setEditable(true);
+                try {
+                    CustomerController cc = new CustomerController();
+                    UserDataService uds = new UserDataService() {
+                        @Override
+                        public UserPO find(String account) {
+                            return null;
+                        }
+
+                        @Override
+                        public boolean insert(UserPO po) {
+                            return false;
+                        }
+
+                        @Override
+                        public boolean delete(long id) {
+                            return false;
+                        }
+
+                        @Override
+                        public boolean update(UserPO po) {
+                            return false;
+                        }
+                    };
+                    CustomerDataService cds = new CustomerDataService() {
+                        @Override
+                        public CustomerPO find(long id) {
+                            return null;
+                        }
+
+                        @Override
+                        public boolean insert(CustomerPO po) {
+                            return false;
+                        }
+
+                        @Override
+                        public boolean delete(long id) {
+                            return false;
+                        }
+
+                        @Override
+                        public boolean update(CustomerPO po) {
+                            return false;
+                        }
+                    };
+                    UserPO upo = uds.find(account);
+                    CustomerPO cpo = cds.find(upo.getId());
+                    cc.changeCustomer(new CustomerVO(name.getText(),phone.getText(),birthday.getText(),companyName.getText(),cpo.getCredit(),cpo.getMember(),cpo.getId(),cpo.getCreditNum(),cpo.getCreditRecord(),cpo.getOrderId1(),cpo.getOrderId2(),cpo.getOrderId3(),cpo.getOrderId4()));
+                }catch(RemoteException e1){
+                    e1.printStackTrace();
+                }
             }
         });
         JButton button2=new JButton("确定");
         button2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                name.setEditable(false);
-                phone.setEditable(false);
-                birthday.setEditable(false);
-                companyName.setEditable(false);
+                try {
+                    name.setEditable(false);
+                    phone.setEditable(false);
+                    birthday.setEditable(false);
+                    companyName.setEditable(false);
+                    CustomerController cc = new CustomerController();
+                    UserDataService uds = new UserDataService() {
+                        @Override
+                        public UserPO find(String account) {
+                            return null;
+                        }
+
+                        @Override
+                        public boolean insert(UserPO po) {
+                            return false;
+                        }
+
+                        @Override
+                        public boolean delete(long id) {
+                            return false;
+                        }
+
+                        @Override
+                        public boolean update(UserPO po) {
+                            return false;
+                        }
+                    };
+                    CustomerDataService cds = new CustomerDataService() {
+                        @Override
+                        public CustomerPO find(long id) {
+                            return null;
+                        }
+
+                        @Override
+                        public boolean insert(CustomerPO po) {
+                            return false;
+                        }
+
+                        @Override
+                        public boolean delete(long id) {
+                            return false;
+                        }
+
+                        @Override
+                        public boolean update(CustomerPO po) {
+                            return false;
+                        }
+                    };
+                    UserPO upo = uds.find(account);
+                    CustomerPO cpo = cds.find(upo.getId());
+                    cc.registerMember(new CustomerVO(name.getText(), phone.getText(), birthday.getText(), companyName.getText(), cpo.getCredit(), cpo.getMember(), cpo.getId()
+                            , cpo.getCreditNum(), cpo.getCreditRecord(), cpo.getOrderId1(), cpo.getOrderId2(), cpo.getOrderId3(), cpo.getOrderId4()));
+                }catch(RemoteException e1){
+                    e1.printStackTrace();
+                }
             }
         });
         button2.setFont(font);

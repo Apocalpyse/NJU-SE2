@@ -18,4 +18,7 @@ public interface PromotionDataService {
      boolean insert3(WebPromotionPO po);
      boolean delete3(long id);
      boolean update3(WebPromotionPO po);
+     long findMaxId1();
+     long findMaxId2();
+     long findMaxId3();
 }

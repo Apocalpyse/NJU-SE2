@@ -124,4 +124,23 @@ public class OrderDataServiceSqlImpl implements OrderDataService {
         }
       return true;
     }
+
+    @Override
+    public long findMaxId() {
+        sql="select max(ID) from 订单信息";
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            con = DriverManager.getConnection(this.url,this.name,this.password);
+            PreparedStatement preparedStatement=con.prepareStatement(sql);
+            preparedStatement.executeUpdate();
+            long result=resultSet.getLong(1);
+            con.close();
+            return result;
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 }

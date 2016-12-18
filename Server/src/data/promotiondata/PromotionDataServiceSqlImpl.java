@@ -128,6 +128,24 @@ public class PromotionDataServiceSqlImpl implements PromotionDataService {
        return true;
 	}
 
+	@Override
+	public long findMaxId1() {
+		sql="select max(ID) from 会员制度信息";
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			con = DriverManager.getConnection(this.url,this.name,this.password);
+			PreparedStatement preparedStatement=con.prepareStatement(sql);
+			preparedStatement.executeUpdate();
+			long result=resultSet.getLong(1);
+			con.close();
+			return result;
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
 	// *********MEMBERPROMOTION
 	
 	
@@ -270,6 +288,24 @@ public class PromotionDataServiceSqlImpl implements PromotionDataService {
       return true;
 	}
 
+	@Override
+	public long findMaxId2() {
+		sql="select max(ID) from 酒店促销策略信息";
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			con = DriverManager.getConnection(this.url,this.name,this.password);
+			PreparedStatement preparedStatement=con.prepareStatement(sql);
+			preparedStatement.executeUpdate();
+			long result=resultSet.getLong(1);
+			con.close();
+			return result;
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
 	
 	
 	
@@ -395,5 +431,23 @@ public class PromotionDataServiceSqlImpl implements PromotionDataService {
       return true;
 	}
 
+	@Override
+	public long findMaxId3() {
+		sql="select max(ID) from 网站促销策略信息";
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			con = DriverManager.getConnection(this.url,this.name,this.password);
+			PreparedStatement preparedStatement=con.prepareStatement(sql);
+			preparedStatement.executeUpdate();
+			long result=resultSet.getLong(1);
+			con.close();
+			return result;
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
 
 }

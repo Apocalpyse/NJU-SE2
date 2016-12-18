@@ -10,4 +10,5 @@ public interface UserDataService {
      boolean insert(UserPO po);
      boolean delete(long id);
      boolean update(UserPO po);
+     long findMaxId();
 }

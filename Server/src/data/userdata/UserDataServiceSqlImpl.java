@@ -1,6 +1,7 @@
 package data.userdata;
 
 import dataservice.userdataservice.UserDataService;
+import po.User;
 import po.UserPO;
 
 import java.sql.*;
@@ -19,7 +20,7 @@ public class UserDataServiceSqlImpl implements UserDataService{
 
     @Override
     public boolean update(UserPO po) {
-        sql="update 帐号信息 set myaccount='"+po.getAccount()+"',mypassword='"+po.getPassword()+"',id='"+po.getId()+"'";
+        sql="update 帐号信息 set account='"+po.getAccount()+"',password='"+po.getPassword()+"',userType='"+po.getUser()+"',id='"+po.getId()+"'";
 
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -37,7 +38,7 @@ public class UserDataServiceSqlImpl implements UserDataService{
 
     @Override
     public UserPO find(String account) {
-        sql="SELECT * from 帐号信息 where myaccount='"+account+"'";
+        sql="SELECT * from 帐号信息 where account='"+account+"'";
         try {
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection(this.url,this.name,this.password);
@@ -47,9 +48,15 @@ public class UserDataServiceSqlImpl implements UserDataService{
 
             if (resultSet.next()) {
                 UserPO upo=new UserPO();
-                upo.setId(Long.parseLong(resultSet.getString(1)));
-                upo.setAccount(resultSet.getString(2));
-                upo.setPassword(resultSet.getString(3));
+                upo.setId(Long.parseLong(resultSet.getString(4)));
+                upo.setAccount(resultSet.getString(1));
+                upo.setPassword(resultSet.getString(2));
+                switch (resultSet.getString(3)){
+                    case "customer":upo.setUser(User.customer);
+                    case "hotel":upo.setUser(User.hotel);
+                    case "webmanager":upo.setUser(User.webmanager);
+                    case "webworker":upo.setUser(User.webworker);
+                }
                 con.close();
                 return upo;
             }
@@ -68,7 +75,7 @@ public class UserDataServiceSqlImpl implements UserDataService{
 
     @Override
     public boolean insert(UserPO po) {
-        sql="insert into 帐号信息(myaccount,mypassword,id) values ('"+po.getAccount()+"','"+po.getPassword()+"','"+po.getId()+"')";
+        sql="insert into 帐号信息(account,password,id) values ('"+po.getAccount()+"','"+po.getPassword()+"','"+po.getUser()+"','"+po.getId()+"')";
 
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -99,5 +106,24 @@ public class UserDataServiceSqlImpl implements UserDataService{
             e.printStackTrace();
         }
       return true;
+    }
+
+    @Override
+    public long findMaxId() {
+        sql="select max(ID) from 帐号信息";
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            con = DriverManager.getConnection(this.url,this.name,this.password);
+            PreparedStatement preparedStatement=con.prepareStatement(sql);
+            preparedStatement.executeUpdate();
+            long result=resultSet.getLong(1);
+            con.close();
+            return result;
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 }

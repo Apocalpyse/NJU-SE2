@@ -10,4 +10,5 @@ public interface WebworkerDataService {
      boolean insert(WebworkerPO po);
      boolean delete(long id);
      boolean update(WebworkerPO po);
+     long findMaxId();
 }

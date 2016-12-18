@@ -19,7 +19,7 @@ public class CustomerController {
         return cbl.getCustomer(id);
     }
 
-    public HotelVO[] searchHotel(HotelVO vo)throws RemoteException{
+    public HotelVO searchHotel(HotelVO vo)throws RemoteException{
         return cbl.searchHotel(vo);
     }
 
@@ -31,15 +31,9 @@ public class CustomerController {
         return cbl.registerMember(vo);
     }
 
-    public OrderVO[] viewOrder(long id) throws RemoteException{
-        return cbl.viewOrder(id);
+    public OrderVO viewNormalOrder(long id,int i) throws RemoteException{
+        return cbl.viewNormalOrder(id,i);
     }
-
-    public CustomerVO viewCredit(long id)throws RemoteException {
-        return cbl.viewCredit(id);
-    }
-
-    public boolean addEvaluation(String score,String evaluation)throws RemoteException{return cbl.addEvaluation(score,evaluation);}
 
     public void recordCredit(long id,double creditChange)throws RemoteException{
         cbl.recordCredit(id,creditChange);

@@ -132,4 +132,22 @@ public class HotelDataServiceSqlImpl implements HotelDataService {
         }
       return true;
     }
+    @Override
+    public long findMaxId() {
+        sql="select max(ID) from 酒店信息";
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            con = DriverManager.getConnection(this.url,this.name,this.password);
+            PreparedStatement preparedStatement=con.prepareStatement(sql);
+            preparedStatement.executeUpdate();
+            long result=resultSet.getLong(1);
+            con.close();
+            return result;
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 }

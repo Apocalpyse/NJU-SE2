@@ -11,4 +11,5 @@ public interface HotelDataService {
      boolean insert(HotelPO po);
      boolean delete(long id);
      boolean update(HotelPO po);
+     long findMaxId();
 }
