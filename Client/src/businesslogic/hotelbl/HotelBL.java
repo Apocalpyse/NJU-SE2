@@ -5,13 +5,13 @@ import java.util.ArrayList;
 
 import businesslogicservice.hotelbusinesslogicservice.HotelBusinessLogicService;
 import dataservice.hoteldataservice.HotelDataService;
-import dataservice.hoteldataservice.HotelDataServiceSqlImpl;
+
 import dataservice.orderdataservice.OrderDataService;
-import dataservice.orderdataservice.OrderDataServiceSqlImpl;
+
 import dataservice.userdataservice.UserDataService;
-import dataservice.userdataservice.UserDataServiceSqlImpl;
+
 import dataservice.promotiondataservice.PromotionDataService;
-import dataservice.promotiondataservice.PromotionDataServiceSqlImpl;
+
 import po.CustomerPO;
 import po.Evaluation;
 import po.HotelPO;
@@ -47,6 +47,8 @@ public class HotelBL implements HotelBusinessLogicService {
         public boolean update(HotelPO po) {
             return false;
         }
+
+	
     };
 	
     OrderDataService ods=new OrderDataService() {
@@ -156,7 +158,7 @@ public class HotelBL implements HotelBusinessLogicService {
         }
     };
     
-
+    @Override
     public HotelVO getHotel(long id) throws RemoteException{
         HotelPO po=this.hds.find(id);
         return new HotelVO(po.getID(), po.getHotelManager(), po.getHotelManPhone(),
@@ -164,13 +166,14 @@ public class HotelBL implements HotelBusinessLogicService {
     			po.getHotelLocation(), po.getHotelPhone(),po.getStars(), po.getInstruction(),
     			po.getEvaluation(),po.getCooperatateCompany());
     }
-
+    @Override
 	public boolean changeHotel(HotelVO hv)throws RemoteException{
-		return this.hds.update(new HotelVO(hv.getID(),hv.getHotelManager(),hv.getHotelManPhone(),
+		return this.hds.update(new HotelPO(hv.getID(),hv.getHotelManager(),hv.getHotelManPhone(),
 				hv.getGoal(),hv.getPrice(),hv.getHotelName(),hv.getTradeArea(),
 				hv.getHotelLocation(),hv.getHotelPhone(),hv.getStars(),hv.getInstruction(), 
 				hv.getEvaluation(),hv.getCooperatateCompany()));
 	}
+    @Override
 	public boolean changeGoal(HotelVO hv,Evaluation eva)throws RemoteException{
 		HotelPO hp2=this.hds.find(hv.getID());
 		ArrayList<Evaluation> arr=hp2.getEvaluation();
@@ -185,7 +188,7 @@ public class HotelBL implements HotelBusinessLogicService {
 				hv.getHotelLocation(),hv.getHotelPhone(),hv.getStars(),hv.getInstruction(), 
 				hv.getEvaluation(),hv.getCooperatateCompany()));
 	}
-
+    @Override
 	public boolean changePassWord(String account,String pw)throws RemoteException{
 		UserPO up;
 		up=this.uds.find(account);
@@ -198,7 +201,7 @@ public class HotelBL implements HotelBusinessLogicService {
 		
 	}
 	
-
+    @Override
 	public boolean addEvaluation(long id,ArrayList evaluation)throws RemoteException{
 		HotelPO hp=this.hds.find(id);
 		return this.hds.update(new HotelPO(hp.getID(),hp.getHotelManager(),hp.getHotelManPhone(),
@@ -206,6 +209,7 @@ public class HotelBL implements HotelBusinessLogicService {
 				hp.getHotelLocation(),hp.getHotelPhone(),hp.getStars(),hp.getInstruction(), 
 				evaluation,hp.getCooperatateCompany()));
 	}
+    @Override
     public boolean changeOraderState(long id,OrderState os)throws RemoteException{
 		OrderPO op=this.ods.find(id);
 		 return this.ods.update(new OrderPO(op.getId(),op.getCustomerName(),op.getCustomerPhone(),op.getHotelName(),op.getHotelPhone(),op.getHotelLocation()
@@ -213,6 +217,7 @@ public class HotelBL implements HotelBusinessLogicService {
 			        ,op.getIsExistChild(),op.getCustomerNumber(),op.getMasterId()));
 
     }
+    @Override
     public boolean setPromotionOne(long id,int numberOfRoom,double discount)throws RemoteException{
     	HotelPromotionPO hpo =this.pds.find2(id);
     	return this.pds.update2(new HotelPromotionPO(id,hpo.getPromotionName(),hpo.getCreatedTime(),
@@ -221,6 +226,7 @@ public class HotelBL implements HotelBusinessLogicService {
     			hpo.getBirthDiscount(),hpo.getCompanyDiscount()));
     	    
     }
+    @Override
     public boolean setPromotionTwo(long id,double discount)throws RemoteException{
     	HotelPromotionPO hpo =this.pds.find2(id);
     	return this.pds.update2(new HotelPromotionPO(id,hpo.getPromotionName(),hpo.getCreatedTime(),
@@ -228,6 +234,7 @@ public class HotelBL implements HotelBusinessLogicService {
     			hpo.getDiscountForMoreRoom(),hpo.getDiscountformoreroom(),hpo.getDiscountforlargeramount(),hpo.getDiscountforlargeramount(),
     			discount,hpo.getCompanyDiscount()));
     }
+    @Override
     public boolean setPromotionThree(long id,String beginTime,String endTime)throws RemoteException{
     	HotelPromotionPO hpo =this.pds.find2(id);
     	return this.pds.update2(new HotelPromotionPO(id,hpo.getPromotionName(),hpo.getCreatedTime(),
@@ -235,6 +242,7 @@ public class HotelBL implements HotelBusinessLogicService {
     			hpo.getDiscountForMoreRoom(),hpo.getDiscountformoreroom(),hpo.getDiscountforlargeramount(),hpo.getDiscountforlargeramount(),
     			hpo.getBirthDiscount(),hpo.getCompanyDiscount()));
     }
+    @Override
     public boolean setPromotionFour(long id,double discount)throws RemoteException{
     	HotelPromotionPO hpo =this.pds.find2(id);
     	return this.pds.update2(new HotelPromotionPO(id,hpo.getPromotionName(),hpo.getCreatedTime(),
