@@ -3,6 +3,7 @@ package vo;
 import po.MemberType;
 import po.UsageState;
 
+
 public class HotelPromotionVO {
 	private long ID;//编号
 	private String promotionName;//名称
@@ -18,6 +19,7 @@ public class HotelPromotionVO {
 	private double discountforlargeramount;// 对应金额折扣
 	private double birthDiscount;//生日折扣
 	private double companyDiscount;//合作企业折扣
+	private long hotelID;//所属酒店
 	public HotelPromotionVO(){
 		
 	}
@@ -25,8 +27,7 @@ public class HotelPromotionVO {
 	public HotelPromotionVO(long iD, String promotionName, String createdTime, UsageState usageState, String beginTime,
 			String endTime, MemberType memberType, double discount, int discountForMoreRoom,
 			double discountformoreroom2, double discountForLargerAmount, double discountforlargeramount2,
-			double birthDiscount, double companyDiscount) {
-		super();
+			double birthDiscount, double companyDiscount, long hotelID) {
 		ID = iD;
 		this.promotionName = promotionName;
 		this.createdTime = createdTime;
@@ -41,94 +42,131 @@ public class HotelPromotionVO {
 		discountforlargeramount = discountforlargeramount2;
 		this.birthDiscount = birthDiscount;
 		this.companyDiscount = companyDiscount;
+		this.hotelID = hotelID;
 	}
 
-	public double getCompanyDiscount() {
-		return companyDiscount;
-	}
-	public double getDiscountForLargerAmount() {
-		return discountForLargerAmount;
-	}
-	public void setDiscountForLargerAmount(double discountForLargerAmount) {
-		this.discountForLargerAmount = discountForLargerAmount;
-	}
-	public double getDiscountforlargeramount() {
-		return discountforlargeramount;
-	}
-	public void setCompanyDiscount(double companyDiscount) {
-		this.companyDiscount = companyDiscount;
-	}
-
-	public double getBirthDiscount() {
-		return birthDiscount;
-	}
-	public void setBirthDiscount(double birthDiscount) {
-		this.birthDiscount = birthDiscount;
-	}
 	public long getID() {
 		return ID;
+	}
+
+	public void setID(long iD) {
+		ID = iD;
+	}
+
+	public String getPromotionName() {
+		return promotionName;
+	}
+
+	public void setPromotionName(String promotionName) {
+		this.promotionName = promotionName;
+	}
+
+	public String getCreatedTime() {
+		return createdTime;
+	}
+
+	public void setCreatedTime(String createdTime) {
+		this.createdTime = createdTime;
+	}
+
+	public UsageState getUsageState() {
+		return usageState;
+	}
+
+	public void setUsageState(UsageState usageState) {
+		this.usageState = usageState;
+	}
+
+	public String getBeginTime() {
+		return beginTime;
+	}
+
+	public void setBeginTime(String beginTime) {
+		this.beginTime = beginTime;
+	}
+
+	public String getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(String endTime) {
+		this.endTime = endTime;
+	}
+
+	public MemberType getMemberType() {
+		return memberType;
+	}
+
+	public void setMemberType(MemberType memberType) {
+		this.memberType = memberType;
+	}
+
+	public double getDiscount() {
+		return discount;
+	}
+
+	public void setDiscount(double discount) {
+		this.discount = discount;
 	}
 
 	public int getDiscountForMoreRoom() {
 		return discountForMoreRoom;
 	}
+
 	public void setDiscountForMoreRoom(int discountForMoreRoom) {
 		this.discountForMoreRoom = discountForMoreRoom;
 	}
+
 	public double getDiscountformoreroom() {
 		return discountformoreroom;
 	}
+
 	public void setDiscountformoreroom(double discountformoreroom) {
 		this.discountformoreroom = discountformoreroom;
 	}
-	public void setID(long ID) {
-		this.ID = ID;
-	}
-	public String getPromotionName() {
-		return promotionName;
-	}
-	public void setPromotionName(String promotionName) {
-		this.promotionName = promotionName;
-	}
-	public String getCreatedTime() {
-		return createdTime;
-	}
-	public void setCreatedTime(String createdTime) {
-		this.createdTime = createdTime;
-	}
-	public UsageState getUsageState() {
-		return usageState;
-	}
-	public void setUsageState(UsageState usageState) {
-		this.usageState = usageState;
-	}
-	public String getBeginTime() {
-		return beginTime;
-	}
-	public void setBeginTime(String beginTime) {
-		this.beginTime = beginTime;
-	}
-	public String getEndTime() {
-		return endTime;
-	}
-	public void setEndTime(String endTime) {
-		this.endTime = endTime;
-	}
-	public MemberType getMemberType() {
-		return memberType;
-	}
-	public void setMemberType(MemberType memberType) {
-		this.memberType = memberType;
-	}
-	public double getDiscount() {
-		return discount;
-	}
-	public void setDiscount(double discount) {
-		this.discount = discount;
-	}
-	public void setDiscountforlargeramount(double numberOfRoom) {
-		// TODO Auto-generated method stub
-		
+
+	public double getDiscountForLargerAmount() {
+		return discountForLargerAmount;
 	}
 
+	public void setDiscountForLargerAmount(double discountForLargerAmount) {
+		this.discountForLargerAmount = discountForLargerAmount;
+	}
+
+	public double getDiscountforlargeramount() {
+		return discountforlargeramount;
+	}
+
+	public void setDiscountforlargeramount(double discountforlargeramount) {
+		this.discountforlargeramount = discountforlargeramount;
+	}
+
+	public double getBirthDiscount() {
+		return birthDiscount;
+	}
+
+	public void setBirthDiscount(double birthDiscount) {
+		this.birthDiscount = birthDiscount;
+	}
+
+	public double getCompanyDiscount() {
+		return companyDiscount;
+	}
+
+	public void setCompanyDiscount(double companyDiscount) {
+		this.companyDiscount = companyDiscount;
+	}
+
+	public long getHotelID() {
+		return hotelID;
+	}
+
+	public void setHotelID(long hotelID) {
+		this.hotelID = hotelID;
+	}
+
+	
+
+
+	
 }

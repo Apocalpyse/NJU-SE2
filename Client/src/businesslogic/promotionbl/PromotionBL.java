@@ -1,31 +1,207 @@
 package businesslogic.promotionbl;
 
 import java.rmi.RemoteException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import java.util.Date;
-
-import businesslogic.customerbl.CustomerController;
 import businesslogicservice.promotionbusinesslogicservice.PromotionBusinessLogicService;
 import dataservice.customerdataservice.CustomerDataService;
-import dataservice.customerdataservice.CustomerDataServiceSqlImpl;
 import dataservice.promotiondataservice.PromotionDataService;
-import dataservice.promotiondataservice.PromotionDataServiceSqlImpl;
 import po.*;
 import vo.*;
 
 public class PromotionBL implements PromotionBusinessLogicService {
+	CustomerDataService cds = new CustomerDataService() {
+		@Override
+		public CustomerPO find(long id) {
+			return null;
+		}
 
-	static long countMemberID = 50000;
-	static long countHotelID = 60000;
-	static long countWebID = 70000;
-	CustomerDataServiceSqlImpl cds;
-	PromotionDataServiceSqlImpl pds;
+		@Override
+		public boolean insert(CustomerPO po) {
+			return false;
+		}
+
+		@Override
+		public boolean delete(long id) {
+			return false;
+		}
+
+		@Override
+		public boolean update(CustomerPO po) {
+			return false;
+		}
+	};
+	PromotionDataService pds = new PromotionDataService() {
+		@Override
+		public MemberPromotionPO find1(long id) {
+			return null;
+		}
+
+		@Override
+		public HotelPromotionPO find2(long id) {
+			return null;
+		}
+
+		@Override
+		public WebPromotionPO find3(long id) {
+			return null;
+		}
+
+		@Override
+		public boolean insert1(MemberPromotionPO po) {
+			return false;
+		}
+
+		@Override
+		public boolean delete1(long id) {
+			return false;
+		}
+
+		@Override
+		public boolean update1(MemberPromotionPO po) {
+			return false;
+		}
+
+		@Override
+		public boolean insert2(HotelPromotionPO po) {
+			return false;
+		}
+
+		@Override
+		public boolean delete2(long id) {
+			return false;
+		}
+
+		@Override
+		public boolean update2(HotelPromotionPO po) {
+			return false;
+		}
+
+		@Override
+		public boolean insert3(WebPromotionPO po) {
+			return false;
+		}
+
+		@Override
+		public boolean delete3(long id) {
+			return false;
+		}
+
+		@Override
+		public boolean update3(WebPromotionPO po) {
+			return false;
+		}
+	};
 
 	// String businessDistrict[]={"NJU","XL"};
-	// WebPromotionVO vo=new
+	// WebPromotionVO vo=new WebPromotionVO();
 	// WebPromotionVO(1111,"a","2016-12-06",UsageState.Using,"2016-12-06","2016-12-07",businessDistrict,MemberType.All,0.3);
-	public double getDiscount(long id, int room, double price) throws RemoteException {
+	public long getCorrespondingHotelPromotion(long userid, long hotelid, String createdTime) throws RemoteException {
+		long id = 0;
+		// 获取始末ID
+		boolean hasHP = false;
+		long begin = 100;
+		long end = 100;
+		for (id = begin; id <= end; id++) {
+			try {
+				CustomerPO cpo = this.cds.find(userid);
+				HotelPromotionPO hppo = this.pds.find2(id);
+
+				if ((hppo.getHotelID()) == hotelid) {
+					SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+					Date now = new Date();
+					Date orderDate = now;
+					Date beginDate = now;
+					Date endDate = now;
+
+					orderDate = dateFormat.parse(createdTime);
+					beginDate = dateFormat.parse(hppo.getBeginTime());
+					endDate = dateFormat.parse(hppo.getEndTime());
+					if (orderDate.after(beginDate) && orderDate.before(endDate)
+							&& hppo.getUsageState().equals(UsageState.Using)) {
+						hasHP = true;
+						break;
+
+						// 时间和状态上符合
+					}
+
+				}
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+		}
+		if (hasHP == false) {
+			id = 0;
+		} // 找不到则为0
+		return id;
+	}
+
+	public long getCorrespondingMemberPromotion() throws RemoteException {
+		long id = 0;
+		// 获取始末ID
+		boolean hasMP = false;
+		long begin = 100;
+		long end = 100;
+		for (id = begin; id <= end; id++) {
+			try {
+				MemberPromotionPO mppo = this.pds.find1(id);
+				if (mppo.getUsageState().equals(UsageState.Using)) {
+					hasMP = true;
+					break;
+				}
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+		}
+		if (hasMP == false) {
+			id = 0;
+		}
+		// 无会员制度则返回0
+		return id;
+	}
+
+	public long getCorrespondingWebPromotion(long userid, String createdTime) throws RemoteException {
+		long id = 0;
+		// 获取始末ID
+		boolean hasWP = false;
+		long begin = 100;
+		long end = 100;
+		
+		for (id = begin; id <= end; id++) {
+			try {
+				CustomerPO cpo = this.cds.find(userid);
+				WebPromotionPO hppo = this.pds.find3(id);
+
+				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				Date now = new Date();
+				Date orderDate = now;
+				Date beginDate = now;
+				Date endDate = now;
+				orderDate = dateFormat.parse(createdTime);
+				beginDate = dateFormat.parse(hppo.getBeginTime());
+				endDate = dateFormat.parse(hppo.getEndTime());
+				if (orderDate.after(beginDate) && orderDate.before(endDate)
+						&& hppo.getUsageState().equals(UsageState.Using)
+						&&cpo.getMember().equals(hppo.getMemberType())) {
+					hasWP = true;
+					break;
+
+					// 时间和状态上符合
+				}
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+		}
+		if (hasWP == false) {
+			id = 0;
+		} // 找不到则为0
+		return id;
+	}
+
+	public double getDiscount(long userid, long hotelid, String createdTime, int room, double price)
+			throws RemoteException {
 		double lowestDiscount = 1;
 		double memberDiscount = 1;
 		double roomDiscount = 1;
@@ -34,10 +210,14 @@ public class PromotionBL implements PromotionBusinessLogicService {
 		double companyDiscount = 1;
 		double amount = price;
 		int rooms = room;
-		CustomerPO cppo = this.cds.find(id);
-		HotelPromotionPO hppo = new HotelPromotionPO();
-		MemberPromotionPO mppo = new MemberPromotionPO();
-		WebPromotionPO wppo = new WebPromotionPO();
+		CustomerPO cppo = this.cds.find(userid);
+		long hpid = this.getCorrespondingHotelPromotion(userid, hotelid, createdTime);
+		HotelPromotionPO hppo = this.pds.find2(hpid);
+		long mpid = this.getCorrespondingMemberPromotion();
+		MemberPromotionPO mppo =this.pds.find1(mpid);
+		long wpid = this.getCorrespondingWebPromotion(userid, createdTime);
+		WebPromotionPO wppo =this.pds.find3(wpid);
+		// 获取初始ID
 		double level[] = mppo.getCredit();
 		double discount[] = mppo.getDiscountForMember();
 		double credit = Double.parseDouble(cppo.getCredit());
@@ -97,163 +277,71 @@ public class PromotionBL implements PromotionBusinessLogicService {
 	// 其中，MemberPromotion部分对会员折扣与HotelPromotion的多房间折扣或消费金额折扣或生日折扣以及WebPromotion折扣
 	// ***限制：需根据数据库的构建来获取对应的促销策略
 	public MemberPromotionVO getMemberPromotion(long id) throws RemoteException {
-		MemberPromotionVO vo = new MemberPromotionVO();
-		MemberPromotionPO po;
-		po = this.pds.find1(id);
-		// 获取PO
 
-		vo.setCreatedTime(po.getCreatedTime());
-		vo.setID(po.getID());
-		vo.setPromotionName(po.getPromotionName());
-		vo.setUsageState(po.getUsageState());
-		vo.setCredit(po.getCredit());
-		vo.setDiscountForMember(po.getDiscountForMember());
-		return vo;
+		MemberPromotionPO po = this.pds.find1(id);// 获取PO
+		return new MemberPromotionVO(po.getID(), po.getPromotionName(), po.getCreatedTime(), po.getUsageState(),
+				po.getCredit(), po.getDiscountForMember());
 	}
 
 	public boolean creatMemberPromotion(MemberPromotionVO vo) throws RemoteException {
-		MemberPromotionPO po = new MemberPromotionPO();
-
-		po.setID(vo.getID());// 自动生成I
-		po.setCreatedTime(vo.getCreatedTime());
-		po.setUsageState(vo.getUsageState());
-		po.setPromotionName(vo.getPromotionName());
-		po.setCredit(vo.getCredit());
-		po.setDiscountForMember(vo.getDiscountForMember());
-		this.pds.insert1(po);
-		return true;
+		return this.pds.insert1(new MemberPromotionPO(vo.getID(), vo.getPromotionName(), vo.getCreatedTime(),
+				vo.getUsageState(), vo.getCredit(), vo.getDiscountForMember()));
 	}
 
 	public boolean changeMemberPromotion(MemberPromotionVO vo) throws RemoteException {
-		MemberPromotionPO po = new MemberPromotionPO();
-		po.setID(vo.getID());
-		po.setCreatedTime(vo.getCreatedTime());
-		po.setPromotionName(vo.getPromotionName());
-		po.setUsageState(vo.getUsageState());
-		po.setCredit(vo.getCredit());
-		po.setDiscountForMember(vo.getDiscountForMember());
-		this.pds.update1(po);
-		return true;
+
+		return this.pds.update1(new MemberPromotionPO(vo.getID(), vo.getPromotionName(), vo.getCreatedTime(),
+				vo.getUsageState(), vo.getCredit(), vo.getDiscountForMember()));
+
 	}
 	// MemberPromotionBL
 
 	public HotelPromotionVO getHotelPromotion(long id) throws RemoteException {
-		HotelPromotionVO vo = new HotelPromotionVO();
-		HotelPromotionPO po;
-		po = this.pds.find2(id);
+		HotelPromotionPO po = this.pds.find2(id);
 		// 获取PO
-		vo.setBeginTime(po.getBeginTime());
-		vo.setCreatedTime(po.getCreatedTime());
-		vo.setDiscount(po.getDiscount());
-		vo.setDiscountForLargerAmount(po.getDiscountForLargerAmount());
-		vo.setDiscountforlargeramount(po.getDiscountforlargeramount());
-		vo.setDiscountForMoreRoom(po.getDiscountForMoreRoom());
-		vo.setDiscountformoreroom(po.getDiscountformoreroom());
-		vo.setEndTime(po.getEndTime());
-		vo.setID(po.getID());
-		vo.setMemberType(po.getMemberType());
-		vo.setPromotionName(vo.getPromotionName());
-		vo.setUsageState(po.getUsageState());
-		vo.setBirthDiscount(po.getBirthDiscount());
-		return vo;
+		return new HotelPromotionVO(po.getID(), po.getPromotionName(), po.getCreatedTime(), po.getUsageState(),
+				po.getBeginTime(), po.getEndTime(), po.getMemberType(), po.getDiscount(), po.getDiscountForMoreRoom(),
+				po.getDiscountformoreroom(), po.getDiscountForLargerAmount(), po.getDiscountforlargeramount(),
+				po.getBirthDiscount(), po.getCompanyDiscount(), po.getHotelID());
 	}
 
 	public boolean creatHotelPromotion(HotelPromotionVO vo) throws RemoteException {
-		HotelPromotionPO po = new HotelPromotionPO();
 
-		po.setID(vo.getID());
-		po.setCreatedTime(vo.getCreatedTime());
-		po.setUsageState(vo.getUsageState());
-		po.setBeginTime(vo.getBeginTime());
-		po.setEndTime(vo.getEndTime());
-		po.setDiscount(vo.getDiscount());
-		po.setDiscountForLargerAmount(vo.getDiscountForLargerAmount());
-		po.setDiscountforlargeramount(vo.getDiscountforlargeramount());
-		po.setDiscountForMoreRoom(vo.getDiscountForMoreRoom());
-		po.setDiscountformoreroom(vo.getDiscountformoreroom());
-		po.setMemberType(vo.getMemberType());
-		po.setPromotionName(vo.getPromotionName());
-		po.setBirthDiscount(vo.getBirthDiscount());
-		po.setCompanyDiscount(vo.getCompanyDiscount());
-		this.pds.insert2(po);
-		return true;
+		return this.pds.insert2(new HotelPromotionPO(vo.getID(), vo.getPromotionName(), vo.getCreatedTime(),
+				vo.getUsageState(), vo.getBeginTime(), vo.getEndTime(), vo.getMemberType(), vo.getDiscount(),
+				vo.getDiscountForMoreRoom(), vo.getDiscountformoreroom(), vo.getDiscountForLargerAmount(),
+				vo.getDiscountforlargeramount(), vo.getBirthDiscount(), vo.getCompanyDiscount(), vo.getHotelID()));
+
 	}
 
 	public boolean changeHotelPromotion(HotelPromotionVO vo) throws RemoteException {
-		HotelPromotionPO po = new HotelPromotionPO();
-		po.setID(vo.getID());
-		po.setCreatedTime(vo.getCreatedTime());
-		po.setUsageState(vo.getUsageState());
-		po.setBeginTime(vo.getBeginTime());
-		po.setEndTime(vo.getEndTime());
-		po.setDiscount(vo.getDiscount());
-		po.setDiscountForLargerAmount(vo.getDiscountForLargerAmount());
-		po.setDiscountforlargeramount(vo.getDiscountforlargeramount());
-		po.setDiscountForMoreRoom(vo.getDiscountForMoreRoom());
-		po.setDiscountformoreroom(vo.getDiscountformoreroom());
-		po.setMemberType(vo.getMemberType());
-		po.setPromotionName(vo.getPromotionName());
-		po.setBirthDiscount(vo.getBirthDiscount());
-		po.setCompanyDiscount(vo.getCompanyDiscount());
-		this.pds.update2(po);
-		return true;
+		return this.pds.update2(new HotelPromotionPO(vo.getID(), vo.getPromotionName(), vo.getCreatedTime(),
+				vo.getUsageState(), vo.getBeginTime(), vo.getEndTime(), vo.getMemberType(), vo.getDiscount(),
+				vo.getDiscountForMoreRoom(), vo.getDiscountformoreroom(), vo.getDiscountForLargerAmount(),
+				vo.getDiscountforlargeramount(), vo.getBirthDiscount(), vo.getCompanyDiscount(), vo.getHotelID()));
 	}
-	// HotelPromotionBL
 
+	// HotelPromotionBL
 	public WebPromotionVO getWebPromotion(long id) throws RemoteException {
-		WebPromotionVO vo = new WebPromotionVO();
-		WebPromotionPO po;
-		po = this.pds.find3(id);
+		WebPromotionPO po = this.pds.find3(id);
 		// 获取PO
-		vo.setBeginTime(po.getBeginTime());
-		vo.setEndTime(po.getEndTime());
-		vo.setCreatedTime(po.getCreatedTime());
-		vo.setDiscount(po.getDiscount());
-		vo.setID(po.getID());
-		vo.setMemberType(po.getMemberType());
-		vo.setPromotionName(vo.getPromotionName());
-		vo.setUsageState(po.getUsageState());
-		vo.setBusinessDistrict(po.getBusinessDistrict());
-		return vo;
+		return new WebPromotionVO(po.getID(), po.getPromotionName(), po.getCreatedTime(), po.getUsageState(),
+				po.getBeginTime(), po.getEndTime(), po.getBusinessDistrict(), po.getMemberType(), po.getDiscount());
 		// return this.vo;
 	}
 
 	public boolean creatWebPromotion(WebPromotionVO vo) throws RemoteException {
-		WebPromotionPO po = new WebPromotionPO();
+		return this.pds.insert3(new WebPromotionPO(vo.getID(), vo.getPromotionName(), vo.getCreatedTime(),
+				vo.getUsageState(), vo.getBeginTime(), vo.getEndTime(), vo.getBusinessDistrict(), vo.getMemberType(),
+				vo.getDiscount()));
 
-		po.setID(vo.getID());
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		String date;
-		Date now = new Date();
-		date = dateFormat.format(now);
-		// 获得当前时间
-		po.setCreatedTime(date);
-		// 设置为系统时间
-		po.setUsageState(vo.getUsageState());
-
-		po.setBeginTime(vo.getBeginTime());
-		po.setEndTime(vo.getEndTime());
-		po.setDiscount(vo.getDiscount());
-		po.setMemberType(vo.getMemberType());
-		po.setPromotionName(vo.getPromotionName());
-		po.setBusinessDistrict(vo.getBusinessDistrict());
-		this.pds.insert3(po);
-		return true;
 	}
 
 	public boolean changeWebPromotion(WebPromotionVO vo) throws RemoteException {
-		WebPromotionPO po = new WebPromotionPO();
-		po.setID(vo.getID());
-		po.setCreatedTime(vo.getCreatedTime());
-		po.setUsageState(vo.getUsageState());
-		po.setBeginTime(vo.getBeginTime());
-		po.setEndTime(vo.getEndTime());
-		po.setDiscount(vo.getDiscount());
-		po.setMemberType(vo.getMemberType());
-		po.setPromotionName(vo.getPromotionName());
-		po.setBusinessDistrict(vo.getBusinessDistrict());
-		this.pds.update3(po);
-		return true;
+		return this.pds.update3(new WebPromotionPO(vo.getID(), vo.getPromotionName(), vo.getCreatedTime(),
+				vo.getUsageState(), vo.getBeginTime(), vo.getEndTime(), vo.getBusinessDistrict(), vo.getMemberType(),
+				vo.getDiscount()));
 	}
 	// WebPromotionBL
+
 }
