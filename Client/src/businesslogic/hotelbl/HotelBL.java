@@ -4,58 +4,191 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 import businesslogicservice.hotelbusinesslogicservice.HotelBusinessLogicService;
+import dataservice.hoteldataservice.HotelDataService;
 import dataservice.hoteldataservice.HotelDataServiceSqlImpl;
+import dataservice.orderdataservice.OrderDataService;
 import dataservice.orderdataservice.OrderDataServiceSqlImpl;
+import dataservice.userdataservice.UserDataService;
 import dataservice.userdataservice.UserDataServiceSqlImpl;
+import dataservice.promotiondataservice.PromotionDataService;
 import dataservice.promotiondataservice.PromotionDataServiceSqlImpl;
+import po.CustomerPO;
+import po.Evaluation;
 import po.HotelPO;
 import po.HotelPromotionPO;
+import po.MemberPromotionPO;
 import po.OrderPO;
 import po.UserPO;
+import po.WebPromotionPO;
 import po.OrderState;
+import po.PromotionPO;
+import vo.CustomerVO;
 import vo.HotelVO;
 
-public class HotelBL implements HotelBusinessLogicService{
+public class HotelBL implements HotelBusinessLogicService {
 
-	HotelDataServiceSqlImpl hotelDataService;
-	OrderDataServiceSqlImpl orderDataService ;
-	PromotionDataServiceSqlImpl promotionDataService;
-	UserDataServiceSqlImpl userDataService;
+	HotelDataService hds=new HotelDataService() {
+        @Override
+        public HotelPO find(long id) {
+            return null;
+        }
 
-	public HotelVO getHotel(long id)throws RemoteException{
-		HotelVO hv=new HotelVO();
-		HotelPO hp;
-		hp=this.hotelDataService.find(id);
-		hv.setHotelName(hp.getHotelName());
-		hv.settradeArea(hp.getTradeArea());
-		hv.setHotelLocation(hp.getHotelName());
-		hv.setHotelPhone(hp.getHotelPhone());
-		hv.setStars(hp.getStars());
-		hv.setInstruction(hp.getInstruction());
-		hv.setEvaluation(hp.getEvaluation());
-		return hv;
-	}
+        @Override
+        public boolean insert(HotelPO po) {
+            return false;
+        }
+
+        @Override
+        public boolean delete(long id) {
+            return false;
+        }
+
+        @Override
+        public boolean update(HotelPO po) {
+            return false;
+        }
+    };
+	
+    OrderDataService ods=new OrderDataService() {
+        @Override
+        public OrderPO find(long id) {
+            return null;
+        }
+
+        @Override
+        public boolean insert(OrderPO po) {
+            return false;
+        }
+
+        @Override
+        public boolean delete(long id) {
+            return false;
+        }
+
+        @Override
+        public boolean update(OrderPO po) {
+            return false;
+        }
+    };
+    PromotionDataService pds=new PromotionDataService() {
+
+		@Override
+		public MemberPromotionPO find1(long id) {
+			return null;
+		}
+
+		@Override
+		public HotelPromotionPO find2(long id) {
+			return null;
+		}
+
+		@Override
+		public WebPromotionPO find3(long id) {
+			return null;
+		}
+
+		@Override
+		public boolean insert1(MemberPromotionPO po) {
+			return false;
+		}
+
+		@Override
+		public boolean delete1(long id) {
+			return false;
+		}
+
+		@Override
+		public boolean update1(MemberPromotionPO po) {
+			return false;
+		}
+
+		@Override
+		public boolean insert2(HotelPromotionPO po) {
+			return false;
+		}
+
+		@Override
+		public boolean delete2(long id) {
+			return false;
+		}
+
+		@Override
+		public boolean update2(HotelPromotionPO po) {
+			return false;
+		}
+
+		@Override
+		public boolean insert3(WebPromotionPO po) {
+			return false;
+		}
+
+		@Override
+		public boolean delete3(long id) {
+			return false;
+		}
+
+		@Override
+		public boolean update3(WebPromotionPO po) {
+			return false;
+		}
+       
+    };
+    
+    UserDataService uds=new UserDataService() {
+        @Override
+        public UserPO find(String account) {
+            return null;
+        }
+
+        @Override
+        public boolean insert(UserPO po) {
+            return false;
+        }
+
+        @Override
+        public boolean delete(long id) {
+            return false;
+        }
+
+        @Override
+        public boolean update(UserPO po) {
+            return false;
+        }
+    };
+    
+
+    public HotelVO getHotel(long id) throws RemoteException{
+        HotelPO po=this.hds.find(id);
+        return new HotelVO(po.getID(), po.getHotelManager(), po.getHotelManPhone(),
+    			po.getGoal(), po.getPrice(), po.getHotelName(), po.getTradeArea(), 
+    			po.getHotelLocation(), po.getHotelPhone(),po.getStars(), po.getInstruction(),
+    			po.getEvaluation(),po.getCooperatateCompany());
+    }
 
 	public boolean changeHotel(HotelVO hv)throws RemoteException{
-		boolean result=false;
-		HotelPO hp2;
-		hp2=this.hotelDataService.find(hv.getID());
-		hp2.setID(hv.getID());
-		hp2.setHotelName(hv.getHotelName());
-		hp2.setTradeArea(hv.getTradeArea());
-		hp2.setHotelLocation(hv.getHotelLocation());
-		hp2.setHotelPhone(hv.getHotelPhone());
-		hp2.setStars(hv.getStars());
-		hp2.setInstruction(hv.getInstruction());
-		hp2.setEvaluation(hv.getEvaluation());
-		hp2.setCooperatateCompany(hv.getCooperatateCompany());
-		result=true;
-		return result;
+		return this.hds.update(new HotelVO(hv.getID(),hv.getHotelManager(),hv.getHotelManPhone(),
+				hv.getGoal(),hv.getPrice(),hv.getHotelName(),hv.getTradeArea(),
+				hv.getHotelLocation(),hv.getHotelPhone(),hv.getStars(),hv.getInstruction(), 
+				hv.getEvaluation(),hv.getCooperatateCompany()));
+	}
+	public boolean changeGoal(HotelVO hv,Evaluation eva)throws RemoteException{
+		HotelPO hp2=this.hds.find(hv.getID());
+		ArrayList<Evaluation> arr=hp2.getEvaluation();
+		arr.add(eva);
+		double d1 = 0,d2;
+		for(int i=0;i<arr.size();i++){
+			d1=0+arr.get(i).getMark();
+		}
+		d2=d1/arr.size();
+		return this.hds.update(new HotelPO(hv.getID(),hv.getHotelManager(),hv.getHotelManPhone(),
+				d2,hv.getPrice(),hv.getHotelName(),hv.getTradeArea(),
+				hv.getHotelLocation(),hv.getHotelPhone(),hv.getStars(),hv.getInstruction(), 
+				hv.getEvaluation(),hv.getCooperatateCompany()));
 	}
 
 	public boolean changePassWord(String account,String pw)throws RemoteException{
 		UserPO up;
-		up=this.userDataService.find(account);
+		up=this.uds.find(account);
 		if(pw==up.getPassword()){
 			return true;
 		}
@@ -67,55 +200,50 @@ public class HotelBL implements HotelBusinessLogicService{
 	
 
 	public boolean addEvaluation(long id,ArrayList evaluation)throws RemoteException{
-		boolean result=false;
-		HotelPO hp;
-		hp=this.hotelDataService.find(id);
-		hp.setEvaluation(evaluation);
-		result=true;
-		return result;
+		HotelPO hp=this.hds.find(id);
+		return this.hds.update(new HotelPO(hp.getID(),hp.getHotelManager(),hp.getHotelManPhone(),
+				hp.getGoal(),hp.getPrice(),hp.getHotelName(),hp.getTradeArea(),
+				hp.getHotelLocation(),hp.getHotelPhone(),hp.getStars(),hp.getInstruction(), 
+				evaluation,hp.getCooperatateCompany()));
 	}
     public boolean changeOraderState(long id,OrderState os)throws RemoteException{
-    	boolean result=false;
-		OrderPO op;
-		op=this.orderDataService.find(id);
-		op.setOs(os);
-		result=true;
-		return result;
-    }
-    public boolean setPromotionOne(double numberOfRoom,double discount)throws RemoteException{
-    	boolean result=false;
-    	HotelPromotionPO hpo = null;
-    	hpo.setDiscountforlargeramount(numberOfRoom);
-    	hpo.setDiscountformoreroom(discount);
-    	result=true;
-    	return true;
-    }
-    public boolean setPromotionTwo(double discount)throws RemoteException{
-    	boolean result=false;
-    	HotelPromotionPO hpo = null;
-    	hpo.setBirthDiscount(discount);
-    	result=true;
-    	return true;
-    }
-    public boolean setPromotionThree(String beginTime,String endTime)throws RemoteException{
-    	boolean result=false;
-    	HotelPromotionPO hpo = null;
-    	hpo.setBeginTime(beginTime);
-    	hpo.setEndTime(endTime);
-    	result=true;
-    	return true;
-    }
+		OrderPO op=this.ods.find(id);
+		 return this.ods.update(new OrderPO(op.getId(),op.getCustomerName(),op.getCustomerPhone(),op.getHotelName(),op.getHotelPhone(),op.getHotelLocation()
+			        ,op.getRoomType(),op.getRoomNumber(),op.getRoomPrice(),op.getDiscount(),op.getStartTime(),op.getEndTime(),op.getExecuteTime(),op.getRoomPrice()*op.getDiscount()*op.getRoomNumber(),os
+			        ,op.getIsExistChild(),op.getCustomerNumber(),op.getMasterId()));
 
-	@Override
-	public boolean setPromotionOne(double[] numberOfRoom, double[] discount)throws RemoteException {
-		// TODO Auto-generated method stub
-		return false;
-	}
+    }
+    public boolean setPromotionOne(long id,int numberOfRoom,double discount)throws RemoteException{
+    	HotelPromotionPO hpo =this.pds.find2(id);
+    	return this.pds.update2(new HotelPromotionPO(id,hpo.getPromotionName(),hpo.getCreatedTime(),
+    			hpo.getUsageState(),hpo.getBeginTime(),hpo.getEndTime(),hpo.getMemberType(),hpo.getDiscount(),
+    			numberOfRoom,discount,hpo.getDiscountforlargeramount(),hpo.getDiscountforlargeramount(),
+    			hpo.getBirthDiscount(),hpo.getCompanyDiscount()));
+    	    
+    }
+    public boolean setPromotionTwo(long id,double discount)throws RemoteException{
+    	HotelPromotionPO hpo =this.pds.find2(id);
+    	return this.pds.update2(new HotelPromotionPO(id,hpo.getPromotionName(),hpo.getCreatedTime(),
+    			hpo.getUsageState(),hpo.getBeginTime(),hpo.getEndTime(),hpo.getMemberType(),hpo.getDiscount(),
+    			hpo.getDiscountForMoreRoom(),hpo.getDiscountformoreroom(),hpo.getDiscountforlargeramount(),hpo.getDiscountforlargeramount(),
+    			discount,hpo.getCompanyDiscount()));
+    }
+    public boolean setPromotionThree(long id,String beginTime,String endTime)throws RemoteException{
+    	HotelPromotionPO hpo =this.pds.find2(id);
+    	return this.pds.update2(new HotelPromotionPO(id,hpo.getPromotionName(),hpo.getCreatedTime(),
+    			hpo.getUsageState(),beginTime,endTime,hpo.getMemberType(),hpo.getDiscount(),
+    			hpo.getDiscountForMoreRoom(),hpo.getDiscountformoreroom(),hpo.getDiscountforlargeramount(),hpo.getDiscountforlargeramount(),
+    			hpo.getBirthDiscount(),hpo.getCompanyDiscount()));
+    }
+    public boolean setPromotionFour(long id,double discount)throws RemoteException{
+    	HotelPromotionPO hpo =this.pds.find2(id);
+    	return this.pds.update2(new HotelPromotionPO(id,hpo.getPromotionName(),hpo.getCreatedTime(),
+    			hpo.getUsageState(),hpo.getBeginTime(),hpo.getEndTime(),hpo.getMemberType(),hpo.getDiscount(),
+    			hpo.getDiscountForMoreRoom(),hpo.getDiscountformoreroom(),hpo.getDiscountforlargeramount(),hpo.getDiscountforlargeramount(),
+    			hpo.getBirthDiscount(),discount));
+    }
+   
 
-	@Override
-	public boolean changePassWord(long id, String pw) throws RemoteException{
-		// TODO Auto-generated method stub
-		return false;
-	}
+	
     
 }
