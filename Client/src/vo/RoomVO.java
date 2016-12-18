@@ -10,6 +10,13 @@ public class RoomVO {
 	int roomAccessNumber;//鍙瀹氱殑鎴块棿鏁伴噺
 	double roomPrice;//鎴块棿浠锋牸
 	
+	public RoomVO(Long i,String st,int rtn,int ran,double rp){
+		roomID=i;
+		roomType=st;
+		roomTotalNumber=rtn;
+		roomAccessNumber=ran;
+		roomPrice=rp;
+	}
 	public void setRoomID(long i){
 		roomID=i;
 	}
