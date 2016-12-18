@@ -9,7 +9,8 @@ public class RoomVO {
 	int roomTotalNumber;//鎴块棿鎬绘暟閲�
 	int roomAccessNumber;//鍙瀹氱殑鎴块棿鏁伴噺
 	double roomPrice;//鎴块棿浠锋牸
-	
+	public RoomVO(){
+	}
 	public RoomVO(Long i,String st,int rtn,int ran,double rp){
 		roomID=i;
 		roomType=st;
