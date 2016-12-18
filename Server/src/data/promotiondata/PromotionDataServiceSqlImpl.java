@@ -145,7 +145,7 @@ public class PromotionDataServiceSqlImpl implements PromotionDataService {
 				+ po.getDiscount() + "',largerAmount='" + po.getDiscountForLargerAmount()
 				+ "',discountForLargerAmount='" + po.getDiscountforlargeramount() + "',moreRoom='"
 				+ po.getDiscountForMoreRoom() + "',discountForMoreRoom'" + po.getDiscountformoreroom()
-				+ "',memberType='" + po.getMemberType() + "',usageState='" + po.getUsageState()+"',id'"+po.getID() + "' where ID='"
+				+ "',memberType='" + po.getMemberType() + "',usageState='" + po.getUsageState()+"',hotelid'"+po.getHotelID()+"',id'"+po.getID() + "' where ID='"
 				+ po.getID() + "'";
 
 		try {
@@ -212,7 +212,8 @@ public class PromotionDataServiceSqlImpl implements PromotionDataService {
 					hppo.setUsageState(UsageState.Using);
 					break;
 				}
-				hppo.setID(Long.parseLong(resultSet.getString(13)));
+				hppo.setHotelID(Long.parseLong(resultSet.getString(13)));
+				hppo.setID(Long.parseLong(resultSet.getString(14)));
 				con.close();
 				return hppo;
 			} else {
@@ -231,12 +232,12 @@ public class PromotionDataServiceSqlImpl implements PromotionDataService {
 	@Override
 	public boolean insert2(HotelPromotionPO po) {
 		sql = "insert into 酒店促销策略信息 (name,createdTime,beginTime,endTime,birthDiscount,companyDiscount,discount,discountForLargerAmount,discountforlargeramount,"
-				+ "discountForMoreRoom,discountformoreroom,memberType,usageState,id) values ('" + po.getPromotionName()
+				+ "discountForMoreRoom,discountformoreroom,memberType,usageState,hotelid,id) values ('" + po.getPromotionName()
 				+ "','" + po.getCreatedTime() + "','" + po.getBeginTime() + "','" + po.getEndTime() + "','"
 				+ po.getBirthDiscount() + "','" + po.getCompanyDiscount() + "','" + po.getDiscount() + "','"
 				+ po.getDiscountForLargerAmount() + "','" + po.getDiscountforlargeramount() + "','"
 				+ po.getDiscountForMoreRoom() + "','" + po.getDiscountformoreroom() + "','" + po.getMemberType() + "','"
-				+ po.getUsageState() + "','" + po.getID() + "')";
+				+ po.getUsageState() + "','"+ po.getHotelID() + "','" + po.getID() + "')";
 
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
