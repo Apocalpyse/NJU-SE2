@@ -1,38 +1,46 @@
 package businesslogic.roombl;
 
-import java.rmi.RemoteException;
-
 import businesslogicservice.roombusinesslogicservice.RoomBusinessLogicService;
+import dataservice.hoteldataservice.HotelDataService;
 import dataservice.roomdataservice.RoomDataService;
-import dataservice.roomdataservice.RoomDataServiceSqlImpl;
+import po.HotelPO;
 import po.RoomPO;
 import vo.RoomVO;
 
 public class RoomBL implements RoomBusinessLogicService{
 
-	RoomDataServiceSqlImpl roomDataService;
+	RoomDataService rds=new RoomDataService() {
+        @Override
+        public RoomPO find(long id) {
+            return null;
+        }
 
-	public RoomVO getRoom(long roomStyle)throws RemoteException{
-		RoomVO rv=new RoomVO();
-		RoomPO rp;
-		rp=this.roomDataService.find(roomStyle);
-		rv.setRoomType(rp.getRoomType());
-		rv.setRoomTotalNumber(rp.getRoomTotalNumber());
-		rv.setRoomAccessNumber(rp.getRoomAccessNumber());
-		rv.setRoomPrice(rp.getRoomPrice()); 
-		
-		return rv;
+        @Override
+        public boolean insert(RoomPO po) {
+            return false;
+        }
+
+        @Override
+        public boolean delete(long id) {
+            return false;
+        }
+
+        @Override
+        public boolean update(RoomPO po) {
+            return false;
+        }
+
+	
+    };
+
+	public RoomVO getRoom(long roomStyle){
+		RoomPO rpo=this.rds.find(roomStyle);
+		return new RoomVO(rpo.getRoomID(),rpo.getRoomType(),rpo.getRoomTotalNumber(),rpo.getRoomAccessNumber(),
+				rpo.getRoomPrice());
 	}
-	public boolean changeRoom(RoomVO rv)throws RemoteException{
-		boolean result=false;
-		RoomPO rp2;
-		rp2=this.roomDataService.find(rv.getRoomID());
-		
-		rp2.setRoomType(rv.getRoomType());
-		rp2.setRoomTotalNumber(rv.getRoomTotalNumber());
-		rp2.setRoomAccessNumber(rv.getRoomAccessNumber());
-		rp2.setRoomPrice(rv.getRoomPrice());
-		result=true;
-		return result;
+	public boolean changeRoom(RoomVO rv){
+		RoomPO rpo=this.rds.find(rv.getRoomID());
+		return rds.update(new RoomPO(rv.getRoomID(),rv.getRoomType(),rv.getRoomTotalNumber(),
+				rv.getRoomAccessNumber(),rv.getRoomPrice()));
 	}
 }
