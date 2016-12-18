@@ -22,6 +22,22 @@ public class HotelVO {
 	ArrayList<Evaluation> evaluation;//酒店评价
 	String cooperatateCompany;//酒店合作企业
 	
+	public HotelVO(Long i,String hm,String hmp,double go,double[] pr,String hn,String ta,String hl,String hp,String st,String in,ArrayList<Evaluation> eva,String cc){
+		id=i;
+		hotelManager=hm;
+		hotelManPhone=hmp;
+		goal=go;
+		price=pr;
+		hotelName=hn;
+		tradeArea=ta;
+		hotelLocation=hl;
+		hotelPhone=hp;
+		stars=st;
+		instruction=in;
+		evaluation=eva;
+		cooperatateCompany=cc;
+	}
+	
 	public void setID(Long i){
 		id=i;
 	}
