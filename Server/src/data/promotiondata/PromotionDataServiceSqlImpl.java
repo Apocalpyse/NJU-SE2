@@ -9,26 +9,24 @@ import po.WebPromotionPO;
 
 import java.sql.*;
 
-
-
 public class PromotionDataServiceSqlImpl implements PromotionDataService {
 	private String sql;
 	private PreparedStatement preparedStatement;
 	private ResultSet resultSet;
 	private Connection con;
 	String url = "jdbc:mysql://127.0.0.1:3306/DS_HRS";
-	String name="root";
-	String password="2578";
+	String name = "root";
+	String password = "2578";
 
 	@Override
 	public boolean update1(MemberPromotionPO po) {
 		sql = "update 会员制度信息 set name='" + po.getPromotionName() + "',time='" + po.getCreatedTime() + "',creditLevels='"
 				+ po.getCredit() + "',discountLevels='" + po.getDiscountForMember() + "'," + "usageState='"
-				+ po.getUsageState()+"',id'"+po.getID() + "' where ID='" + po.getID() + "'";
+				+ po.getUsageState() + "',id'" + po.getID() + "' where ID='" + po.getID() + "'";
 
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			con = DriverManager.getConnection(this.url,this.name,this.password);
+			con = DriverManager.getConnection(this.url, this.name, this.password);
 			preparedStatement = con.prepareStatement(sql);
 			preparedStatement.executeUpdate();
 			con.close();
@@ -45,7 +43,7 @@ public class PromotionDataServiceSqlImpl implements PromotionDataService {
 		sql = "SELECT * from 会员制度信息 where ID='" + id + "'";
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			con = DriverManager.getConnection(this.url,this.name,this.password);
+			con = DriverManager.getConnection(this.url, this.name, this.password);
 			preparedStatement = con.prepareStatement(sql);
 			resultSet = preparedStatement.executeQuery();
 
@@ -99,7 +97,7 @@ public class PromotionDataServiceSqlImpl implements PromotionDataService {
 
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			con = DriverManager.getConnection(this.url,this.name,this.password);
+			con = DriverManager.getConnection(this.url, this.name, this.password);
 			preparedStatement = con.prepareStatement(sql);
 			preparedStatement.executeUpdate();
 			con.close();
@@ -116,7 +114,7 @@ public class PromotionDataServiceSqlImpl implements PromotionDataService {
 		sql = "delete from 会员制度信息  where ID='" + id + "'";
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			con = DriverManager.getConnection(this.url,this.name,this.password);
+			con = DriverManager.getConnection(this.url, this.name, this.password);
 			PreparedStatement preparedStatement = con.prepareStatement(sql);
 			preparedStatement.executeUpdate();
 			con.close();
@@ -125,18 +123,18 @@ public class PromotionDataServiceSqlImpl implements PromotionDataService {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-       return true;
+		return true;
 	}
 
 	@Override
 	public long findMaxId1() {
-		sql="select max(ID) from 会员制度信息";
+		sql = "select max(ID) from 会员制度信息";
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			con = DriverManager.getConnection(this.url,this.name,this.password);
-			PreparedStatement preparedStatement=con.prepareStatement(sql);
+			con = DriverManager.getConnection(this.url, this.name, this.password);
+			PreparedStatement preparedStatement = con.prepareStatement(sql);
 			preparedStatement.executeUpdate();
-			long result=resultSet.getLong(1);
+			long result = resultSet.getLong(1);
 			con.close();
 			return result;
 		} catch (ClassNotFoundException e) {
@@ -147,14 +145,7 @@ public class PromotionDataServiceSqlImpl implements PromotionDataService {
 		return 0;
 	}
 	// *********MEMBERPROMOTION
-	
-	
-	
-	
-	
-	
-	
-	
+
 	@Override
 	public boolean update2(HotelPromotionPO po) {
 		sql = "update 酒店促销策略信息  set name='" + po.getPromotionName() + "',createdTime='" + po.getCreatedTime()
@@ -163,12 +154,12 @@ public class PromotionDataServiceSqlImpl implements PromotionDataService {
 				+ po.getDiscount() + "',largerAmount='" + po.getDiscountForLargerAmount()
 				+ "',discountForLargerAmount='" + po.getDiscountforlargeramount() + "',moreRoom='"
 				+ po.getDiscountForMoreRoom() + "',discountForMoreRoom'" + po.getDiscountformoreroom()
-				+ "',memberType='" + po.getMemberType() + "',usageState='" + po.getUsageState()+"',hotelid'"+po.getHotelID()+"',id'"+po.getID() + "' where ID='"
-				+ po.getID() + "'";
+				+ "',memberType='" + po.getMemberType() + "',usageState='" + po.getUsageState() + "',hotelid'"
+				+ po.getHotelID() + "',id'" + po.getID() + "' where ID='" + po.getID() + "'";
 
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			con = DriverManager.getConnection(this.url,this.name,this.password);
+			con = DriverManager.getConnection(this.url, this.name, this.password);
 			preparedStatement = con.prepareStatement(sql);
 			preparedStatement.executeUpdate();
 			con.close();
@@ -185,7 +176,7 @@ public class PromotionDataServiceSqlImpl implements PromotionDataService {
 		sql = "SELECT * from 酒店促销策略信息  where ID='" + id + "'";
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			con = DriverManager.getConnection(this.url,this.name,this.password);
+			con = DriverManager.getConnection(this.url, this.name, this.password);
 			preparedStatement = con.prepareStatement(sql);
 			resultSet = preparedStatement.executeQuery();
 
@@ -250,16 +241,16 @@ public class PromotionDataServiceSqlImpl implements PromotionDataService {
 	@Override
 	public boolean insert2(HotelPromotionPO po) {
 		sql = "insert into 酒店促销策略信息 (name,createdTime,beginTime,endTime,birthDiscount,companyDiscount,discount,discountForLargerAmount,discountforlargeramount,"
-				+ "discountForMoreRoom,discountformoreroom,memberType,usageState,hotelid,id) values ('" + po.getPromotionName()
-				+ "','" + po.getCreatedTime() + "','" + po.getBeginTime() + "','" + po.getEndTime() + "','"
-				+ po.getBirthDiscount() + "','" + po.getCompanyDiscount() + "','" + po.getDiscount() + "','"
-				+ po.getDiscountForLargerAmount() + "','" + po.getDiscountforlargeramount() + "','"
-				+ po.getDiscountForMoreRoom() + "','" + po.getDiscountformoreroom() + "','" + po.getMemberType() + "','"
-				+ po.getUsageState() + "','"+ po.getHotelID() + "','" + po.getID() + "')";
+				+ "discountForMoreRoom,discountformoreroom,memberType,usageState,hotelid,id) values ('"
+				+ po.getPromotionName() + "','" + po.getCreatedTime() + "','" + po.getBeginTime() + "','"
+				+ po.getEndTime() + "','" + po.getBirthDiscount() + "','" + po.getCompanyDiscount() + "','"
+				+ po.getDiscount() + "','" + po.getDiscountForLargerAmount() + "','" + po.getDiscountforlargeramount()
+				+ "','" + po.getDiscountForMoreRoom() + "','" + po.getDiscountformoreroom() + "','" + po.getMemberType()
+				+ "','" + po.getUsageState() + "','" + po.getHotelID() + "','" + po.getID() + "')";
 
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			con = DriverManager.getConnection(this.url,this.name,this.password);
+			con = DriverManager.getConnection(this.url, this.name, this.password);
 			preparedStatement = con.prepareStatement(sql);
 			preparedStatement.executeUpdate();
 			con.close();
@@ -276,7 +267,7 @@ public class PromotionDataServiceSqlImpl implements PromotionDataService {
 		sql = "delete from 酒店促销策略信息  where ID='" + id + "'";
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			con = DriverManager.getConnection(this.url,this.name,this.password);
+			con = DriverManager.getConnection(this.url, this.name, this.password);
 			PreparedStatement preparedStatement = con.prepareStatement(sql);
 			preparedStatement.executeUpdate();
 			con.close();
@@ -285,18 +276,18 @@ public class PromotionDataServiceSqlImpl implements PromotionDataService {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-      return true;
+		return true;
 	}
 
 	@Override
 	public long findMaxId2() {
-		sql="select max(ID) from 酒店促销策略信息";
+		sql = "select max(ID) from 酒店促销策略信息";
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			con = DriverManager.getConnection(this.url,this.name,this.password);
-			PreparedStatement preparedStatement=con.prepareStatement(sql);
+			con = DriverManager.getConnection(this.url, this.name, this.password);
+			PreparedStatement preparedStatement = con.prepareStatement(sql);
 			preparedStatement.executeUpdate();
-			long result=resultSet.getLong(1);
+			long result = resultSet.getLong(1);
 			con.close();
 			return result;
 		} catch (ClassNotFoundException e) {
@@ -306,21 +297,17 @@ public class PromotionDataServiceSqlImpl implements PromotionDataService {
 		}
 		return 0;
 	}
-	
-	
-	
-	
-	
-	
+
 	@Override
 	public boolean update3(WebPromotionPO po) {
 		sql = "update 网站促销策略信息  set name='" + po.getPromotionName() + "',createdTime='" + po.getCreatedTime()
 				+ "',beginTime='" + po.getBeginTime() + "',endTime='" + po.getEndTime() + "',discount='"
 				+ po.getDiscount() + "',memberType='" + po.getMemberType() + "',businessDistrict='"
-				+ po.getBusinessDistrict() + "',usageState='" + po.getUsageState() + "',id='" + po.getID() + "' where ID='" + po.getID() + "'";
+				+ po.getBusinessDistrict() + "',usageState='" + po.getUsageState() + "',id='" + po.getID()
+				+ "' where ID='" + po.getID() + "'";
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			con = DriverManager.getConnection(this.url,this.name,this.password);
+			con = DriverManager.getConnection(this.url, this.name, this.password);
 			preparedStatement = con.prepareStatement(sql);
 			preparedStatement.executeUpdate();
 			con.close();
@@ -332,13 +319,12 @@ public class PromotionDataServiceSqlImpl implements PromotionDataService {
 		return true;
 	}
 
-	
 	@Override
 	public WebPromotionPO find3(long id) {
 		sql = "SELECT * from 网站促销策略信息  where ID='" + id + "'";
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			con = DriverManager.getConnection(this.url,this.name,this.password);
+			con = DriverManager.getConnection(this.url, this.name, this.password);
 			preparedStatement = con.prepareStatement(sql);
 			resultSet = preparedStatement.executeQuery();
 
@@ -393,33 +379,34 @@ public class PromotionDataServiceSqlImpl implements PromotionDataService {
 		}
 		return null;
 	}
+
 	@Override
-	 public boolean insert3(WebPromotionPO po) {
-		sql = "insert into 网站促销策略信息 (name,createdTime,beginTime,endTime,discount,memberType,businessDistrict,usageState,id) values ('" + po.getPromotionName()
-				+ "','" + po.getCreatedTime() + "','" + po.getBeginTime() + "','" + po.getEndTime() + "','"
-				+ po.getDiscount() + "','" + po.getMemberType() + "','" + po.getBusinessDistrict() + "','"
-				+ po.getUsageState() + "','" + po.getID()  + "')";
-	
-	 try {
-	 Class.forName("com.mysql.jdbc.Driver");
-	 con = DriverManager.getConnection(this.url,this.name,this.password);
-	 preparedStatement=con.prepareStatement(sql);
-	 preparedStatement.executeUpdate();
-	 con.close();
-	 } catch (ClassNotFoundException e) {
-	 e.printStackTrace();
-	 } catch (SQLException e) {
-	 e.printStackTrace();
-	 }
-	 return true;
-	 }
+	public boolean insert3(WebPromotionPO po) {
+		sql = "insert into 网站促销策略信息 (name,createdTime,beginTime,endTime,discount,memberType,businessDistrict,usageState,id) values ('"
+				+ po.getPromotionName() + "','" + po.getCreatedTime() + "','" + po.getBeginTime() + "','"
+				+ po.getEndTime() + "','" + po.getDiscount() + "','" + po.getMemberType() + "','"
+				+ po.getBusinessDistrict() + "','" + po.getUsageState() + "','" + po.getID() + "')";
+
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			con = DriverManager.getConnection(this.url, this.name, this.password);
+			preparedStatement = con.prepareStatement(sql);
+			preparedStatement.executeUpdate();
+			con.close();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return true;
+	}
 
 	@Override
 	public boolean delete3(long id) {
 		sql = "delete from 网站促销策略信息  where ID='" + id + "'";
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			con = DriverManager.getConnection(this.url,this.name,this.password);
+			con = DriverManager.getConnection(this.url, this.name, this.password);
 			PreparedStatement preparedStatement = con.prepareStatement(sql);
 			preparedStatement.executeUpdate();
 			con.close();
@@ -428,18 +415,18 @@ public class PromotionDataServiceSqlImpl implements PromotionDataService {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-      return true;
+		return true;
 	}
 
 	@Override
 	public long findMaxId3() {
-		sql="select max(ID) from 网站促销策略信息";
+		sql = "select max(ID) from 网站促销策略信息";
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			con = DriverManager.getConnection(this.url,this.name,this.password);
-			PreparedStatement preparedStatement=con.prepareStatement(sql);
+			con = DriverManager.getConnection(this.url, this.name, this.password);
+			PreparedStatement preparedStatement = con.prepareStatement(sql);
 			preparedStatement.executeUpdate();
-			long result=resultSet.getLong(1);
+			long result = resultSet.getLong(1);
 			con.close();
 			return result;
 		} catch (ClassNotFoundException e) {
