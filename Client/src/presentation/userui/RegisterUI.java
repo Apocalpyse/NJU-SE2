@@ -102,7 +102,7 @@ public class RegisterUI {
                                     return false;
                                 }
                             };
-                            uds.insert(new UserPO(textField1.getText(),textField2.getPassword().toString(),10004, User.customer));
+                            uds.insert(new UserPO(textField1.getText(),textField2.getPassword().toString(), User.customer));
                             Tooltip_two tt = new Tooltip_two();
                             frame.dispose();
                         } else {

@@ -1,5 +1,6 @@
 package businesslogic.userbl;
 
+import po.User;
 import po.UserPO;
 import vo.UserVO;
 
@@ -23,6 +24,6 @@ public class UserController {
     }
 
     public boolean register(String account,String password) throws RemoteException{
-        return ubl.register(account,password);
+        return ubl.register(account,password, User.customer);
     }
 }

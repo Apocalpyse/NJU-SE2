@@ -5,6 +5,7 @@ package businesslogic.orderbl;
  */
 import businesslogic.customerbl.CustomerController;
 import businesslogic.promotionbl.PromotionBL;
+import businesslogic.promotionbl.PromotionController;
 import businesslogicservice.orderbusnesslogicservice.OrderBusinessLogicService;
 import dataservice.customerdataservice.CustomerDataService;
 import dataservice.orderdataservice.OrderDataService;
@@ -62,16 +63,16 @@ public class OrderBL implements OrderBusinessLogicService{
     };
     private long OrderId=40000;
 
-    public boolean createOrder(OrderVO vo)throws RemoteException{
+    public boolean createOrder(OrderVO vo,long hotelId)throws RemoteException{
 
-        PromotionBL pbl=new PromotionBL();
+        PromotionController pc=new PromotionController();
         String date;
         Date now =new Date();
         SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         date=dateFormat.format(now);//获得当前时间，作为订单的下单时间；
 
         return this.ods.insert(new OrderPO(vo.getId(),vo.getCustomerName(),vo.getCustomerPhone(),vo.getHotelName(),vo.getHotelPhone(),vo.getHotelLocation()
-        ,vo.getRoomType(),vo.getRoomNumber(),vo.getRoomPrice(),pbl.getDiscount(vo.getMasterId(),vo.getRoomNumber(),vo.getRoomPrice()),vo.getStartTime(),vo.getEndTime(),date,vo.getRoomPrice()*vo.getDiscount()*vo.getRoomNumber(),vo.getOs()
+        ,vo.getRoomType(),vo.getRoomNumber(),vo.getRoomPrice(),pc.getDiscount(vo.getMasterId(),hotelId,vo.getExecuteTime(),vo.getRoomNumber(),vo.getRoomPrice()),vo.getStartTime(),vo.getEndTime(),date,vo.getRoomPrice()*vo.getDiscount()*vo.getRoomNumber(),vo.getOs()
         ,vo.getIsExistChild(),vo.getCustomerNumber(),vo.getMasterId()));
     }
 

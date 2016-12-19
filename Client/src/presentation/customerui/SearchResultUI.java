@@ -4,7 +4,7 @@ import businesslogic.customerbl.CustomerController;
 import businesslogic.hotelbl.HotelBL;
 import businesslogic.hotelbl.HotelController;
 import businesslogic.roombl.RoomController;
-import dataservice.hoteldataservice.HotelDataServiceSqlImpl;
+import dataservice.hoteldataservice.HotelDataService;
 import po.HotelPO;
 import vo.HotelVO;
 
@@ -18,7 +18,7 @@ import java.rmi.RemoteException;
  */
 public class SearchResultUI {
 
-    HotelDataServiceSqlImpl hds;
+    HotelDataService hds;
 
     public SearchResultUI(HotelVO vo){
         Font font=new Font("微软雅黑",Font.BOLD,16);
@@ -37,25 +37,25 @@ public class SearchResultUI {
         table.getTableHeader().setFont(font);
         table.setRowHeight(40);
 
-        HotelVO[] hvo;
+        HotelVO hvo;
         try{
             CustomerController cc=new CustomerController();
             RoomController rc=new RoomController();
             hvo=cc.searchHotel(vo);
             for(int i=0;i<10;i++) {
                 long[] roomId = new long[6];
-                roomId[0] = hvo[hvo.length - i-1].getID() * 10 + 1;
-                roomId[1] = hvo[hvo.length - i-1].getID() * 10 + 2;
-                roomId[2] = hvo[hvo.length - i-1].getID() * 10 + 3;
-                roomId[3] = hvo[hvo.length - i-1].getID() * 10 + 4;
-                roomId[4] = hvo[hvo.length - i-1].getID() * 10 + 5;
-                roomId[5] = hvo[hvo.length - i-1].getID() * 10 + 6;
-                obj[i][0] = hvo[hvo.length - i-1].getHotelName();
-                obj[i][1] = hvo[hvo.length - i-1].getHotelPhone();
-                obj[i][2] = hvo[hvo.length - i-1].getHotelLocation();
+                roomId[0] = hvo.getID() * 10 + 1;
+                roomId[1] = hvo.getID() * 10 + 2;
+                roomId[2] = hvo.getID() * 10 + 3;
+                roomId[3] = hvo.getID() * 10 + 4;
+                roomId[4] = hvo.getID() * 10 + 5;
+                roomId[5] = hvo.getID() * 10 + 6;
+                obj[i][0] = hvo.getHotelName();
+                obj[i][1] = hvo.getHotelPhone();
+                obj[i][2] = hvo.getHotelLocation();
                 obj[i][3] = (rc.getRoom(roomId[0]).getRoomPrice() + rc.getRoom(roomId[1]).getRoomPrice() + rc.getRoom(roomId[2]).getRoomPrice() +
                         rc.getRoom(roomId[3]).getRoomPrice() + rc.getRoom(roomId[4]).getRoomPrice() + rc.getRoom(roomId[5]).getRoomPrice()) / 6;
-                obj[i][4] = hvo[hvo.length - 1].getStars();
+                obj[i][4] = hvo.getStars();
             }
         }catch (RemoteException e){
             e.printStackTrace();

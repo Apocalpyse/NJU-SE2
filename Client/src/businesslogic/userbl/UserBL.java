@@ -44,7 +44,7 @@ public class UserBL implements UserBusinessLogicService{
     @Override
     public boolean changeUser(UserVO vo) throws RemoteException{
 
-        return this.uds.update(new UserPO(vo.getAccout(),vo.getPasssword(),vo.getId(),vo.getUser()));
+        return this.uds.update(new UserPO(vo.getAccout(),vo.getPasssword(),vo.getUser()));
     }
 
     public boolean login(String account, String password) throws RemoteException{
@@ -55,7 +55,7 @@ public class UserBL implements UserBusinessLogicService{
         }
         return result;
     }
-    public boolean register(String account, String password, long id, User user) throws RemoteException{
+    public boolean register(String account, String password, User user) throws RemoteException{
         boolean result=false;
         UserPO po=this.uds.find(account);
         if(po!=null){
@@ -63,7 +63,7 @@ public class UserBL implements UserBusinessLogicService{
         }
         else{
             result=true;
-            uds.insert(new UserPO(account,password,id,user));
+            uds.insert(new UserPO(account,password,user));
         }
         return result;
     }

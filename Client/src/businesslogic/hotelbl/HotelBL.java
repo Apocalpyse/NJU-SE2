@@ -223,7 +223,7 @@ public class HotelBL implements HotelBusinessLogicService {
     	return this.pds.update2(new HotelPromotionPO(id,hpo.getPromotionName(),hpo.getCreatedTime(),
     			hpo.getUsageState(),hpo.getBeginTime(),hpo.getEndTime(),hpo.getMemberType(),hpo.getDiscount(),
     			numberOfRoom,discount,hpo.getDiscountforlargeramount(),hpo.getDiscountforlargeramount(),
-    			hpo.getBirthDiscount(),hpo.getCompanyDiscount()));
+    			hpo.getBirthDiscount(),hpo.getCompanyDiscount(),hpo.getHotelID()));
     	    
     }
     @Override
@@ -232,7 +232,7 @@ public class HotelBL implements HotelBusinessLogicService {
     	return this.pds.update2(new HotelPromotionPO(id,hpo.getPromotionName(),hpo.getCreatedTime(),
     			hpo.getUsageState(),hpo.getBeginTime(),hpo.getEndTime(),hpo.getMemberType(),hpo.getDiscount(),
     			hpo.getDiscountForMoreRoom(),hpo.getDiscountformoreroom(),hpo.getDiscountforlargeramount(),hpo.getDiscountforlargeramount(),
-    			discount,hpo.getCompanyDiscount()));
+    			discount,hpo.getCompanyDiscount(),hpo.getHotelID()));
     }
     @Override
     public boolean setPromotionThree(long id,String beginTime,String endTime)throws RemoteException{
@@ -240,7 +240,7 @@ public class HotelBL implements HotelBusinessLogicService {
     	return this.pds.update2(new HotelPromotionPO(id,hpo.getPromotionName(),hpo.getCreatedTime(),
     			hpo.getUsageState(),beginTime,endTime,hpo.getMemberType(),hpo.getDiscount(),
     			hpo.getDiscountForMoreRoom(),hpo.getDiscountformoreroom(),hpo.getDiscountforlargeramount(),hpo.getDiscountforlargeramount(),
-    			hpo.getBirthDiscount(),hpo.getCompanyDiscount()));
+    			hpo.getBirthDiscount(),hpo.getCompanyDiscount(),hpo.getHotelID()));
     }
     @Override
     public boolean setPromotionFour(long id,double discount)throws RemoteException{
@@ -248,7 +248,7 @@ public class HotelBL implements HotelBusinessLogicService {
     	return this.pds.update2(new HotelPromotionPO(id,hpo.getPromotionName(),hpo.getCreatedTime(),
     			hpo.getUsageState(),hpo.getBeginTime(),hpo.getEndTime(),hpo.getMemberType(),hpo.getDiscount(),
     			hpo.getDiscountForMoreRoom(),hpo.getDiscountformoreroom(),hpo.getDiscountforlargeramount(),hpo.getDiscountforlargeramount(),
-    			hpo.getBirthDiscount(),discount));
+    			hpo.getBirthDiscount(),discount,hpo.getHotelID()));
     }
    
 

@@ -14,23 +14,23 @@ public class OrderController {
         obl=new OrderBL();
     }
 
-    public boolean createOrder(OrderVO vo)throws RemoteException{
-        return obl.createOrder(vo);
+    public boolean createOrder(OrderVO vo,long hotelId)throws RemoteException{
+        return obl.createOrder(vo,hotelId);
     }
 
     public OrderVO getOrder(long id)throws RemoteException{
         return obl.getOrder(id);
     }
 
-    public double cancelOrder(long id)throws RemoteException{
+    public boolean cancelOrder(long id)throws RemoteException{
         return obl.cancelOrder(id);
     }
 
-    public double completeOrder(long id)throws RemoteException{
+    public boolean completeOrder(long id)throws RemoteException{
         return obl.completeOrder(id);
     }
 
-    public double recoverOrder(long id)throws RemoteException {
+    public boolean recoverOrder(long id)throws RemoteException {
         return obl.recoverOrder(id);
     }
 }
