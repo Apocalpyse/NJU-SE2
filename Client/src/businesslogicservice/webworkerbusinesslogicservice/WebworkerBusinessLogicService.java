@@ -11,4 +11,5 @@ public interface WebworkerBusinessLogicService {
      WebworkerVO getWebworker(long id)throws RemoteException ;
      boolean creatWebworker(WebworkerVO vo)throws RemoteException ;
      boolean changeWebworker(WebworkerVO vo)throws RemoteException ;
+     long findMaxId()throws RemoteException;
 }

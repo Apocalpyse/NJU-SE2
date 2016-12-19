@@ -10,7 +10,10 @@ public class PromotionController {
 	public PromotionController() {
 		bl = new PromotionBL();
 	}
-
+	public double getDiscount(long userid, long hotelid, String createdTime, int room, double price)
+			throws RemoteException {
+		return bl.getDiscount(userid, hotelid, createdTime, room, price);
+	}
 	public MemberPromotionVO getMemberPromotion(long id) throws RemoteException {
 		return bl.getMemberPromotion(id);
 	}
@@ -45,5 +48,16 @@ public class PromotionController {
 
 	public boolean changeWebPromotion(WebPromotionVO vo) throws RemoteException {
 		return bl.changeWebPromotion(vo);
+	}
+	public long findMaxId1()throws RemoteException {
+		return bl.findMaxId1();
+	}
+
+	public long findMaxId2()throws RemoteException {
+		return bl.findMaxId2();
+	}
+
+	public long findMaxId3()throws RemoteException {
+		return bl.findMaxId3();
 	}
 }

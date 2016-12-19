@@ -22,4 +22,7 @@ public class WebworkerController {
 	public boolean changeWebworker(WebworkerVO vo) throws RemoteException {
 		return bl.changeWebworker(vo);
 	}
+	public long findMaxId() throws RemoteException {
+		return bl.findMaxId();
+	}
 }

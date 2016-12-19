@@ -1,5 +1,7 @@
 package dataservice.webworkerdataservice;
 
+import java.rmi.RemoteException;
+
 import po.WebworkerPO;
 
 /**
@@ -10,4 +12,5 @@ public interface WebworkerDataService {
      boolean insert(WebworkerPO po);
      boolean delete(long id);
      boolean update(WebworkerPO po);
+     long findMaxId();
 }

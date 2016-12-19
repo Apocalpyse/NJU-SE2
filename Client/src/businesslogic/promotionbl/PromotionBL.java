@@ -17,7 +17,7 @@ public class PromotionBL implements PromotionBusinessLogicService {
 		public CustomerPO find(long id) {
 			return null;
 		}
-
+		
 		@Override
 		public boolean insert(CustomerPO po) {
 			return false;
@@ -93,6 +93,21 @@ public class PromotionBL implements PromotionBusinessLogicService {
 		public boolean update3(WebPromotionPO po) {
 			return false;
 		}
+
+		@Override
+		public long findMaxId1() {
+			return 0;
+		}
+
+		@Override
+		public long findMaxId2() {
+			return 0;
+		}
+
+		@Override
+		public long findMaxId3() {
+			return 0;
+		}
 	};
 
 	// String businessDistrict[]={"NJU","XL"};
@@ -102,8 +117,8 @@ public class PromotionBL implements PromotionBusinessLogicService {
 		long id = 0;
 		// 获取始末ID
 		boolean hasHP = false;
-		long begin = 100;
-		long end = 100;
+		long begin = 61000;
+		long end = this.pds.findMaxId2();
 		for (id = begin; id <= end; id++) {
 			try {
 				CustomerPO cpo = this.cds.find(userid);
@@ -142,8 +157,8 @@ public class PromotionBL implements PromotionBusinessLogicService {
 		long id = 0;
 		// 获取始末ID
 		boolean hasMP = false;
-		long begin = 100;
-		long end = 100;
+		long begin = 60000;
+		long end = this.pds.findMaxId1();
 		for (id = begin; id <= end; id++) {
 			try {
 				MemberPromotionPO mppo = this.pds.find1(id);
@@ -166,8 +181,8 @@ public class PromotionBL implements PromotionBusinessLogicService {
 		long id = 0;
 		// 获取始末ID
 		boolean hasWP = false;
-		long begin = 100;
-		long end = 100;
+		long begin =62000;
+		long end = this.pds.findMaxId3();
 		
 		for (id = begin; id <= end; id++) {
 			try {
@@ -343,5 +358,15 @@ public class PromotionBL implements PromotionBusinessLogicService {
 				vo.getDiscount()));
 	}
 	// WebPromotionBL
+	public long findMaxId1()throws RemoteException {
+		return this.pds.findMaxId1();
+	}
 
+	public long findMaxId2()throws RemoteException {
+		return this.pds.findMaxId2();
+	}
+
+	public long findMaxId3()throws RemoteException {
+		return this.pds.findMaxId3();
+	}
 }

@@ -31,6 +31,11 @@ public class WebworkerBL implements WebworkerBusinessLogicService {
 			return false;
 		}
 
+		@Override
+		public long findMaxId() {
+			return 0;
+		}
+
 	};
 
 	public WebworkerVO getWebworker(long id) throws RemoteException {
@@ -44,5 +49,9 @@ public class WebworkerBL implements WebworkerBusinessLogicService {
 
 	public boolean changeWebworker(WebworkerVO vo) throws RemoteException {
 		return this.wds.update(new WebworkerPO(vo.getID(),vo.getWebworkerName(),vo.getWebworkerPhone(),vo.getAuthority()));
+	}
+
+	public long findMaxId() throws RemoteException {
+		return this.wds.findMaxId();
 	}
 }
