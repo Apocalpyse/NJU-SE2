@@ -601,9 +601,13 @@ public class WebMarketerUI extends JFrame {
 		creat.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				PromotionController pc = new PromotionController();
 				creditFrame.setVisible(true);
 				try {
+<<<<<<< HEAD
 					PromotionController pc = new PromotionController();
+=======
+>>>>>>> origin/master
 					text1.setText(pc.findMaxId3() + 1 + "");
 				} catch (RemoteException e) {
 					// TODO Auto-generated catch block
