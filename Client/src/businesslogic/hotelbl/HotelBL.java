@@ -144,7 +144,9 @@ public class HotelBL implements HotelBusinessLogicService {
     			hpo.getBirthDiscount(),discount,hpo.getHotelID()));
     }
    
-
+    public long findMaxId() throws RemoteException{
+        return this.hds.findMaxId();
+    }
 	
     
 }
