@@ -10,4 +10,5 @@ public interface RoomDataService {
      boolean insert(RoomPO po);
      boolean delete(long id);
      boolean update(RoomPO po);
+     long findMaxId();
 }

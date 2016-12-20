@@ -13,10 +13,9 @@ public class UserPO implements Serializable{
 
     public UserPO(){}
 
-    public UserPO(String account,String password,long id,User user){
+    public UserPO(String account,String password,User user){
         this.account=account;
         this.password=password;
-        this.id=id;
         this.user=user;
     }
 

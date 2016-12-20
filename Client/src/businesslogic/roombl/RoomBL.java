@@ -1,37 +1,30 @@
 package businesslogic.roombl;
 
 import businesslogicservice.roombusinesslogicservice.RoomBusinessLogicService;
-import dataservice.hoteldataservice.HotelDataService;
 import dataservice.roomdataservice.RoomDataService;
-import po.HotelPO;
+import dataservice.roomdataservice.RoomFactory;
 import po.RoomPO;
 import vo.RoomVO;
 
+import java.net.MalformedURLException;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+
 public class RoomBL implements RoomBusinessLogicService{
 
-	RoomDataService rds=new RoomDataService() {
-        @Override
-        public RoomPO find(long id) {
-            return null;
-        }
+	private RoomDataService rds;
 
-        @Override
-        public boolean insert(RoomPO po) {
-            return false;
+    public RoomBL() throws RemoteException{
+        try {
+            RoomFactory roomFactory=(RoomFactory) Naming.lookup("rmi://127.0.0.1:1234/roomFactory");
+            this.rds=roomFactory.createRoomDataService();
+        }catch (MalformedURLException e) {
+            e.printStackTrace();
+        }catch (NotBoundException e) {
+            e.printStackTrace();
         }
-
-        @Override
-        public boolean delete(long id) {
-            return false;
-        }
-
-        @Override
-        public boolean update(RoomPO po) {
-            return false;
-        }
-
-	
-    };
+    }
 
 	public RoomVO getRoom(long roomStyle){
 		RoomPO rpo=this.rds.find(roomStyle);

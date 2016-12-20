@@ -2,16 +2,21 @@ package businesslogic.customerbl;
 
 import businesslogicservice.customerbusinesslogicservice.CustomerBusinessLogicService;
 import dataservice.customerdataservice.CustomerDataService;
+import dataservice.customerdataservice.CustomerFactory;
 import dataservice.hoteldataservice.HotelDataService;
+import dataservice.hoteldataservice.HotelFactory;
 import dataservice.orderdataservice.OrderDataService;
+import dataservice.orderdataservice.OrderFactory;
 import po.CustomerPO;
-import po.HotelPO;
 import po.Member;
 import po.OrderPO;
 import vo.CustomerVO;
 import vo.HotelVO;
 import vo.OrderVO;
 
+import java.net.MalformedURLException;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -21,69 +26,24 @@ import java.util.Date;
  */
 public class CustomerBL implements CustomerBusinessLogicService {
 
-    CustomerDataService cds=new CustomerDataService() {
-        @Override
-        public CustomerPO find(long id) {
-            return null;
-        }
+    private CustomerDataService cds;
+    private HotelDataService hds;
+    private OrderDataService ods;
 
-        @Override
-        public boolean insert(CustomerPO po) {
-            return false;
+    public CustomerBL() throws RemoteException{
+        try {
+            CustomerFactory customerFactory=(CustomerFactory) Naming.lookup("rmi://127.0.0.1:1234/customerFactory");
+            this.cds=customerFactory.createCustomerDataService();
+            HotelFactory hotelFactory=(HotelFactory) Naming.lookup("rmi://127.0.0.1:1234/hotelFactory");
+            this.hds=hotelFactory.createHotelDataService();
+            OrderFactory orderFactory=(OrderFactory) Naming.lookup("rmi://127.0.0.1:1234/orderFactory");
+            this.ods=orderFactory.createOrderDataService();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }catch (NotBoundException e) {
+            e.printStackTrace();
         }
-
-        @Override
-        public boolean delete(long id) {
-            return false;
-        }
-
-        @Override
-        public boolean update(CustomerPO po) {
-            return false;
-        }
-    };
-    HotelDataService hds=new HotelDataService() {
-        @Override
-        public HotelPO find(long id) {
-            return null;
-        }
-
-        @Override
-        public boolean insert(HotelPO po) {
-            return false;
-        }
-
-        @Override
-        public boolean delete(long id) {
-            return false;
-        }
-
-        @Override
-        public boolean update(HotelPO po) {
-            return false;
-        }
-    };
-    OrderDataService ods=new OrderDataService() {
-        @Override
-        public OrderPO find(long id) {
-            return null;
-        }
-
-        @Override
-        public boolean insert(OrderPO po) {
-            return false;
-        }
-
-        @Override
-        public boolean delete(long id) {
-            return false;
-        }
-
-        @Override
-        public boolean update(OrderPO po) {
-            return false;
-        }
-    };
+    }
 
     public CustomerVO getCustomer(long id) throws RemoteException{
         CustomerPO po=this.cds.find(id);
@@ -129,5 +89,9 @@ public class CustomerBL implements CustomerBusinessLogicService {
         temp[Integer.parseInt(po.getCreditNum())][1]=record[Integer.parseInt(po.getCreditNum())][1];
 
         return this.cds.update(new CustomerPO(po.getCustomerName(),po.getCustomerPhone(),po.getBirthday(),po.getCompanyName(),po.getCredit(),po.getMember(),po.getId(),po.getCreditNum()+1,temp,po.getOrderId1(),po.getOrderId2(),po.getOrderId3(),po.getOrderId4()));
+    }
+
+    public long findMaxId() throws RemoteException{
+        return this.cds.findMaxId();
     }
 }

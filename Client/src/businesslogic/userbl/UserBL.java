@@ -2,10 +2,14 @@ package businesslogic.userbl;
 
 import businesslogicservice.userbusinesslogicservice.UserBusinessLogicService;
 import dataservice.userdataservice.UserDataService;
+import dataservice.userdataservice.UserFactory;
 import po.User;
 import po.UserPO;
 import vo.UserVO;
 
+import java.net.MalformedURLException;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
 /**
@@ -13,27 +17,18 @@ import java.rmi.RemoteException;
  */
 public class UserBL implements UserBusinessLogicService{
 
-    UserDataService uds=new UserDataService() {
-        @Override
-        public UserPO find(String account) {
-            return null;
-        }
+    private UserDataService uds;
 
-        @Override
-        public boolean insert(UserPO po) {
-            return false;
+    public UserBL() throws RemoteException{
+        try {
+            UserFactory userFactory=(UserFactory) Naming.lookup("rmi://127.0.0.1:1234/userFactory");
+            this.uds=userFactory.createUserDataService();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }catch (NotBoundException e) {
+            e.printStackTrace();
         }
-
-        @Override
-        public boolean delete(long id) {
-            return false;
-        }
-
-        @Override
-        public boolean update(UserPO po) {
-            return false;
-        }
-    };
+    }
 
     public UserVO getUser(String account) throws RemoteException{
         UserPO po;
@@ -66,5 +61,9 @@ public class UserBL implements UserBusinessLogicService{
             uds.insert(new UserPO(account,password,user));
         }
         return result;
+    }
+
+    public long findMaxId() throws RemoteException{
+        return this.uds.findMaxId();
     }
 }

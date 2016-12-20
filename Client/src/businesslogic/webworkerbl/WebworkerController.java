@@ -7,7 +7,7 @@ import vo.WebworkerVO;
 public class WebworkerController {
 	WebworkerBL bl;
 
-	public WebworkerController() {
+	public WebworkerController()throws RemoteException {
 		bl = new WebworkerBL();
 	}
 

@@ -18,7 +18,7 @@ public class OrderUI {
 
     OrderController oc;
 
-    public OrderUI(boolean is){
+    public OrderUI(boolean is,long hotelId){
         JFrame frame=new JFrame("订单");
         Font font=new Font("微软雅黑",Font.BOLD,16);
         frame.setFont(font);
@@ -196,8 +196,8 @@ public class OrderUI {
                     ovo.setIsExistChild(isexistchild);
                     ovo.setTotalPrice(Double.parseDouble(totalPrice.getText()));
                     ovo.setCustomerNumber(Integer.parseInt(customerNumber.getText()));
-                    oc.createOrder(ovo);
-                    if(oc.createOrder(ovo)){
+                    oc.createOrder(ovo,hotelId);
+                    if(oc.createOrder(ovo,hotelId)){
                         Tooltip_one to=new Tooltip_one();
                         frame.dispose();
                     }
@@ -215,8 +215,5 @@ public class OrderUI {
                 frame.dispose();
             }
         });
-    }
-    public static void main(String[] args){
-        OrderUI ui=new OrderUI(true);
     }
 }

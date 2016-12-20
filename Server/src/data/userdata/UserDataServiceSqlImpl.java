@@ -4,6 +4,7 @@ import dataservice.userdataservice.UserDataService;
 import po.User;
 import po.UserPO;
 
+import java.rmi.RemoteException;
 import java.sql.*;
 
 /**
@@ -17,6 +18,15 @@ public class UserDataServiceSqlImpl implements UserDataService{
     String url = "jdbc:mysql://127.0.0.1:3306/DS_HRS";
     String name="root";
     String password="2578";
+
+    private static UserDataServiceSqlImpl udssi=null;
+
+    public static UserDataServiceSqlImpl getInstance() throws RemoteException {
+        if(udssi==null){
+            udssi=new UserDataServiceSqlImpl();
+        }
+        return udssi;
+    }
 
     @Override
     public boolean update(UserPO po) {

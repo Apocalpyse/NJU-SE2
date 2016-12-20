@@ -4,64 +4,39 @@ package businesslogic.orderbl;
  * Created by 常德隆 on 2016/11/19.
  */
 import businesslogic.customerbl.CustomerController;
-import businesslogic.promotionbl.PromotionBL;
 import businesslogic.promotionbl.PromotionController;
 import businesslogicservice.orderbusnesslogicservice.OrderBusinessLogicService;
 import dataservice.customerdataservice.CustomerDataService;
+import dataservice.customerdataservice.CustomerFactory;
 import dataservice.orderdataservice.OrderDataService;
+import dataservice.orderdataservice.OrderFactory;
 import po.*;
 import vo.OrderVO;
 
+import java.net.MalformedURLException;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class OrderBL implements OrderBusinessLogicService{
 
-    OrderDataService ods=new OrderDataService() {
-        @Override
-        public OrderPO find(long id) {
-            return null;
-        }
+    private OrderDataService ods;
+    private CustomerDataService cds;
 
-        @Override
-        public boolean insert(OrderPO po) {
-            return false;
+    public OrderBL() throws RemoteException{
+        try {
+            OrderFactory orderFactory =(OrderFactory) Naming.lookup("rmi://127.0.0.1:1234/orderFactory");
+            this.ods = orderFactory.createOrderDataService();
+            CustomerFactory customerFactory=(CustomerFactory) Naming.lookup("rmi://127.0.0.1:1234/customerFactory");
+            this.cds=customerFactory.createCustomerDataService();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }catch (NotBoundException e) {
+            e.printStackTrace();
         }
-
-        @Override
-        public boolean delete(long id) {
-            return false;
-        }
-
-        @Override
-        public boolean update(OrderPO po) {
-            return false;
-        }
-    };
-
-    CustomerDataService cds=new CustomerDataService() {
-        @Override
-        public CustomerPO find(long id) {
-            return null;
-        }
-
-        @Override
-        public boolean insert(CustomerPO po) {
-            return false;
-        }
-
-        @Override
-        public boolean delete(long id) {
-            return false;
-        }
-
-        @Override
-        public boolean update(CustomerPO po) {
-            return false;
-        }
-    };
-    private long OrderId=40000;
+    }
 
     public boolean createOrder(OrderVO vo,long hotelId)throws RemoteException{
 
@@ -129,5 +104,9 @@ public class OrderBL implements OrderBusinessLogicService{
         CustomerController cc=new CustomerController();
         cc.recordCredit(cpo.getId(),po.getTotalPrice());
         return this.ods.update(new OrderPO(po.getId(),po.getCustomerName(),po.getCustomerPhone(),po.getHotelName(),po.getHotelPhone(),po.getHotelLocation(),po.getRoomType(),po.getRoomNumber(),po.getRoomPrice(),po.getDiscount(),po.getStartTime(),po.getEndTime(),po.getExecuteTime(),po.getTotalPrice(),OrderState.normal,po.getIsExistChild(),po.getCustomerNumber(),po.getMasterId()));
+    }
+
+    public long findMaxId() throws RemoteException{
+        return this.ods.findMaxId();
     }
 }

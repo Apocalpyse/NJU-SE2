@@ -11,7 +11,7 @@ import java.rmi.RemoteException;
  */
 public class CustomerController {
     CustomerBL cbl;
-    public CustomerController(){
+    public CustomerController()throws RemoteException{
         cbl=new CustomerBL();
     }
 
@@ -37,5 +37,9 @@ public class CustomerController {
 
     public void recordCredit(long id,double creditChange)throws RemoteException{
         cbl.recordCredit(id,creditChange);
+    }
+
+    public long findMaxId() throws RemoteException{
+        return cbl.findMaxId();
     }
 }

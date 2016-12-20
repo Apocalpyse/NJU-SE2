@@ -4,6 +4,7 @@ import dataservice.customerdataservice.CustomerDataService;
 import po.CustomerPO;
 import po.Member;
 
+import java.rmi.RemoteException;
 import java.sql.*;
 
 /**
@@ -18,6 +19,15 @@ public class CustomerDataServiceSqlImpl implements CustomerDataService {
     String url = "jdbc:mysql://127.0.0.1:3306/DS_HRS";
     String name="root";
     String password="2578";
+
+    private static CustomerDataServiceSqlImpl cdssi=null;
+
+    public static CustomerDataServiceSqlImpl getInstance() throws RemoteException{
+        if(cdssi==null){
+            cdssi=new CustomerDataServiceSqlImpl();
+        }
+        return cdssi;
+    }
 
     @Override
     public boolean update(CustomerPO po) {

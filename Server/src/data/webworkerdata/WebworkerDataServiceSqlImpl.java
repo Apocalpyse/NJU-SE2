@@ -6,6 +6,7 @@ import po.CustomerPO;
 import po.Member;
 import po.WebworkerPO;
 
+import java.rmi.RemoteException;
 import java.sql.*;
 
 
@@ -20,6 +21,15 @@ public class WebworkerDataServiceSqlImpl implements WebworkerDataService {
 	String url = "jdbc:mysql://127.0.0.1:3306/DS_HRS";
 	String name="root";
 	String password="2578";
+
+	private static WebworkerDataServiceSqlImpl wdssi=null;
+
+	public static WebworkerDataServiceSqlImpl getInstance() throws RemoteException {
+		if(wdssi==null){
+			wdssi=new WebworkerDataServiceSqlImpl();
+		}
+		return wdssi;
+	}
 
 	@Override
 	public boolean update(WebworkerPO po) {

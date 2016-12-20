@@ -1,5 +1,6 @@
 package data.hoteldata;
 
+import java.rmi.RemoteException;
 import java.sql.Connection;
 
 import java.sql.DriverManager;
@@ -24,6 +25,14 @@ public class HotelDataServiceSqlImpl implements HotelDataService {
     String name="root";
     String password="2578";
 
+    private static HotelDataServiceSqlImpl hdssi=null;
+
+    public static HotelDataServiceSqlImpl getInstance() throws RemoteException {
+        if(hdssi==null){
+            hdssi=new HotelDataServiceSqlImpl();
+        }
+        return hdssi;
+    }
 
     @Override
     public boolean update(HotelPO po) {

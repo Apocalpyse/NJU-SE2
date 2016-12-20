@@ -14,4 +14,5 @@ public interface UserBusinessLogicService {
      boolean changeUser(UserVO vo) throws RemoteException;
      boolean login(String account,String password)throws RemoteException;
      boolean register(String account, String password, User user)throws RemoteException;
+     long findMaxId() throws RemoteException;
 }

@@ -10,4 +10,5 @@ public interface CustomerDataService {
      boolean insert(CustomerPO po);
      boolean delete(long id);
      boolean update(CustomerPO po);
+     long findMaxId();
 }

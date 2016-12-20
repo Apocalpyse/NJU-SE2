@@ -4,6 +4,7 @@ import dataservice.orderdataservice.OrderDataService;
 import po.OrderPO;
 import po.OrderState;
 
+import java.rmi.RemoteException;
 import java.sql.*;
 
 /**
@@ -17,6 +18,15 @@ public class OrderDataServiceSqlImpl implements OrderDataService {
     String url = "jdbc:mysql://127.0.0.1:3306/DS_HRS";
     String name="root";
     String password="2578";
+
+    private static OrderDataServiceSqlImpl odssi=null;
+
+    public static OrderDataServiceSqlImpl getInstance() throws RemoteException {
+        if(odssi==null){
+            odssi=new OrderDataServiceSqlImpl();
+        }
+        return odssi;
+    }
 
     @Override
     public boolean update(OrderPO po) {

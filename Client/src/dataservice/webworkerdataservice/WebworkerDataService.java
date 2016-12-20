@@ -1,7 +1,5 @@
 package dataservice.webworkerdataservice;
 
-import java.rmi.RemoteException;
-
 import po.WebworkerPO;
 
 /**

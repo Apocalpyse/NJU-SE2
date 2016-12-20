@@ -10,13 +10,18 @@ public class MemberPromotionPO extends PromotionPO{
 	public MemberPromotionPO(){
 		
 	}
-	public MemberPromotionPO(long ID,String createdTime,UsageState usageState,double credit[],double discountForMember[]){
-		this.ID=ID;
-		this.createdTime=createdTime;
-		this.usageState=usageState;
-		this.credit=credit;
-		this.discountForMember=discountForMember;//discount
+
+	public MemberPromotionPO(long iD, String promotionName, String createdTime, UsageState usageState, double[] credit,
+			double[] discountForMember) {
+		super();
+		ID = iD;
+		this.promotionName = promotionName;
+		this.createdTime = createdTime;
+		this.usageState = usageState;
+		this.credit = credit;
+		this.discountForMember = discountForMember;
 	}
+
 	public long getID() {
 		return ID;
 	}

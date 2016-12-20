@@ -10,7 +10,7 @@ import java.rmi.RemoteException;
 public class OrderController {
     OrderBL obl;
 
-    public OrderController(){
+    public OrderController() throws RemoteException{
         obl=new OrderBL();
     }
 
@@ -32,5 +32,9 @@ public class OrderController {
 
     public boolean recoverOrder(long id)throws RemoteException {
         return obl.recoverOrder(id);
+    }
+
+    public long findMaxId() throws RemoteException{
+        return obl.findMaxId();
     }
 }

@@ -4,6 +4,7 @@ import businesslogic.customerbl.CustomerController;
 import businesslogic.orderbl.OrderController;
 import businesslogic.userbl.UserController;
 import dataservice.customerdataservice.CustomerDataService;
+import dataservice.customerdataservice.CustomerFactory;
 import dataservice.userdataservice.UserDataService;
 import po.CustomerPO;
 import po.OrderPO;
@@ -32,7 +33,6 @@ public class MainUI {
     CustomerController cc;
     OrderController oc;
     UserController uc;
-
 
 
     public MainUI(String account,String password){
@@ -214,51 +214,10 @@ public class MainUI {
                 companyName.setEditable(true);
                 try {
                     CustomerController cc = new CustomerController();
-                    UserDataService uds = new UserDataService() {
-                        @Override
-                        public UserPO find(String account) {
-                            return null;
-                        }
-
-                        @Override
-                        public boolean insert(UserPO po) {
-                            return false;
-                        }
-
-                        @Override
-                        public boolean delete(long id) {
-                            return false;
-                        }
-
-                        @Override
-                        public boolean update(UserPO po) {
-                            return false;
-                        }
-                    };
-                    CustomerDataService cds = new CustomerDataService() {
-                        @Override
-                        public CustomerPO find(long id) {
-                            return null;
-                        }
-
-                        @Override
-                        public boolean insert(CustomerPO po) {
-                            return false;
-                        }
-
-                        @Override
-                        public boolean delete(long id) {
-                            return false;
-                        }
-
-                        @Override
-                        public boolean update(CustomerPO po) {
-                            return false;
-                        }
-                    };
-                    UserPO upo = uds.find(account);
-                    CustomerPO cpo = cds.find(upo.getId());
-                    cc.changeCustomer(new CustomerVO(name.getText(),phone.getText(),birthday.getText(),companyName.getText(),cpo.getCredit(),cpo.getMember(),cpo.getId(),cpo.getCreditNum(),cpo.getCreditRecord(),cpo.getOrderId1(),cpo.getOrderId2(),cpo.getOrderId3(),cpo.getOrderId4()));
+                    UserController uc=new UserController();
+                    UserVO uvo=uc.getUser(account);
+                    CustomerVO cvo=cc.getCustomer(uvo.getId());
+                    cc.changeCustomer(new CustomerVO(name.getText(),phone.getText(),birthday.getText(),companyName.getText(),cvo.getCredit(),cvo.getMember(),cvo.getId(),cvo.getCreditNum(),cvo.getCreditRecord(),cvo.getOrderId1(),cvo.getOrderId2(),cvo.getOrderId3(),cvo.getOrderId4()));
                 }catch(RemoteException e1){
                     e1.printStackTrace();
                 }
@@ -274,52 +233,11 @@ public class MainUI {
                     birthday.setEditable(false);
                     companyName.setEditable(false);
                     CustomerController cc = new CustomerController();
-                    UserDataService uds = new UserDataService() {
-                        @Override
-                        public UserPO find(String account) {
-                            return null;
-                        }
-
-                        @Override
-                        public boolean insert(UserPO po) {
-                            return false;
-                        }
-
-                        @Override
-                        public boolean delete(long id) {
-                            return false;
-                        }
-
-                        @Override
-                        public boolean update(UserPO po) {
-                            return false;
-                        }
-                    };
-                    CustomerDataService cds = new CustomerDataService() {
-                        @Override
-                        public CustomerPO find(long id) {
-                            return null;
-                        }
-
-                        @Override
-                        public boolean insert(CustomerPO po) {
-                            return false;
-                        }
-
-                        @Override
-                        public boolean delete(long id) {
-                            return false;
-                        }
-
-                        @Override
-                        public boolean update(CustomerPO po) {
-                            return false;
-                        }
-                    };
-                    UserPO upo = uds.find(account);
-                    CustomerPO cpo = cds.find(upo.getId());
-                    cc.registerMember(new CustomerVO(name.getText(), phone.getText(), birthday.getText(), companyName.getText(), cpo.getCredit(), cpo.getMember(), cpo.getId()
-                            , cpo.getCreditNum(), cpo.getCreditRecord(), cpo.getOrderId1(), cpo.getOrderId2(), cpo.getOrderId3(), cpo.getOrderId4()));
+                    UserController uc=new UserController();
+                    UserVO uvo = uc.getUser(account);
+                    CustomerVO cvo = cc.getCustomer(uvo.getId());
+                    cc.registerMember(new CustomerVO(name.getText(), phone.getText(), birthday.getText(), companyName.getText(), cvo.getCredit(), cvo.getMember(), cvo.getId()
+                            , cvo.getCreditNum(), cvo.getCreditRecord(), cvo.getOrderId1(), cvo.getOrderId2(), cvo.getOrderId3(), cvo.getOrderId4()));
                 }catch(RemoteException e1){
                     e1.printStackTrace();
                 }

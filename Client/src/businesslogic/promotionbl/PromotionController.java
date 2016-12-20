@@ -7,7 +7,7 @@ import vo.*;
 public class PromotionController {
 	PromotionBL bl;
 
-	public PromotionController() {
+	public PromotionController()throws RemoteException {
 		bl = new PromotionBL();
 	}
 	public double getDiscount(long userid, long hotelid, String createdTime, int room, double price)

@@ -16,4 +16,5 @@ public interface CustomerBusinessLogicService {
      HotelVO searchHotel(HotelVO vo)throws RemoteException;
      OrderVO viewNormalOrder(long id,int i) throws RemoteException;
      boolean recordCredit(long id,double creditChange) throws RemoteException;
+     long findMaxId() throws RemoteException;
 }

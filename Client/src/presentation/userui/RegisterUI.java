@@ -81,28 +81,6 @@ public class RegisterUI {
                     if (password1.equals(password2)) {
                         UserController uc = new UserController();
                         if (uc.register(textField2.getPassword().toString(), textField3.getPassword().toString())) {
-                            UserDataService uds=new UserDataService() {
-                                @Override
-                                public UserPO find(String account) {
-                                    return null;
-                                }
-
-                                @Override
-                                public boolean insert(UserPO po) {
-                                    return false;
-                                }
-
-                                @Override
-                                public boolean delete(long id) {
-                                    return false;
-                                }
-
-                                @Override
-                                public boolean update(UserPO po) {
-                                    return false;
-                                }
-                            };
-                            uds.insert(new UserPO(textField1.getText(),textField2.getPassword().toString(), User.customer));
                             Tooltip_two tt = new Tooltip_two();
                             frame.dispose();
                         } else {

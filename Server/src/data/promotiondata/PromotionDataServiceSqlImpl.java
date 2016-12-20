@@ -7,6 +7,7 @@ import po.MemberType;
 import po.UsageState;
 import po.WebPromotionPO;
 
+import java.rmi.RemoteException;
 import java.sql.*;
 
 public class PromotionDataServiceSqlImpl implements PromotionDataService {
@@ -17,6 +18,15 @@ public class PromotionDataServiceSqlImpl implements PromotionDataService {
 	String url = "jdbc:mysql://127.0.0.1:3306/DS_HRS";
 	String name = "root";
 	String password = "2578";
+
+	private static PromotionDataServiceSqlImpl pdssi=null;
+
+	public static PromotionDataServiceSqlImpl getInstance() throws RemoteException {
+		if(pdssi==null){
+			pdssi=new PromotionDataServiceSqlImpl();
+		}
+		return pdssi;
+	}
 
 	@Override
 	public boolean update1(MemberPromotionPO po) {

@@ -106,6 +106,7 @@ public class LoginUI {
     }
     public static void main(String[] args){
         LoginUI ui=new LoginUI();
+
     }
 
 }

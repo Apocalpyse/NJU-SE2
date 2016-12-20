@@ -1,114 +1,36 @@
 package businesslogic.promotionbl;
 
+import java.net.MalformedURLException;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import java.util.Date;
 import businesslogicservice.promotionbusinesslogicservice.PromotionBusinessLogicService;
 import dataservice.customerdataservice.CustomerDataService;
+import dataservice.customerdataservice.CustomerFactory;
 import dataservice.promotiondataservice.PromotionDataService;
+import dataservice.promotiondataservice.PromotionFactory;
 import po.*;
 import vo.*;
 
 public class PromotionBL implements PromotionBusinessLogicService {
-	CustomerDataService cds = new CustomerDataService() {
-		@Override
-		public CustomerPO find(long id) {
-			return null;
-		}
-		
-		@Override
-		public boolean insert(CustomerPO po) {
-			return false;
-		}
+	private CustomerDataService cds ;
+	private PromotionDataService pds ;
 
-		@Override
-		public boolean delete(long id) {
-			return false;
+	public PromotionBL() throws RemoteException{
+		try {
+			PromotionFactory promotionFactory=(PromotionFactory) Naming.lookup("rmi://127.0.0.1:1234/promotionFactory");
+			this.pds=promotionFactory.createPromotionDataService();
+			CustomerFactory customerFactory=(CustomerFactory) Naming.lookup("rmi://127.0.0.1:1234/customerFactory");
+			this.cds=customerFactory.createCustomerDataService();
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}catch (NotBoundException e) {
+			e.printStackTrace();
 		}
-
-		@Override
-		public boolean update(CustomerPO po) {
-			return false;
-		}
-	};
-	PromotionDataService pds = new PromotionDataService() {
-		@Override
-		public MemberPromotionPO find1(long id) {
-			return null;
-		}
-
-		@Override
-		public HotelPromotionPO find2(long id) {
-			return null;
-		}
-
-		@Override
-		public WebPromotionPO find3(long id) {
-			return null;
-		}
-
-		@Override
-		public boolean insert1(MemberPromotionPO po) {
-			return false;
-		}
-
-		@Override
-		public boolean delete1(long id) {
-			return false;
-		}
-
-		@Override
-		public boolean update1(MemberPromotionPO po) {
-			return false;
-		}
-
-		@Override
-		public boolean insert2(HotelPromotionPO po) {
-			return false;
-		}
-
-		@Override
-		public boolean delete2(long id) {
-			return false;
-		}
-
-		@Override
-		public boolean update2(HotelPromotionPO po) {
-			return false;
-		}
-
-		@Override
-		public boolean insert3(WebPromotionPO po) {
-			return false;
-		}
-
-		@Override
-		public boolean delete3(long id) {
-			return false;
-		}
-
-		@Override
-		public boolean update3(WebPromotionPO po) {
-			return false;
-		}
-
-		@Override
-		public long findMaxId1() {
-			return 0;
-		}
-
-		@Override
-		public long findMaxId2() {
-			return 0;
-		}
-
-		@Override
-		public long findMaxId3() {
-			return 0;
-		}
-	};
+	}
 
 	// String businessDistrict[]={"NJU","XL"};
 	// WebPromotionVO vo=new WebPromotionVO();

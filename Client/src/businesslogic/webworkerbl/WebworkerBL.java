@@ -1,42 +1,30 @@
 package businesslogic.webworkerbl;
 
+import java.net.MalformedURLException;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
 
 import businesslogicservice.webworkerbusinesslogicservice.WebworkerBusinessLogicService;
 import dataservice.webworkerdataservice.WebworkerDataService;
+import dataservice.webworkerdataservice.WebworkerFactory;
 import po.WebworkerPO;
 import vo.WebworkerVO;
 
 public class WebworkerBL implements WebworkerBusinessLogicService {
-	WebworkerDataService wds = new WebworkerDataService() {
-		@Override
-		public WebworkerPO find(long id) {
-			return null;
+	private WebworkerDataService wds ;
+
+	public WebworkerBL() throws RemoteException{
+		try {
+			WebworkerFactory webworkerFactory=(WebworkerFactory) Naming.lookup("rmi://127.0.0.1:1234/webworkerFactory");
+			this.wds=webworkerFactory.createWebworkerDataService();
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}catch (NotBoundException e) {
+			e.printStackTrace();
 		}
-
-		@Override
-
-		public boolean insert(WebworkerPO po) {
-			return false;
-		}
-
-		@Override
-		public boolean delete(long id) {
-			return false;
-		}
-
-		@Override
-		public boolean update(WebworkerPO po) {
-			return false;
-		}
-
-		@Override
-		public long findMaxId() {
-			return 0;
-		}
-
-	};
+	}
 
 	public WebworkerVO getWebworker(long id) throws RemoteException {
 		WebworkerPO po= this.wds.find(id);

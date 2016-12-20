@@ -1,5 +1,6 @@
 package data.roomdata;
 
+import java.rmi.RemoteException;
 import java.sql.Connection;
 
 import java.sql.DriverManager;
@@ -22,6 +23,15 @@ public class RoomDataServiceSqlImpl implements RoomDataService {
 	    String url = "jdbc:mysql://127.0.0.1:3306/DS_HRS";
 	    String name="root";
 	    String password="2578";
+
+	private static RoomDataServiceSqlImpl rdssi=null;
+
+	public static RoomDataServiceSqlImpl getInstance() throws RemoteException {
+		if(rdssi==null){
+			rdssi=new RoomDataServiceSqlImpl();
+		}
+		return rdssi;
+	}
 
 	    @Override
 	    public boolean update(RoomPO po) {

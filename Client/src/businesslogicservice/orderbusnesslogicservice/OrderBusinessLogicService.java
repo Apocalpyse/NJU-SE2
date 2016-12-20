@@ -13,4 +13,5 @@ public interface OrderBusinessLogicService {
      boolean cancelOrder(long id) throws RemoteException;
      boolean completeOrder(long id) throws RemoteException;
      boolean recoverOrder(long id)throws RemoteException;
+     long findMaxId() throws RemoteException;
 }

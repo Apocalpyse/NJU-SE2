@@ -11,7 +11,7 @@ import java.rmi.RemoteException;
  */
 public class UserController {
     UserBL ubl;
-    public UserController(){
+    public UserController()throws RemoteException{
         ubl=new UserBL();
     }
 
@@ -25,5 +25,9 @@ public class UserController {
 
     public boolean register(String account,String password) throws RemoteException{
         return ubl.register(account,password, User.customer);
+    }
+
+    public long findMaxId() throws RemoteException{
+        return ubl.findMaxId();
     }
 }
