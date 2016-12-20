@@ -42,4 +42,7 @@ public class HotelController {
     public boolean setPromotionFour(long id,double discount)throws RemoteException{
     	return hbl.setPromotionFour(id,discount);
     }
+    public long findMaxId() throws RemoteException{
+    	return hbl.findMaxId();
+    }
 }
