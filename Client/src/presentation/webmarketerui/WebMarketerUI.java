@@ -21,6 +21,7 @@ import java.util.Vector;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -35,11 +36,13 @@ import javax.swing.ListSelectionModel;
 import javax.swing.SpringLayout;
 import javax.swing.UIManager;
 import javax.swing.plaf.FontUIResource;
+import javax.swing.plaf.synth.SynthSpinnerUI;
 import javax.swing.table.DefaultTableModel;
 
 import businesslogic.customerbl.CustomerController;
 import businesslogic.orderbl.OrderController;
 import businesslogic.promotionbl.PromotionController;
+import businesslogic.userbl.UserController;
 import po.MemberType;
 import po.OrderState;
 import po.UsageState;
@@ -62,6 +65,14 @@ public class WebMarketerUI extends JFrame {
 	Dimension preferredSize8 = new Dimension(60, 20);// 设置尺寸中label
 	Dimension preferredSize5 = new Dimension(75, 20);// 设置尺寸长label,textarea
 	Dimension preferredSize7 = new Dimension(850, 550);// 设置尺寸
+	long WPIDBegin = 62000;
+	long MPIDBegin = 60000;
+	long USERIDBegin = 10000;
+	long HOTELIDBegin = 20000;
+	long WMIDBegin = 30000;
+	long WWIDBegin = 40000;
+	long ORDERIDBegin = 50000;
+	// ID
 	private JPanel customer;
 	private JPanel member;
 	private JPanel order;
@@ -259,14 +270,10 @@ public class WebMarketerUI extends JFrame {
 		nextPage.setFont(font);
 		nextPage.setPreferredSize(preferredSize);
 		//
-		Object[][] p = { { "600001", "A", "2016-11-29", "2016-11-30", "1%", "ALL", "ALL", "Using", "2016-11-28" },
-				{ "600002", "B", "2016-11-29", "2016-11-29", "2%", "ALL", "ALL", "Unused", "2016-11-28" },
-				{ "600003", "C", "2016-11-29", "2016-11-29", "4%", "ALL", "ALL", "Unused", "2016-11-28" },
-				{ "600004", "D", "2016-11-29", "2016-11-29", "8%", "ALL", "ALL", "Unused", "2016-11-28" },
-				{ "600005", "E", "2016-11-29", "2016-11-29", "10%", "ALL", "ALL", "Unused", "2016-11-28" },
-				{ "600006", "F", "2016-11-29", "2016-11-29", "15%", "ALL", "ALL", "Unused", "2016-11-28" },
-				{ "600007", "G", "2016-11-29", "2016-11-29", "20%", "ALL", "ALL", "Unused", "2016-11-28" },
-				{ "600008", "H", "2016-11-29", "2016-11-29", "25%", "ALL", "ALL", "Unused", "2016-11-28" } };
+		String[][] p = { { "", "", "", "", "", "", "", "", "", "" }, { "", "", "", "", "", "", "", "", "", "" },
+				{ "", "", "", "", "", "", "", "", "", "" }, { "", "", "", "", "", "", "", "", "", "" },
+				{ "", "", "", "", "", "", "", "", "", "" }, { "", "", "", "", "", "", "", "", "", "" },
+				{ "", "", "", "", "", "", "", "", "", "" }, { "", "", "", "", "", "", "", "", "", "" } };
 		String[] n = { "ID", "名称", "起始时间", "结束时间", "折扣", "参与商圈", "享折对象", "状态", "创建时间" };
 		DefaultTableModel defaultModel = new DefaultTableModel(p, n) {
 			public boolean isCellEditable(int row, int column) {
@@ -457,11 +464,13 @@ public class WebMarketerUI extends JFrame {
 
 		table.addMouseListener(new java.awt.event.MouseAdapter() {
 			public void mouseClicked(java.awt.event.MouseEvent e) {
-				apply.setEnabled(true);
-				if (table.getValueAt(table.getSelectedRow(), n.length - 2).toString().equals("Unused")) {
-					apply.setText("应用");
-				} else {
-					apply.setText("退用");
+				if (!(table.getValueAt(0, 0) == null) && !(table.getValueAt(0, 0).toString().equals(""))) {
+					apply.setEnabled(true);
+					if (table.getValueAt(table.getSelectedRow(), n.length - 2).toString().equals("Unused")) {
+						apply.setText("应用");
+					} else {
+						apply.setText("退用");
+					}
 				}
 			}
 		});
@@ -482,7 +491,7 @@ public class WebMarketerUI extends JFrame {
 						for (int i = 1; i < vo.getBusinessDistrict().length; i++) {
 							BD = BD + "+" + vo.getBusinessDistrict()[i];
 						}
-						Object[] ob = { vo.getID() + "", vo.getPromotionName(), vo.getBeginTime(), vo.getEndTime(),
+						String[] ob = { vo.getID() + "", vo.getPromotionName(), vo.getBeginTime(), vo.getEndTime(),
 								vo.getDiscount() * 100 + "%", BD + "", vo.getMemberType() + "",
 								vo.getUsageState().toString(), vo.getCreatedTime() };
 						// 处理值
@@ -510,16 +519,16 @@ public class WebMarketerUI extends JFrame {
 		prePage.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				PromotionController pc = new PromotionController();
-				long IDBEGIN = 0;
+				
+				long IDBEGIN = WPIDBegin;
 				try {
+					PromotionController pc = new PromotionController();
 					IDBEGIN = Long.parseLong(table.getValueAt(0, 0).toString()) - defaultModel.getRowCount();
-				} catch (NumberFormatException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+					if (IDBEGIN < WPIDBegin) {
+						JOptionPane.showMessageDialog(null, "前面已经没有更多促销策略了", "提示", JOptionPane.PLAIN_MESSAGE);
+						return;
+					}
 				for (int line = 0; line < defaultModel.getRowCount(); line++) {
-					try {
 						WebPromotionVO vo = pc.getWebPromotion(IDBEGIN);
 						IDBEGIN = IDBEGIN + 1;
 						// 获取id
@@ -527,13 +536,14 @@ public class WebMarketerUI extends JFrame {
 						for (int i = 1; i < vo.getBusinessDistrict().length; i++) {
 							BD = BD + "+" + vo.getBusinessDistrict()[i];
 						}
-						Object[] ob = { vo.getID() + "", vo.getPromotionName(), vo.getBeginTime(), vo.getEndTime(),
+						String[] ob = { vo.getID() + "", vo.getPromotionName(), vo.getBeginTime(), vo.getEndTime(),
 								vo.getDiscount() * 100 + "%", BD + "", vo.getMemberType() + "",
 								vo.getUsageState().toString(), vo.getCreatedTime() };
 						// 处理值
 						for (int i = 0; i < ob.length; i++) {
 							table.setValueAt(ob[i], line, i);
 						}
+					}
 						// 赋值
 					} catch (NumberFormatException e) {
 						// TODO Auto-generated catch block
@@ -542,23 +552,25 @@ public class WebMarketerUI extends JFrame {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-				}
+				
 			}
 		});
 		nextPage.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				PromotionController pc = new PromotionController();
-				long IDBEGIN = 0;
+
+				long IDBEGIN = WPIDBegin;
 				try {
+					PromotionController pc = new PromotionController();
 					IDBEGIN = Long.parseLong(table.getValueAt(0, 0).toString()) + defaultModel.getRowCount();
-				} catch (NumberFormatException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				// ID
-				for (int line = 0; line < defaultModel.getRowCount(); line++) {
-					try {
+					if (IDBEGIN > pc.findMaxId3()) {
+						// 后面没有更多了
+						JOptionPane.showMessageDialog(null, "后面已经没有更多促销策略了", "提示", JOptionPane.PLAIN_MESSAGE);
+						return;
+					}
+
+					// ID
+					for (int line = 0; line < defaultModel.getRowCount() && IDBEGIN <= pc.findMaxId3(); line++) {
 						WebPromotionVO vo = pc.getWebPromotion(IDBEGIN);
 						IDBEGIN = IDBEGIN + 1;
 						// 获取id
@@ -574,13 +586,13 @@ public class WebMarketerUI extends JFrame {
 							table.setValueAt(str[i], line, i);
 						}
 						// 赋值
-					} catch (NumberFormatException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (RemoteException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
 					}
+				} catch (NumberFormatException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 
 			}
@@ -589,8 +601,14 @@ public class WebMarketerUI extends JFrame {
 		creat.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				PromotionController pc = new PromotionController();
 				creditFrame.setVisible(true);
-				text1.setText("获取ID");
+				try {
+					text1.setText(pc.findMaxId3() + 1 + "");
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				// ***********此处需获取ID
 			}
 		});
@@ -625,6 +643,7 @@ public class WebMarketerUI extends JFrame {
 						table.setValueAt("Using", table.getSelectedRow(), 6);
 						apply.setText("退用");
 					}
+					JOptionPane.showMessageDialog(null, "操作成功", "提示", JOptionPane.PLAIN_MESSAGE);
 				} catch (NumberFormatException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -693,6 +712,7 @@ public class WebMarketerUI extends JFrame {
 						pc.changeWebPromotion(vo);
 					}
 					// 可找到则改，否则添加
+					JOptionPane.showMessageDialog(null, "操作成功", "提示", JOptionPane.PLAIN_MESSAGE);
 				} catch (NumberFormatException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -740,25 +760,25 @@ public class WebMarketerUI extends JFrame {
 		ID2 = new Label("ID:");
 		ID2.setFont(font);
 		ID2.setPreferredSize(preferredSize4);
-		id2 = new Label("500001");
+		id2 = new Label("");
 		id2.setFont(font);
 		id2.setPreferredSize(preferredSize5);
 		NAME2 = new Label("NAME:");
 		NAME2.setFont(font);
 		NAME2.setPreferredSize(preferredSize8);
-		name2 = new JTextArea("name");
+		name2 = new JTextArea("");
 		name2.setFont(font);
 		name2.setPreferredSize(preferredSize5);
 		TIME2 = new Label("TIME:");
 		TIME2.setFont(font);
 		TIME2.setPreferredSize(preferredSize4);
-		time2 = new Label("2016-11-29");
+		time2 = new Label("");
 		time2.setFont(font);
 		time2.setPreferredSize(preferredSize5);
 		STATE2 = new Label("STATE:");
 		STATE2.setFont(font);
 		STATE2.setPreferredSize(preferredSize8);
-		state2 = new Label("Using");
+		state2 = new Label("");
 		state2.setFont(font);
 		state2.setPreferredSize(preferredSize5);
 		idInput2 = new JTextField();
@@ -792,11 +812,10 @@ public class WebMarketerUI extends JFrame {
 		delLine2.setFont(font);
 		delLine2.setPreferredSize(preferredSize);
 		//
-		Object[][] p2 = { { new Integer(1), new Integer(1000), "2%" },
-				{ new Integer(2), new Integer(10000), "4%" }, { new Integer(3), new Integer(50000), "8%" },
-				{ new Integer(4), new Integer(100000), "10%" }, { new Integer(5), new Integer(200000), "15%" },
-				{ new Integer(6), new Integer(400000), "20%" }, { new Integer(7), new Integer(600000), "25%" },
-				{ new Integer(8), new Integer(1000000), "30%" } };
+		String[][] p2 = { { "", "", "", "", "", "", "", "", "", "" }, { "", "", "", "", "", "", "", "", "", "" },
+				{ "", "", "", "", "", "", "", "", "", "" }, { "", "", "", "", "", "", "", "", "", "" },
+				{ "", "", "", "", "", "", "", "", "", "" }, { "", "", "", "", "", "", "", "", "", "" },
+				{ "", "", "", "", "", "", "", "", "", "" }, { "", "", "", "", "", "", "", "", "", "" } };
 		String[] n2 = { "等级", "信用值(>=)", "折扣" };
 		DefaultTableModel defaultModel2 = new DefaultTableModel(p2, n2);
 		JTable table2 = new JTable(defaultModel2);
@@ -901,6 +920,11 @@ public class WebMarketerUI extends JFrame {
 					} else {
 						PromotionController pc = new PromotionController();
 						long num = Long.parseLong(idInput2.getText().toString());
+						if (num > pc.findMaxId1() || num < MPIDBegin) {
+							JOptionPane.showMessageDialog(null, "查询不到该会员制度ID", "提示", JOptionPane.PLAIN_MESSAGE);
+							return;
+						}
+						// 检测
 						MemberPromotionVO vo = pc.getMemberPromotion(num);
 						// 获取
 						long IDGET = vo.getID();
@@ -915,7 +939,7 @@ public class WebMarketerUI extends JFrame {
 						} else {
 							apply2.setText("退用");
 						}
-						Object[] ob = {};
+						String[] ob = {};
 						// 处理值
 						for (int i = 0; i < ob.length; i++) {
 							table2.setValueAt(ob[i], 0, i);
@@ -982,15 +1006,22 @@ public class WebMarketerUI extends JFrame {
 				defaultModel2.addRow(new Vector());
 				defaultModel2.setRowCount(rowcount + 1);
 				table2.revalidate();
+				table2.setValueAt(rowcount + 1, rowcount, 0);
 			}
 		});
 		// 添加一行
+
 		prePage2.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					PromotionController pc = new PromotionController();
 					long num = Long.parseLong(id2.getText().toString()) - 1;
+					if (num < MPIDBegin) {
+						JOptionPane.showMessageDialog(null, "前面已经没有更多会员制度信息了", "提示", JOptionPane.PLAIN_MESSAGE);
+						return;
+					}
+					// 检测
 					MemberPromotionVO vo = pc.getMemberPromotion(num);
 					// 获取
 					long IDGET = vo.getID();
@@ -1005,7 +1036,7 @@ public class WebMarketerUI extends JFrame {
 					} else {
 						apply2.setText("退用");
 					}
-					Object[] ob = {};
+					String[] ob = {};
 					// 处理值
 					for (int i = 0; i < ob.length; i++) {
 						table2.setValueAt(ob[i], 0, i);
@@ -1057,6 +1088,11 @@ public class WebMarketerUI extends JFrame {
 				try {
 					PromotionController pc = new PromotionController();
 					long num = Long.parseLong(id2.getText().toString()) + 1;
+					if (num > pc.findMaxId1()) {
+						JOptionPane.showMessageDialog(null, "后面已经没有更多会员制度信息了", "提示", JOptionPane.PLAIN_MESSAGE);
+						return;
+					}
+					// 检测
 					MemberPromotionVO vo = pc.getMemberPromotion(num);
 					// 获取
 					long IDGET = vo.getID();
@@ -1071,7 +1107,7 @@ public class WebMarketerUI extends JFrame {
 					} else {
 						apply2.setText("退用");
 					}
-					Object[] ob = {};
+					String[] ob = {};
 					// 处理值
 					for (int i = 0; i < ob.length; i++) {
 						table2.setValueAt(ob[i], 0, i);
@@ -1127,14 +1163,21 @@ public class WebMarketerUI extends JFrame {
 				nextPage2.setEnabled(false);
 				name2.setEditable(true);
 				apply2.setEnabled(false);
-				defaultModel2.setRowCount(9);
+				defaultModel2.setRowCount(8);
 				for (int i = 0; i < table2.getRowCount(); i++) {
-					for (int j = 0; j < table2.getColumnCount(); j++) {
+					table2.setValueAt(i + 1 + "", i, 0);
+					for (int j = 1; j < table2.getColumnCount(); j++) {
 						table2.setValueAt("", i, j);
 					}
 				}
-				table2.setValueAt("获取ID", 0, 0);
-				// ***********获取ID
+				PromotionController pc = new PromotionController();
+				try {
+					id2.setText(pc.findMaxId1() + 1 + "");
+
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
 		save2.addActionListener(new ActionListener() {
@@ -1159,6 +1202,7 @@ public class WebMarketerUI extends JFrame {
 					String CREATTIME = time2.getText();
 
 					int rowcount = defaultModel2.getRowCount();
+					int RowCount=rowcount;
 					for (int i = 0; i < rowcount; i++) {
 						if (table2.getValueAt(i, 0).toString().equals("")
 								|| table2.getValueAt(i, 0).toString().equals(null)
@@ -1173,6 +1217,10 @@ public class WebMarketerUI extends JFrame {
 
 						}
 					} // 排除空行
+					if(rowcount<RowCount){
+						JOptionPane.showMessageDialog(null, "信息不完善！请修改", "提示", JOptionPane.PLAIN_MESSAGE);
+						return;
+					}
 					double[] credits = new double[rowcount];
 					double[] discounts = new double[rowcount];
 					for (int i = 0; i < rowcount; i++) {
@@ -1200,6 +1248,7 @@ public class WebMarketerUI extends JFrame {
 						pc.changeMemberPromotion(vo);
 					}
 					// 存储数据
+					JOptionPane.showMessageDialog(null, "操作成功", "提示", JOptionPane.PLAIN_MESSAGE);
 				} catch (NumberFormatException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -1217,18 +1266,30 @@ public class WebMarketerUI extends JFrame {
 					MemberPromotionVO vo = new MemberPromotionVO();
 					//
 					long IDGET = Long.parseLong(id2.getText());
+					if((IDGET==0)){
+						return ;
+					}	
 					vo = pc.getMemberPromotion(IDGET);
 					// 获取数据
 					if (vo.getUsageState().equals(UsageState.Using)) {
 						vo.setUsageState(UsageState.Unused);
 					} else {
 						vo.setUsageState(UsageState.Using);
+						for (long i = MPIDBegin; i <= pc.findMaxId1(); i++) {
+							if (i != IDGET) {
+								MemberPromotionVO vo1 = pc.getMemberPromotion(i);
+								vo1.setUsageState(UsageState.Unused);
+								pc.changeMemberPromotion(vo1);
+							}
+						}
+						// *****同时将其他会员制度设为未应用状态
 					}
 
 					// 设置属性
 					pc.changeMemberPromotion(vo);
 
 					// 保存修改后的vo
+					JOptionPane.showMessageDialog(null, "操作成功", "提示", JOptionPane.PLAIN_MESSAGE);
 				} catch (NumberFormatException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -1271,14 +1332,10 @@ public class WebMarketerUI extends JFrame {
 		nextPage3.setFont(font);
 		nextPage3.setPreferredSize(preferredSize);
 		//
-		Object[][] p3 = { { new Integer(666666), "A", new Integer(500), "07316734520", "NJU" },
-				{ new Integer(666667), "B", new Integer(700), "13007567292", "NJU" },
-				{ new Integer(666668), "C", new Integer(500), "13874546528", "NJU" },
-				{ new Integer(666669), "D", new Integer(7000), "14777889900", "NJU" },
-				{ new Integer(666670), "E", new Integer(500), "13002506630", "NJU" },
-				{ new Integer(666671), "F", new Integer(700), "16303532678", "NJU" },
-				{ new Integer(666672), "G", new Integer(500), "14723456789", "NJU" },
-				{ new Integer(666673), "H", new Integer(700), "17089896767", "NJU" }, };
+		String[][] p3 = { { "", "", "", "", "", "", "", "", "", "" }, { "", "", "", "", "", "", "", "", "", "" },
+				{ "", "", "", "", "", "", "", "", "", "" }, { "", "", "", "", "", "", "", "", "", "" },
+				{ "", "", "", "", "", "", "", "", "", "" }, { "", "", "", "", "", "", "", "", "", "" },
+				{ "", "", "", "", "", "", "", "", "", "" }, { "", "", "", "", "", "", "", "", "", "" } };
 		String[] n3 = { "ID", "用户名", "信用值", "用户电话", "所属单位" };
 		DefaultTableModel defaultModel3 = new DefaultTableModel(p3, n3) {
 			public boolean isCellEditable(int row, int column) {
@@ -1384,7 +1441,9 @@ public class WebMarketerUI extends JFrame {
 
 		table3.addMouseListener(new java.awt.event.MouseAdapter() {
 			public void mouseClicked(java.awt.event.MouseEvent e) {
-				edit3.setEnabled(true);
+				if (!(table3.getValueAt(0, 0) == null) && !(table3.getValueAt(0, 0).toString().equals(""))) {
+					edit3.setEnabled(true);
+				}
 
 			}
 		});
@@ -1411,6 +1470,12 @@ public class WebMarketerUI extends JFrame {
 				} else {
 					try {
 						long ID = Long.parseLong(id);
+						UserController uc = new UserController();
+						if (ID > uc.findMaxId() || ID < USERIDBegin) {
+							JOptionPane.showMessageDialog(null, "未查询到对应ID信息", "提示", JOptionPane.PLAIN_MESSAGE);
+							return;
+						}
+						// 检测
 						CustomerController cc = new CustomerController();
 						CustomerVO vo = cc.getCustomer(ID);
 						// 获取数据
@@ -1449,8 +1514,13 @@ public class WebMarketerUI extends JFrame {
 				} else {
 					try {
 						long ID = Long.parseLong(id) - defaultModel3.getRowCount();
+						UserController uc = new UserController();
+						if ((ID > uc.findMaxId() || ID < USERIDBegin)) {
+							JOptionPane.showMessageDialog(null, "未查询到对应ID信息", "提示", JOptionPane.PLAIN_MESSAGE);
+							return;
+						}
 						//
-						for (int count = 0; count < defaultModel3.getRowCount(); count++) {
+						for (int count = 0; count < defaultModel3.getRowCount() && ID >= USERIDBegin; count++) {
 							CustomerController cc = new CustomerController();
 							CustomerVO vo = cc.getCustomer(ID);
 							ID = ID + 1;
@@ -1485,7 +1555,13 @@ public class WebMarketerUI extends JFrame {
 					try {
 						long ID = Long.parseLong(id) + defaultModel3.getRowCount();
 						//
-						for (int count = 0; count < defaultModel3.getRowCount(); count++) {
+						UserController uc = new UserController();
+						if (ID > uc.findMaxId() || ID < USERIDBegin) {
+							JOptionPane.showMessageDialog(null, "未查询到对应ID信息", "提示", JOptionPane.PLAIN_MESSAGE);
+							return;
+						}
+						// 检测
+						for (int count = 0; count < defaultModel3.getRowCount() && ID <= uc.findMaxId(); count++) {
 							CustomerController cc = new CustomerController();
 							CustomerVO vo = cc.getCustomer(ID);
 							ID = ID + 1;
@@ -1539,6 +1615,7 @@ public class WebMarketerUI extends JFrame {
 						} else {
 							creditFrame3.dispose();
 						}
+						JOptionPane.showMessageDialog(null, "操作成功", "提示", JOptionPane.PLAIN_MESSAGE);
 					} else {
 						JOptionPane.showMessageDialog(null, "请输入100的倍数", "提示", JOptionPane.PLAIN_MESSAGE);
 						amount3.setText("");
@@ -1611,23 +1688,10 @@ public class WebMarketerUI extends JFrame {
 		nextPage.setFont(font);
 		nextPage4.setPreferredSize(preferredSize);
 		//
-		Object[][] p4 = {
-				{ new Integer(666666), new Integer(500), new Integer(300000), "dalin", "13002506325", "如家酒店",
-						"07316734520", "2016-12-8", "2016-12-8", "UNEXECUTE" },
-				{ new Integer(666667), new Integer(700), new Integer(300001), "hello", "13704195324", "清泉酒店",
-						"020211134", "2016-12-8", "2016-12-8", "UNEXECUTE" },
-				{ new Integer(666666), new Integer(500), new Integer(300000), "dalin", "13002506325", "如家酒店",
-						"07316734520", "2016-12-8", "2016-12-8", "UNEXECUTE" },
-				{ new Integer(666667), new Integer(700), new Integer(300001), "hello", "13704195324", "清泉酒店",
-						"020211134", "2016-12-8", "2016-12-8", "UNEXECUTE" },
-				{ new Integer(666666), new Integer(500), new Integer(300000), "dalin", "13002506325", "如家酒店",
-						"07316734520", "2016-12-8", "2016-12-8", "UNEXECUTE" },
-				{ new Integer(666667), new Integer(700), new Integer(300001), "hello", "13704195324", "清泉酒店",
-						"020211134", "2016-12-8", "2016-12-8", "UNEXECUTE" },
-				{ new Integer(666666), new Integer(500), new Integer(300000), "dalin", "13002506325", "如家酒店",
-						"07316734520", "2016-12-8", "2016-12-8", "UNEXECUTE" },
-				{ new Integer(666667), new Integer(700), new Integer(300001), "hello", "13704195324", "清泉酒店",
-						"020211134", "2016-12-8", "2016-12-8", "UNEXECUTE" }, };
+		String[][] p4 = { { "", "", "", "", "", "", "", "", "", "" }, { "", "", "", "", "", "", "", "", "", "" },
+				{ "", "", "", "", "", "", "", "", "", "" }, { "", "", "", "", "", "", "", "", "", "" },
+				{ "", "", "", "", "", "", "", "", "", "" }, { "", "", "", "", "", "", "", "", "", "" },
+				{ "", "", "", "", "", "", "", "", "", "" }, { "", "", "", "", "", "", "", "", "", "" } };
 		String[] n4 = { "订单ID", "总价", "用户ID", "用户名", "用户电话", "酒店名", "酒店电话", "下单时间", "预计入住时间", "执行状态" };
 		DefaultTableModel defaultModel4 = new DefaultTableModel(p4, n4) {
 			public boolean isCellEditable(int row, int column) {
@@ -1641,6 +1705,12 @@ public class WebMarketerUI extends JFrame {
 				new Dimension((int) (panel12.getPreferredSize().getWidth() - 15), 220));
 		table4.setFont(font);
 		table4.setRowHeight(25);
+		table4.getColumnModel().getColumn(1).setPreferredWidth(50);
+		table4.getColumnModel().getColumn(4).setPreferredWidth(110);
+		table4.getColumnModel().getColumn(6).setPreferredWidth(110);
+		table4.getColumnModel().getColumn(7).setPreferredWidth(110);
+		table4.getColumnModel().getColumn(8).setPreferredWidth(110);
+		table4.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		table4.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		JScrollPane scrollPane4 = new JScrollPane(table4);
 
@@ -1685,6 +1755,11 @@ public class WebMarketerUI extends JFrame {
 					try {
 						long ID = Long.parseLong(id);
 						OrderController oc = new OrderController();
+						if (ID > oc.findMaxId() || ID < ORDERIDBegin) {
+							JOptionPane.showMessageDialog(null, "未查询到对应订单信息", "提示", JOptionPane.PLAIN_MESSAGE);
+							return;
+						}
+						// 检测
 						OrderVO vo = oc.getOrder(ID);
 						// 获取数据
 						String[] ob = { vo.getId() + "", vo.getTotalPrice() + "", vo.getMasterId() + "",
@@ -1719,17 +1794,22 @@ public class WebMarketerUI extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					long ID = Long.parseLong(table4.getValueAt(0, 0).toString()) - 1;
+					OrderController oc = new OrderController();
+					if (ID > oc.findMaxId() || ID < ORDERIDBegin) {
+						JOptionPane.showMessageDialog(null, "前面已经没有更多订单信息了", "提示", JOptionPane.PLAIN_MESSAGE);
+						return;
+					}
+					// 检测
 					// 从上一页最后开始
-					for (int count = 0; count < defaultModel4.getRowCount(); count++) {
-						OrderController oc = new OrderController();
-						long ID2 = ID;
+					long ID2 = ORDERIDBegin;
+					for (int count = 0; count < defaultModel4.getRowCount() && ID2 >= ORDERIDBegin; count++) {
+						ID2 = ID;
 						OrderVO vo = oc.getOrder(ID2);
 						while (!vo.getOs().equals(OrderState.unexecute)) {
 							ID2 = ID2 - 1;
 							vo = oc.getOrder(ID2);
 						}
 						ID = ID2 - 1;
-						// ****需设置限制，避免订单到顶
 						String[] ob = { vo.getId() + "", vo.getTotalPrice() + "", vo.getMasterId() + "",
 								vo.getCustomerName(), vo.getCustomerPhone(), vo.getHotelName(), vo.getHotelPhone(),
 								vo.getStartTime(), vo.getExecuteTime(), vo.getOs() + "" };
@@ -1753,17 +1833,22 @@ public class WebMarketerUI extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					long ID = Long.parseLong(table4.getValueAt(table4.getRowCount() - 1, 0).toString()) + 1;
+					OrderController oc = new OrderController();
+					if (ID > oc.findMaxId() || ID < ORDERIDBegin) {
+						JOptionPane.showMessageDialog(null, "后面已经没有更多订单信息了", "提示", JOptionPane.PLAIN_MESSAGE);
+						return;
+					}
+					// 检测
 					// 从下一页第一开始
-					for (int count = 0; count < defaultModel4.getRowCount(); count++) {
-						OrderController oc = new OrderController();
-						long ID2 = ID;
+					long ID2 = ORDERIDBegin;
+					for (int count = 0; count < defaultModel4.getRowCount() && ID2 <= oc.findMaxId(); count++) {
+						ID2 = ID;
 						OrderVO vo = oc.getOrder(ID2);
 						while (!vo.getOs().equals(OrderState.unexecute)) {
 							ID2 = ID2 + 1;
 							vo = oc.getOrder(ID2);
 						}
 						ID = ID2 + 1;
-						// ****需设置限制，避免订单到顶
 						String[] ob = { vo.getId() + "", vo.getTotalPrice() + "", vo.getMasterId() + "",
 								vo.getCustomerName(), vo.getCustomerPhone(), vo.getHotelName(), vo.getHotelPhone(),
 								vo.getStartTime(), vo.getExecuteTime(), vo.getOs() + "" };
@@ -1812,23 +1897,10 @@ public class WebMarketerUI extends JFrame {
 		nextPage5.setFont(font);
 		nextPage5.setPreferredSize(preferredSize);
 		//
-		Object[][] p5 = {
-				{ new Integer(666666), new Integer(500), new Integer(300000), "dalin", "13002506325", "如家酒店",
-						"07316734520", "2016-12-8", "2016-12-8", "NORMAL" },
-				{ new Integer(666667), new Integer(700), new Integer(300001), "hello", "13704195324", "清泉酒店",
-						"020211134", "2016-12-8", "2016-12-8", "NORMAL" },
-				{ new Integer(666666), new Integer(500), new Integer(300000), "dalin", "13002506325", "如家酒店",
-						"07316734520", "2016-12-8", "2016-12-8", "NORMAL" },
-				{ new Integer(666667), new Integer(700), new Integer(300001), "hello", "13704195324", "清泉酒店",
-						"020211134", "2016-12-8", "2016-12-8", "NORMAL" },
-				{ new Integer(666666), new Integer(500), new Integer(300000), "dalin", "13002506325", "如家酒店",
-						"07316734520", "2016-12-8", "2016-12-8", "NORMAL" },
-				{ new Integer(666667), new Integer(700), new Integer(300001), "hello", "13704195324", "清泉酒店",
-						"020211134", "2016-12-8", "2016-12-8", "NORMAL" },
-				{ new Integer(666666), new Integer(500), new Integer(300000), "dalin", "13002506325", "如家酒店",
-						"07316734520", "2016-12-8", "2016-12-8", "NORMAL" },
-				{ new Integer(666667), new Integer(700), new Integer(300001), "hello", "13704195324", "清泉酒店",
-						"020211134", "2016-12-8", "2016-12-8", "NORMAL" }, };
+		String[][] p5 = { { "", "", "", "", "", "", "", "", "", "" }, { "", "", "", "", "", "", "", "", "", "" },
+				{ "", "", "", "", "", "", "", "", "", "" }, { "", "", "", "", "", "", "", "", "", "" },
+				{ "", "", "", "", "", "", "", "", "", "" }, { "", "", "", "", "", "", "", "", "", "" },
+				{ "", "", "", "", "", "", "", "", "", "" }, { "", "", "", "", "", "", "", "", "", "" } };
 		String[] n5 = { "订单ID", "总价", "用户ID", "用户名", "用户电话", "酒店名", "酒店电话", "下单时间", "预计入住时间", "执行状态" };
 		DefaultTableModel defaultModel5 = new DefaultTableModel(p5, n5) {
 			public boolean isCellEditable(int row, int column) {
@@ -1842,6 +1914,12 @@ public class WebMarketerUI extends JFrame {
 		table5.setPreferredScrollableViewportSize(
 				new Dimension((int) (panel12.getPreferredSize().getWidth() - 15), 220));
 		table5.setRowHeight(25);
+		table5.getColumnModel().getColumn(1).setPreferredWidth(50);
+		table5.getColumnModel().getColumn(4).setPreferredWidth(110);
+		table5.getColumnModel().getColumn(6).setPreferredWidth(110);
+		table5.getColumnModel().getColumn(7).setPreferredWidth(110);
+		table5.getColumnModel().getColumn(8).setPreferredWidth(110);
+		table5.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		table5.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		JScrollPane scrollPane5 = new JScrollPane(table5);
 
@@ -1884,6 +1962,11 @@ public class WebMarketerUI extends JFrame {
 					try {
 						long ID = Long.parseLong(id);
 						OrderController oc = new OrderController();
+						if (ID > oc.findMaxId() || ID < ORDERIDBegin) {
+							JOptionPane.showMessageDialog(null, "未查询到对应订单信息", "提示", JOptionPane.PLAIN_MESSAGE);
+							return;
+						}
+						// 检测
 						OrderVO vo = oc.getOrder(ID);
 						// 获取数据
 						String[] ob = { vo.getId() + "", vo.getTotalPrice() + "", vo.getMasterId() + "",
@@ -1911,16 +1994,25 @@ public class WebMarketerUI extends JFrame {
 				}
 			}
 		});
+		
+		
 		prePage5.addActionListener(new ActionListener() {
 			@Override
 			// *****对于有检索条件的prepage翻页需要从后往前获取数据
 			public void actionPerformed(ActionEvent arg0) {
 				try {
+
 					long ID = Long.parseLong(table5.getValueAt(0, 0).toString()) - 1;
+					OrderController oc = new OrderController();
+					if (ID > oc.findMaxId() || ID < ORDERIDBegin) {
+						JOptionPane.showMessageDialog(null, "前面已经没有更多订单信息了", "提示", JOptionPane.PLAIN_MESSAGE);
+						return;
+					}
+					// 检测
 					// 从上一页最后开始
-					for (int count = 0; count < defaultModel5.getRowCount(); count++) {
-						OrderController oc = new OrderController();
-						long ID2 = ID;
+					long ID2 = ORDERIDBegin;
+					for (int count = 0; count < defaultModel5.getRowCount() && ID2 >= ORDERIDBegin; count++) {
+						ID2 = ID;
 						OrderVO vo = oc.getOrder(ID2);
 						while (!vo.getOs().equals(OrderState.normal)) {
 							ID2 = ID2 - 1;
@@ -1951,10 +2043,16 @@ public class WebMarketerUI extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					long ID = Long.parseLong(table5.getValueAt(table5.getRowCount() - 1, 0).toString()) + 1;
+					OrderController oc = new OrderController();
+					if (ID > oc.findMaxId() || ID < ORDERIDBegin) {
+						JOptionPane.showMessageDialog(null, "后面已经没有更多订单信息了", "提示", JOptionPane.PLAIN_MESSAGE);
+						return;
+					}
+					// 检测
 					// 从下一页第一开始
-					for (int count = 0; count < defaultModel5.getRowCount(); count++) {
-						OrderController oc = new OrderController();
-						long ID2 = ID;
+					long ID2 = ORDERIDBegin;
+					for (int count = 0; count < defaultModel5.getRowCount() && ID2 <= oc.findMaxId(); count++) {
+						ID2 = ID;
 						OrderVO vo = oc.getOrder(ID2);
 						while (!vo.getOs().equals(OrderState.normal)) {
 							ID2 = ID2 + 1;
@@ -2011,23 +2109,10 @@ public class WebMarketerUI extends JFrame {
 		edit6.setFont(font);
 		edit6.setPreferredSize(preferredSize2);
 		//
-		Object[][] p6 = {
-				{ new Integer(666666), new Integer(500), new Integer(300000), "dalin", "13002506325", "如家酒店",
-						"07316734520", "2016-12-8", "2016-12-8", "ABNORMAL" },
-				{ new Integer(666667), new Integer(700), new Integer(300001), "hello", "13704195324", "清泉酒店",
-						"020211134", "2016-12-8", "2016-12-8", "ABNORMAL" },
-				{ new Integer(666666), new Integer(500), new Integer(300000), "dalin", "13002506325", "如家酒店",
-						"07316734520", "2016-12-8", "2016-12-8", "ABNORMAL" },
-				{ new Integer(666667), new Integer(700), new Integer(300001), "hello", "13704195324", "清泉酒店",
-						"020211134", "2016-12-8", "2016-12-8", "ABNORMAL" },
-				{ new Integer(666666), new Integer(500), new Integer(300000), "dalin", "13002506325", "如家酒店",
-						"07316734520", "2016-12-8", "2016-12-8", "ABNORMAL" },
-				{ new Integer(666667), new Integer(700), new Integer(300001), "hello", "13704195324", "清泉酒店",
-						"020211134", "2016-12-8", "2016-12-8", "ABNORMAL" },
-				{ new Integer(666666), new Integer(500), new Integer(300000), "dalin", "13002506325", "如家酒店",
-						"07316734520", "2016-12-8", "2016-12-8", "ABNORMAL" },
-				{ new Integer(666667), new Integer(700), new Integer(300001), "hello", "13704195324", "清泉酒店",
-						"020211134", "2016-12-8", "2016-12-8", "ABNORMAL" }, };
+		String[][] p6 = { { "", "", "", "", "", "", "", "", "", "" }, { "", "", "", "", "", "", "", "", "", "" },
+				{ "", "", "", "", "", "", "", "", "", "" }, { "", "", "", "", "", "", "", "", "", "" },
+				{ "", "", "", "", "", "", "", "", "", "" }, { "", "", "", "", "", "", "", "", "", "" },
+				{ "", "", "", "", "", "", "", "", "", "" }, { "", "", "", "", "", "", "", "", "", "" } };
 		String[] n6 = { "订单ID", "总价", "用户ID", "用户名", "用户电话", "酒店名", "酒店电话", "下单时间", "预计入住时间", "执行状态" };
 		DefaultTableModel defaultModel6 = new DefaultTableModel(p6, n6) {
 			public boolean isCellEditable(int row, int column) {
@@ -2038,10 +2123,17 @@ public class WebMarketerUI extends JFrame {
 		;
 		JTable table6 = new JTable(defaultModel6);
 		table6.setFont(font);
+		table6.setRowHeight(25);
+		table6.getColumnModel().getColumn(1).setPreferredWidth(50);
+		table6.getColumnModel().getColumn(4).setPreferredWidth(110);
+		table6.getColumnModel().getColumn(6).setPreferredWidth(110);
+		table6.getColumnModel().getColumn(7).setPreferredWidth(110);
+		table6.getColumnModel().getColumn(8).setPreferredWidth(110);
+		table6.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		table6.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table6.setPreferredScrollableViewportSize(
 				new Dimension((int) (panel12.getPreferredSize().getWidth() - 15), 220));
-		table6.setRowHeight(25);
+	
 		JScrollPane scrollPane6 = new JScrollPane(table6);
 
 		p16.add(idInput6);
@@ -2156,6 +2248,11 @@ public class WebMarketerUI extends JFrame {
 					try {
 						long ID = Long.parseLong(id);
 						OrderController oc = new OrderController();
+						if (ID > oc.findMaxId() || ID < ORDERIDBegin) {
+							JOptionPane.showMessageDialog(null, "未查询到对应订单信息", "提示", JOptionPane.PLAIN_MESSAGE);
+							return;
+						}
+						// 检测
 						OrderVO vo = oc.getOrder(ID);
 						// 获取数据
 						String[] ob = { vo.getId() + "", vo.getTotalPrice() + "", vo.getMasterId() + "",
@@ -2189,10 +2286,16 @@ public class WebMarketerUI extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					long ID = Long.parseLong(table6.getValueAt(0, 0).toString()) - 1;
+					OrderController oc = new OrderController();
+					if (ID > oc.findMaxId() || ID < ORDERIDBegin) {
+						JOptionPane.showMessageDialog(null, "前面已经没有更多订单信息了", "提示", JOptionPane.PLAIN_MESSAGE);
+						return;
+					}
+					// 检测
 					// 从上一页最后开始
-					for (int count = 0; count < defaultModel6.getRowCount(); count++) {
-						OrderController oc = new OrderController();
-						long ID2 = ID;
+					long ID2 = ORDERIDBegin;
+					for (int count = 0; count < defaultModel6.getRowCount() && ID2 >= ORDERIDBegin; count++) {
+						ID2 = ID;
 						OrderVO vo = oc.getOrder(ID2);
 						while (!vo.getOs().equals(OrderState.abnormal)) {
 							ID2 = ID2 - 1;
@@ -2223,10 +2326,16 @@ public class WebMarketerUI extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					long ID = Long.parseLong(table6.getValueAt(table6.getRowCount() - 1, 0).toString()) + 1;
+					OrderController oc = new OrderController();
+					if (ID > oc.findMaxId() || ID < ORDERIDBegin) {
+						JOptionPane.showMessageDialog(null, "后面已经没有更多订单信息了", "提示", JOptionPane.PLAIN_MESSAGE);
+						return;
+					}
+					// 检测
 					// 从下一页第一开始
-					for (int count = 0; count < defaultModel6.getRowCount(); count++) {
-						OrderController oc = new OrderController();
-						long ID2 = ID;
+					long ID2 = ORDERIDBegin;
+					for (int count = 0; count < defaultModel6.getRowCount() && ID2 <= oc.findMaxId(); count++) {
+						ID2 = ID;
 						OrderVO vo = oc.getOrder(ID2);
 						while (!vo.getOs().equals(OrderState.abnormal)) {
 							ID2 = ID2 + 1;
@@ -2294,6 +2403,7 @@ public class WebMarketerUI extends JFrame {
 						// 取消异常订单
 					oc.cancelOrder(ORDERGET);
 					cc.changeCustomer(vo2);
+					JOptionPane.showMessageDialog(null, "操作成功", "提示", JOptionPane.PLAIN_MESSAGE);
 				} catch (NumberFormatException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -2337,23 +2447,10 @@ public class WebMarketerUI extends JFrame {
 		nextPage7.setFont(font);
 		nextPage7.setPreferredSize(preferredSize);
 		//
-		Object[][] p7 = {
-				{ new Integer(666666), new Integer(500), new Integer(300000), "dalin", "13002506325", "如家酒店",
-						"07316734520", "2016-12-8", "2016-12-8", "CANCLED" },
-				{ new Integer(666667), new Integer(700), new Integer(300001), "hello", "13704195324", "清泉酒店",
-						"020211134", "2016-12-8", "2016-12-8", "CANCLED" },
-				{ new Integer(666666), new Integer(500), new Integer(300000), "dalin", "13002506325", "如家酒店",
-						"07316734520", "2016-12-8", "2016-12-8", "CANCLED" },
-				{ new Integer(666667), new Integer(700), new Integer(300001), "hello", "13704195324", "清泉酒店",
-						"020211134", "2016-12-8", "2016-12-8", "CANCLED" },
-				{ new Integer(666666), new Integer(500), new Integer(300000), "dalin", "13002506325", "如家酒店",
-						"07316734520", "2016-12-8", "2016-12-8", "CANCLED" },
-				{ new Integer(666667), new Integer(700), new Integer(300001), "hello", "13704195324", "清泉酒店",
-						"020211134", "2016-12-8", "2016-12-8", "CANCLED" },
-				{ new Integer(666666), new Integer(500), new Integer(300000), "dalin", "13002506325", "如家酒店",
-						"07316734520", "2016-12-8", "2016-12-8", "CANCLED" },
-				{ new Integer(666667), new Integer(700), new Integer(300001), "hello", "13704195324", "清泉酒店",
-						"020211134", "2016-12-8", "2016-12-8", "CANCLED" }, };
+		String[][] p7 = { { "", "", "", "", "", "", "", "", "", "" }, { "", "", "", "", "", "", "", "", "", "" },
+				{ "", "", "", "", "", "", "", "", "", "" }, { "", "", "", "", "", "", "", "", "", "" },
+				{ "", "", "", "", "", "", "", "", "", "" }, { "", "", "", "", "", "", "", "", "", "" },
+				{ "", "", "", "", "", "", "", "", "", "" }, { "", "", "", "", "", "", "", "", "", "" } };
 		String[] n7 = { "订单ID", "总价", "用户ID", "用户名", "用户电话", "酒店名", "酒店电话", "下单时间", "预计入住时间", "执行状态" };
 		DefaultTableModel defaultModel7 = new DefaultTableModel(p7, n7) {
 			public boolean isCellEditable(int row, int column) {
@@ -2367,6 +2464,12 @@ public class WebMarketerUI extends JFrame {
 		table7.setPreferredScrollableViewportSize(
 				new Dimension((int) (panel12.getPreferredSize().getWidth() - 15), 220));
 		table7.setRowHeight(25);
+		table7.getColumnModel().getColumn(1).setPreferredWidth(50);
+		table7.getColumnModel().getColumn(4).setPreferredWidth(110);
+		table7.getColumnModel().getColumn(6).setPreferredWidth(110);
+		table7.getColumnModel().getColumn(7).setPreferredWidth(110);
+		table7.getColumnModel().getColumn(8).setPreferredWidth(110);
+		table7.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		table7.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		JScrollPane scrollPane7 = new JScrollPane(table7);
 
@@ -2410,6 +2513,11 @@ public class WebMarketerUI extends JFrame {
 					try {
 						long ID = Long.parseLong(id);
 						OrderController oc = new OrderController();
+						if (ID > oc.findMaxId() || ID < ORDERIDBegin) {
+							JOptionPane.showMessageDialog(null, "未查询到对应订单信息", "提示", JOptionPane.PLAIN_MESSAGE);
+							return;
+						}
+						// 检测
 						OrderVO vo = oc.getOrder(ID);
 						// 获取数据
 						String[] ob = { vo.getId() + "", vo.getTotalPrice() + "", vo.getMasterId() + "",
@@ -2443,10 +2551,17 @@ public class WebMarketerUI extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					long ID = Long.parseLong(table7.getValueAt(0, 0).toString()) - 1;
+					OrderController oc = new OrderController();
+					if (ID > oc.findMaxId() || ID < ORDERIDBegin) {
+						JOptionPane.showMessageDialog(null, "前面已经没有更多订单信息了", "提示", JOptionPane.PLAIN_MESSAGE);
+						return;
+					}
+					// 检测
 					// 从上一页最后开始
-					for (int count = 0; count < defaultModel7.getRowCount(); count++) {
-						OrderController oc = new OrderController();
-						long ID2 = ID;
+					long ID2 = ORDERIDBegin;
+					for (int count = 0; count < defaultModel7.getRowCount() && ID2 >= ORDERIDBegin; count++) {
+						ID2 = ID;
+
 						OrderVO vo = oc.getOrder(ID2);
 						while (!vo.getOs().equals(OrderState.normal)) {
 							ID2 = ID2 - 1;
@@ -2476,11 +2591,18 @@ public class WebMarketerUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					long ID = Long.parseLong(table7.getValueAt(table7.getRowCount() - 1, 0).toString()) + 1;
+					long ID = Long.parseLong(table7.getValueAt(table4.getRowCount() - 1, 0).toString()) + 1;
+					OrderController oc = new OrderController();
+					if (ID > oc.findMaxId() || ID < ORDERIDBegin) {
+						JOptionPane.showMessageDialog(null, "后面已经没有更多订单信息了", "提示", JOptionPane.PLAIN_MESSAGE);
+						return;
+					}
+					// 检测
 					// 从下一页第一开始
-					for (int count = 0; count < defaultModel7.getRowCount(); count++) {
-						OrderController oc = new OrderController();
-						long ID2 = ID;
+					long ID2 = ORDERIDBegin;
+					for (int count = 0; count < defaultModel7.getRowCount() && ID2 <= oc.findMaxId(); count++) {
+						ID2 = ID;
+
 						OrderVO vo = oc.getOrder(ID2);
 						while (!vo.getOs().equals(OrderState.normal)) {
 							ID2 = ID2 + 1;
@@ -2506,8 +2628,325 @@ public class WebMarketerUI extends JFrame {
 				}
 			}
 		});
+		tab.addMouseListener(new java.awt.event.MouseAdapter() {
+			public void mouseClicked(java.awt.event.MouseEvent e) {
+				int selectedIndex = tab.getSelectedIndex(); // 获得选中的选项卡索引
+//				String title = tab.getTitleAt(selectedIndex); // 获得选项卡标签
+//				System.out.println(title);
+				switch (selectedIndex) {
+				case 0: {
+					// 网站促销策略
+					PromotionController pc = new PromotionController();
+					long IDBEGIN = WPIDBegin;
+					try {
+						for (int line = 0; line < defaultModel.getRowCount() && IDBEGIN <= pc.findMaxId3(); line++) {
+							WebPromotionVO vo = pc.getWebPromotion(IDBEGIN);
+							IDBEGIN = IDBEGIN + 1;
+							// 获取id
+							String BD = vo.getBusinessDistrict()[0];
+							for (int i = 1; i < vo.getBusinessDistrict().length; i++) {
+								BD = BD + "+" + vo.getBusinessDistrict()[i];
+							}
+							String[] ob = { vo.getID() + "", vo.getPromotionName(), vo.getBeginTime(), vo.getEndTime(),
+									vo.getDiscount() * 100 + "%", BD + "", vo.getMemberType() + "",
+									vo.getUsageState().toString(), vo.getCreatedTime() };
+							// 处理值
+							for (int i = 0; i < ob.length; i++) {
+								table.setValueAt(ob[i], line, i);
+							}
+							// 赋值
+						}
+					} catch (NumberFormatException e2) {
+						// TODO Auto-generated catch block
+						e2.printStackTrace();
+					} catch (RemoteException e2) {
+						// TODO Auto-generated catch block
+						e2.printStackTrace();
+					}
 
-		// cancled
+					// 网站促销策略
+					break;
+				}
+
+				case 1: {
+					// 会员制度
+					try {
+						PromotionController pc = new PromotionController();
+						long IDBEGIN = MPIDBegin;
+						MemberPromotionVO vo = pc.getMemberPromotion(IDBEGIN);
+						// 获取
+						long IDGET = vo.getID();
+						String NAMEGET = vo.getPromotionName();
+						String createdTime = vo.getCreatedTime();
+						double credits[] = vo.getCredit();
+						int lines = credits.length;// 需要的行数
+						double discounts[] = vo.getDiscountForMember();
+						UsageState us = vo.getUsageState();
+						if (us.equals(UsageState.Unused)) {
+							apply2.setText("应用");
+						} else {
+							apply2.setText("退用");
+						}
+						String[] ob = {};
+						// 处理值
+						for (int i = 0; i < ob.length; i++) {
+							table2.setValueAt(ob[i], 0, i);
+						}
+						// 赋值
+						int rowcount = defaultModel2.getRowCount();// getRowCount返回行数，rowcount<0代表已经没有任何行了。
+						while (lines > rowcount) {
+							defaultModel2.addRow(new Vector());
+							rowcount = rowcount + 1;
+							defaultModel2.setRowCount(rowcount);
+						} // addrow
+						while (lines < rowcount) {
+							defaultModel2.removeRow(rowcount);
+							rowcount = rowcount - 1;
+							defaultModel2.setRowCount(rowcount);
+						} // removerow
+						table2.revalidate();
+						// 改变行数以符合需要
+						id2.setText(IDGET + "");
+						//
+						name2.setText(NAMEGET);
+						//
+						time2.setText(createdTime);
+						//
+						if (us.equals(UsageState.Unused)) {
+							state2.setText("Unused");
+						} else if (us.equals(UsageState.Using)) {
+							state2.setText("Using");
+						}
+						//
+						for (int i = 0; i < lines; i++) {
+							table2.setValueAt(i + 1, i, 0);
+							table2.setValueAt(credits[i], i, 1);
+							table2.setValueAt(discounts[i], i, 2);
+						}
+						// 设置表格内容
+					} catch (NumberFormatException e3) {
+						// TODO Auto-generated catch block
+						e3.printStackTrace();
+					} catch (RemoteException e3) {
+						// TODO Auto-generated catch block
+						e3.printStackTrace();
+					}
+					break;
+					// 会员制度
+				}
+				case 2: {
+					// 用户信息
+					try {
+						long ID = USERIDBegin;
+						UserController uc=new UserController();
+						//
+						for (int count = 0; count < defaultModel3.getRowCount()&&ID<=uc.findMaxId(); count++) {
+							CustomerController cc = new CustomerController();
+							CustomerVO vo = cc.getCustomer(ID);
+							ID = ID + 1;
+							// 获取数据
+							//
+							String[] ob = { vo.getId() + "", vo.getCustomerName(), vo.getCredit() + "",
+									vo.getCustomerPhone(), vo.getCompanyName() };
+							// 处理值
+							for (int i = 0; i < ob.length; i++) {
+								table3.setValueAt(ob[i], count, i);
+							}
+							// 赋值
+						}
+					} catch (NumberFormatException e4) {
+						// TODO Auto-generated catch block
+						e4.printStackTrace();
+					} catch (RemoteException e4) {
+						// TODO Auto-generated catch block
+						e4.printStackTrace();
+					}
+					// 用户信息
+					break;
+				}
+				case 3: {
+					tab4.setSelectedIndex(0);
+					try {
+						long ID = ORDERIDBegin;
+						OrderController oc = new OrderController();
+						// 从下一页第一开始
+						long ID2 = ORDERIDBegin;
+						for (int count = 0; count < defaultModel4.getRowCount() && ID2 <= oc.findMaxId(); count++) {
+							ID2 = ID;
+							OrderVO vo = oc.getOrder(ID2);
+							while (!vo.getOs().equals(OrderState.unexecute)) {
+								ID2 = ID2 + 1;
+								vo = oc.getOrder(ID2);
+							}
+							ID = ID2 + 1;
+							String[] ob = { vo.getId() + "", vo.getTotalPrice() + "", vo.getMasterId() + "",
+									vo.getCustomerName(), vo.getCustomerPhone(), vo.getHotelName(), vo.getHotelPhone(),
+									vo.getStartTime(), vo.getExecuteTime(), vo.getOs() + "" };
+							// 处理值
+							for (int i = 0; i < ob.length; i++) {
+								table4.setValueAt(ob[i], count, i);
+							}
+							// 从前到后的设置值
+						}
+					} catch (NumberFormatException e2) {
+						// TODO Auto-generated catch block
+						e2.printStackTrace();
+					} catch (RemoteException e2) {
+						// TODO Auto-generated catch block
+						e2.printStackTrace();
+					}
+					break;
+				}
+				}
+
+			}
+		});
+		tab4.addMouseListener(new java.awt.event.MouseAdapter() {
+			public void mouseClicked(java.awt.event.MouseEvent e1) {
+				int selectedIndex = tab4.getSelectedIndex(); // 获得选中的选项卡索引
+//				String title = tab4.getTitleAt(selectedIndex); // 获得选项卡标签
+//				System.out.println(title);
+				switch(selectedIndex){
+				case 0:{
+					try {
+						long ID = ORDERIDBegin;
+						OrderController oc = new OrderController();
+						// 从下一页第一开始
+						long ID2 = ORDERIDBegin;
+						for (int count = 0; count < defaultModel4.getRowCount() && ID2 <= oc.findMaxId(); count++) {
+							ID2 = ID;
+							OrderVO vo = oc.getOrder(ID2);
+							while (!vo.getOs().equals(OrderState.unexecute)) {
+								ID2 = ID2 + 1;
+								vo = oc.getOrder(ID2);
+							}
+							ID = ID2 + 1;
+							String[] ob = { vo.getId() + "", vo.getTotalPrice() + "", vo.getMasterId() + "",
+									vo.getCustomerName(), vo.getCustomerPhone(), vo.getHotelName(), vo.getHotelPhone(),
+									vo.getStartTime(), vo.getExecuteTime(), vo.getOs() + "" };
+							// 处理值
+							for (int i = 0; i < ob.length; i++) {
+								table4.setValueAt(ob[i], count, i);
+							}
+							// 从前到后的设置值
+						}
+					} catch (NumberFormatException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (RemoteException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					break;
+				}
+				case 1:{
+					try {
+						long ID = ORDERIDBegin;
+						OrderController oc = new OrderController();
+						// 从下一页第一开始
+						long ID2 = ORDERIDBegin;
+						for (int count = 0; count < defaultModel4.getRowCount() && ID2 <= oc.findMaxId(); count++) {
+							ID2 = ID;
+							OrderVO vo = oc.getOrder(ID2);
+							while (!vo.getOs().equals(OrderState.normal)) {
+								ID2 = ID2 + 1;
+								vo = oc.getOrder(ID2);
+							}
+							ID = ID2 + 1;
+							String[] ob = { vo.getId() + "", vo.getTotalPrice() + "", vo.getMasterId() + "",
+									vo.getCustomerName(), vo.getCustomerPhone(), vo.getHotelName(), vo.getHotelPhone(),
+									vo.getStartTime(), vo.getExecuteTime(), vo.getOs() + "" };
+							// 处理值
+							for (int i = 0; i < ob.length; i++) {
+								table4.setValueAt(ob[i], count, i);
+							}
+							// 从前到后的设置值
+						}
+					} catch (NumberFormatException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (RemoteException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					break;
+				}
+				case 2:{
+					try {
+						long ID = ORDERIDBegin;
+						OrderController oc = new OrderController();
+						// 从下一页第一开始
+						long ID2 = ORDERIDBegin;
+						for (int count = 0; count < defaultModel4.getRowCount() && ID2 <= oc.findMaxId(); count++) {
+							ID2 = ID;
+							OrderVO vo = oc.getOrder(ID2);
+							while (!vo.getOs().equals(OrderState.abnormal)) {
+								ID2 = ID2 + 1;
+								vo = oc.getOrder(ID2);
+							}
+							ID = ID2 + 1;
+							String[] ob = { vo.getId() + "", vo.getTotalPrice() + "", vo.getMasterId() + "",
+									vo.getCustomerName(), vo.getCustomerPhone(), vo.getHotelName(), vo.getHotelPhone(),
+									vo.getStartTime(), vo.getExecuteTime(), vo.getOs() + "" };
+							// 处理值
+							for (int i = 0; i < ob.length; i++) {
+								table4.setValueAt(ob[i], count, i);
+							}
+							// 从前到后的设置值
+						}
+					} catch (NumberFormatException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (RemoteException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					break;
+				}
+				case 3:{
+					try {
+						long ID = ORDERIDBegin;
+						OrderController oc = new OrderController();
+						// 从下一页第一开始
+						long ID2 = ORDERIDBegin;
+						for (int count = 0; count < defaultModel4.getRowCount() && ID2 <= oc.findMaxId(); count++) {
+							ID2 = ID;
+							OrderVO vo = oc.getOrder(ID2);
+							while (!vo.getOs().equals(OrderState.canceled)) {
+								ID2 = ID2 + 1;
+								vo = oc.getOrder(ID2);
+							}
+							ID = ID2 + 1;
+							String[] ob = { vo.getId() + "", vo.getTotalPrice() + "", vo.getMasterId() + "",
+									vo.getCustomerName(), vo.getCustomerPhone(), vo.getHotelName(), vo.getHotelPhone(),
+									vo.getStartTime(), vo.getExecuteTime(), vo.getOs() + "" };
+							// 处理值
+							for (int i = 0; i < ob.length; i++) {
+								table4.setValueAt(ob[i], count, i);
+							}
+							// 从前到后的设置值
+						}
+					} catch (NumberFormatException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (RemoteException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					break;
+				}
+				
+				}
+
+			}
+		});
+		// 初始化与刷新
+		
+		//界面边界及系统名称
+		promotion.setBorder(BorderFactory.createTitledBorder("DS酒店预订系统"));
+		member.setBorder(BorderFactory.createTitledBorder("DS酒店预订系统"));
+		customer.setBorder(BorderFactory.createTitledBorder("DS酒店预订系统"));
+		order.setBorder(BorderFactory.createTitledBorder("DS酒店预订系统"));
 
 	}
 }
