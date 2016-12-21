@@ -23,8 +23,8 @@ public class UserController {
         return ubl.login(account,password);
     }
 
-    public boolean register(String account,String password) throws RemoteException{
-        return ubl.register(account,password, User.customer);
+    public boolean register(String account,String password,User user) throws RemoteException{
+        return ubl.register(account,password,user);
     }
 
     public long findMaxId() throws RemoteException{
