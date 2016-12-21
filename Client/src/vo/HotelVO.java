@@ -58,7 +58,7 @@ public class HotelVO {
 	public void setHotelName(String hn){
 		hotelName=hn;
 	}
-	public void settradeArea(String ta){
+	public void setTradeArea(String ta){
 		tradeArea=ta;
 	}
 	public void setHotelLocation(String hl){
