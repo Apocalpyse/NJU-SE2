@@ -56,10 +56,12 @@ public class HotelBL implements HotelBusinessLogicService {
 		}
 	}
 
-
-    @Override
-    public boolean createHotel(HotelPO po)throws RemoteException{
-    	return hds.insert(po);
+	@Override
+    public boolean createHotel(HotelVO hv) throws RemoteException{
+    	return hds.insert(new HotelPO(hv.getID(),hv.getHotelManager(),hv.getHotelManPhone(),
+				hv.getGoal(),hv.getPrice(),hv.getHotelName(),hv.getTradeArea(),
+				hv.getHotelLocation(),hv.getHotelPhone(),hv.getStars(),hv.getInstruction(), 
+				hv.getEvaluation(),hv.getCooperatateCompany()));
     }
     @Override
     public HotelVO getHotel(long id) throws RemoteException{
@@ -135,7 +137,7 @@ public class HotelBL implements HotelBusinessLogicService {
     	return this.pds.update2(new HotelPromotionPO(id,hpo.getPromotionName(),hpo.getCreatedTime(),
     			hpo.getUsageState(),hpo.getBeginTime(),hpo.getEndTime(),hpo.getMemberType(),hpo.getDiscount(),
     			hpo.getDiscountForMoreRoom(),hpo.getDiscountformoreroom(),hpo.getDiscountforlargeramount(),hpo.getDiscountforlargeramount(),
-    			discount,hpo.getCompanyDiscount(),hpo.getHotelID));
+    			discount,hpo.getCompanyDiscount(),hpo.getHotelID()));
     }
     @Override
     public boolean setPromotionThree(long id,String beginTime,String endTime)throws RemoteException{
@@ -143,7 +145,7 @@ public class HotelBL implements HotelBusinessLogicService {
     	return this.pds.update2(new HotelPromotionPO(id,hpo.getPromotionName(),hpo.getCreatedTime(),
     			hpo.getUsageState(),beginTime,endTime,hpo.getMemberType(),hpo.getDiscount(),
     			hpo.getDiscountForMoreRoom(),hpo.getDiscountformoreroom(),hpo.getDiscountforlargeramount(),hpo.getDiscountforlargeramount(),
-    			hpo.getBirthDiscount(),hpo.getCompanyDiscount(),hpo.getHotelID));
+    			hpo.getBirthDiscount(),hpo.getCompanyDiscount(),hpo.getHotelID()));
     }
     @Override
     public boolean setPromotionFour(long id,double discount)throws RemoteException{
@@ -151,7 +153,7 @@ public class HotelBL implements HotelBusinessLogicService {
     	return this.pds.update2(new HotelPromotionPO(id,hpo.getPromotionName(),hpo.getCreatedTime(),
     			hpo.getUsageState(),hpo.getBeginTime(),hpo.getEndTime(),hpo.getMemberType(),hpo.getDiscount(),
     			hpo.getDiscountForMoreRoom(),hpo.getDiscountformoreroom(),hpo.getDiscountforlargeramount(),hpo.getDiscountforlargeramount(),
-    			hpo.getBirthDiscount(),discount,hpo.getHotelID));
+    			hpo.getBirthDiscount(),discount,hpo.getHotelID()));
     }
    
     public long findMaxId() throws RemoteException{
