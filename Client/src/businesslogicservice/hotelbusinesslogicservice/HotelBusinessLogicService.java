@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * Created by 常德隆 on 2016/12/4.
  */
 public interface HotelBusinessLogicService {
-	 boolean createHotel(HotelPO po) throws RemoteException;
+	 boolean createHotel(HotelVO hv) throws RemoteException;
      HotelVO getHotel(long id)throws RemoteException;
      boolean changeHotel(HotelVO hv)throws RemoteException;
      boolean changeGoal(HotelVO hv,Evaluation eva)throws RemoteException;
