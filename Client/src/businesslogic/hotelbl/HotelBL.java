@@ -1,56 +1,166 @@
 package businesslogic.hotelbl;
 
-import java.net.MalformedURLException;
-import java.rmi.Naming;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 import businesslogicservice.hotelbusinesslogicservice.HotelBusinessLogicService;
 import dataservice.hoteldataservice.HotelDataService;
 
-import dataservice.hoteldataservice.HotelFactory;
 import dataservice.orderdataservice.OrderDataService;
 
-import dataservice.orderdataservice.OrderFactory;
-import dataservice.promotiondataservice.PromotionFactory;
 import dataservice.userdataservice.UserDataService;
 
 import dataservice.promotiondataservice.PromotionDataService;
 
-import dataservice.userdataservice.UserFactory;
+import po.CustomerPO;
 import po.Evaluation;
 import po.HotelPO;
 import po.HotelPromotionPO;
+import po.MemberPromotionPO;
 import po.OrderPO;
 import po.UserPO;
+import po.WebPromotionPO;
 import po.OrderState;
+import po.PromotionPO;
+import vo.CustomerVO;
 import vo.HotelVO;
 
 public class HotelBL implements HotelBusinessLogicService {
 
-	private HotelDataService hds;
-    private OrderDataService ods;
-    private PromotionDataService pds;
-    private UserDataService uds;
+	HotelDataService hds=new HotelDataService() {
+        @Override
+        public HotelPO find(long id) {
+            return null;
+        }
 
-	public HotelBL() throws RemoteException{
-		try {
-			HotelFactory hotelFactory=(HotelFactory) Naming.lookup("rmi://127.0.0.1:1234/hotelFactory");
-			this.hds=hotelFactory.createHotelDataService();
-			OrderFactory orderFactory=(OrderFactory) Naming.lookup("rmi://127.0.0.1:1234/orderFactory");
-			this.ods=orderFactory.createOrderDataService();
-			PromotionFactory promotionFactory=(PromotionFactory) Naming.lookup("rmi://127.0.0.1:1234/promotionFactory");
-			this.pds=promotionFactory.createPromotionDataService();
-			UserFactory userFactory=(UserFactory) Naming.lookup("rmi://127.0.0.1:1234/userFactory");
-			this.uds=userFactory.createUserDataService();
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		}catch (NotBoundException e) {
-			e.printStackTrace();
+        @Override
+        public boolean insert(HotelPO po) {
+            return false;
+        }
+
+        @Override
+        public boolean delete(long id) {
+            return false;
+        }
+
+        @Override
+        public boolean update(HotelPO po) {
+            return false;
+        }
+
+	
+    };
+	
+    OrderDataService ods=new OrderDataService() {
+        @Override
+        public OrderPO find(long id) {
+            return null;
+        }
+
+        @Override
+        public boolean insert(OrderPO po) {
+            return false;
+        }
+
+        @Override
+        public boolean delete(long id) {
+            return false;
+        }
+
+        @Override
+        public boolean update(OrderPO po) {
+            return false;
+        }
+    };
+    PromotionDataService pds=new PromotionDataService() {
+
+		@Override
+		public MemberPromotionPO find1(long id) {
+			return null;
 		}
-	}
+
+		@Override
+		public HotelPromotionPO find2(long id) {
+			return null;
+		}
+
+		@Override
+		public WebPromotionPO find3(long id) {
+			return null;
+		}
+
+		@Override
+		public boolean insert1(MemberPromotionPO po) {
+			return false;
+		}
+
+		@Override
+		public boolean delete1(long id) {
+			return false;
+		}
+
+		@Override
+		public boolean update1(MemberPromotionPO po) {
+			return false;
+		}
+
+		@Override
+		public boolean insert2(HotelPromotionPO po) {
+			return false;
+		}
+
+		@Override
+		public boolean delete2(long id) {
+			return false;
+		}
+
+		@Override
+		public boolean update2(HotelPromotionPO po) {
+			return false;
+		}
+
+		@Override
+		public boolean insert3(WebPromotionPO po) {
+			return false;
+		}
+
+		@Override
+		public boolean delete3(long id) {
+			return false;
+		}
+
+		@Override
+		public boolean update3(WebPromotionPO po) {
+			return false;
+		}
+       
+    };
     
+    UserDataService uds=new UserDataService() {
+        @Override
+        public UserPO find(String account) {
+            return null;
+        }
+
+        @Override
+        public boolean insert(UserPO po) {
+            return false;
+        }
+
+        @Override
+        public boolean delete(long id) {
+            return false;
+        }
+
+        @Override
+        public boolean update(UserPO po) {
+            return false;
+        }
+    };
+    @Override
+    public boolean creatHotel(HotelPO po)throws RemoteException{
+    	return hds.insert(po);
+    }
     @Override
     public HotelVO getHotel(long id) throws RemoteException{
         HotelPO po=this.hds.find(id);
@@ -116,7 +226,7 @@ public class HotelBL implements HotelBusinessLogicService {
     	return this.pds.update2(new HotelPromotionPO(id,hpo.getPromotionName(),hpo.getCreatedTime(),
     			hpo.getUsageState(),hpo.getBeginTime(),hpo.getEndTime(),hpo.getMemberType(),hpo.getDiscount(),
     			numberOfRoom,discount,hpo.getDiscountforlargeramount(),hpo.getDiscountforlargeramount(),
-    			hpo.getBirthDiscount(),hpo.getCompanyDiscount(),hpo.getHotelID()));
+    			hpo.getBirthDiscount(),hpo.getCompanyDiscount()));
     	    
     }
     @Override
@@ -125,7 +235,7 @@ public class HotelBL implements HotelBusinessLogicService {
     	return this.pds.update2(new HotelPromotionPO(id,hpo.getPromotionName(),hpo.getCreatedTime(),
     			hpo.getUsageState(),hpo.getBeginTime(),hpo.getEndTime(),hpo.getMemberType(),hpo.getDiscount(),
     			hpo.getDiscountForMoreRoom(),hpo.getDiscountformoreroom(),hpo.getDiscountforlargeramount(),hpo.getDiscountforlargeramount(),
-    			discount,hpo.getCompanyDiscount(),hpo.getHotelID()));
+    			discount,hpo.getCompanyDiscount()));
     }
     @Override
     public boolean setPromotionThree(long id,String beginTime,String endTime)throws RemoteException{
@@ -133,7 +243,7 @@ public class HotelBL implements HotelBusinessLogicService {
     	return this.pds.update2(new HotelPromotionPO(id,hpo.getPromotionName(),hpo.getCreatedTime(),
     			hpo.getUsageState(),beginTime,endTime,hpo.getMemberType(),hpo.getDiscount(),
     			hpo.getDiscountForMoreRoom(),hpo.getDiscountformoreroom(),hpo.getDiscountforlargeramount(),hpo.getDiscountforlargeramount(),
-    			hpo.getBirthDiscount(),hpo.getCompanyDiscount(),hpo.getHotelID()));
+    			hpo.getBirthDiscount(),hpo.getCompanyDiscount()));
     }
     @Override
     public boolean setPromotionFour(long id,double discount)throws RemoteException{
@@ -141,7 +251,7 @@ public class HotelBL implements HotelBusinessLogicService {
     	return this.pds.update2(new HotelPromotionPO(id,hpo.getPromotionName(),hpo.getCreatedTime(),
     			hpo.getUsageState(),hpo.getBeginTime(),hpo.getEndTime(),hpo.getMemberType(),hpo.getDiscount(),
     			hpo.getDiscountForMoreRoom(),hpo.getDiscountformoreroom(),hpo.getDiscountforlargeramount(),hpo.getDiscountforlargeramount(),
-    			hpo.getBirthDiscount(),discount,hpo.getHotelID()));
+    			hpo.getBirthDiscount(),discount));
     }
    
     public long findMaxId() throws RemoteException{
