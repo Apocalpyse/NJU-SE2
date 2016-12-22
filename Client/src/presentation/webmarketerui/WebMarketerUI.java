@@ -285,7 +285,9 @@ public class WebMarketerUI extends JFrame {
 		table.setFont(font);
 		table.setPreferredScrollableViewportSize(new Dimension((int) (panel1.getPreferredSize().getWidth() - 15), 220));
 		table.setRowHeight(25);
-
+		table.getColumnModel().getColumn(2).setPreferredWidth(130);
+		table.getColumnModel().getColumn(3).setPreferredWidth(130);
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		JScrollPane scrollPane = new JScrollPane(table);
 		panel1.add(idInput);
@@ -519,7 +521,7 @@ public class WebMarketerUI extends JFrame {
 		prePage.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				
+
 				long IDBEGIN = WPIDBegin;
 				try {
 					PromotionController pc = new PromotionController();
@@ -528,7 +530,7 @@ public class WebMarketerUI extends JFrame {
 						JOptionPane.showMessageDialog(null, "前面已经没有更多促销策略了", "提示", JOptionPane.PLAIN_MESSAGE);
 						return;
 					}
-				for (int line = 0; line < defaultModel.getRowCount(); line++) {
+					for (int line = 0; line < defaultModel.getRowCount(); line++) {
 						WebPromotionVO vo = pc.getWebPromotion(IDBEGIN);
 						IDBEGIN = IDBEGIN + 1;
 						// 获取id
@@ -544,15 +546,15 @@ public class WebMarketerUI extends JFrame {
 							table.setValueAt(ob[i], line, i);
 						}
 					}
-						// 赋值
-					} catch (NumberFormatException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (RemoteException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				
+					// 赋值
+				} catch (NumberFormatException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
 			}
 		});
 		nextPage.addActionListener(new ActionListener() {
@@ -601,25 +603,21 @@ public class WebMarketerUI extends JFrame {
 		creat.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				PromotionController pc = new PromotionController();
-				creditFrame.setVisible(true);
+
 				try {
-<<<<<<< HEAD
 					PromotionController pc = new PromotionController();
-=======
->>>>>>> origin/master
 					text1.setText(pc.findMaxId3() + 1 + "");
 				} catch (RemoteException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				// ***********此处需获取ID
+				creditFrame.setVisible(true);
 			}
 		});
 		edit.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				creditFrame.setVisible(true);
+
 				text1.setText(table.getValueAt(table.getSelectedRow(), 0).toString());
 				text2.setText(table.getValueAt(table.getSelectedRow(), 1).toString());
 				text3.setText(table.getValueAt(table.getSelectedRow(), 2).toString());
@@ -627,6 +625,7 @@ public class WebMarketerUI extends JFrame {
 				text5.setText(table.getValueAt(table.getSelectedRow(), 4).toString());
 				text6.setText(table.getValueAt(table.getSelectedRow(), 5).toString());
 				text7.setText(table.getValueAt(table.getSelectedRow(), 6).toString());
+				creditFrame.setVisible(true);
 			}
 		});
 		apply.addActionListener(new ActionListener() {
@@ -1174,8 +1173,9 @@ public class WebMarketerUI extends JFrame {
 						table2.setValueAt("", i, j);
 					}
 				}
-				PromotionController pc = new PromotionController();
 				try {
+					PromotionController pc = new PromotionController();
+
 					id2.setText(pc.findMaxId1() + 1 + "");
 
 				} catch (RemoteException e) {
@@ -1206,7 +1206,7 @@ public class WebMarketerUI extends JFrame {
 					String CREATTIME = time2.getText();
 
 					int rowcount = defaultModel2.getRowCount();
-					int RowCount=rowcount;
+					int RowCount = rowcount;
 					for (int i = 0; i < rowcount; i++) {
 						if (table2.getValueAt(i, 0).toString().equals("")
 								|| table2.getValueAt(i, 0).toString().equals(null)
@@ -1221,7 +1221,7 @@ public class WebMarketerUI extends JFrame {
 
 						}
 					} // 排除空行
-					if(rowcount<RowCount){
+					if (rowcount < RowCount) {
 						JOptionPane.showMessageDialog(null, "信息不完善！请修改", "提示", JOptionPane.PLAIN_MESSAGE);
 						return;
 					}
@@ -1270,9 +1270,9 @@ public class WebMarketerUI extends JFrame {
 					MemberPromotionVO vo = new MemberPromotionVO();
 					//
 					long IDGET = Long.parseLong(id2.getText());
-					if((IDGET==0)){
-						return ;
-					}	
+					if ((IDGET == 0)) {
+						return;
+					}
 					vo = pc.getMemberPromotion(IDGET);
 					// 获取数据
 					if (vo.getUsageState().equals(UsageState.Using)) {
@@ -1591,8 +1591,9 @@ public class WebMarketerUI extends JFrame {
 		edit3.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				creditFrame3.setVisible(true);
+
 				customer3.setText(table3.getValueAt(table3.getSelectedRow(), 0).toString());
+				creditFrame3.setVisible(true);
 			}
 		});
 		// 对creditFrame的监听
@@ -1998,8 +1999,7 @@ public class WebMarketerUI extends JFrame {
 				}
 			}
 		});
-		
-		
+
 		prePage5.addActionListener(new ActionListener() {
 			@Override
 			// *****对于有检索条件的prepage翻页需要从后往前获取数据
@@ -2137,7 +2137,7 @@ public class WebMarketerUI extends JFrame {
 		table6.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table6.setPreferredScrollableViewportSize(
 				new Dimension((int) (panel12.getPreferredSize().getWidth() - 15), 220));
-	
+
 		JScrollPane scrollPane6 = new JScrollPane(table6);
 
 		p16.add(idInput6);
@@ -2635,14 +2635,15 @@ public class WebMarketerUI extends JFrame {
 		tab.addMouseListener(new java.awt.event.MouseAdapter() {
 			public void mouseClicked(java.awt.event.MouseEvent e) {
 				int selectedIndex = tab.getSelectedIndex(); // 获得选中的选项卡索引
-//				String title = tab.getTitleAt(selectedIndex); // 获得选项卡标签
-//				System.out.println(title);
+				// String title = tab.getTitleAt(selectedIndex); // 获得选项卡标签
+				// System.out.println(title);
 				switch (selectedIndex) {
 				case 0: {
 					// 网站促销策略
-					PromotionController pc = new PromotionController();
-					long IDBEGIN = WPIDBegin;
 					try {
+						PromotionController pc = new PromotionController();
+						long IDBEGIN = WPIDBegin;
+
 						for (int line = 0; line < defaultModel.getRowCount() && IDBEGIN <= pc.findMaxId3(); line++) {
 							WebPromotionVO vo = pc.getWebPromotion(IDBEGIN);
 							IDBEGIN = IDBEGIN + 1;
@@ -2742,9 +2743,9 @@ public class WebMarketerUI extends JFrame {
 					// 用户信息
 					try {
 						long ID = USERIDBegin;
-						UserController uc=new UserController();
+						UserController uc = new UserController();
 						//
-						for (int count = 0; count < defaultModel3.getRowCount()&&ID<=uc.findMaxId(); count++) {
+						for (int count = 0; count < defaultModel3.getRowCount() && ID <= uc.findMaxId(); count++) {
 							CustomerController cc = new CustomerController();
 							CustomerVO vo = cc.getCustomer(ID);
 							ID = ID + 1;
@@ -2808,10 +2809,10 @@ public class WebMarketerUI extends JFrame {
 		tab4.addMouseListener(new java.awt.event.MouseAdapter() {
 			public void mouseClicked(java.awt.event.MouseEvent e1) {
 				int selectedIndex = tab4.getSelectedIndex(); // 获得选中的选项卡索引
-//				String title = tab4.getTitleAt(selectedIndex); // 获得选项卡标签
-//				System.out.println(title);
-				switch(selectedIndex){
-				case 0:{
+				// String title = tab4.getTitleAt(selectedIndex); // 获得选项卡标签
+				// System.out.println(title);
+				switch (selectedIndex) {
+				case 0: {
 					try {
 						long ID = ORDERIDBegin;
 						OrderController oc = new OrderController();
@@ -2843,7 +2844,7 @@ public class WebMarketerUI extends JFrame {
 					}
 					break;
 				}
-				case 1:{
+				case 1: {
 					try {
 						long ID = ORDERIDBegin;
 						OrderController oc = new OrderController();
@@ -2875,7 +2876,7 @@ public class WebMarketerUI extends JFrame {
 					}
 					break;
 				}
-				case 2:{
+				case 2: {
 					try {
 						long ID = ORDERIDBegin;
 						OrderController oc = new OrderController();
@@ -2907,7 +2908,7 @@ public class WebMarketerUI extends JFrame {
 					}
 					break;
 				}
-				case 3:{
+				case 3: {
 					try {
 						long ID = ORDERIDBegin;
 						OrderController oc = new OrderController();
@@ -2939,18 +2940,18 @@ public class WebMarketerUI extends JFrame {
 					}
 					break;
 				}
-				
+
 				}
 
 			}
 		});
 		// 初始化与刷新
-		
-		//界面边界及系统名称
-		promotion.setBorder(BorderFactory.createTitledBorder("DS酒店预订系统"));
-		member.setBorder(BorderFactory.createTitledBorder("DS酒店预订系统"));
-		customer.setBorder(BorderFactory.createTitledBorder("DS酒店预订系统"));
-		order.setBorder(BorderFactory.createTitledBorder("DS酒店预订系统"));
+
+		// 界面边界及系统名称
+		// promotion.setBorder(BorderFactory.createTitledBorder("促销策略制定"));
+		// member.setBorder(BorderFactory.createTitledBorder("会员制度制定"));
+		// customer.setBorder(BorderFactory.createTitledBorder("信用充值"));
+		// order.setBorder(BorderFactory.createTitledBorder("订单处理"));
 
 	}
 }
