@@ -1,14 +1,13 @@
 package po;
 
+import java.io.Serializable;
 
-public class RoomPO {
-	Long roomID;//鎴块棿ID
-	String roomType;//鎴块棿绫诲瀷
-	int roomTotalNumber;//鎴块棿鎬绘暟閲�
-	int roomAccessNumber;//鍙瀹氱殑鎴块棿鏁伴噺
-	double roomPrice;//鎴块棿浠锋牸
-
-	public RoomPO(){}
+public class RoomPO implements Serializable{
+	Long roomID;//閹村潡妫縄D
+	String roomType;//閹村潡妫跨猾璇茬��
+	int roomTotalNumber;//閹村潡妫块幀缁樻殶闁诧拷
+	int roomAccessNumber;//閸欘垶顣╃�规氨娈戦幋鍧楁？閺佷即鍣�
+	double roomPrice;//閹村潡妫挎禒閿嬬壐
 	public RoomPO(Long i,String st,int rtn,int ran,double rp){
 		roomID=i;
 		roomType=st;
