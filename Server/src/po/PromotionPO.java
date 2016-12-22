@@ -1,6 +1,8 @@
 package po;
 
-public class PromotionPO {
+import java.io.Serializable;
+
+public class PromotionPO implements Serializable{
 	private long ID;//编号
 	private String promotionName;//名称
 	public String getPromotionName() {
