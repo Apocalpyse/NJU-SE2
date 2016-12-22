@@ -1011,8 +1011,21 @@ public class HotelUI extends JFrame {
 						JOptionPane.showMessageDialog(null, "请输入ID", "提示", JOptionPane.PLAIN_MESSAGE);
 					} else {
 						long ID = Long.parseLong(id);
-						OrderController oc = new OrderController();
-						OrderVO vo = oc.getOrder(ID);
+						OrderController oc = null;
+						try {
+							oc = new OrderController();
+						} catch (RemoteException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						OrderVO vo = null;
+						try {
+							vo = oc.getOrder(ID);
+						} catch (RemoteException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						
 						// 获取数据
 						String[] ob = { vo.getId() + "", vo.getTotalPrice() + "", vo.getMasterId() + "",
 								vo.getCustomerName(), vo.getCustomerPhone(), vo.getHotelName(), vo.getHotelPhone(),
@@ -1050,13 +1063,30 @@ public class HotelUI extends JFrame {
 					long ID = Long.parseLong(table4.getValueAt(0, 0).toString()) - 1;
 					// 从上一页最后开始
 					for (int count = 0; count < defaultModel4.getRowCount(); count++) {
-						OrderController oc = new OrderController();
+						OrderController oc = null;
+						try {
+							oc = new OrderController();
+						} catch (RemoteException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						long ID2 = ID;
-						OrderVO vo = oc.getOrder(ID2);
+						OrderVO vo = null;
+						try {
+							vo = oc.getOrder(ID2);
+						} catch (RemoteException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						//判断订单状态，当订单未完成状态，才获取订单
 						while (!vo.getOs().equals(OrderState.unexecute)) {
 							ID2 = ID2 - 1;
-							vo = oc.getOrder(ID2);
+							try {
+								vo = oc.getOrder(ID2);
+							} catch (RemoteException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
 						}
 						ID = ID2 - 1;
 						// ****需设置限制，避免订单到顶
@@ -1079,12 +1109,29 @@ public class HotelUI extends JFrame {
 					long ID = Long.parseLong(table4.getValueAt(table4.getRowCount() - 1, 0).toString()) + 1;
 					// 从下一页第一开始
 					for (int count = 0; count < defaultModel4.getRowCount(); count++) {
-						OrderController oc = new OrderController();
+						OrderController oc = null;
+						try {
+							oc = new OrderController();
+						} catch (RemoteException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						long ID2 = ID;
-						OrderVO vo = oc.getOrder(ID2);
+						OrderVO vo = null;
+						try {
+							vo = oc.getOrder(ID2);
+						} catch (RemoteException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						while (!vo.getOs().equals(OrderState.unexecute)) {
 							ID2 = ID2 + 1;
-							vo = oc.getOrder(ID2);
+							try {
+								vo = oc.getOrder(ID2);
+							} catch (RemoteException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
 						}
 						ID = ID2 + 1;
 						// ****需设置限制，避免订单到顶
@@ -1108,10 +1155,26 @@ public class HotelUI extends JFrame {
 				
 					long ORDERGET = Long.parseLong(table4.getValueAt(table4.getSelectedRow(), 0).toString());
 					String HOTELGET = table4.getValueAt(table4.getSelectedRow(), 5).toString();
-					OrderController oc = new OrderController();
+					OrderController oc = null;
+					try {
+						oc = new OrderController();
+					} catch (RemoteException e2) {
+						// TODO Auto-generated catch block
+						e2.printStackTrace();
+					}
 					OrderVO ov=new OrderVO();
-					ov=oc.getOrder(ORDERGET);
-					oc.cancelOrder(ORDERGET);
+					try {
+						ov=oc.getOrder(ORDERGET);
+					} catch (RemoteException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					try {
+						oc.cancelOrder(ORDERGET);
+					} catch (RemoteException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					RoomController rc = null;
 					RoomVO rv0 = null;
 					RoomVO rv1 = null;
@@ -1280,8 +1343,20 @@ public class HotelUI extends JFrame {
 						JOptionPane.showMessageDialog(null, "请输入ID", "提示", JOptionPane.PLAIN_MESSAGE);
 					} else {
 						long ID = Long.parseLong(id);
-						OrderController oc = new OrderController();
-						OrderVO vo = oc.getOrder(ID);
+						OrderController oc = null;
+						try {
+							oc = new OrderController();
+						} catch (RemoteException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						OrderVO vo = null;
+						try {
+							vo = oc.getOrder(ID);
+						} catch (RemoteException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						// 获取数据
 						String[] ob = { vo.getId() + "", vo.getTotalPrice() + "", vo.getMasterId() + "",
 								vo.getCustomerName(), vo.getCustomerPhone(), vo.getHotelName(), vo.getHotelPhone(),
@@ -1309,12 +1384,29 @@ public class HotelUI extends JFrame {
 					long ID = Long.parseLong(table5.getValueAt(0, 0).toString()) - 1;
 					// 从上一页最后开始
 					for (int count = 0; count < defaultModel5.getRowCount(); count++) {
-						OrderController oc = new OrderController();
+						OrderController oc = null;
+						try {
+							oc = new OrderController();
+						} catch (RemoteException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						long ID2 = ID;
-						OrderVO vo = oc.getOrder(ID2);
+						OrderVO vo = null;
+						try {
+							vo = oc.getOrder(ID2);
+						} catch (RemoteException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						while (!vo.getOs().equals(OrderState.normal)) {
 							ID2 = ID2 - 1;
-							vo = oc.getOrder(ID2);
+							try {
+								vo = oc.getOrder(ID2);
+							} catch (RemoteException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
 						}
 						ID = ID2 - 1;
 						// ****需设置限制，避免订单到顶
@@ -1338,12 +1430,29 @@ public class HotelUI extends JFrame {
 					long ID = Long.parseLong(table5.getValueAt(table5.getRowCount() - 1, 0).toString()) + 1;
 					// 从下一页第一开始
 					for (int count = 0; count < defaultModel5.getRowCount(); count++) {
-						OrderController oc = new OrderController();
+						OrderController oc = null;
+						try {
+							oc = new OrderController();
+						} catch (RemoteException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						long ID2 = ID;
-						OrderVO vo = oc.getOrder(ID2);
+						OrderVO vo = null;
+						try {
+							vo = oc.getOrder(ID2);
+						} catch (RemoteException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						while (!vo.getOs().equals(OrderState.normal)) {
 							ID2 = ID2 + 1;
-							vo = oc.getOrder(ID2);
+							try {
+								vo = oc.getOrder(ID2);
+							} catch (RemoteException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
 						}
 						ID = ID2 + 1;
 						// ****需设置限制，避免订单到顶
@@ -1520,8 +1629,20 @@ public class HotelUI extends JFrame {
 						JOptionPane.showMessageDialog(null, "请输入ID", "提示", JOptionPane.PLAIN_MESSAGE);
 					} else {
 						long ID = Long.parseLong(id);
-						OrderController oc = new OrderController();
-						OrderVO vo = oc.getOrder(ID);
+						OrderController oc = null;
+						try {
+							oc = new OrderController();
+						} catch (RemoteException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						OrderVO vo = null;
+						try {
+							vo = oc.getOrder(ID);
+						} catch (RemoteException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						// 获取数据
 						String[] ob = { vo.getId() + "", vo.getTotalPrice() + "", vo.getMasterId() + "",
 								vo.getCustomerName(), vo.getCustomerPhone(), vo.getHotelName(), vo.getHotelPhone(),
@@ -1549,12 +1670,29 @@ public class HotelUI extends JFrame {
 					long ID = Long.parseLong(table6.getValueAt(0, 0).toString()) - 1;
 					// 从上一页最后开始
 					for (int count = 0; count < defaultModel6.getRowCount(); count++) {
-						OrderController oc = new OrderController();
+						OrderController oc = null;
+						try {
+							oc = new OrderController();
+						} catch (RemoteException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						long ID2 = ID;
-						OrderVO vo = oc.getOrder(ID2);
+						OrderVO vo = null;
+						try {
+							vo = oc.getOrder(ID2);
+						} catch (RemoteException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						while (!vo.getOs().equals(OrderState.abnormal)) {
 							ID2 = ID2 - 1;
-							vo = oc.getOrder(ID2);
+							try {
+								vo = oc.getOrder(ID2);
+							} catch (RemoteException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
 						}
 						ID = ID2 - 1;
 						// ****需设置限制，避免订单到顶
@@ -1578,12 +1716,29 @@ public class HotelUI extends JFrame {
 					long ID = Long.parseLong(table6.getValueAt(table6.getRowCount() - 1, 0).toString()) + 1;
 					// 从下一页第一开始
 					for (int count = 0; count < defaultModel6.getRowCount(); count++) {
-						OrderController oc = new OrderController();
+						OrderController oc = null;
+						try {
+							oc = new OrderController();
+						} catch (RemoteException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						long ID2 = ID;
-						OrderVO vo = oc.getOrder(ID2);
+						OrderVO vo = null;
+						try {
+							vo = oc.getOrder(ID2);
+						} catch (RemoteException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						while (!vo.getOs().equals(OrderState.abnormal)) {
 							ID2 = ID2 + 1;
-							vo = oc.getOrder(ID2);
+							try {
+								vo = oc.getOrder(ID2);
+							} catch (RemoteException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
 						}
 						ID = ID2 + 1;
 						// ****需设置限制，避免订单到顶
@@ -1626,9 +1781,27 @@ public class HotelUI extends JFrame {
 			
 					long ORDERGET = Long.parseLong(table6.getValueAt(table6.getSelectedRow(), 0).toString());
 					long USERIDGET = Long.parseLong(table6.getValueAt(table6.getSelectedRow(), 2).toString());
-					OrderController oc = new OrderController();
-					CustomerController cc = new CustomerController();
-					CustomerVO vo2 = cc.getCustomer(USERIDGET);
+					OrderController oc = null;
+					try {
+						oc = new OrderController();
+					} catch (RemoteException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					CustomerController cc = null;
+					try {
+						cc = new CustomerController();
+					} catch (RemoteException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					CustomerVO vo2 = null;
+					try {
+						vo2 = cc.getCustomer(USERIDGET);
+					} catch (RemoteException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					/*double credit = vo2.getCredit();
 					// 获取order与customer
 					double CREDITGET = Double.parseDouble(table6.getValueAt(table6.getSelectedRow(), 1).toString());
@@ -1641,8 +1814,18 @@ public class HotelUI extends JFrame {
 						// 取消异常订单
 						 * */
 			
-					oc.cancelOrder(ORDERGET);
-					cc.changeCustomer(vo2);
+					try {
+						oc.cancelOrder(ORDERGET);
+					} catch (RemoteException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					try {
+						cc.changeCustomer(vo2);
+					} catch (RemoteException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				
 			}
 		});
@@ -1744,8 +1927,20 @@ public class HotelUI extends JFrame {
 						JOptionPane.showMessageDialog(null, "请输入ID", "提示", JOptionPane.PLAIN_MESSAGE);
 					} else {
 						long ID = Long.parseLong(id);
-						OrderController oc = new OrderController();
-						OrderVO vo = oc.getOrder(ID);
+						OrderController oc = null;
+						try {
+							oc = new OrderController();
+						} catch (RemoteException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						OrderVO vo = null;
+						try {
+							vo = oc.getOrder(ID);
+						} catch (RemoteException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						// 获取数据
 						String[] ob = { vo.getId() + "", vo.getTotalPrice() + "", vo.getMasterId() + "",
 								vo.getCustomerName(), vo.getCustomerPhone(), vo.getHotelName(), vo.getHotelPhone(),
@@ -1773,12 +1968,29 @@ public class HotelUI extends JFrame {
 					long ID = Long.parseLong(table7.getValueAt(0, 0).toString()) - 1;
 					// 从上一页最后开始
 					for (int count = 0; count < defaultModel7.getRowCount(); count++) {
-						OrderController oc = new OrderController();
+						OrderController oc = null;
+						try {
+							oc = new OrderController();
+						} catch (RemoteException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						long ID2 = ID;
-						OrderVO vo = oc.getOrder(ID2);
+						OrderVO vo = null;
+						try {
+							vo = oc.getOrder(ID2);
+						} catch (RemoteException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						while (!vo.getOs().equals(OrderState.normal)) {
 							ID2 = ID2 - 1;
-							vo = oc.getOrder(ID2);
+							try {
+								vo = oc.getOrder(ID2);
+							} catch (RemoteException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
 						}
 						ID = ID2 - 1;
 						// ****需设置限制，避免订单到顶
@@ -1802,12 +2014,29 @@ public class HotelUI extends JFrame {
 					long ID = Long.parseLong(table7.getValueAt(table7.getRowCount() - 1, 0).toString()) + 1;
 					// 从下一页第一开始
 					for (int count = 0; count < defaultModel7.getRowCount(); count++) {
-						OrderController oc = new OrderController();
+						OrderController oc = null;
+						try {
+							oc = new OrderController();
+						} catch (RemoteException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						long ID2 = ID;
-						OrderVO vo = oc.getOrder(ID2);
+						OrderVO vo = null;
+						try {
+							vo = oc.getOrder(ID2);
+						} catch (RemoteException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						while (!vo.getOs().equals(OrderState.normal)) {
 							ID2 = ID2 + 1;
-							vo = oc.getOrder(ID2);
+							try {
+								vo = oc.getOrder(ID2);
+							} catch (RemoteException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
 						}
 						ID = ID2 + 1;
 						// ****需设置限制，避免订单到顶
