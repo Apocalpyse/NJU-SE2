@@ -1,7 +1,8 @@
 package po;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class HotelPO {
+public class HotelPO implements Serializable{
 	Long id;
 	String hotelManager;//酒店工作人员
 	String hotelManPhone;//酒店工作人员电话
@@ -15,9 +16,6 @@ public class HotelPO {
 	String instruction;//酒店简介
 	ArrayList<Evaluation> evaluation;//酒店评价
 	String cooperatateCompany;//酒店合作企业
-
-	public HotelPO(){}
-
 	public HotelPO(Long i,String hm,String hmp,double go,double[] pr,String hn,String ta,String hl,String hp,String st,String in,ArrayList<Evaluation> eva,String cc){
 		id=i;
 		hotelManager=hm;
