@@ -4,26 +4,22 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.GridLayout;
-import java.awt.HeadlessException;
-import java.awt.Label;
+
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.rmi.RemoteException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Enumeration;
-import java.util.Vector;
+
 
 import javax.swing.AbstractListModel;
 import javax.swing.BorderFactory;
 import javax.swing.ComboBoxModel;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
+
 import javax.swing.JComboBox;
+
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -32,19 +28,35 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
-import javax.swing.JTextArea;
+
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+
 import javax.swing.SpringLayout;
 import javax.swing.UIManager;
-import javax.swing.plaf.FontUIResource;
+
+
 import javax.swing.table.DefaultTableModel;
 
+import org.jvnet.substance.SubstanceLookAndFeel;
+import org.jvnet.substance.border.StandardBorderPainter;
+import org.jvnet.substance.button.ClassicButtonShaper;
+import org.jvnet.substance.painter.StandardGradientPainter;
+
+
+import org.jvnet.substance.theme.SubstanceOrangeTheme;
+
+import org.jvnet.substance.title.FlatTitlePainter;
+import org.jvnet.substance.watermark.SubstanceBinaryWatermark;
+
 import businesslogic.customerbl.CustomerController;
+import businesslogic.hotelbl.HotelBL;
 import businesslogic.hotelbl.HotelController;
 import businesslogic.orderbl.OrderController;
 import businesslogic.promotionbl.PromotionController;
 import businesslogic.roombl.RoomController;
+import dataservice.hoteldataservice.HotelDataService;
+import po.HotelPO;
 import po.MemberType;
 import po.OrderState;
 import po.RoomPO;
@@ -70,7 +82,7 @@ public class HotelUI extends JFrame {
 	Dimension preferredSize4 = new Dimension(45, 20);// 设置尺寸短label
 	Dimension preferredSize5 = new Dimension(75, 20);// 设置尺寸长label,textarea
 	Dimension preferredSize7 = new Dimension(850, 550);// 设置尺寸
-	private JFrame frame;
+	private static JFrame frame;
 	private JTabbedPane tab;
 	private JPanel hotelInformation;
 	private JPanel roomInformation;
@@ -78,6 +90,7 @@ public class HotelUI extends JFrame {
 	private JPanel orderInformation;
 	
 	//hotelInformation
+	HotelVO hvo;
 	JTextField jth=new JTextField();
 	JTextField jth01=new JTextField();
 	JTextField jth11=new JTextField();
@@ -88,6 +101,7 @@ public class HotelUI extends JFrame {
 	JComboBox<String> jc6=new JComboBox<>(new MyboBox());
 	
 	//roomInformation
+	RoomVO rvo01,rvo02,rvo03,rvo04,rvo05,rvo00;
 	JTextField jt100=new JTextField();
 	JTextField jt110=new JTextField();
 	JTextField jt120=new JTextField();
@@ -113,6 +127,7 @@ public class HotelUI extends JFrame {
 	JTextField jt620=new JTextField();
 	
 	//PromotionInformation
+	HotelPromotionVO hpvo;
 	JTextField jtp22=new JTextField();
 	JTextField jtp24=new JTextField();
 	JTextField jtp32=new JTextField();
@@ -169,9 +184,30 @@ public class HotelUI extends JFrame {
 	// THE orders
 	
 
-	public HotelUI() {
+	public HotelUI() throws RemoteException{
 
 		frame = new JFrame();
+		/*
+		SubstanceLookAndFeel slaf=new SubstanceLookAndFeel();
+		try {  
+            //设置外观  
+            UIManager.setLookAndFeel(slaf);  
+            //设置主题   
+            slaf.setCurrentTheme(new SubstanceOrangeTheme());  
+            //设置按钮外观  
+            slaf.setCurrentButtonShaper(new ClassicButtonShaper());  
+            //设置水印  
+            slaf.setCurrentWatermark(new SubstanceBinaryWatermark());  
+            //设置边框  
+            slaf.setCurrentBorderPainter(new StandardBorderPainter());  
+            //设置渐变渲染  
+            slaf.setCurrentGradientPainter(new StandardGradientPainter());  
+            //设置标题  
+            slaf.setCurrentTitlePainter(new FlatTitlePainter());  
+        } catch (Exception e) {  
+            System.out.println(e.getMessage());  
+        }
+        */
 		hotelInformation= new JPanel();
 		hotelInformation.setPreferredSize(preferredSize7);
 		roomInformation= new JPanel();
@@ -223,6 +259,16 @@ public class HotelUI extends JFrame {
 		// 界面框架
 		//hotelInformation
 				hotelInformation.setLayout(null);
+				HotelController hcl;
+				try {
+					hcl = new HotelController();
+//删除注释					hvo=hcl.getHotel(10000);
+				} catch (RemoteException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} 
+			    
+			    
 				JLabel jh=new JLabel();
 				jh.setText("酒店管理");
 				jh.setFont(font);
@@ -234,6 +280,7 @@ public class HotelUI extends JFrame {
 				jth.setBounds(320,15,200,20);
 				jth.setFont(font);
 				jth.setEditable(false);
+				//jth.setText(hvo.getHotelManager());
 				hotelInformation.add(jth);
 				
 				JLabel jh0=new JLabel();
@@ -247,6 +294,7 @@ public class HotelUI extends JFrame {
 				jth01.setBounds(320,65,200,20);
 				jth01.setFont(font);
 				jth01.setEditable(false);
+				//jth01.setText(hvo.getHotelManPhone());
 				hotelInformation.add(jth01);
 				
 				JLabel jh1=new JLabel();
@@ -260,6 +308,7 @@ public class HotelUI extends JFrame {
 				jth11.setBounds(320,115,200,20);
 				jth11.setFont(font);
 				jth11.setEditable(false);
+				//jth11.setText(hvo.getHotelName());
 				hotelInformation.add(jth11);
 				
 				JLabel jh2=new JLabel();
@@ -271,6 +320,7 @@ public class HotelUI extends JFrame {
 				
 				jc2.setBounds(320,315,70,20);
 				jc2.setFont(font);
+				jc2.setEditable(false);
 				hotelInformation.add(jc2);
 				
 				JLabel jh3=new JLabel();
@@ -284,6 +334,7 @@ public class HotelUI extends JFrame {
 				jth13.setBounds(320,165,200,20);
 				jth13.setFont(font);
 				jth13.setEditable(false);
+				//jth13.setText(hvo.getHotelLocation());
 				hotelInformation.add(jth13);
 				
 				JLabel jh4=new JLabel();
@@ -297,6 +348,7 @@ public class HotelUI extends JFrame {
 				jth14.setBounds(320,215,200,20);
 				jth14.setFont(font);
 				jth14.setEditable(false);
+				//jth14.setText(hvo.getInstruction());
 				hotelInformation.add(jth14);
 				
 				JLabel j5=new JLabel();
@@ -310,6 +362,7 @@ public class HotelUI extends JFrame {
 				jth15.setBounds(320,265,200,20);
 				jth15.setFont(font);
 				jth15.setEditable(false);
+				//jth15.setText(hvo.getHotelPhone());
 				hotelInformation.add(jth15);
 				
 				JLabel jh6=new JLabel();
@@ -322,6 +375,7 @@ public class HotelUI extends JFrame {
 				
 				jc6.setBounds(320,365,70,20);
 				jc6.setFont(font);
+				jc6.setEditable(false);
 				hotelInformation.add(jc6);
 				
 				JButton b1=new JButton("编辑");
@@ -338,6 +392,16 @@ public class HotelUI extends JFrame {
 				
 				//roomInformation
 				roomInformation.setLayout(null);
+				
+				RoomController rcl = new RoomController();
+			/*	rvo00=rcl.getRoom(100000); 
+				rvo01=rcl.getRoom(100001);
+				rvo02=rcl.getRoom(100002);
+				rvo03=rcl.getRoom(100003);
+				rvo04=rcl.getRoom(100004);
+				rvo05=rcl.getRoom(100005);
+				*/
+				
 				JLabel j10=new JLabel();
 				j10.setText("房间类型");
 				j10.setFont(font);
@@ -349,6 +413,7 @@ public class HotelUI extends JFrame {
 				jt100.setBounds(80,65,50,20);
 				jt100.setFont(font);
 				jt100.setEditable(false);
+			    //jt100.setText(rvo00.getRoomType());
 				roomInformation.add(jt100);
 				
 				JLabel j11=new JLabel();
@@ -362,6 +427,7 @@ public class HotelUI extends JFrame {
 				jt110.setBounds(80,105,50,20);
 				jt110.setFont(font);
 				jt110.setEditable(false);
+				//jt110.setText(rvo00.getRoomAccessNumber()+"");
 				roomInformation.add(jt110);
 				
 				JLabel j12=new JLabel();
@@ -375,9 +441,12 @@ public class HotelUI extends JFrame {
 				jt120.setBounds(80,145,50,20);
 				jt120.setFont(font);
 				jt120.setEditable(false);
+				//jt120.setText(rvo00.getRoomPrice()+"");
 				roomInformation.add(jt120);
 				
 				//第二，类型数量差40，文本差55，15，大模块差135
+				
+				
 				JLabel j20=new JLabel();
 				j20.setText("房间类型");
 				j20.setFont(font);
@@ -389,6 +458,7 @@ public class HotelUI extends JFrame {
 				jt200.setBounds(80,215,50,20);
 				jt200.setFont(font);
 				jt200.setEditable(false);
+				//jt200.setText(rvo01.getRoomType());
 				roomInformation.add(jt200);
 				
 				JLabel j21=new JLabel();
@@ -402,6 +472,7 @@ public class HotelUI extends JFrame {
 				jt210.setBounds(80,255,50,20);
 				jt210.setFont(font);
 				jt210.setEditable(false);
+				//jt210.setText(rvo01.getRoomAccessNumber()+"");
 				roomInformation.add(jt210);
 				
 				JLabel j22=new JLabel();
@@ -415,6 +486,7 @@ public class HotelUI extends JFrame {
 				jt220.setBounds(80,295,50,20);
 				jt220.setFont(font);
 				jt220.setEditable(false);
+				//jt220.setText(rvo01.getRoomPrice()+"");
 				roomInformation.add(jt220);
 				
 				//第三
@@ -429,6 +501,7 @@ public class HotelUI extends JFrame {
 				jt300.setBounds(270,65,50,20);
 				jt300.setFont(font);
 				jt300.setEditable(false);
+				//jt300.setText(rvo02.getRoomType());
 				roomInformation.add(jt300);
 				
 				JLabel j31=new JLabel();
@@ -442,6 +515,7 @@ public class HotelUI extends JFrame {
 				jt310.setBounds(270,105,50,20);
 				jt310.setFont(font);
 				jt310.setEditable(false);
+				//jt310.setText(rvo02.getRoomAccessNumber()+"");
 				roomInformation.add(jt310);
 				
 				JLabel j32=new JLabel();
@@ -455,6 +529,7 @@ public class HotelUI extends JFrame {
 				jt320.setBounds(270,145,50,20);
 				jt320.setFont(font);
 				jt320.setEditable(false);
+				//jt320.setText(rvo02.getRoomPrice()+"");
 				roomInformation.add(jt320);
 				//第四
 				JLabel j40=new JLabel();
@@ -468,6 +543,7 @@ public class HotelUI extends JFrame {
 				jt400.setBounds(270,215,50,20);
 				jt400.setFont(font);
 				jt400.setEditable(false);
+				//jt400.setText(rvo03.getRoomType());
 				roomInformation.add(jt400);
 				
 				JLabel j41=new JLabel();
@@ -481,6 +557,7 @@ public class HotelUI extends JFrame {
 				jt410.setBounds(270,255,50,20);
 				jt410.setFont(font);
 				jt410.setEditable(false);
+				//jt410.setText(rvo03.getRoomAccessNumber()+"");
 				roomInformation.add(jt410);
 				
 				JLabel j42=new JLabel();
@@ -494,6 +571,7 @@ public class HotelUI extends JFrame {
 				jt420.setBounds(270,295,50,20);
 				jt420.setFont(font);
 				jt420.setEditable(false);
+				//jt420.setText(rvo03.getRoomPrice()+"");
 				roomInformation.add(jt420);
 				
 				//第五
@@ -508,6 +586,7 @@ public class HotelUI extends JFrame {
 				jt500.setBounds(460,65,50,20);
 				jt500.setFont(font);
 				jt500.setEditable(false);
+				//jt500.setText(rvo04.getRoomType());
 				roomInformation.add(jt500);
 				
 				JLabel j51=new JLabel();
@@ -521,6 +600,7 @@ public class HotelUI extends JFrame {
 				jt510.setBounds(460,105,50,20);
 				jt510.setFont(font);
 				jt510.setEditable(false);
+				//jt510.setText(rvo04.getRoomAccessNumber()+"");
 				roomInformation.add(jt510);
 				
 				JLabel j52=new JLabel();
@@ -534,6 +614,7 @@ public class HotelUI extends JFrame {
 				jt520.setBounds(460,145,50,20);
 				jt520.setFont(font);
 				jt520.setEditable(false);
+				//jt520.setText(rvo04.getRoomPrice()+"");
 				roomInformation.add(jt520);
 				
 				//第六
@@ -548,6 +629,7 @@ public class HotelUI extends JFrame {
 				jt600.setBounds(460,215,50,20);
 				jt600.setFont(font);
 				jt600.setEditable(false);
+				//jt600.setText(rvo05.getRoomType());
 				roomInformation.add(jt600);
 				
 				JLabel j61=new JLabel();
@@ -561,6 +643,7 @@ public class HotelUI extends JFrame {
 				jt610.setBounds(460,255,50,20);
 				jt610.setFont(font);
 				jt610.setEditable(false);
+				//jt610.setText(rvo05.getRoomAccessNumber()+"");
 				roomInformation.add(jt610);
 				
 				JLabel j62=new JLabel();
@@ -574,6 +657,7 @@ public class HotelUI extends JFrame {
 				jt620.setBounds(460,295,50,20);
 				jt620.setFont(font);
 				jt620.setEditable(false);
+				//jt620.setText(rvo05.getRoomPrice()+"");
 				roomInformation.add(jt620);
 				
 				JButton br1=new JButton("编辑");
@@ -594,6 +678,9 @@ public class HotelUI extends JFrame {
 				
 				//promotionInformation
 				promotionInformation.setLayout(null);
+				//PromotionController pcl=new PromotionController();
+				//hpvo=pcl.getHotelPromotion(60000);
+				
 				JLabel jp2=new JLabel();
 				jp2.setText("房间数以及对应的折扣");
 				jp2.setFont(font);
@@ -612,6 +699,7 @@ public class HotelUI extends JFrame {
 				jtp22.setBounds(380,65,50,20);
 				jtp22.setFont(font);
 				jtp22.setEditable(false);
+				//jtp22.setText(hpvo.getDiscountForLargerAmount()+"");
 				promotionInformation.add(jtp22);
 				
 				JLabel jp23=new JLabel();
@@ -625,6 +713,7 @@ public class HotelUI extends JFrame {
 				jtp24.setBounds(495,65,50,20);
 				jtp24.setFont(font);
 				jtp24.setEditable(false);
+				//jtp24.setText(hpvo.getDiscountforlargeramount()+"");
 				promotionInformation.add(jtp24);
 				
 				//第二
@@ -646,6 +735,7 @@ public class HotelUI extends JFrame {
 				jtp32.setBounds(380,115,50,20);
 				jtp32.setFont(font);
 				jtp32.setEditable(false);
+				//jtp32.setText(hpvo.getBirthDiscount()+"");
 				promotionInformation.add(jtp32);
 				
 				//第三
@@ -667,6 +757,7 @@ public class HotelUI extends JFrame {
 				jtp42.setBounds(380,165,50,20);
 				jtp42.setFont(font);
 				jtp42.setEditable(false);
+				//jtp42.setText(hpvo.getCompanyDiscount()+"");
 				promotionInformation.add(jtp42);
 				
 				//第四
@@ -688,6 +779,7 @@ public class HotelUI extends JFrame {
 				jtp52.setBounds(380,215,50,20);
 				jtp52.setFont(font);
 				jtp52.setEditable(false);
+				//jtp52.setText(hpvo.getBeginTime());
 				promotionInformation.add(jtp52);
 				
 				JLabel jp53=new JLabel();
@@ -701,6 +793,7 @@ public class HotelUI extends JFrame {
 				jtp54.setBounds(495,215,50,20);
 				jtp54.setFont(font);
 				jtp54.setEditable(false);
+				//jtp54.setText(hpvo.getEndTime());
 				promotionInformation.add(jtp54);
 				
 				JLabel jp55=new JLabel();
@@ -714,6 +807,7 @@ public class HotelUI extends JFrame {
 				jtp56.setBounds(380,265,50,20);
 				jtp56.setFont(font);
 				jtp56.setEditable(false);
+				//jtp56.setText(hpvo.getDiscount()+"");
 				promotionInformation.add(jtp56);
 				
 				JButton p1=new JButton("编辑");
@@ -908,45 +1002,41 @@ public class HotelUI extends JFrame {
 			@Override
 
 			public void actionPerformed(ActionEvent arg0) {
-                   try {
-					   String id = idInput4.getText();
-					   //返回一个新的字符串，它是通过用 后者替换此字符串中出现的所有前者而生成的
-					   id.replace(" ", "");
-					   //如果没有输入
-					   if (id.equals(null) || id.equals("")) {
-						   JOptionPane.showMessageDialog(null, "请输入ID", "提示", JOptionPane.PLAIN_MESSAGE);
-					   } else {
-						   long ID = Long.parseLong(id);
-						   OrderController oc = new OrderController();
-						   OrderVO vo = oc.getOrder(ID);
-						   // 获取数据
-						   String[] ob = { vo.getId() + "", vo.getTotalPrice() + "", vo.getMasterId() + "",
-								   vo.getCustomerName(), vo.getCustomerPhone(), vo.getHotelName(), vo.getHotelPhone(),
-								   vo.getStartTime(), vo.getExecuteTime(), vo.getOs() + "" };
-						/* 处理值  setValueAt(Object aValue,int rowIndex,int columnIndex)
 
+					String id = idInput4.getText();
+					//返回一个新的字符串，它是通过用 后者替换此字符串中出现的所有前者而生成的
+					id.replace(" ", "");
+					//如果没有输入
+					if (id.equals(null) || id.equals("")) {
+						JOptionPane.showMessageDialog(null, "请输入ID", "提示", JOptionPane.PLAIN_MESSAGE);
+					} else {
+						long ID = Long.parseLong(id);
+						OrderController oc = new OrderController();
+						OrderVO vo = oc.getOrder(ID);
+						// 获取数据
+						String[] ob = { vo.getId() + "", vo.getTotalPrice() + "", vo.getMasterId() + "",
+								vo.getCustomerName(), vo.getCustomerPhone(), vo.getHotelName(), vo.getHotelPhone(),
+								vo.getStartTime(), vo.getExecuteTime(), vo.getOs() + "" };
+						/* 处理值  setValueAt(Object aValue,int rowIndex,int columnIndex)
+						
 					                                     将 columnIndex 和 rowIndex 位置的单元格中的值设置为 aValue。
 					                                      参数：
 					    aValue - 新值
 					    rowIndex - 要更改的值所在行
 					    columnIndex - 要更改的值所在列
 						*/
-						   for (int i = 0; i < ob.length; i++) {
-							   table4.setValueAt(ob[i], 0, i);
-						   }
-						   // 赋值
-						   //清除其余行？
-						   for (int i = 1; i < defaultModel4.getRowCount(); i++) {
-							   for (int j = 0; j < defaultModel4.getColumnCount(); j++) {
-								   table4.setValueAt("", i, j);
-							   }
-						   }
-						   // 清空多余行
-					   }
-				   }catch (RemoteException e){
-					   e.printStackTrace();
-				   }
-
+						for (int i = 0; i < ob.length; i++) {
+							table4.setValueAt(ob[i], 0, i);
+						}
+						// 赋值
+						//清除其余行？
+						for (int i = 1; i < defaultModel4.getRowCount(); i++) {
+							for (int j = 0; j < defaultModel4.getColumnCount(); j++) {
+								table4.setValueAt("", i, j);
+							}
+						}
+						// 清空多余行
+					}
 				
 
 			}
@@ -955,7 +1045,7 @@ public class HotelUI extends JFrame {
 			@Override
 			// *****对于有检索条件的prepage翻页需要从后往前获取数据
 			public void actionPerformed(ActionEvent arg0) {
-				try {
+				
 					//Object getValueAt(int rowIndex,int columnIndex)返回 columnIndex 和 rowIndex 位置的单元格值
 					long ID = Long.parseLong(table4.getValueAt(0, 0).toString()) - 1;
 					// 从上一页最后开始
@@ -979,16 +1069,13 @@ public class HotelUI extends JFrame {
 						}
 						// 从后到前的设置值
 					}
-				}catch (RemoteException e){
-					e.printStackTrace();
-				}
 				
 			}
 		});
 		nextPage4.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				try{
+				
 					long ID = Long.parseLong(table4.getValueAt(table4.getRowCount() - 1, 0).toString()) + 1;
 					// 从下一页第一开始
 					for (int count = 0; count < defaultModel4.getRowCount(); count++) {
@@ -1010,9 +1097,7 @@ public class HotelUI extends JFrame {
 						}
 						// 从前到后的设置值
 					}
-				}catch(RemoteException e) {
-                    e.printStackTrace();
-				}
+				
 
 			}
 		});
@@ -1020,60 +1105,78 @@ public class HotelUI extends JFrame {
 		sure4.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				try {
+				
 					long ORDERGET = Long.parseLong(table4.getValueAt(table4.getSelectedRow(), 0).toString());
 					String HOTELGET = table4.getValueAt(table4.getSelectedRow(), 5).toString();
 					OrderController oc = new OrderController();
-					OrderVO ov = new OrderVO();
-					ov = oc.getOrder(ORDERGET);
+					OrderVO ov=new OrderVO();
+					ov=oc.getOrder(ORDERGET);
 					oc.cancelOrder(ORDERGET);
-					RoomController rc = new RoomController();
-					RoomVO rv0 = new RoomVO();
-					rv0 = rc.getRoom(Long.parseLong(HOTELGET + "0"));
+					RoomController rc = null;
+					RoomVO rv0 = null;
+					RoomVO rv1 = null;
+					RoomVO rv2 = null;
+					RoomVO rv3 = null;
+					RoomVO rv4 = null;
+					RoomVO rv5 = null;
+					try {
+						rc = new RoomController();
+						rv0 = new RoomVO();
+						rv0=rc.getRoom(Long.parseLong(HOTELGET+"0"));
+						
+						rv1 = new RoomVO();
+						rv0=rc.getRoom(Long.parseLong(HOTELGET+"1"));
+						
+						rv2 = new RoomVO();
+						rv0=rc.getRoom(Long.parseLong(HOTELGET+"2"));
+						
+						rv3 = new RoomVO();
+						rv0=rc.getRoom(Long.parseLong(HOTELGET+"3"));
 
-					RoomVO rv1 = new RoomVO();
-					rv0 = rc.getRoom(Long.parseLong(HOTELGET + "1"));
-
-					RoomVO rv2 = new RoomVO();
-					rv0 = rc.getRoom(Long.parseLong(HOTELGET + "2"));
-
-					RoomVO rv3 = new RoomVO();
-					rv0 = rc.getRoom(Long.parseLong(HOTELGET + "3"));
-
-					RoomVO rv4 = new RoomVO();
-					rv0 = rc.getRoom(Long.parseLong(HOTELGET + "4"));
-
-					RoomVO rv5 = new RoomVO();
-					rv0 = rc.getRoom(Long.parseLong(HOTELGET + "5"));
-
-					if (rv0.getRoomType() == ov.getRoomType()) {
-						rv0.setRoomAccessNumber(rv0.getRoomAccessNumber() - ov.getRoomNumber());
-					}
-					if (rv1.getRoomType() == ov.getRoomType()) {
-						rv1.setRoomAccessNumber(rv1.getRoomAccessNumber() - ov.getRoomNumber());
-					}
-					if (rv2.getRoomType() == ov.getRoomType()) {
-						rv2.setRoomAccessNumber(rv2.getRoomAccessNumber() - ov.getRoomNumber());
-					}
-					if (rv3.getRoomType() == ov.getRoomType()) {
-						rv3.setRoomAccessNumber(rv3.getRoomAccessNumber() - ov.getRoomNumber());
-					}
-					if (rv4.getRoomType() == ov.getRoomType()) {
-						rv4.setRoomAccessNumber(rv4.getRoomAccessNumber() - ov.getRoomNumber());
-					}
-					if (rv5.getRoomType() == ov.getRoomType()) {
-						rv5.setRoomAccessNumber(rv5.getRoomAccessNumber() - ov.getRoomNumber());
+						rv4 = new RoomVO();
+						rv0=rc.getRoom(Long.parseLong(HOTELGET+"4"));
+						
+						rv5 = new RoomVO();
+						rv0=rc.getRoom(Long.parseLong(HOTELGET+"5"));
+					} catch (NumberFormatException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (RemoteException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
 
-					rc.changeRoom(rv0);
-					rc.changeRoom(rv1);
-					rc.changeRoom(rv2);
-					rc.changeRoom(rv3);
-					rc.changeRoom(rv4);
-					rc.changeRoom(rv5);
-				}catch (RemoteException e){
-					e.printStackTrace();
-				}
+					try {
+						if(rv0.getRoomType()==ov.getRoomType()){
+							rv0.setRoomAccessNumber(rv0.getRoomAccessNumber()-ov.getRoomNumber());
+						}
+						if(rv1.getRoomType()==ov.getRoomType()){
+							rv1.setRoomAccessNumber(rv1.getRoomAccessNumber()-ov.getRoomNumber());
+						}
+						if(rv2.getRoomType()==ov.getRoomType()){
+							rv2.setRoomAccessNumber(rv2.getRoomAccessNumber()-ov.getRoomNumber());
+						}
+						if(rv3.getRoomType()==ov.getRoomType()){
+							rv3.setRoomAccessNumber(rv3.getRoomAccessNumber()-ov.getRoomNumber());
+						}
+						if(rv4.getRoomType()==ov.getRoomType()){
+							rv4.setRoomAccessNumber(rv4.getRoomAccessNumber()-ov.getRoomNumber());
+						}
+						if(rv5.getRoomType()==ov.getRoomType()){
+							rv5.setRoomAccessNumber(rv5.getRoomAccessNumber()-ov.getRoomNumber());
+						}
+						
+						rc.changeRoom(rv0);
+						rc.changeRoom(rv1);
+						rc.changeRoom(rv2);
+						rc.changeRoom(rv3);
+						rc.changeRoom(rv4);
+						rc.changeRoom(rv5);
+					} catch (RemoteException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				
 			}
 				
 		});
@@ -1170,7 +1273,7 @@ public class HotelUI extends JFrame {
 		search5.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				try {
+				
 					String id = idInput5.getText();
 					id.replace(" ", "");
 					if (id.equals(null) || id.equals("")) {
@@ -1180,9 +1283,9 @@ public class HotelUI extends JFrame {
 						OrderController oc = new OrderController();
 						OrderVO vo = oc.getOrder(ID);
 						// 获取数据
-						String[] ob = {vo.getId() + "", vo.getTotalPrice() + "", vo.getMasterId() + "",
+						String[] ob = { vo.getId() + "", vo.getTotalPrice() + "", vo.getMasterId() + "",
 								vo.getCustomerName(), vo.getCustomerPhone(), vo.getHotelName(), vo.getHotelPhone(),
-								vo.getStartTime(), vo.getExecuteTime(), vo.getOs() + ""};
+								vo.getStartTime(), vo.getExecuteTime(), vo.getOs() + "" };
 						// 处理值
 						for (int i = 0; i < ob.length; i++) {
 							table5.setValueAt(ob[i], 0, i);
@@ -1195,9 +1298,6 @@ public class HotelUI extends JFrame {
 						}
 						// 清空多余行
 					}
-				}catch (RemoteException e){
-					e.printStackTrace();
-				}
 				
 			}
 		});
@@ -1205,7 +1305,7 @@ public class HotelUI extends JFrame {
 			@Override
 			// *****对于有检索条件的prepage翻页需要从后往前获取数据
 			public void actionPerformed(ActionEvent arg0) {
-				try {
+				
 					long ID = Long.parseLong(table5.getValueAt(0, 0).toString()) - 1;
 					// 从上一页最后开始
 					for (int count = 0; count < defaultModel5.getRowCount(); count++) {
@@ -1218,50 +1318,46 @@ public class HotelUI extends JFrame {
 						}
 						ID = ID2 - 1;
 						// ****需设置限制，避免订单到顶
-						String[] ob = {vo.getId() + "", vo.getTotalPrice() + "", vo.getMasterId() + "",
+						String[] ob = { vo.getId() + "", vo.getTotalPrice() + "", vo.getMasterId() + "",
 								vo.getCustomerName(), vo.getCustomerPhone(), vo.getHotelName(), vo.getHotelPhone(),
-								vo.getStartTime(), vo.getExecuteTime(), vo.getOs() + ""};
+								vo.getStartTime(), vo.getExecuteTime(), vo.getOs() + "" };
 						// 处理值
 						for (int i = 0; i < ob.length; i++) {
 							table5.setValueAt(ob[i], table5.getRowCount() - count - 1, i);
 						}
 						// 从后到前的设置值
 					}
-				}catch (RemoteException e){
-					e.printStackTrace();
-				}
+				
 
 			}
 		});
 		nextPage5.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-			     try {
-					 long ID = Long.parseLong(table5.getValueAt(table5.getRowCount() - 1, 0).toString()) + 1;
-					 // 从下一页第一开始
-					 for (int count = 0; count < defaultModel5.getRowCount(); count++) {
-						 OrderController oc = new OrderController();
-						 long ID2 = ID;
-						 OrderVO vo = oc.getOrder(ID2);
-						 while (!vo.getOs().equals(OrderState.normal)) {
-							 ID2 = ID2 + 1;
-							 vo = oc.getOrder(ID2);
-						 }
-						 ID = ID2 + 1;
-						 // ****需设置限制，避免订单到顶
-						 String[] ob = {vo.getId() + "", vo.getTotalPrice() + "", vo.getMasterId() + "",
-								 vo.getCustomerName(), vo.getCustomerPhone(), vo.getHotelName(), vo.getHotelPhone(),
-								 vo.getStartTime(), vo.getExecuteTime(), vo.getOs() + ""};
-						 // 处理值
-						 for (int i = 0; i < ob.length; i++) {
-							 table5.setValueAt(ob[i], count, i);
-						 }
-						 // 从前到后的设置值
-					 }
+			
+					long ID = Long.parseLong(table5.getValueAt(table5.getRowCount() - 1, 0).toString()) + 1;
+					// 从下一页第一开始
+					for (int count = 0; count < defaultModel5.getRowCount(); count++) {
+						OrderController oc = new OrderController();
+						long ID2 = ID;
+						OrderVO vo = oc.getOrder(ID2);
+						while (!vo.getOs().equals(OrderState.normal)) {
+							ID2 = ID2 + 1;
+							vo = oc.getOrder(ID2);
+						}
+						ID = ID2 + 1;
+						// ****需设置限制，避免订单到顶
+						String[] ob = { vo.getId() + "", vo.getTotalPrice() + "", vo.getMasterId() + "",
+								vo.getCustomerName(), vo.getCustomerPhone(), vo.getHotelName(), vo.getHotelPhone(),
+								vo.getStartTime(), vo.getExecuteTime(), vo.getOs() + "" };
+						// 处理值
+						for (int i = 0; i < ob.length; i++) {
+							table5.setValueAt(ob[i], count, i);
+						}
+						// 从前到后的设置值
+					}
+				
 
-				 }catch (RemoteException e){
-					 e.printStackTrace();
-				 }
 			}
 		});
 		// excuted,normal
@@ -1417,7 +1513,7 @@ public class HotelUI extends JFrame {
 		search6.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				try {
+				
 					String id = idInput6.getText();
 					id.replace(" ", "");
 					if (id.equals(null) || id.equals("")) {
@@ -1427,9 +1523,9 @@ public class HotelUI extends JFrame {
 						OrderController oc = new OrderController();
 						OrderVO vo = oc.getOrder(ID);
 						// 获取数据
-						String[] ob = {vo.getId() + "", vo.getTotalPrice() + "", vo.getMasterId() + "",
+						String[] ob = { vo.getId() + "", vo.getTotalPrice() + "", vo.getMasterId() + "",
 								vo.getCustomerName(), vo.getCustomerPhone(), vo.getHotelName(), vo.getHotelPhone(),
-								vo.getStartTime(), vo.getExecuteTime(), vo.getOs() + ""};
+								vo.getStartTime(), vo.getExecuteTime(), vo.getOs() + "" };
 						// 处理值
 						for (int i = 0; i < ob.length; i++) {
 							table6.setValueAt(ob[i], 0, i);
@@ -1442,47 +1538,43 @@ public class HotelUI extends JFrame {
 						}
 						// 清空多余行
 					}
-				}catch (RemoteException e){
-					e.printStackTrace();
-				}
+				
 			}
 		});
 		prePage6.addActionListener(new ActionListener() {
 			@Override
 			// *****对于有检索条件的prepage翻页需要从后往前获取数据
 			public void actionPerformed(ActionEvent arg0) {
-			   try {
-				   long ID = Long.parseLong(table6.getValueAt(0, 0).toString()) - 1;
-				   // 从上一页最后开始
-				   for (int count = 0; count < defaultModel6.getRowCount(); count++) {
-					   OrderController oc = new OrderController();
-					   long ID2 = ID;
-					   OrderVO vo = oc.getOrder(ID2);
-					   while (!vo.getOs().equals(OrderState.abnormal)) {
-						   ID2 = ID2 - 1;
-						   vo = oc.getOrder(ID2);
-					   }
-					   ID = ID2 - 1;
-					   // ****需设置限制，避免订单到顶
-					   String[] ob = {vo.getId() + "", vo.getTotalPrice() + "", vo.getMasterId() + "",
-							   vo.getCustomerName(), vo.getCustomerPhone(), vo.getHotelName(), vo.getHotelPhone(),
-							   vo.getStartTime(), vo.getExecuteTime(), vo.getOs() + ""};
-					   // 处理值
-					   for (int i = 0; i < ob.length; i++) {
-						   table6.setValueAt(ob[i], table6.getRowCount() - count - 1, i);
-					   }
-					   // 从后到前的设置值
-				   }
+				
+					long ID = Long.parseLong(table6.getValueAt(0, 0).toString()) - 1;
+					// 从上一页最后开始
+					for (int count = 0; count < defaultModel6.getRowCount(); count++) {
+						OrderController oc = new OrderController();
+						long ID2 = ID;
+						OrderVO vo = oc.getOrder(ID2);
+						while (!vo.getOs().equals(OrderState.abnormal)) {
+							ID2 = ID2 - 1;
+							vo = oc.getOrder(ID2);
+						}
+						ID = ID2 - 1;
+						// ****需设置限制，避免订单到顶
+						String[] ob = { vo.getId() + "", vo.getTotalPrice() + "", vo.getMasterId() + "",
+								vo.getCustomerName(), vo.getCustomerPhone(), vo.getHotelName(), vo.getHotelPhone(),
+								vo.getStartTime(), vo.getExecuteTime(), vo.getOs() + "" };
+						// 处理值
+						for (int i = 0; i < ob.length; i++) {
+							table6.setValueAt(ob[i], table6.getRowCount() - count - 1, i);
+						}
+						// 从后到前的设置值
+					}
+				
 
-			   }catch (RemoteException e){
-				   e.printStackTrace();
-			   }
 			}
 		});
 		nextPage6.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				try {
+				
 					long ID = Long.parseLong(table6.getValueAt(table6.getRowCount() - 1, 0).toString()) + 1;
 					// 从下一页第一开始
 					for (int count = 0; count < defaultModel6.getRowCount(); count++) {
@@ -1495,18 +1587,16 @@ public class HotelUI extends JFrame {
 						}
 						ID = ID2 + 1;
 						// ****需设置限制，避免订单到顶
-						String[] ob = {vo.getId() + "", vo.getTotalPrice() + "", vo.getMasterId() + "",
+						String[] ob = { vo.getId() + "", vo.getTotalPrice() + "", vo.getMasterId() + "",
 								vo.getCustomerName(), vo.getCustomerPhone(), vo.getHotelName(), vo.getHotelPhone(),
-								vo.getStartTime(), vo.getExecuteTime(), vo.getOs() + ""};
+								vo.getStartTime(), vo.getExecuteTime(), vo.getOs() + "" };
 						// 处理值
 						for (int i = 0; i < ob.length; i++) {
 							table6.setValueAt(ob[i], count, i);
 						}
 						// 从前到后的设置值
 					}
-				}catch (RemoteException e){
-					e.printStackTrace();
-				}
+				
 			}
 		});
 		edit6.addActionListener(new ActionListener() {
@@ -1533,30 +1623,27 @@ public class HotelUI extends JFrame {
 		sure6.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-			     try{
-					 long ORDERGET = Long.parseLong(table6.getValueAt(table6.getSelectedRow(), 0).toString());
-					 long USERIDGET = Long.parseLong(table6.getValueAt(table6.getSelectedRow(), 2).toString());
-					 OrderController oc = new OrderController();
-					 CustomerController cc = new CustomerController();
-					 CustomerVO vo2 = cc.getCustomer(USERIDGET);
-					 double credit = Double.parseDouble(vo2.getCredit());
-					 // 获取order与customer
-					 double CREDITGET = Double.parseDouble(table6.getValueAt(table6.getSelectedRow(), 1).toString());
-					 // 获取价格——信用值
-					 if (c1.isSelected()) {// 50%
-						 vo2.setCredit(Double.toString(credit + CREDITGET / 2));//
-					 } else {
-						 vo2.setCredit(Double.toString(credit + CREDITGET));//
-					 } // 设定返回值
-					 // 取消异常订单
-					 oc.cancelOrder(ORDERGET);
-					 cc.changeCustomer(vo2);
-
-				 }catch (RemoteException e){
-					 e.printStackTrace();
-				 }
-
-
+			
+					long ORDERGET = Long.parseLong(table6.getValueAt(table6.getSelectedRow(), 0).toString());
+					long USERIDGET = Long.parseLong(table6.getValueAt(table6.getSelectedRow(), 2).toString());
+					OrderController oc = new OrderController();
+					CustomerController cc = new CustomerController();
+					CustomerVO vo2 = cc.getCustomer(USERIDGET);
+					/*double credit = vo2.getCredit();
+					// 获取order与customer
+					double CREDITGET = Double.parseDouble(table6.getValueAt(table6.getSelectedRow(), 1).toString());
+					// 获取价格——信用值
+					if (c1.isSelected()) {// 50%
+						vo2.setCredit(credit + CREDITGET / 2);//
+					} else {
+						vo2.setCredit(credit + CREDITGET);//
+					} // 设定返回值
+						// 取消异常订单
+						 * */
+			
+					oc.cancelOrder(ORDERGET);
+					cc.changeCustomer(vo2);
+				
 			}
 		});
 		cancle6.addActionListener(new ActionListener() {
@@ -1650,7 +1737,7 @@ public class HotelUI extends JFrame {
 		search7.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-			    try {
+			
 					String id = idInput7.getText();
 					id.replace(" ", "");
 					if (id.equals(null) || id.equals("")) {
@@ -1660,9 +1747,9 @@ public class HotelUI extends JFrame {
 						OrderController oc = new OrderController();
 						OrderVO vo = oc.getOrder(ID);
 						// 获取数据
-						String[] ob = {vo.getId() + "", vo.getTotalPrice() + "", vo.getMasterId() + "",
+						String[] ob = { vo.getId() + "", vo.getTotalPrice() + "", vo.getMasterId() + "",
 								vo.getCustomerName(), vo.getCustomerPhone(), vo.getHotelName(), vo.getHotelPhone(),
-								vo.getStartTime(), vo.getExecuteTime(), vo.getOs() + ""};
+								vo.getStartTime(), vo.getExecuteTime(), vo.getOs() + "" };
 						// 处理值
 						for (int i = 0; i < ob.length; i++) {
 							table7.setValueAt(ob[i], 0, i);
@@ -1675,16 +1762,14 @@ public class HotelUI extends JFrame {
 						}
 						// 清空多余行
 					}
-				}catch (RemoteException e){
-					e.printStackTrace();
-				}
+				
 			}
 		});
 		prePage7.addActionListener(new ActionListener() {
 			@Override
 			// *****对于有检索条件的prepage翻页需要从后往前获取数据
 			public void actionPerformed(ActionEvent arg0) {
-				try {
+				
 					long ID = Long.parseLong(table7.getValueAt(0, 0).toString()) - 1;
 					// 从上一页最后开始
 					for (int count = 0; count < defaultModel7.getRowCount(); count++) {
@@ -1697,25 +1782,23 @@ public class HotelUI extends JFrame {
 						}
 						ID = ID2 - 1;
 						// ****需设置限制，避免订单到顶
-						String[] ob = {vo.getId() + "", vo.getTotalPrice() + "", vo.getMasterId() + "",
+						String[] ob = { vo.getId() + "", vo.getTotalPrice() + "", vo.getMasterId() + "",
 								vo.getCustomerName(), vo.getCustomerPhone(), vo.getHotelName(), vo.getHotelPhone(),
-								vo.getStartTime(), vo.getExecuteTime(), vo.getOs() + ""};
+								vo.getStartTime(), vo.getExecuteTime(), vo.getOs() + "" };
 						// 处理值
 						for (int i = 0; i < ob.length; i++) {
 							table7.setValueAt(ob[i], table7.getRowCount() - count - 1, i);
 						}
 						// 从后到前的设置值
 					}
+				
 
-				}catch (RemoteException e){
-					e.printStackTrace();
-				}
 			}
 		});
 		nextPage7.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				try {
+				
 					long ID = Long.parseLong(table7.getValueAt(table7.getRowCount() - 1, 0).toString()) + 1;
 					// 从下一页第一开始
 					for (int count = 0; count < defaultModel7.getRowCount(); count++) {
@@ -1728,28 +1811,32 @@ public class HotelUI extends JFrame {
 						}
 						ID = ID2 + 1;
 						// ****需设置限制，避免订单到顶
-						String[] ob = {vo.getId() + "", vo.getTotalPrice() + "", vo.getMasterId() + "",
+						String[] ob = { vo.getId() + "", vo.getTotalPrice() + "", vo.getMasterId() + "",
 								vo.getCustomerName(), vo.getCustomerPhone(), vo.getHotelName(), vo.getHotelPhone(),
-								vo.getStartTime(), vo.getExecuteTime(), vo.getOs() + ""};
+								vo.getStartTime(), vo.getExecuteTime(), vo.getOs() + "" };
 						// 处理值
 						for (int i = 0; i < ob.length; i++) {
 							table7.setValueAt(ob[i], count, i);
 						}
 						// 从前到后的设置值
 					}
+				 
 
-				}catch (RemoteException e){
-					e.printStackTrace();
-				}
 			}
 		});
 
 		// cancled
 
 	}
-	
 	public static void main(String[] args){
-		HotelUI ui=new HotelUI();
+		
+		
+		try {
+			HotelUI ui=new HotelUI();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	class b1Action implements ActionListener{
 		public void actionPerformed(ActionEvent arg0){
@@ -1759,6 +1846,8 @@ public class HotelUI extends JFrame {
 			jth13.setEditable(true);
 			jth14.setEditable(true);
 			jth15.setEditable(true);
+			jc2.setEditable(true);
+			jc6.setEditable(true);
 		}
 	}
 	class b2Action implements ActionListener{
@@ -1769,16 +1858,17 @@ public class HotelUI extends JFrame {
 			jth13.setEditable(false);
 			jth14.setEditable(false);
 			jth15.setEditable(false);
+			jc2.setEditable(false);
+			jc6.setEditable(false);
 			
 			try {
-				HotelVO hvo=new HotelVO();
 				hvo.setHotelManager(jth.getText());
 				hvo.setHotelManPhone(jth01.getText());
 				hvo.setHotelName(jth11.getText());
 				hvo.setHotelPhone(jth15.getText());
 				hvo.setHotelLocation(jth13.getText());
 				hvo.setInstruction(jth14.getText());
-				hvo.settradeArea(String.valueOf(jc2.getSelectedItem()));
+				hvo.setTradeArea(String.valueOf(jc2.getSelectedItem()));
 				hvo.setStars(String.valueOf(jc6.getSelectedIndex()));
 				HotelController hc=new HotelController();
 				hc.changeHotel(hvo);
@@ -1786,10 +1876,11 @@ public class HotelUI extends JFrame {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			
 		}
 	}	
 	class MyboBox extends AbstractListModel<String> implements ComboBoxModel<String>{
-		String selecteditem=null;
+		String selecteditem=null;//hvo.getStars();
 		String[] st={"一星","二星","三星","四星","五星"};
 		public String getElementAt(int index){
 			return st[index];
@@ -1806,7 +1897,7 @@ public class HotelUI extends JFrame {
 	}
 
 	class MBox extends AbstractListModel<String> implements ComboBoxModel<String>{
-		String selecteditem=null;
+		String selecteditem=null;//hvo.getTradeArea();
 		String[] st={"南京","北京","上海","深圳","天津"};
 		public String getElementAt(int index){
 			return st[index];
