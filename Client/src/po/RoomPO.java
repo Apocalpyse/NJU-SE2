@@ -8,6 +8,9 @@ public class RoomPO implements Serializable{
 	int roomTotalNumber;//閹村潡妫块幀缁樻殶闁诧拷
 	int roomAccessNumber;//閸欘垶顣╃�规氨娈戦幋鍧楁？閺佷即鍣�
 	double roomPrice;//閹村潡妫挎禒閿嬬壐
+	public RoomPO(){
+		
+	}
 	public RoomPO(Long i,String st,int rtn,int ran,double rp){
 		roomID=i;
 		roomType=st;
