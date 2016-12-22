@@ -34,6 +34,7 @@ import businesslogic.userbl.UserController;
 import businesslogic.webworkerbl.WebworkerController;
 import po.MemberType;
 import po.UsageState;
+import po.User;
 import po.UserPO;
 import vo.CustomerVO;
 import vo.HotelVO;
@@ -57,6 +58,14 @@ public class WebManagerUI extends JFrame {
 	Dimension preferredSize41 = new Dimension(50, 20);// 设置尺寸次短label
 	Dimension preferredSize51 = new Dimension(100, 20);// 设置尺寸更长label
 	Dimension preferredSize7 = new Dimension(850, 550);// 设置尺寸
+	long WPIDBegin = 62000;
+	long MPIDBegin = 60000;
+	long USERIDBegin = 10000;
+	long HOTELIDBegin = 20000;
+	long WMIDBegin = 30000;
+	long WWIDBegin = 40000;
+	long ORDERIDBegin = 50000;
+	// ID
 	private JPanel customer;
 	private JPanel hotel;
 	private JPanel hotelworker;
@@ -196,14 +205,10 @@ public class WebManagerUI extends JFrame {
 		prePage.setFont(font);
 		nextPage.setFont(font);
 		//
-		Object[][] p = { { new Integer(666666), "A", new Integer(500), "07316734520", "NJU" },
-				{ new Integer(666667), "B", new Integer(700), "13007567292", "NJU" },
-				{ new Integer(666668), "C", new Integer(500), "13874546528", "NJU" },
-				{ new Integer(666669), "D", new Integer(7000), "14777889900", "NJU" },
-				{ new Integer(666670), "E", new Integer(500), "13002506630", "NJU" },
-				{ new Integer(666671), "F", new Integer(700), "16303532678", "NJU" },
-				{ new Integer(666672), "G", new Integer(500), "14723456789", "NJU" },
-				{ new Integer(666673), "H", new Integer(700), "17089896767", "NJU" }, };
+		String[][] p = { { "", "", "", "", "", "", "", "", "", "" }, { "", "", "", "", "", "", "", "", "", "" },
+				{ "", "", "", "", "", "", "", "", "", "" }, { "", "", "", "", "", "", "", "", "", "" },
+				{ "", "", "", "", "", "", "", "", "", "" }, { "", "", "", "", "", "", "", "", "", "" },
+				{ "", "", "", "", "", "", "", "", "", "" }, { "", "", "", "", "", "", "", "", "", "" } };
 		String[] n = { "ID", "用户名", "信用值", "用户电话", "所属企业" };
 		DefaultTableModel defaultModel = new DefaultTableModel(p, n) {
 			public boolean isCellEditable(int row, int column) {
@@ -213,7 +218,7 @@ public class WebManagerUI extends JFrame {
 		;
 		JTable table = new JTable(defaultModel);
 		table.setFont(font);
-		table.setPreferredScrollableViewportSize(new Dimension(780, 240));
+		table.setPreferredScrollableViewportSize(new Dimension((int) (panel1.getPreferredSize().getWidth() - 15), 220));
 		table.setRowHeight(25);
 		JScrollPane scrollPane = new JScrollPane(table);
 		panel1.add(idInput);
@@ -385,12 +390,17 @@ public class WebManagerUI extends JFrame {
 					JOptionPane.showMessageDialog(null, "请输入用户ID", "提示", JOptionPane.PLAIN_MESSAGE);
 				} else {
 					try {
-						CustomerController pc = new CustomerController();
-						long num = Long.parseLong(idInput.getText().toString());
-						CustomerVO vo = pc.getCustomer(num);
+						CustomerController cc = new CustomerController();
+						long ID = Long.parseLong(idInput.getText().toString());
+						if (ID > cc.findMaxId() || ID < USERIDBegin) {
+							JOptionPane.showMessageDialog(null, "未查询到对应用户信息", "提示", JOptionPane.PLAIN_MESSAGE);
+							return;
+						}
+						// 检测
+						CustomerVO vo = cc.getCustomer(ID);
 						// 获取
-						String[] ob = { vo.getId() + "", vo.getCustomerName(), vo.getCredit() + "", vo.getCustomerPhone(),
-								vo.getCompanyName() };
+						String[] ob = { vo.getId() + "", vo.getCustomerName(), vo.getCredit() + "",
+								vo.getCustomerPhone(), vo.getCompanyName() };
 						// 处理值
 						for (int i = 0; i < ob.length; i++) {
 							table.setValueAt(ob[i], 0, i);
@@ -420,20 +430,24 @@ public class WebManagerUI extends JFrame {
 				// 最高id
 				id = id.replace(" ", "");
 				if (id.equals(null) || id.equals("")) {
-					JOptionPane.showMessageDialog(null, "NOT FIND!", "提示", JOptionPane.PLAIN_MESSAGE);
+					JOptionPane.showMessageDialog(null, "未查询到更多用户信息", "提示", JOptionPane.PLAIN_MESSAGE);
 				} else {
 					try {
-
+						CustomerController cc = new CustomerController();
 						long ID = Long.parseLong(id) - defaultModel.getRowCount();
+						if (ID < USERIDBegin) {
+							JOptionPane.showMessageDialog(null, "前面已经没有更多用户信息了", "提示", JOptionPane.PLAIN_MESSAGE);
+							return;
+						}
 						//
-						for (int count = 0; count < defaultModel.getRowCount(); count++) {
-							CustomerController cc = new CustomerController();
+						for (int count = 0; count < defaultModel.getRowCount()
+								&& (!(ID > cc.findMaxId() || ID < USERIDBegin)); count++) {
 							CustomerVO vo = cc.getCustomer(ID);
 							ID = ID + 1;
 							// 获取数据
 							//
-							String[] ob = { vo.getId() + "", vo.getCustomerName(), vo.getCredit() + "", vo.getCustomerPhone(),
-									vo.getCompanyName() };
+							String[] ob = { vo.getId() + "", vo.getCustomerName(), vo.getCredit() + "",
+									vo.getCustomerPhone(), vo.getCompanyName() };
 							// 处理值
 							for (int i = 0; i < ob.length; i++) {
 								table.setValueAt(ob[i], count, i);
@@ -458,20 +472,23 @@ public class WebManagerUI extends JFrame {
 				String id = table.getValueAt(0, 0).toString();
 				id = id.replace(" ", "");
 				if (id.equals(null) || id.equals("")) {
-					JOptionPane.showMessageDialog(null, "NOT FIND!", "提示", JOptionPane.PLAIN_MESSAGE);
+					JOptionPane.showMessageDialog(null, "未查询到更多用户信息", "提示", JOptionPane.PLAIN_MESSAGE);
 				} else {
 					try {
 
+						CustomerController cc = new CustomerController();
 						long ID = Long.parseLong(id) + defaultModel.getRowCount();
-						//
-						for (int count = 0; count < defaultModel.getRowCount(); count++) {
-							CustomerController cc = new CustomerController();
+						if (ID > cc.findMaxId()) {
+							JOptionPane.showMessageDialog(null, "后面已经没有更多用户信息了", "提示", JOptionPane.PLAIN_MESSAGE);
+							return;
+						}
+						for (int count = 0; count < defaultModel.getRowCount() && ID < cc.findMaxId(); count++) {
 							CustomerVO vo = cc.getCustomer(ID);
 							ID = ID + 1;
 							// 获取数据
 							//
-							String[] ob = { vo.getId() + "", vo.getCustomerName(), vo.getCredit() + "", vo.getCustomerPhone(),
-									vo.getCompanyName() };
+							String[] ob = { vo.getId() + "", vo.getCustomerName(), vo.getCredit() + "",
+									vo.getCustomerPhone(), vo.getCompanyName() };
 							// 处理值
 							for (int i = 0; i < ob.length; i++) {
 								table.setValueAt(ob[i], count, i);
@@ -490,8 +507,10 @@ public class WebManagerUI extends JFrame {
 		});
 		table.addMouseListener(new java.awt.event.MouseAdapter() {
 			public void mouseClicked(java.awt.event.MouseEvent e) {
-
-				edit.setEnabled(true);// 选中时设为true
+				if (!(table.getValueAt(table.getSelectedRow(), 0).toString().equals("")
+						|| table.getValueAt(table.getSelectedRow(), 0) == null)) {
+					edit.setEnabled(true);// 选中时设为true
+				}
 
 			}
 		});
@@ -500,14 +519,13 @@ public class WebManagerUI extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					creditFrame.setVisible(true);
-					CustomerController cc = new CustomerController();
 					text1.setText((table.getValueAt(table.getSelectedRow(), 0).toString()));
 					text2.setText((table.getValueAt(table.getSelectedRow(), 1).toString()));
 					text3.setText((table.getValueAt(table.getSelectedRow(), 2).toString()));
 					text4.setText((table.getValueAt(table.getSelectedRow(), 3).toString()));
 					text5.setText((table.getValueAt(table.getSelectedRow(), 4).toString()));
 					UserController uc = new UserController();
-					UserVO pvo = uc.getUser(table.getValueAt(table.getSelectedRow(), 0).toString());
+					UserVO pvo = uc.getUser(table.getValueAt(table.getSelectedRow(), 1).toString());
 					text6.setText(pvo.getPasssword());
 				} catch (NumberFormatException e) {
 					// TODO Auto-generated catch block
@@ -525,11 +543,14 @@ public class WebManagerUI extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					CustomerController cc = new CustomerController();
-					CustomerVO vo = new CustomerVO();
+					CustomerVO vo = cc.getCustomer(Long.parseLong(text1.getText()));
 					//
-					vo.setId((Long.parseLong(text1.getText())));
+					UserController uc = new UserController();
+					UserVO uvo = uc.getUser(table.getValueAt(table.getSelectedRow(), 1).toString());
+					uvo.setAccout(text2.getText());
+					uvo.setPasssword(text6.getText());
+
 					vo.setCustomerName(text2.getText());
-					vo.setCredit(text3.getText());
 					//
 					vo.setCustomerPhone(text4.getText());
 					// 处理值
@@ -583,14 +604,10 @@ public class WebManagerUI extends JFrame {
 		nextPage2.setFont(font);
 		nextPage2.setPreferredSize(preferredSize);
 		//
-		Object[][] p2 = { { new Integer(666666), "A", "07316734520", "仙林", "南大仙林", "4", "8.7", "NJU" },
-				{ new Integer(666667), "B", "13007567292", "仙林", "南大仙林", "4", "8.7", "NJU" },
-				{ new Integer(666668), "C", "13874546528", "仙林", "南大仙林", "4", "8.7", "NJU" },
-				{ new Integer(666669), "D", "14777889900", "仙林", "南大仙林", "4", "8.7", "NJU" },
-				{ new Integer(666670), "E", "13002506630", "仙林", "南大仙林", "4", "8.7", "NJU" },
-				{ new Integer(666671), "F", "16303532678", "仙林", "南大仙林", "4", "8.7", "NJU" },
-				{ new Integer(666672), "G", "14723456789", "仙林", "南大仙林", "4", "8.7", "NJU" },
-				{ new Integer(666673), "H", "17089896767", "仙林", "南大仙林", "4", "8.7", "NJU" }, };
+		String[][] p2 = { { "", "", "", "", "", "", "", "", "", "" }, { "", "", "", "", "", "", "", "", "", "" },
+				{ "", "", "", "", "", "", "", "", "", "" }, { "", "", "", "", "", "", "", "", "", "" },
+				{ "", "", "", "", "", "", "", "", "", "" }, { "", "", "", "", "", "", "", "", "", "" },
+				{ "", "", "", "", "", "", "", "", "", "" }, { "", "", "", "", "", "", "", "", "", "" } };
 		String[] n2 = { "ID", "酒店名", "电话", "地址", "所属商圈", "星级", "评价", "合作企业" };
 		DefaultTableModel defaultModel2 = new DefaultTableModel(p2, n2) {
 			public boolean isCellEditable(int row, int column) {
@@ -600,7 +617,8 @@ public class WebManagerUI extends JFrame {
 		;
 		JTable table2 = new JTable(defaultModel2);
 		table2.setFont(font);
-		table2.setPreferredScrollableViewportSize(new Dimension(780, 240));
+		table2.setPreferredScrollableViewportSize(
+				new Dimension((int) (panel12.getPreferredSize().getWidth() - 15), 220));
 		table2.setRowHeight(25);
 		JScrollPane scrollPane2 = new JScrollPane(table2);
 		panel12.add(idInput2);
@@ -797,8 +815,12 @@ public class WebManagerUI extends JFrame {
 				} else {
 					try {
 						HotelController hc = new HotelController();
-						long num = Long.parseLong(idInput2.getText().toString());
-						HotelVO vo = hc.getHotel(num);
+						long ID = Long.parseLong(idInput2.getText().toString());
+						if (ID < HOTELIDBegin || ID > hc.findMaxId()) {
+							JOptionPane.showMessageDialog(null, "未查询到该ID对应的酒店", "提示", JOptionPane.PLAIN_MESSAGE);
+							return;
+						}
+						HotelVO vo = hc.getHotel(ID);
 						// 获取
 
 						String[] ob = { vo.getID() + "", vo.getHotelName(), vo.getHotelPhone(), vo.getHotelLocation(),
@@ -832,18 +854,24 @@ public class WebManagerUI extends JFrame {
 				// 最高id
 				id = id.replace(" ", "");
 				if (id.equals(null) || id.equals("")) {
-					JOptionPane.showMessageDialog(null, "NOT FIND!", "提示", JOptionPane.PLAIN_MESSAGE);
+					JOptionPane.showMessageDialog(null, "未查询到更多酒店信息", "提示", JOptionPane.PLAIN_MESSAGE);
 				} else {
 					try {
+						HotelController hc = new HotelController();
 						long ID = Long.parseLong(id) - defaultModel2.getRowCount();
+						if (ID < HOTELIDBegin) {
+							JOptionPane.showMessageDialog(null, "前面已经没有更多酒店了", "提示", JOptionPane.PLAIN_MESSAGE);
+							return;
+						}
 						//
-						for (int count = 0; count < defaultModel2.getRowCount(); count++) {
-							HotelController cc = new HotelController();
-							HotelVO vo = cc.getHotel(ID);
+						for (int count = 0; count < defaultModel2.getRowCount()
+								&& (!(ID < HOTELIDBegin || ID > hc.findMaxId())); count++) {
+
+							HotelVO vo = hc.getHotel(ID);
 							ID = ID + 1;
 							// 获取数据
 							String[] ob = { vo.getID() + "", vo.getHotelName(), vo.getHotelPhone(),
-									vo.getHotelLocation(), vo.getTradeArea(), vo.getStars(), "评价机制不明",
+									vo.getHotelLocation(), vo.getTradeArea(), vo.getStars(), vo.getGoal() + "",
 									vo.getCooperatateCompany() };
 							// 处理值
 							for (int i = 0; i < ob.length; i++) {
@@ -867,19 +895,25 @@ public class WebManagerUI extends JFrame {
 				String id = table2.getValueAt(0, 0).toString();
 				id = id.replace(" ", "");
 				if (id.equals(null) || id.equals("")) {
-					JOptionPane.showMessageDialog(null, "NOT FIND!", "提示", JOptionPane.PLAIN_MESSAGE);
+					JOptionPane.showMessageDialog(null, "未查询到更多酒店信息", "提示", JOptionPane.PLAIN_MESSAGE);
 				} else {
 					try {
+						HotelController hc = new HotelController();
 						long ID = Long.parseLong(id) + defaultModel2.getRowCount();
+						if (ID > hc.findMaxId()) {
+							JOptionPane.showMessageDialog(null, "后面已经没有更多酒店了", "提示", JOptionPane.PLAIN_MESSAGE);
+							return;
+						}
 						//
-						for (int count = 0; count < defaultModel2.getRowCount(); count++) {
-							HotelController cc = new HotelController();
-							HotelVO vo = cc.getHotel(ID);
+						for (int count = 0; count < defaultModel2.getRowCount()
+								&& (!(ID < HOTELIDBegin || ID > hc.findMaxId())); count++) {
+
+							HotelVO vo = hc.getHotel(ID);
 							ID = ID + 1;
 							// 获取数据
 
 							String[] ob = { vo.getID() + "", vo.getHotelName(), vo.getHotelPhone(),
-									vo.getHotelLocation(), vo.getTradeArea(), vo.getStars(), "评价机制不明",
+									vo.getHotelLocation(), vo.getTradeArea(), vo.getStars(), vo.getGoal() + "",
 									vo.getCooperatateCompany() };
 							// 处理值
 							for (int i = 0; i < ob.length; i++) {
@@ -899,22 +933,31 @@ public class WebManagerUI extends JFrame {
 		});
 		table2.addMouseListener(new java.awt.event.MouseAdapter() {
 			public void mouseClicked(java.awt.event.MouseEvent e) {
-				edit2.setEnabled(true);// 选中时设为true
+
+				if (!(table2.getValueAt(table2.getSelectedRow(), 0).toString().equals("")
+						|| table2.getValueAt(table2.getSelectedRow(), 0) == null)) {
+					edit2.setEnabled(true);// 选中时设为true
+				}
 			}
 		});
 		creat2.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				creditFrame2.setVisible(true);
-				text12.setText("");
-				// ********怎么获取ID？？？？？？
-				text22.setText("");
-				text32.setText("");
-				text42.setText("");
-				text52.setText("");
-				text62.setText("");
-				text72.setText("");
-				text82.setText("");
+				try {
+					HotelController hc = new HotelController();
+					text12.setText(hc.findMaxId() + 1 + "");
+					text22.setText("");
+					text32.setText("");
+					text42.setText("");
+					text52.setText("");
+					text62.setText("");
+					text72.setText("");
+					text82.setText("");
+					creditFrame2.setVisible(true);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
 		edit2.addActionListener(new ActionListener() {
@@ -941,13 +984,22 @@ public class WebManagerUI extends JFrame {
 					vo.setHotelName(text22.getText());
 					vo.setHotelPhone(text32.getText());
 					vo.setHotelLocation(text42.getText());
-					vo.settradeArea(text52.getText());
+					vo.setTradeArea(text52.getText());
 					vo.setStars(text62.getText());
 					vo.setGoal(Double.parseDouble(text72.getText()));
 					// 设定为酒店评价为及时更新
 					vo.setCooperatateCompany(text82.getText());
+					//
+					UserController uc = new UserController();
+					UserVO uvo = uc.getUser(table2.getValueAt(table2.getSelectedRow(), 0).toString());
+					//
+					uvo.setId(Long.parseLong(text12.getText()));
+					uvo.setAccout(text22.getText());
+					uvo.setUser(User.hotel);
+					uvo.setPasssword("");
 					if (hc.getHotel(vo.getID()) == null) {
-						// *****hotelbl确实添加hotel?????
+						// uc.
+						// ************hotelbi no add
 					} else {
 						hc.changeHotel(vo);
 					}
@@ -997,14 +1049,10 @@ public class WebManagerUI extends JFrame {
 		nextPage3.setFont(font);
 		nextPage3.setPreferredSize(preferredSize);
 		//
-		Object[][] p3 = { { new Integer(666666), "A", "07316734520", "NJU-尼玛啊" },
-				{ new Integer(666667), "B", "13007567292", "XL-老友记" },
-				{ new Integer(666668), "C", "13874546528", "XL-杨铭宇" },
-				{ new Integer(666669), "D", "14777889900", "XL-coco" },
-				{ new Integer(666670), "E", "13002506630", "XL-东北屯" },
-				{ new Integer(666671), "F", "16303532678", "XL-麻辣意境" },
-				{ new Integer(666672), "G", "14723456789", "XL-青春盛宴" },
-				{ new Integer(666673), "H", "17089896767", "XL-辣鸡" }, };
+		String[][] p3 = { { "", "", "", "", "", "", "", "", "", "" }, { "", "", "", "", "", "", "", "", "", "" },
+				{ "", "", "", "", "", "", "", "", "", "" }, { "", "", "", "", "", "", "", "", "", "" },
+				{ "", "", "", "", "", "", "", "", "", "" }, { "", "", "", "", "", "", "", "", "", "" },
+				{ "", "", "", "", "", "", "", "", "", "" }, { "", "", "", "", "", "", "", "", "", "" } };
 		String[] n3 = { "ID", "用户名", "用户电话", "企业名" };
 		DefaultTableModel defaultModel3 = new DefaultTableModel(p3, n3) {
 			public boolean isCellEditable(int row, int column) {
@@ -1014,7 +1062,8 @@ public class WebManagerUI extends JFrame {
 		;
 		JTable table3 = new JTable(defaultModel3);
 		table3.setFont(font);
-		table3.setPreferredScrollableViewportSize(new Dimension(780, 220));
+		table3.setPreferredScrollableViewportSize(
+				new Dimension((int) (panel13.getPreferredSize().getWidth() - 15), 220));
 		table3.setRowHeight(25);
 		JScrollPane scrollPane3 = new JScrollPane(table3);
 		panel13.add(idInput3);
@@ -1157,12 +1206,17 @@ public class WebManagerUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if (idInput3.getText().equals("") || idInput3.getText().equals(null)) {
-					JOptionPane.showMessageDialog(null, "请输入酒店ID", "提示", JOptionPane.PLAIN_MESSAGE);
+					JOptionPane.showMessageDialog(null, "请输入对应酒店ID", "提示", JOptionPane.PLAIN_MESSAGE);
 				} else {
 					try {
 						HotelController hc = new HotelController();
-						long num = Long.parseLong(idInput3.getText().toString());
-						HotelVO vo = hc.getHotel(num);
+						long ID = Long.parseLong(idInput3.getText().toString());
+						if (ID < HOTELIDBegin || ID > hc.findMaxId()) {
+							JOptionPane.showMessageDialog(null, "未查询到对应酒店管理人员信息", "提示", JOptionPane.PLAIN_MESSAGE);
+							return;
+						}
+						// 检测
+						HotelVO vo = hc.getHotel(ID);
 						// 获取
 
 						String[] ob = { vo.getID() + "", vo.getHotelManager(), vo.getHotelManPhone(),
@@ -1197,14 +1251,20 @@ public class WebManagerUI extends JFrame {
 				// 最高id
 				id = id.replace(" ", "");
 				if (id.equals(null) || id.equals("")) {
-					JOptionPane.showMessageDialog(null, "NOT FIND!", "提示", JOptionPane.PLAIN_MESSAGE);
+					JOptionPane.showMessageDialog(null, "未查询到更多酒店管理人员信息了", "提示", JOptionPane.PLAIN_MESSAGE);
 				} else {
 					try {
+						HotelController hc = new HotelController();
 						long ID = Long.parseLong(id) - defaultModel3.getRowCount();
+						if (ID < HOTELIDBegin || ID > hc.findMaxId()) {
+							JOptionPane.showMessageDialog(null, "前面没有更多酒店管理人员信息了", "提示", JOptionPane.PLAIN_MESSAGE);
+							return;
+						}
 						//
-						for (int count = 0; count < defaultModel3.getRowCount(); count++) {
-							HotelController cc = new HotelController();
-							HotelVO vo = cc.getHotel(ID);
+						for (int count = 0; count < defaultModel3.getRowCount()
+								&& (!(ID < HOTELIDBegin || ID > hc.findMaxId())); count++) {
+
+							HotelVO vo = hc.getHotel(ID);
 							ID = ID + 1;
 							// 获取数据
 							String[] ob = { vo.getID() + "", vo.getHotelManager(), vo.getHotelManPhone(),
@@ -1231,14 +1291,19 @@ public class WebManagerUI extends JFrame {
 				String id = table3.getValueAt(0, 0).toString();
 				id = id.replace(" ", "");
 				if (id.equals(null) || id.equals("")) {
-					JOptionPane.showMessageDialog(null, "NOT FIND!", "提示", JOptionPane.PLAIN_MESSAGE);
+					JOptionPane.showMessageDialog(null, "未查询到更多酒店管理人员信息了", "提示", JOptionPane.PLAIN_MESSAGE);
 				} else {
 					try {
+						HotelController hc = new HotelController();
 						long ID = Long.parseLong(id) + defaultModel3.getRowCount();
+						if (ID < HOTELIDBegin || ID > hc.findMaxId()) {
+							JOptionPane.showMessageDialog(null, "后面没有更多酒店管理人员信息了", "提示", JOptionPane.PLAIN_MESSAGE);
+							return;
+						}
 						//
-						for (int count = 0; count < defaultModel3.getRowCount(); count++) {
-							HotelController cc = new HotelController();
-							HotelVO vo = cc.getHotel(ID);
+						for (int count = 0; count < defaultModel3.getRowCount()
+								&& (!(ID < HOTELIDBegin || ID > hc.findMaxId())); count++) {
+							HotelVO vo = hc.getHotel(ID);
 							ID = ID + 1;
 							// 获取数据
 
@@ -1262,7 +1327,12 @@ public class WebManagerUI extends JFrame {
 		});
 		table3.addMouseListener(new java.awt.event.MouseAdapter() {
 			public void mouseClicked(java.awt.event.MouseEvent e) {
-				edit3.setEnabled(true);// 选中时设为true
+
+				if (!(table3.getValueAt(table3.getSelectedRow(), 0).toString().equals("")
+						|| table3.getValueAt(table3.getSelectedRow(), 0) == null)) {
+					edit3.setEnabled(true);// 选中时设为true
+				}
+
 			}
 		});
 		edit3.addActionListener(new ActionListener() {
@@ -1277,7 +1347,6 @@ public class WebManagerUI extends JFrame {
 					UserController uc = new UserController();
 					UserVO vo = uc.getUser(table3.getValueAt(table3.getSelectedRow(), 0).toString());
 					text53.setText(vo.getPasssword());
-					// ********获取密码??
 				} catch (NumberFormatException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -1300,9 +1369,13 @@ public class WebManagerUI extends JFrame {
 					vo.setHotelManPhone(text33.getText());
 					hc.changeHotel(vo);
 					// 改变信息
+					uvo.setId(Long.parseLong(text13.getText()));
+					uvo.setAccout(text23.getText());
+					uvo.setUser(User.hotel);
 					uvo.setPasssword(text43.getText());
 					uc.changeUser(uvo);
 					// 改变密码
+					JOptionPane.showMessageDialog(null, "操作成功", "提示", JOptionPane.PLAIN_MESSAGE);
 					creditFrame3.dispose();
 				} catch (NumberFormatException e) {
 					// TODO Auto-generated catch block
@@ -1350,14 +1423,10 @@ public class WebManagerUI extends JFrame {
 		nextPage4.setFont(font);
 		nextPage4.setPreferredSize(preferredSize);
 		//
-		Object[][] p4 = { { new Integer(666666), "A", "07316734520", "NJU-尼玛啊" },
-				{ new Integer(666667), "B", "13007567292", "XL-老友记" },
-				{ new Integer(666668), "C", "13874546528", "XL-杨铭宇" },
-				{ new Integer(666669), "D", "14777889900", "XL-coco" },
-				{ new Integer(666670), "E", "13002506630", "XL-东北屯" },
-				{ new Integer(666671), "F", "16303532678", "XL-麻辣意境" },
-				{ new Integer(666672), "G", "14723456789", "XL-青春盛宴" },
-				{ new Integer(666673), "H", "17089896767", "XL-辣鸡" }, };
+		String[][] p4 = { { "", "", "", "", "", "", "", "", "", "" }, { "", "", "", "", "", "", "", "", "", "" },
+				{ "", "", "", "", "", "", "", "", "", "" }, { "", "", "", "", "", "", "", "", "", "" },
+				{ "", "", "", "", "", "", "", "", "", "" }, { "", "", "", "", "", "", "", "", "", "" },
+				{ "", "", "", "", "", "", "", "", "", "" }, { "", "", "", "", "", "", "", "", "", "" } };
 		String[] n4 = { "ID", "用户名", "用户电话" };
 		DefaultTableModel defaultModel4 = new DefaultTableModel(p4, n4) {
 			public boolean isCellEditable(int row, int column) {
@@ -1367,7 +1436,8 @@ public class WebManagerUI extends JFrame {
 		;
 		JTable table4 = new JTable(defaultModel4);
 		table4.setFont(font);
-		table4.setPreferredScrollableViewportSize(new Dimension(780, 220));
+		table4.setPreferredScrollableViewportSize(
+				new Dimension((int) (panel14.getPreferredSize().getWidth() - 15), 220));
 		table4.setRowHeight(25);
 		JScrollPane scrollPane4 = new JScrollPane(table4);
 		panel14.add(idInput4);
@@ -1500,12 +1570,15 @@ public class WebManagerUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if (idInput4.getText().equals("") || idInput4.getText().equals(null)) {
-					JOptionPane.showMessageDialog(null, "请输入酒店ID", "提示", JOptionPane.PLAIN_MESSAGE);
+					JOptionPane.showMessageDialog(null, "请输入网站营销人员ID", "提示", JOptionPane.PLAIN_MESSAGE);
 				} else {
 					try {
 						WebworkerController wc = new WebworkerController();
-						long num = Long.parseLong(idInput4.getText().toString());
-						WebworkerVO vo = wc.getWebworker(num);
+						long ID = Long.parseLong(idInput4.getText().toString());
+						if (ID < WWIDBegin || ID > wc.findMaxId()) {
+							JOptionPane.showMessageDialog(null, "未查询到对应网站营销人员信息", "提示", JOptionPane.PLAIN_MESSAGE);
+						}
+						WebworkerVO vo = wc.getWebworker(ID);
 						// 获取
 
 						String[] ob = { vo.getID() + "", vo.getWebworkerName(), vo.getWebworkerPhone() };
@@ -1539,13 +1612,18 @@ public class WebManagerUI extends JFrame {
 				// 最高id
 				id = id.replace(" ", "");
 				if (id.equals(null) || id.equals("")) {
-					JOptionPane.showMessageDialog(null, "NOT FIND!", "提示", JOptionPane.PLAIN_MESSAGE);
+					JOptionPane.showMessageDialog(null, "未查询到更多网站营销人员信息", "提示", JOptionPane.PLAIN_MESSAGE);
 				} else {
 					try {
+						WebworkerController wc = new WebworkerController();
 						long ID = Long.parseLong(id) - defaultModel4.getRowCount();
+						if (ID < WWIDBegin || ID > wc.findMaxId()) {
+							JOptionPane.showMessageDialog(null, "前面没有更多网站营销人员信息了", "提示", JOptionPane.PLAIN_MESSAGE);
+						}
 						//
-						for (int count = 0; count < defaultModel4.getRowCount(); count++) {
-							WebworkerController wc = new WebworkerController();
+						for (int count = 0; count < defaultModel4.getRowCount()
+								&& (!(ID < WWIDBegin || ID > wc.findMaxId())); count++) {
+
 							WebworkerVO vo = wc.getWebworker(ID);
 							ID = ID + 1;
 							// 获取数据
@@ -1572,20 +1650,18 @@ public class WebManagerUI extends JFrame {
 				String id = table3.getValueAt(0, 0).toString();
 				id = id.replace(" ", "");
 				if (id.equals(null) || id.equals("")) {
-					JOptionPane.showMessageDialog(null, "NOT FIND!", "提示", JOptionPane.PLAIN_MESSAGE);
+					JOptionPane.showMessageDialog(null, "未查询到更多网站营销人员信息", "提示", JOptionPane.PLAIN_MESSAGE);
 				} else {
-					long ID = 0;
 					try {
-						ID = Long.parseLong(id) + defaultModel4.getRowCount();
-					} catch (NumberFormatException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+						WebworkerController wc = new WebworkerController();
+						long ID = Long.parseLong(id) + defaultModel4.getRowCount();
+						if (ID < WWIDBegin || ID > wc.findMaxId()) {
+							JOptionPane.showMessageDialog(null, "后面没有更多网站营销人员信息了", "提示", JOptionPane.PLAIN_MESSAGE);
+						}
+						//
+						for (int count = 0; count < defaultModel4.getRowCount()
+								&& (!(ID < WWIDBegin || ID > wc.findMaxId())); count++) {
 
-					//
-					for (int count = 0; count < defaultModel4.getRowCount(); count++) {
-						try {
-							WebworkerController wc = new WebworkerController();
 							WebworkerVO vo = wc.getWebworker(ID);
 							ID = ID + 1;
 							// 获取数据
@@ -1595,40 +1671,52 @@ public class WebManagerUI extends JFrame {
 								table4.setValueAt(ob[i], count, i);
 							}
 							// 赋值
-						} catch (RemoteException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
 						}
+					} catch (RemoteException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
+
 				}
 			}
 		});
 		table4.addMouseListener(new java.awt.event.MouseAdapter() {
 			public void mouseClicked(java.awt.event.MouseEvent e) {
 
-				edit4.setEnabled(true);// 选中时设为true
+				if (!(table4.getValueAt(table4.getSelectedRow(), 0).toString().equals("")
+						|| table4.getValueAt(table4.getSelectedRow(), 0) == null)) {
+					edit4.setEnabled(true);// 选中时设为true
+				}
 
 			}
 		});
 		creat4.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// ******获取ID
-				creditFrame4.setVisible(true);
+				try {
+					creditFrame4.setVisible(true);
+					WebworkerController wc = new WebworkerController();
+					text14.setText(wc.findMaxId() + 1 + "");
+					text24.setText("");
+					text34.setText("");
+					text44.setText("");
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
 		edit4.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					creditFrame4.setVisible(true);
 					text14.setText(table4.getValueAt(table4.getSelectedRow(), 0).toString());
 					text24.setText(table4.getValueAt(table4.getSelectedRow(), 1).toString());
 					text34.setText(table4.getValueAt(table4.getSelectedRow(), 2).toString());
 					UserController uc = new UserController();
 					UserVO uvo = uc.getUser(table4.getValueAt(table4.getSelectedRow(), 0).toString());
 					text44.setText(uvo.getPasssword());
-					// ********获取密码??
+					creditFrame4.setVisible(true);
 				} catch (NumberFormatException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -1641,22 +1729,24 @@ public class WebManagerUI extends JFrame {
 		button14.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				UserController uc = new UserController();
-				WebworkerController wc = new WebworkerController();
 				try {
-
-					if (wc.getWebworker(Long.parseLong(text14.getText())) == null) {// 新增
+					UserController uc = new UserController();
+					WebworkerController wc = new WebworkerController();
+					if (uc.getUser(text24.getText()) == null) {// 新增
 						WebworkerVO vo = new WebworkerVO();
 						UserVO uvo = new UserVO();
 						//
 						vo.setID(Long.parseLong(text14.getText()));
 						vo.setWebworkerName(text24.getText());
 						vo.setWebworkerPhone(text34.getText());
-						wc.changeWebworker(vo);
+						wc.creatWebworker(vo);
 						// 信息
 						uvo.setId(Long.parseLong(text14.getText()));
+						uvo.setAccout(text24.getText());
+						uvo.setUser(User.webworker);
 						uvo.setPasssword(text44.getText());
 						uc.changeUser(uvo);
+						JOptionPane.showMessageDialog(null, "操作成功", "提示", JOptionPane.PLAIN_MESSAGE);
 						// 密码
 						// 新增
 					} else {
@@ -1667,8 +1757,10 @@ public class WebManagerUI extends JFrame {
 						vo.setWebworkerPhone(text34.getText());
 						wc.changeWebworker(vo);
 						// 改变信息
+						uvo.setAccout(text24.getText());
 						uvo.setPasssword(text44.getText());
 						uc.changeUser(uvo);
+						JOptionPane.showMessageDialog(null, "操作成功", "提示", JOptionPane.PLAIN_MESSAGE);
 						// 改变密码
 					}
 
@@ -1683,7 +1775,6 @@ public class WebManagerUI extends JFrame {
 				creditFrame4.dispose();
 			}
 		});
-		// **********用户注册时用户名尚未考虑
 		button24.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -1691,6 +1782,17 @@ public class WebManagerUI extends JFrame {
 			}
 		});
 
+		// 初始化与刷新
+		tab.addMouseListener(new java.awt.event.MouseAdapter() {
+			public void mouseClicked(java.awt.event.MouseEvent e) {
+				int selectedIndex = tab.getSelectedIndex(); // 获得选中的选项卡索引
+				// String title = tab.getTitleAt(selectedIndex); // 获得选项卡标签
+				// System.out.println(title);
+				switch (selectedIndex) {
+
+				}
+			}
+		});
 	}
 
 }
