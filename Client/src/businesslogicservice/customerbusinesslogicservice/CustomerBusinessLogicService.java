@@ -17,4 +17,8 @@ public interface CustomerBusinessLogicService {
      OrderVO viewNormalOrder(long id,int i) throws RemoteException;
      boolean recordCredit(long id,double creditChange) throws RemoteException;
      long findMaxId() throws RemoteException;
+     boolean createCustomer(CustomerVO vo) throws RemoteException;
+     OrderVO viewAbnormalOrder(long id,int i) throws RemoteException;
+     OrderVO viewUnexecuteOrder(long id,int i) throws RemoteException;
+     OrderVO viewCanceledOrder(long id,int i) throws RemoteException;
 }

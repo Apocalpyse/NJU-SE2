@@ -2,65 +2,37 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a30d803b-349f-40a8-8943-ff67d459f357" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../Client/.idea/encodings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/rmi/launch.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Client/out/production/Client/presentation/orderui/OrderUI$1.class" afterPath="$PROJECT_DIR$/../Client/out/production/Client/presentation/orderui/OrderUI$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Client/out/production/Client/presentation/orderui/OrderUI$2.class" afterPath="$PROJECT_DIR$/../Client/out/production/Client/presentation/orderui/OrderUI$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Client/out/production/Client/presentation/orderui/OrderUI.class" afterPath="$PROJECT_DIR$/../Client/out/production/Client/presentation/orderui/OrderUI.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Server/data/customerdata/CustomerDataServiceSqlImpl.class" afterPath="$PROJECT_DIR$/out/production/Server/data/customerdata/CustomerDataServiceSqlImpl.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Server/data/hoteldata/HotelDataServiceSqlImpl.class" afterPath="$PROJECT_DIR$/out/production/Server/data/hoteldata/HotelDataServiceSqlImpl.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Server/data/orderdata/OrderDataServiceSqlImpl.class" afterPath="$PROJECT_DIR$/out/production/Server/data/orderdata/OrderDataServiceSqlImpl.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Server/data/promotiondata/PromotionDataServiceSqlImpl.class" afterPath="$PROJECT_DIR$/out/production/Server/data/promotiondata/PromotionDataServiceSqlImpl.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Server/data/roomdata/RoomDataServiceSqlImpl.class" afterPath="$PROJECT_DIR$/out/production/Server/data/roomdata/RoomDataServiceSqlImpl.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Server/data/userdata/UserDataServiceSqlImpl.class" afterPath="$PROJECT_DIR$/out/production/Server/data/userdata/UserDataServiceSqlImpl.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Server/data/userdata/test.class" afterPath="$PROJECT_DIR$/out/production/Server/data/userdata/test.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Server/data/webworkerdata/WebworkerDataServiceSqlImpl.class" afterPath="$PROJECT_DIR$/out/production/Server/data/webworkerdata/WebworkerDataServiceSqlImpl.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Server/dataservice/customerdataservice/CustomerDataService.class" afterPath="$PROJECT_DIR$/out/production/Server/dataservice/customerdataservice/CustomerDataService.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Server/dataservice/hoteldataservice/HotelDataService.class" afterPath="$PROJECT_DIR$/out/production/Server/dataservice/hoteldataservice/HotelDataService.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Server/dataservice/orderdataservice/OrderDataService.class" afterPath="$PROJECT_DIR$/out/production/Server/dataservice/orderdataservice/OrderDataService.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Server/dataservice/promotiondataservice/PromotionDataService.class" afterPath="$PROJECT_DIR$/out/production/Server/dataservice/promotiondataservice/PromotionDataService.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Server/dataservice/roomdataservice/RoomDataService.class" afterPath="$PROJECT_DIR$/out/production/Server/dataservice/roomdataservice/RoomDataService.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Server/dataservice/userdataservice/UserDataService.class" afterPath="$PROJECT_DIR$/out/production/Server/dataservice/userdataservice/UserDataService.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Server/dataservice/webworkerdataservice/WebworkerDataService.class" afterPath="$PROJECT_DIR$/out/production/Server/dataservice/webworkerdataservice/WebworkerDataService.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Server/po/CustomerPO.class" afterPath="$PROJECT_DIR$/out/production/Server/po/CustomerPO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Server/po/HotelPO.class" afterPath="$PROJECT_DIR$/out/production/Server/po/HotelPO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Server/po/HotelPromotionPO.class" afterPath="$PROJECT_DIR$/out/production/Server/po/HotelPromotionPO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Server/po/MemberPromotionPO.class" afterPath="$PROJECT_DIR$/out/production/Server/po/MemberPromotionPO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Server/po/OrderPO.class" afterPath="$PROJECT_DIR$/out/production/Server/po/OrderPO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Server/po/UserPO.class" afterPath="$PROJECT_DIR$/out/production/Server/po/UserPO.class" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../.gitignore" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../Client/out/production/Client/businesslogic/customerbl/CustomerBL.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../Client/out/production/Client/businesslogic/customerbl/CustomerController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../Client/out/production/Client/businesslogic/orderbl/OrderBL.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../Client/out/production/Client/businesslogic/orderbl/OrderController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../Client/out/production/Client/businesslogic/userbl/UserBL.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../Client/out/production/Client/businesslogic/userbl/UserController.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../Client/out/production/Client/businesslogicservice/customerbusinesslogicservice/CustomerBusinessLogicService.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../Client/out/production/Client/businesslogicservice/orderbusnesslogicservice/OrderBusinessLogicService.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../Client/out/production/Client/businesslogicservice/userbusinesslogicservice/UserBusinessLogicService.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../Client/out/production/Client/dataservice/customerdataservice/CustomerDataService.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../Client/out/production/Client/dataservice/hoteldataservice/HotelDataService.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../Client/out/production/Client/dataservice/orderdataservice/OrderDataService.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../Client/out/production/Client/dataservice/userdataservice/UserDataService.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../Client/out/production/Client/presentation/customerui/MainUI$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../Client/out/production/Client/presentation/customerui/MainUI$2.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../Client/out/production/Client/presentation/customerui/MainUI$3.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../Client/out/production/Client/presentation/customerui/MainUI$4.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../Client/out/production/Client/presentation/customerui/MainUI$5.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../Client/out/production/Client/presentation/customerui/MainUI.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../Client/out/production/Client/presentation/orderui/OrderUI$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../Client/out/production/Client/presentation/orderui/OrderUI$2.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../Client/out/production/Client/presentation/orderui/OrderUI.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../Client/out/production/Client/presentation/userui/Tooltip_two$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../Client/out/production/Client/presentation/userui/Tooltip_two$2.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../Client/out/production/Client/presentation/userui/Tooltip_two.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../Client/out/production/Client/vo/HotelVO.class" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Client/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../Client/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Client/src/businesslogic/customerbl/CustomerBL.java" afterPath="$PROJECT_DIR$/../Client/src/businesslogic/customerbl/CustomerBL.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Client/src/businesslogic/customerbl/CustomerController.java" afterPath="$PROJECT_DIR$/../Client/src/businesslogic/customerbl/CustomerController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Client/src/businesslogic/hotelbl/HotelBL.java" afterPath="$PROJECT_DIR$/../Client/src/businesslogic/hotelbl/HotelBL.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Client/src/businesslogic/orderbl/OrderBL.java" afterPath="$PROJECT_DIR$/../Client/src/businesslogic/orderbl/OrderBL.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Client/src/businesslogic/orderbl/OrderController.java" afterPath="$PROJECT_DIR$/../Client/src/businesslogic/orderbl/OrderController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Client/src/businesslogic/promotionbl/PromotionBL.java" afterPath="$PROJECT_DIR$/../Client/src/businesslogic/promotionbl/PromotionBL.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Client/src/businesslogic/promotionbl/PromotionController.java" afterPath="$PROJECT_DIR$/../Client/src/businesslogic/promotionbl/PromotionController.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Client/src/businesslogic/roombl/RoomBL.java" afterPath="$PROJECT_DIR$/../Client/src/businesslogic/roombl/RoomBL.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Client/src/businesslogic/userbl/UserBL.java" afterPath="$PROJECT_DIR$/../Client/src/businesslogic/userbl/UserBL.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Client/src/businesslogic/userbl/UserController.java" afterPath="$PROJECT_DIR$/../Client/src/businesslogic/userbl/UserController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Client/src/businesslogic/webworkerbl/WebworkerBL.java" afterPath="$PROJECT_DIR$/../Client/src/businesslogic/webworkerbl/WebworkerBL.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Client/src/businesslogic/webworkerbl/WebworkerController.java" afterPath="$PROJECT_DIR$/../Client/src/businesslogic/webworkerbl/WebworkerController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Client/src/dataservice/customerdataservice/CustomerDataService.java" afterPath="$PROJECT_DIR$/../Client/src/dataservice/customerdataservice/CustomerDataService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Client/src/dataservice/hoteldataservice/HotelDataService.java" afterPath="$PROJECT_DIR$/../Client/src/dataservice/hoteldataservice/HotelDataService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Client/src/dataservice/orderdataservice/OrderDataService.java" afterPath="$PROJECT_DIR$/../Client/src/dataservice/orderdataservice/OrderDataService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Client/src/dataservice/roomdataservice/RoomDataService.java" afterPath="$PROJECT_DIR$/../Client/src/dataservice/roomdataservice/RoomDataService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Client/src/dataservice/userdataservice/UserDataService.java" afterPath="$PROJECT_DIR$/../Client/src/dataservice/userdataservice/UserDataService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Client/src/dataservice/webworkerdataservice/WebworkerDataService.java" afterPath="$PROJECT_DIR$/../Client/src/dataservice/webworkerdataservice/WebworkerDataService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Client/src/presentation/orderui/OrderUI.java" afterPath="$PROJECT_DIR$/../Client/src/presentation/orderui/OrderUI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Client/src/presentation/userui/LoginUI.java" afterPath="$PROJECT_DIR$/../Client/src/presentation/userui/LoginUI.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Client/src/presentation/userui/RegisterUI.java" afterPath="$PROJECT_DIR$/../Client/src/presentation/userui/RegisterUI.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/data/customerdata/CustomerDataServiceSqlImpl.java" afterPath="$PROJECT_DIR$/src/data/customerdata/CustomerDataServiceSqlImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/data/hoteldata/HotelDataServiceSqlImpl.java" afterPath="$PROJECT_DIR$/src/data/hoteldata/HotelDataServiceSqlImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/data/orderdata/OrderDataServiceSqlImpl.java" afterPath="$PROJECT_DIR$/src/data/orderdata/OrderDataServiceSqlImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/data/promotiondata/PromotionDataServiceSqlImpl.java" afterPath="$PROJECT_DIR$/src/data/promotiondata/PromotionDataServiceSqlImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/data/roomdata/RoomDataServiceSqlImpl.java" afterPath="$PROJECT_DIR$/src/data/roomdata/RoomDataServiceSqlImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/data/userdata/UserDataServiceSqlImpl.java" afterPath="$PROJECT_DIR$/src/data/userdata/UserDataServiceSqlImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/data/userdata/test.java" afterPath="$PROJECT_DIR$/src/data/userdata/test.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/data/webworkerdata/WebworkerDataServiceSqlImpl.java" afterPath="$PROJECT_DIR$/src/data/webworkerdata/WebworkerDataServiceSqlImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/po/HotelPO.java" afterPath="$PROJECT_DIR$/src/po/HotelPO.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/po/MemberPromotionPO.java" afterPath="$PROJECT_DIR$/src/po/MemberPromotionPO.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/po/UserPO.java" afterPath="$PROJECT_DIR$/src/po/UserPO.java" />
     </list>
     <ignored path="Server.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -80,7 +52,7 @@
     <favorites_list name="Server" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="375" />
+    <leaf />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -186,6 +158,7 @@
     </navigator>
     <panes>
       <pane id="Scratches" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -206,7 +179,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
     </panes>
   </component>
@@ -215,6 +187,10 @@
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="last_opened_file_path" value="E:/mysql-connector-java-5.1.40/mysql-connector-java-5.1.40-bin.jar!/" />
+    <property name="GenerateAntBuildDialog.enableUiFormCompile" value="true" />
+    <property name="GenerateAntBuildDialog.forceTargetJdk" value="true" />
+    <property name="GenerateAntBuildDialog.backupFiles" value="true" />
+    <property name="GenerateAntBuildDialog.outputFileNameProperty" value="server" />
   </component>
   <component name="RecentsManager">
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
@@ -799,47 +775,15 @@
       </provider>
     </entry>
     <entry file="file://$USER_HOME$/AppData/Local/Temp/Rar$DIa0.660/ServiceFrame.java" />
-    <entry file="file://$USER_HOME$/AppData/Local/Temp/Rar$DIa0.438/ServiceFrame.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1792">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Temp/Rar$DIa0.807/mainui.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="598" column="43" selection-start-line="598" selection-start-column="43" selection-end-line="598" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Temp/Rar$DIa0.206/mainLaunch.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="45" column="45" selection-start-line="45" selection-start-column="45" selection-end-line="45" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Temp/Rar$DIa0.712/launch.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Temp/Rar$DIa0.628/launch.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="548">
-          <caret line="91" column="63" selection-start-line="91" selection-start-column="63" selection-end-line="91" selection-end-column="63" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Temp/Rar$DIa0.438/ServiceFrame.java" />
+    <entry file="file://$USER_HOME$/AppData/Local/Temp/Rar$DIa0.807/mainui.java" />
+    <entry file="file://$USER_HOME$/AppData/Local/Temp/Rar$DIa0.206/mainLaunch.java" />
+    <entry file="file://$USER_HOME$/AppData/Local/Temp/Rar$DIa0.712/launch.java" />
+    <entry file="file://$USER_HOME$/AppData/Local/Temp/Rar$DIa0.628/launch.java" />
     <entry file="file://$PROJECT_DIR$/src/dataservice/customerdataservice/CustomerFactory.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="288">
           <caret line="9" column="46" selection-start-line="9" selection-start-column="46" selection-end-line="9" selection-end-column="46" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -847,9 +791,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="288">
           <caret line="11" column="66" selection-start-line="11" selection-start-column="66" selection-end-line="11" selection-end-column="66" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -857,17 +798,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="512">
           <caret line="22" column="32" selection-start-line="22" selection-start-column="32" selection-end-line="22" selection-end-column="32" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/data/customerdata/CustomerDataServiceSqlImpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="728">
-          <caret line="31" column="13" selection-start-line="31" selection-start-column="13" selection-end-line="31" selection-end-column="13" />
-          <folding />
+        <state relative-caret-position="764">
+          <caret line="122" column="9" selection-start-line="122" selection-start-column="9" selection-end-line="122" selection-end-column="9" />
         </state>
       </provider>
     </entry>

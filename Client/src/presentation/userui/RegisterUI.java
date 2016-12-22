@@ -80,7 +80,8 @@ public class RegisterUI {
                 try {
                     if (password1.equals(password2)) {
                         UserController uc = new UserController();
-                        if (uc.register(textField2.getPassword().toString(), textField3.getPassword().toString())) {
+                        if (uc.register(textField2.getPassword().toString(), textField3.getPassword().toString(),User.customer)) {
+                            uc.register(textField2.getPassword().toString(), textField3.getPassword().toString(),User.customer);
                             Tooltip_two tt = new Tooltip_two();
                             frame.dispose();
                         } else {

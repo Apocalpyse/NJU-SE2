@@ -35,11 +35,27 @@ public class CustomerController {
         return cbl.viewNormalOrder(id,i);
     }
 
+    public OrderVO viewAbnormalOrder(long id,int i) throws RemoteException{
+        return cbl.viewAbnormalOrder(id,i);
+    }
+
+    public OrderVO viewUnexecuteOrder(long id,int i) throws RemoteException{
+        return cbl.viewUnexecuteOrder(id,i);
+    }
+
+    public OrderVO viewCanceledOrder(long id,int i) throws RemoteException{
+        return cbl.viewCanceledOrder(id,i);
+    }
+
     public void recordCredit(long id,double creditChange)throws RemoteException{
         cbl.recordCredit(id,creditChange);
     }
 
     public long findMaxId() throws RemoteException{
         return cbl.findMaxId();
+    }
+
+    public boolean createCustomer(CustomerVO vo) throws RemoteException{
+        return cbl.createCustomer(vo);
     }
 }

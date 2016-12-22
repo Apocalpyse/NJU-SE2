@@ -57,6 +57,10 @@ public class CustomerBL implements CustomerBusinessLogicService {
         ,vo.getCredit(),vo.getMember(),vo.getId(),vo.getCreditNum(),vo.getCreditRecord(),vo.getOrderId1(),vo.getOrderId2(),vo.getOrderId3(),vo.getOrderId4()));
     }
 
+    public boolean createCustomer(CustomerVO vo) throws RemoteException{
+          return this.cds.insert(new CustomerPO(vo.getCustomerName(),vo.getCustomerPhone(),vo.getBirthday(),vo.getCompanyName(),vo.getCredit(),vo.getMember(),vo.getId(),vo.getCreditNum(),vo.getCreditRecord(),vo.getOrderId1(),vo.getOrderId2(),vo.getOrderId3(),vo.getOrderId4()));
+    }
+
     public boolean registerMember(CustomerVO vo) throws RemoteException{
         if(vo.getCompanyName()!=null){
             return this.cds.insert(new CustomerPO(vo.getCustomerName(),vo.getCustomerPhone(),vo.getBirthday(),vo.getCompanyName(),vo.getCredit(),Member.companyMember,vo.getId(),vo.getCreditNum(),vo.getCreditRecord(),vo.getOrderId1(),vo.getOrderId2(),vo.getOrderId3(),vo.getOrderId4()));
@@ -76,6 +80,23 @@ public class CustomerBL implements CustomerBusinessLogicService {
         return new OrderVO(po.getId(),po.getCustomerName(),po.getCustomerPhone(),po.getHotelName(),po.getHotelPhone(),po.getHotelLocation(),po.getRoomType(),po.getRoomNumber(),po.getRoomPrice(),po.getDiscount(),po.getStartTime(),po.getEndTime(),po.getExecuteTime(),po.getTotalPrice(),po.getOs(),po.getIsExistChild(),po.getCustomerNumber(),po.getMasterId());
     }
 
+    public OrderVO viewAbnormalOrder(long id,int i) throws RemoteException{
+        CustomerPO p=this.cds.find(id);
+        OrderPO po=this.ods.find(Long.parseLong(p.getOrderId2()[i]));
+        return new OrderVO(po.getId(),po.getCustomerName(),po.getCustomerPhone(),po.getHotelName(),po.getHotelPhone(),po.getHotelLocation(),po.getRoomType(),po.getRoomNumber(),po.getRoomPrice(),po.getDiscount(),po.getStartTime(),po.getEndTime(),po.getExecuteTime(),po.getTotalPrice(),po.getOs(),po.getIsExistChild(),po.getCustomerNumber(),po.getMasterId());
+    }
+
+    public OrderVO viewUnexecuteOrder(long id,int i) throws RemoteException{
+        CustomerPO p=this.cds.find(id);
+        OrderPO po=this.ods.find(Long.parseLong(p.getOrderId3()[i]));
+        return new OrderVO(po.getId(),po.getCustomerName(),po.getCustomerPhone(),po.getHotelName(),po.getHotelPhone(),po.getHotelLocation(),po.getRoomType(),po.getRoomNumber(),po.getRoomPrice(),po.getDiscount(),po.getStartTime(),po.getEndTime(),po.getExecuteTime(),po.getTotalPrice(),po.getOs(),po.getIsExistChild(),po.getCustomerNumber(),po.getMasterId());
+    }
+
+    public OrderVO viewCanceledOrder(long id,int i) throws RemoteException{
+        CustomerPO p=this.cds.find(id);
+        OrderPO po=this.ods.find(Long.parseLong(p.getOrderId4()[i]));
+        return new OrderVO(po.getId(),po.getCustomerName(),po.getCustomerPhone(),po.getHotelName(),po.getHotelPhone(),po.getHotelLocation(),po.getRoomType(),po.getRoomNumber(),po.getRoomPrice(),po.getDiscount(),po.getStartTime(),po.getEndTime(),po.getExecuteTime(),po.getTotalPrice(),po.getOs(),po.getIsExistChild(),po.getCustomerNumber(),po.getMasterId());
+    }
 
     public boolean recordCredit(long id,double creditChange)throws RemoteException{
         String[][] record=new String[100][3];
