@@ -4,6 +4,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 import po.Evaluation;
+import po.HotelPO;
 import po.OrderState;
 import vo.HotelVO;
 
@@ -11,6 +12,9 @@ public class HotelController {
 	HotelBL hbl;
 	public HotelController()throws RemoteException{
 		hbl=new HotelBL();
+	}
+	public boolean createHotel(HotelPO po)throws RemoteException{
+		return hbl.createHotel(po);
 	}
 	public HotelVO getHotel(long id)throws RemoteException{
 		return hbl.getHotel(id);
