@@ -187,7 +187,7 @@ public class HotelUI extends JFrame {
 	public HotelUI() throws RemoteException{
 
 		frame = new JFrame();
-		/*
+
 		SubstanceLookAndFeel slaf=new SubstanceLookAndFeel();
 		try {  
             //设置外观  
@@ -207,7 +207,7 @@ public class HotelUI extends JFrame {
         } catch (Exception e) {  
             System.out.println(e.getMessage());  
         }
-        */
+       
 		hotelInformation= new JPanel();
 		hotelInformation.setPreferredSize(preferredSize7);
 		roomInformation= new JPanel();
