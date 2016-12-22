@@ -1,9 +1,11 @@
 package po;
 
 
+import java.io.Serializable;
+
 import po.Authority;
 
-public class WebworkerPO {
+public class WebworkerPO implements Serializable{
 	private long ID;
 	private String webworkerName;
 	private String webworkerPhone;//电话

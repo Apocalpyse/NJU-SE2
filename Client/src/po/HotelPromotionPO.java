@@ -1,6 +1,8 @@
 package po;
 
-public class HotelPromotionPO extends PromotionPO{
+import java.io.Serializable;
+
+public class HotelPromotionPO extends PromotionPO implements Serializable{
 	private long ID;//编号
 	private String promotionName;//名称
 	private String createdTime;//创建时间
