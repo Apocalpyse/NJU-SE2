@@ -158,7 +158,7 @@ public class HotelBL implements HotelBusinessLogicService {
         }
     };
     @Override
-    public boolean creatHotel(HotelPO po)throws RemoteException{
+    public boolean createHotel(HotelPO po)throws RemoteException{
     	return hds.insert(po);
     }
     @Override
