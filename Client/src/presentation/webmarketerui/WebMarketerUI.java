@@ -26,6 +26,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -43,13 +44,18 @@ import businesslogic.customerbl.CustomerController;
 import businesslogic.orderbl.OrderController;
 import businesslogic.promotionbl.PromotionController;
 import businesslogic.userbl.UserController;
+import businesslogic.webworkerbl.WebworkerController;
+import po.Authority;
 import po.MemberType;
 import po.OrderState;
 import po.UsageState;
+import po.User;
 import vo.CustomerVO;
 import vo.MemberPromotionVO;
 import vo.OrderVO;
+import vo.UserVO;
 import vo.WebPromotionVO;
+import vo.WebworkerVO;
 
 public class WebMarketerUI extends JFrame {
 	/**
@@ -64,6 +70,8 @@ public class WebMarketerUI extends JFrame {
 	Dimension preferredSize4 = new Dimension(45, 20);// 设置尺寸短label
 	Dimension preferredSize8 = new Dimension(60, 20);// 设置尺寸中label
 	Dimension preferredSize5 = new Dimension(75, 20);// 设置尺寸长label,textarea
+	Dimension preferredSize41 = new Dimension(50, 20);// 设置尺寸次短label
+	Dimension preferredSize51 = new Dimension(100, 20);// 设置尺寸更长label
 	Dimension preferredSize7 = new Dimension(850, 550);// 设置尺寸
 	long WPIDBegin = 62000;
 	long MPIDBegin = 60000;
@@ -72,14 +80,20 @@ public class WebMarketerUI extends JFrame {
 	long WMIDBegin = 30000;
 	long WWIDBegin = 40000;
 	long ORDERIDBegin = 50000;
+
 	// ID
+	private long id;
+	private String account;
+	//
 	private JPanel customer;
 	private JPanel member;
 	private JPanel order;
 	private JPanel promotion;
+	private JPanel selfinfo;
 	private JFrame frame;
 	private JTabbedPane tab;
 	//
+	private static boolean ISCreat = false;
 	private JFrame creditFrame;
 	private JPanel panel1;
 	private JPanel panel2;
@@ -92,6 +106,7 @@ public class WebMarketerUI extends JFrame {
 	private JButton edit;
 	private JTextField idInput;
 	// promotion
+	private static boolean ISCreat2 = false;
 	private Label ID2;
 	private Label id2;
 	private Label NAME2;
@@ -174,12 +189,35 @@ public class WebMarketerUI extends JFrame {
 
 	// cancled
 	// THE orders
+	private JFrame creditFrame8;
+	private JLabel label18;
+	private JTextArea text18;
+	private JLabel label28;
+	private JTextArea text28;
+	private JLabel label38;
+	private JTextArea text38;
+	private JLabel label48;
+	private JTextArea text48;
+	private JLabel label58;
+	private JPasswordField text58;
+	private JButton edit8;
+	private JButton save8;
+	private JButton cancle8;
+
 	public static void main(String[] args) {
-		WebMarketerUI ui = new WebMarketerUI();
+		WebMarketerUI ui = new WebMarketerUI("");
 	}
 
-	public WebMarketerUI() {
-
+	public WebMarketerUI(String accountstr) {
+		this.account = accountstr;
+		try {
+			UserController ucon = new UserController();
+			UserVO vo = ucon.getUser(accountstr);
+			this.id = vo.getId();
+		} catch (RemoteException e5) {
+			// TODO Auto-generated catch block
+			e5.printStackTrace();
+		}
 		frame = new JFrame();
 		frame.setFont(font);
 		customer = new JPanel();
@@ -194,6 +232,9 @@ public class WebMarketerUI extends JFrame {
 		promotion = new JPanel();
 		promotion.setFont(font);
 		promotion.setPreferredSize(preferredSize7);
+		selfinfo = new JPanel();
+		selfinfo.setFont(font);
+		selfinfo.setPreferredSize(preferredSize7);
 		tab = new JTabbedPane(JTabbedPane.LEFT);
 		tab.setFont(font);
 		// 容器
@@ -202,6 +243,7 @@ public class WebMarketerUI extends JFrame {
 		tab.add(member, "会员策略制定");
 		tab.add(customer, "信用充值");
 		tab.add(order, "订单处理");
+		tab.add(selfinfo, "账户信息");
 
 		frame.add(tab);
 		tab.setSelectedIndex(0);
@@ -526,7 +568,7 @@ public class WebMarketerUI extends JFrame {
 				try {
 					PromotionController pc = new PromotionController();
 					IDBEGIN = Long.parseLong(table.getValueAt(0, 0).toString()) - defaultModel.getRowCount();
-					if (IDBEGIN < WPIDBegin) {
+					if (IDBEGIN <= WPIDBegin) {
 						JOptionPane.showMessageDialog(null, "前面已经没有更多促销策略了", "提示", JOptionPane.PLAIN_MESSAGE);
 						return;
 					}
@@ -565,7 +607,7 @@ public class WebMarketerUI extends JFrame {
 				try {
 					PromotionController pc = new PromotionController();
 					IDBEGIN = Long.parseLong(table.getValueAt(0, 0).toString()) + defaultModel.getRowCount();
-					if (IDBEGIN > pc.findMaxId3()) {
+					if (IDBEGIN >= pc.findMaxId3()) {
 						// 后面没有更多了
 						JOptionPane.showMessageDialog(null, "后面已经没有更多促销策略了", "提示", JOptionPane.PLAIN_MESSAGE);
 						return;
@@ -604,13 +646,14 @@ public class WebMarketerUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 
-				try {
-					PromotionController pc = new PromotionController();
-					text1.setText(pc.findMaxId3() + 1 + "");
-				} catch (RemoteException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				text1.setText("自动生成");
+				text2.setText("");
+				text3.setText("");
+				text4.setText("");
+				text5.setText("");
+				text6.setText("");
+				text7.setText("");
+				ISCreat = true;
 				creditFrame.setVisible(true);
 			}
 		});
@@ -625,6 +668,7 @@ public class WebMarketerUI extends JFrame {
 				text5.setText(table.getValueAt(table.getSelectedRow(), 4).toString());
 				text6.setText(table.getValueAt(table.getSelectedRow(), 5).toString());
 				text7.setText(table.getValueAt(table.getSelectedRow(), 6).toString());
+				ISCreat = false;
 				creditFrame.setVisible(true);
 			}
 		});
@@ -674,7 +718,7 @@ public class WebMarketerUI extends JFrame {
 					PromotionController pc = new PromotionController();
 					WebPromotionVO vo = new WebPromotionVO();
 					//
-					vo.setID((long) (Integer.parseInt(text1.getText())));
+
 					vo.setPromotionName(text2.getText());
 					vo.setBeginTime(text3.getText());
 					vo.setEndTime(text4.getText());
@@ -707,11 +751,12 @@ public class WebMarketerUI extends JFrame {
 					vo.setCreatedTime(dates[0]);
 
 					// 处理值
-					if (pc.getWebPromotion(vo.getID()).equals(null)) {
+					if (ISCreat) {
 						// 查找不到则为添加
 						pc.creatWebPromotion(vo);
 					} else {
 						// 否则为更改
+						vo.setID(Long.parseLong(text1.getText()));
 						pc.changeWebPromotion(vo);
 					}
 					// 可找到则改，否则添加
@@ -912,6 +957,7 @@ public class WebMarketerUI extends JFrame {
 				nextPage2.setEnabled(false);
 				name2.setEditable(true);
 				apply2.setEnabled(false);
+				ISCreat2 = false;
 			}
 		});
 		search2.addActionListener(new ActionListener() {
@@ -955,7 +1001,7 @@ public class WebMarketerUI extends JFrame {
 							defaultModel2.setRowCount(rowcount);
 						} // addrow
 						while (lines < rowcount) {
-							defaultModel2.removeRow(rowcount);
+							defaultModel2.removeRow(rowcount - 1);
 							rowcount = rowcount - 1;
 							defaultModel2.setRowCount(rowcount);
 						} // removerow
@@ -1020,7 +1066,7 @@ public class WebMarketerUI extends JFrame {
 				try {
 					PromotionController pc = new PromotionController();
 					long num = Long.parseLong(id2.getText().toString()) - 1;
-					if (num < MPIDBegin) {
+					if (num <= MPIDBegin) {
 						JOptionPane.showMessageDialog(null, "前面已经没有更多会员制度信息了", "提示", JOptionPane.PLAIN_MESSAGE);
 						return;
 					}
@@ -1052,7 +1098,7 @@ public class WebMarketerUI extends JFrame {
 						defaultModel2.setRowCount(rowcount);
 					} // addrow
 					while (lines < rowcount) {
-						defaultModel2.removeRow(rowcount);
+						defaultModel2.removeRow(rowcount - 1);
 						rowcount = rowcount - 1;
 						defaultModel2.setRowCount(rowcount);
 					} // removerow
@@ -1091,7 +1137,7 @@ public class WebMarketerUI extends JFrame {
 				try {
 					PromotionController pc = new PromotionController();
 					long num = Long.parseLong(id2.getText().toString()) + 1;
-					if (num > pc.findMaxId1()) {
+					if (num >= pc.findMaxId1()) {
 						JOptionPane.showMessageDialog(null, "后面已经没有更多会员制度信息了", "提示", JOptionPane.PLAIN_MESSAGE);
 						return;
 					}
@@ -1123,7 +1169,7 @@ public class WebMarketerUI extends JFrame {
 						defaultModel2.setRowCount(rowcount);
 					} // addrow
 					while (lines < rowcount) {
-						defaultModel2.removeRow(rowcount);
+						defaultModel2.removeRow(rowcount - 1);
 						rowcount = rowcount - 1;
 						defaultModel2.setRowCount(rowcount);
 					} // removerow
@@ -1159,6 +1205,7 @@ public class WebMarketerUI extends JFrame {
 		creat2.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				ISCreat2 = true;
 				table2.setEnabled(true);
 				newLine2.setEnabled(true);
 				delLine2.setEnabled(true);
@@ -1173,15 +1220,7 @@ public class WebMarketerUI extends JFrame {
 						table2.setValueAt("", i, j);
 					}
 				}
-				try {
-					PromotionController pc = new PromotionController();
-
-					id2.setText(pc.findMaxId1() + 1 + "");
-
-				} catch (RemoteException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				id2.setText("自动生成");
 			}
 		});
 		save2.addActionListener(new ActionListener() {
@@ -1235,22 +1274,22 @@ public class WebMarketerUI extends JFrame {
 					}
 					// （限制：需要监测机制）
 					// 获取数据
-					vo.setID(IDGET);
+
 					vo.setPromotionName(NAMEGET);
 					vo.setCreatedTime(CREATTIME);
 					if (STATEGET.equals("Using")) {
-						vo.setUsageState(UsageState.Using);
-					} else if (STATEGET.equals("Unused")) {
 						vo.setUsageState(UsageState.Unused);
 					}
 					vo.setCredit(credits);
 					vo.setDiscountForMember(discounts);
 					// 设置属性
-					if (pc.getMemberPromotion(vo.getID()).equals(null)) {
+					if (ISCreat2) {
 						pc.creatMemberPromotion(vo);
 					} else {
+						vo.setID(IDGET);
 						pc.changeMemberPromotion(vo);
 					}
+					ISCreat2 = false;
 					// 存储数据
 					JOptionPane.showMessageDialog(null, "操作成功", "提示", JOptionPane.PLAIN_MESSAGE);
 				} catch (NumberFormatException e) {
@@ -1519,7 +1558,7 @@ public class WebMarketerUI extends JFrame {
 					try {
 						long ID = Long.parseLong(id) - defaultModel3.getRowCount();
 						UserController uc = new UserController();
-						if ((ID > uc.findMaxId() || ID < USERIDBegin)) {
+						if ((ID >= uc.findMaxId() || ID <= USERIDBegin)) {
 							JOptionPane.showMessageDialog(null, "未查询到对应ID信息", "提示", JOptionPane.PLAIN_MESSAGE);
 							return;
 						}
@@ -1560,7 +1599,7 @@ public class WebMarketerUI extends JFrame {
 						long ID = Long.parseLong(id) + defaultModel3.getRowCount();
 						//
 						UserController uc = new UserController();
-						if (ID > uc.findMaxId() || ID < USERIDBegin) {
+						if (ID > uc.findMaxId() || ID <= USERIDBegin) {
 							JOptionPane.showMessageDialog(null, "未查询到对应ID信息", "提示", JOptionPane.PLAIN_MESSAGE);
 							return;
 						}
@@ -1666,7 +1705,7 @@ public class WebMarketerUI extends JFrame {
 		tab4.add(panel24, "已完成订单");
 		tab4.add(panel34, "异常订单");
 		tab4.add(panel44, "已撤销订单");
-
+		tab4.setSelectedIndex(0);
 		order.add(tab4);
 		// order MainFrame
 
@@ -1800,7 +1839,7 @@ public class WebMarketerUI extends JFrame {
 				try {
 					long ID = Long.parseLong(table4.getValueAt(0, 0).toString()) - 1;
 					OrderController oc = new OrderController();
-					if (ID > oc.findMaxId() || ID < ORDERIDBegin) {
+					if (ID > oc.findMaxId() || ID <= ORDERIDBegin) {
 						JOptionPane.showMessageDialog(null, "前面已经没有更多订单信息了", "提示", JOptionPane.PLAIN_MESSAGE);
 						return;
 					}
@@ -1839,7 +1878,7 @@ public class WebMarketerUI extends JFrame {
 				try {
 					long ID = Long.parseLong(table4.getValueAt(table4.getRowCount() - 1, 0).toString()) + 1;
 					OrderController oc = new OrderController();
-					if (ID > oc.findMaxId() || ID < ORDERIDBegin) {
+					if (ID >= oc.findMaxId() || ID < ORDERIDBegin) {
 						JOptionPane.showMessageDialog(null, "后面已经没有更多订单信息了", "提示", JOptionPane.PLAIN_MESSAGE);
 						return;
 					}
@@ -2008,7 +2047,7 @@ public class WebMarketerUI extends JFrame {
 
 					long ID = Long.parseLong(table5.getValueAt(0, 0).toString()) - 1;
 					OrderController oc = new OrderController();
-					if (ID > oc.findMaxId() || ID < ORDERIDBegin) {
+					if (ID > oc.findMaxId() || ID <= ORDERIDBegin) {
 						JOptionPane.showMessageDialog(null, "前面已经没有更多订单信息了", "提示", JOptionPane.PLAIN_MESSAGE);
 						return;
 					}
@@ -2048,7 +2087,7 @@ public class WebMarketerUI extends JFrame {
 				try {
 					long ID = Long.parseLong(table5.getValueAt(table5.getRowCount() - 1, 0).toString()) + 1;
 					OrderController oc = new OrderController();
-					if (ID > oc.findMaxId() || ID < ORDERIDBegin) {
+					if (ID >= oc.findMaxId() || ID < ORDERIDBegin) {
 						JOptionPane.showMessageDialog(null, "后面已经没有更多订单信息了", "提示", JOptionPane.PLAIN_MESSAGE);
 						return;
 					}
@@ -2291,7 +2330,7 @@ public class WebMarketerUI extends JFrame {
 				try {
 					long ID = Long.parseLong(table6.getValueAt(0, 0).toString()) - 1;
 					OrderController oc = new OrderController();
-					if (ID > oc.findMaxId() || ID < ORDERIDBegin) {
+					if (ID > oc.findMaxId() || ID <= ORDERIDBegin) {
 						JOptionPane.showMessageDialog(null, "前面已经没有更多订单信息了", "提示", JOptionPane.PLAIN_MESSAGE);
 						return;
 					}
@@ -2331,7 +2370,7 @@ public class WebMarketerUI extends JFrame {
 				try {
 					long ID = Long.parseLong(table6.getValueAt(table6.getRowCount() - 1, 0).toString()) + 1;
 					OrderController oc = new OrderController();
-					if (ID > oc.findMaxId() || ID < ORDERIDBegin) {
+					if (ID >= oc.findMaxId() || ID < ORDERIDBegin) {
 						JOptionPane.showMessageDialog(null, "后面已经没有更多订单信息了", "提示", JOptionPane.PLAIN_MESSAGE);
 						return;
 					}
@@ -2556,7 +2595,7 @@ public class WebMarketerUI extends JFrame {
 				try {
 					long ID = Long.parseLong(table7.getValueAt(0, 0).toString()) - 1;
 					OrderController oc = new OrderController();
-					if (ID > oc.findMaxId() || ID < ORDERIDBegin) {
+					if (ID > oc.findMaxId() || ID <= ORDERIDBegin) {
 						JOptionPane.showMessageDialog(null, "前面已经没有更多订单信息了", "提示", JOptionPane.PLAIN_MESSAGE);
 						return;
 					}
@@ -2597,7 +2636,7 @@ public class WebMarketerUI extends JFrame {
 				try {
 					long ID = Long.parseLong(table7.getValueAt(table4.getRowCount() - 1, 0).toString()) + 1;
 					OrderController oc = new OrderController();
-					if (ID > oc.findMaxId() || ID < ORDERIDBegin) {
+					if (ID >= oc.findMaxId() || ID < ORDERIDBegin) {
 						JOptionPane.showMessageDialog(null, "后面已经没有更多订单信息了", "提示", JOptionPane.PLAIN_MESSAGE);
 						return;
 					}
@@ -2632,6 +2671,299 @@ public class WebMarketerUI extends JFrame {
 				}
 			}
 		});
+
+		// 布局
+		selfinfo.setLayout(layout);
+		// 数据栏
+		label18 = new JLabel("ID:");
+		label18.setPreferredSize(preferredSize51);
+		text18 = new JTextArea();
+		text18.setPreferredSize(preferredSize51);
+		label28 = new JLabel("NAME:");
+		label28.setPreferredSize(preferredSize51);
+		text28 = new JTextArea();
+		text28.setPreferredSize(preferredSize51);
+		label38 = new JLabel("电话:");
+		label38.setPreferredSize(preferredSize51);
+		text38 = new JTextArea();
+		text38.setPreferredSize(preferredSize51);
+		label48 = new JLabel("登录名:");
+		label48.setPreferredSize(preferredSize51);
+		text48 = new JTextArea();
+		text48.setPreferredSize(preferredSize51);
+		label58 = new JLabel("密码:");
+		label58.setPreferredSize(preferredSize51);
+		text58 = new JPasswordField();
+		text58.setPreferredSize(preferredSize51);
+		edit8 = new JButton("修改信息");
+		edit.setPreferredSize(preferredSize2);
+		save8 = new JButton("保存");
+		save8.setPreferredSize(preferredSize);
+		cancle8 = new JButton("取消");
+		cancle8.setPreferredSize(preferredSize);
+		text18.setFont(font);
+		text28.setFont(font);
+		text38.setFont(font);
+		text48.setFont(font);
+		text58.setFont(font);
+		label18.setFont(font);
+		label28.setFont(font);
+		label38.setFont(font);
+		label48.setFont(font);
+		label58.setFont(font);
+		edit8.setFont(font);
+		save8.setFont(font);
+		cancle8.setFont(font);
+		// 添加
+		selfinfo.add(label18);
+		selfinfo.add(text18);
+		text18.setEditable(false);
+		selfinfo.add(label28);
+		selfinfo.add(text28);
+		text28.setEditable(false);
+		selfinfo.add(label38);
+		selfinfo.add(text38);
+		text38.setEditable(false);
+		selfinfo.add(label48);
+		selfinfo.add(text48);
+		text48.setEditable(false);
+		selfinfo.add(label58);
+		selfinfo.add(text58);
+		text58.setEnabled(false);
+		selfinfo.add(edit8);
+		selfinfo.add(save8);
+		save8.setVisible(false);
+		selfinfo.add(cancle8);
+		cancle8.setVisible(false);
+		//
+		layout.putConstraint(SpringLayout.WEST, label18, 80, SpringLayout.WEST, selfinfo);
+		layout.putConstraint(SpringLayout.NORTH, label18, 45, SpringLayout.NORTH, selfinfo);
+		layout.putConstraint(SpringLayout.WEST, text18, 0, SpringLayout.EAST, label18);
+		layout.putConstraint(SpringLayout.NORTH, text18, 45, SpringLayout.NORTH, selfinfo);
+
+		layout.putConstraint(SpringLayout.WEST, label28, 30, SpringLayout.EAST, text18);
+		layout.putConstraint(SpringLayout.NORTH, label28, 45, SpringLayout.NORTH, selfinfo);
+		layout.putConstraint(SpringLayout.WEST, text28, 0, SpringLayout.EAST, label28);
+		layout.putConstraint(SpringLayout.NORTH, text28, 45, SpringLayout.NORTH, selfinfo);
+
+		layout.putConstraint(SpringLayout.WEST, label38, 30, SpringLayout.EAST, text28);
+		layout.putConstraint(SpringLayout.NORTH, label38, 45, SpringLayout.NORTH, selfinfo);
+		layout.putConstraint(SpringLayout.WEST, text38, 0, SpringLayout.EAST, label38);
+		layout.putConstraint(SpringLayout.NORTH, text38, 45, SpringLayout.NORTH, selfinfo);
+
+		layout.putConstraint(SpringLayout.WEST, label48, 190, SpringLayout.WEST, selfinfo);
+		layout.putConstraint(SpringLayout.NORTH, label48, 120, SpringLayout.NORTH, selfinfo);
+		layout.putConstraint(SpringLayout.WEST, text48, 0, SpringLayout.EAST, label48);
+		layout.putConstraint(SpringLayout.NORTH, text48, 120, SpringLayout.NORTH, selfinfo);
+
+		layout.putConstraint(SpringLayout.WEST, label58, 30, SpringLayout.EAST, text48);
+		layout.putConstraint(SpringLayout.NORTH, label58, 120, SpringLayout.NORTH, selfinfo);
+		layout.putConstraint(SpringLayout.WEST, text58, 0, SpringLayout.EAST, label58);
+		layout.putConstraint(SpringLayout.NORTH, text58, 120, SpringLayout.NORTH, selfinfo);
+
+		layout.putConstraint(SpringLayout.WEST, edit8,
+				(int) (selfinfo.getWidth() / 2 - edit8.getPreferredSize().getWidth()), SpringLayout.WEST, selfinfo);
+		layout.putConstraint(SpringLayout.NORTH, edit8, 100, SpringLayout.SOUTH, text58);
+
+		layout.putConstraint(SpringLayout.WEST, save8,
+				(int) (selfinfo.getWidth() / 2 - save8.getPreferredSize().getWidth() - 5), SpringLayout.WEST, selfinfo);
+		layout.putConstraint(SpringLayout.NORTH, save8, 100, SpringLayout.NORTH, text58);
+		layout.putConstraint(SpringLayout.WEST, cancle8, 10, SpringLayout.EAST, save8);
+		layout.putConstraint(SpringLayout.NORTH, cancle8, 100, SpringLayout.NORTH, text58);
+
+		// 初始化位置信息
+
+		//
+		creditFrame8 = new JFrame();
+		creditFrame8.setBackground(Color.darkGray);
+		creditFrame8.setTitle("DS酒店管家");
+		creditFrame8.setSize(400, 300);
+		creditFrame8.setLayout(layout4);
+
+		//
+		JLabel ori = new JLabel("原密码");
+		ori.setPreferredSize(preferredSize5);
+		JPasswordField original = new JPasswordField();
+		original.setPreferredSize(preferredSize2);
+		JLabel pre = new JLabel("新密码");
+		pre.setPreferredSize(preferredSize5);
+		JPasswordField present = new JPasswordField();
+		present.setPreferredSize(preferredSize2);
+		JLabel pre2 = new JLabel("密码确认");
+		pre2.setPreferredSize(preferredSize5);
+		JPasswordField present2 = new JPasswordField();
+		present2.setPreferredSize(preferredSize2);
+		JButton button18 = new JButton("确认");
+		button18.setPreferredSize(preferredSize);
+		JButton button28 = new JButton("取消");
+		button28.setPreferredSize(preferredSize);
+		ori.setFont(font);
+		original.setFont(font);
+		pre.setFont(font);
+		present.setFont(font);
+		pre2.setFont(font);
+		present2.setFont(font);
+		button18.setFont(font);
+		button28.setFont(font);
+
+		creditFrame8.add(ori);
+		creditFrame8.add(original);
+		creditFrame8.add(pre);
+		creditFrame8.add(present);
+		creditFrame8.add(pre2);
+		creditFrame8.add(present2);
+		creditFrame8.add(button18);
+		creditFrame8.add(button28);
+		//
+
+		layout4.putConstraint(SpringLayout.WEST, ori, 110, SpringLayout.WEST, creditFrame8);
+		layout4.putConstraint(SpringLayout.NORTH, ori, 45, SpringLayout.NORTH, creditFrame8);
+		layout4.putConstraint(SpringLayout.WEST, original, 0, SpringLayout.EAST, ori);
+		layout4.putConstraint(SpringLayout.NORTH, original, 45, SpringLayout.NORTH, creditFrame8);
+
+		layout4.putConstraint(SpringLayout.WEST, pre, 110, SpringLayout.WEST, creditFrame8);
+		layout4.putConstraint(SpringLayout.NORTH, pre, 90, SpringLayout.NORTH, creditFrame8);
+		layout4.putConstraint(SpringLayout.WEST, present, 0, SpringLayout.EAST, pre);
+		layout4.putConstraint(SpringLayout.NORTH, present, 90, SpringLayout.NORTH, creditFrame8);
+
+		layout4.putConstraint(SpringLayout.WEST, pre2, 110, SpringLayout.WEST, creditFrame8);
+		layout4.putConstraint(SpringLayout.NORTH, pre2, 135, SpringLayout.NORTH, creditFrame8);
+		layout4.putConstraint(SpringLayout.WEST, present2, 0, SpringLayout.EAST, pre2);
+		layout4.putConstraint(SpringLayout.NORTH, present2, 135, SpringLayout.NORTH, creditFrame8);
+
+		layout4.putConstraint(SpringLayout.WEST, button18,
+				(int) (creditFrame8.getWidth() / 2 - button28.getPreferredSize().getWidth() - 5), SpringLayout.WEST,
+				creditFrame8);
+		layout4.putConstraint(SpringLayout.NORTH, button18, 45, SpringLayout.NORTH, present2);
+		layout4.putConstraint(SpringLayout.WEST, button28, 10, SpringLayout.EAST, button18);
+		layout4.putConstraint(SpringLayout.NORTH, button28, 45, SpringLayout.NORTH, present2);
+		//
+		Dimension dm8 = Toolkit.getDefaultToolkit().getScreenSize();// 获得屏幕尺寸
+		Dimension tm8 = creditFrame8.getSize();
+		if (tm8.width > dm8.width) { // 修正
+			tm8.width = dm8.width;
+		}
+		if (tm8.height > dm8.height) {
+			tm8.height = dm8.height;
+		}
+		creditFrame8.setLocation(dm8.width / 2 - tm8.width / 2, dm8.height / 2 - tm8.height / 2);// 设置尺寸
+																									// 为屏幕中央
+		creditFrame8.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+		creditFrame8.setFont(font);
+		creditFrame8.setVisible(false);
+		// 对Frame的监听
+
+		creditFrame8.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				int exi = JOptionPane.showConfirmDialog(null, "确定取消么？", "提示", JOptionPane.YES_NO_OPTION,
+						JOptionPane.QUESTION_MESSAGE);
+				if (exi == JOptionPane.YES_OPTION) {
+					creditFrame8.dispose();
+				} else {
+					return;
+				}
+			}
+		});
+		edit8.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				text28.setEditable(true);
+				text48.setEditable(true);
+				text58.setEnabled(true);
+				edit8.setVisible(false);
+				save8.setVisible(true);
+				cancle8.setVisible(true);
+			}
+		});
+		text58.addMouseListener(new java.awt.event.MouseAdapter() {
+			public void mouseClicked(java.awt.event.MouseEvent e) {
+				if (text58.isEnabled()) {
+					creditFrame8.setVisible(true);
+				}
+			}
+		});
+		save8.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				WebworkerVO wvo = new WebworkerVO(Long.parseLong(text18.getText().toString()), text28.getText(),
+						text38.getText(), Authority.Marketer);
+				String pass = "";
+				char[] str = text58.getPassword();
+				for (int i = 0; i < str.length; i++) {
+					pass = pass + str[i];
+				}
+				UserVO uvo = new UserVO(account, pass, id, User.webworker);
+				try {
+					WebworkerController wc = new WebworkerController();
+					wc.changeWebworker(wvo);
+					UserController uc = new UserController();
+					uc.changeUser(uvo);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+				text28.setEditable(false);
+				text48.setEditable(false);
+				text58.setEnabled(false);
+				edit8.setVisible(true);
+				save8.setVisible(false);
+				cancle8.setVisible(false);
+			}
+		});
+		cancle8.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				tab.setSelectedIndex(4);
+				text28.setEditable(false);
+				text48.setEditable(false);
+				text58.setEnabled(false);
+				edit8.setVisible(true);
+				save8.setVisible(false);
+				cancle8.setVisible(false);
+			}
+		});
+		button18.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					UserController uc = new UserController();
+					UserVO uvo = uc.getUser(account);
+					String pass = "";
+					char[] str = original.getPassword();
+					for (int i = 0; i < str.length; i++) {
+						pass = pass + str[i];
+					}
+					String pass1 = "";
+					char[] str1 = present.getPassword();
+					for (int i = 0; i < str1.length; i++) {
+						pass1 = pass1 + str1[i];
+					}
+					String pass2 = "";
+					char[] str2 = present2.getPassword();
+					for (int i = 0; i < str2.length; i++) {
+						pass2 = pass2 + str2[i];
+					}
+					if (uvo.getPasssword().equals(pass) && pass1.equals(pass2)) {
+						text58.setText(pass1);
+					}
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+		button28.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				original.setText("");
+				present.setText("");
+				present2.setText("");
+				creditFrame8.dispose();
+			}
+		});
+
 		tab.addMouseListener(new java.awt.event.MouseAdapter() {
 			public void mouseClicked(java.awt.event.MouseEvent e) {
 				int selectedIndex = tab.getSelectedIndex(); // 获得选中的选项卡索引
@@ -2705,7 +3037,7 @@ public class WebMarketerUI extends JFrame {
 							defaultModel2.setRowCount(rowcount);
 						} // addrow
 						while (lines < rowcount) {
-							defaultModel2.removeRow(rowcount);
+							defaultModel2.removeRow(rowcount - 1);
 							rowcount = rowcount - 1;
 							defaultModel2.setRowCount(rowcount);
 						} // removerow
@@ -2802,11 +3134,33 @@ public class WebMarketerUI extends JFrame {
 					}
 					break;
 				}
+				case 4: {
+					try {
+						UserController uc = new UserController();
+						UserVO uvo = uc.getUser(account);
+						WebworkerController wc = new WebworkerController();
+						WebworkerVO wvo = wc.getWebworker(uvo.getId());
+						text18.setText(uvo.getId() + "");
+						text28.setText(wvo.getWebworkerName());
+						text38.setText(wvo.getWebworkerPhone());
+						text48.setText(account);
+						text58.setText(uvo.getPasssword());
+					} catch (NumberFormatException e2) {
+						// TODO Auto-generated catch block
+						e2.printStackTrace();
+					} catch (RemoteException e2) {
+						// TODO Auto-generated catch block
+						e2.printStackTrace();
+					}
+					break;
+				}
+
 				}
 
 			}
 		});
 		tab4.addMouseListener(new java.awt.event.MouseAdapter() {
+
 			public void mouseClicked(java.awt.event.MouseEvent e1) {
 				int selectedIndex = tab4.getSelectedIndex(); // 获得选中的选项卡索引
 				// String title = tab4.getTitleAt(selectedIndex); // 获得选项卡标签

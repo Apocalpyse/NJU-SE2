@@ -19,6 +19,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
@@ -32,6 +33,7 @@ import businesslogic.hotelbl.HotelController;
 import businesslogic.promotionbl.PromotionController;
 import businesslogic.userbl.UserController;
 import businesslogic.webworkerbl.WebworkerController;
+import po.Authority;
 import po.MemberType;
 import po.UsageState;
 import po.User;
@@ -66,10 +68,15 @@ public class WebManagerUI extends JFrame {
 	long WWIDBegin = 40000;
 	long ORDERIDBegin = 50000;
 	// ID
+	private long id;
+	private String account;
+	//
+
 	private JPanel customer;
 	private JPanel hotel;
 	private JPanel hotelworker;
 	private JPanel webmarketer;
+	private JPanel selfinfo;
 	private JFrame frame;
 	private JTabbedPane tab;
 	// mainui
@@ -95,6 +102,7 @@ public class WebManagerUI extends JFrame {
 	private JButton creat2;
 	private JButton edit2;
 	private JTextField idInput2;
+	private static boolean ISCreat2 = false;
 	// hotel
 
 	private JFrame creditFrame3;
@@ -118,13 +126,39 @@ public class WebManagerUI extends JFrame {
 	private JButton creat4;
 	private JButton edit4;
 	private JTextField idInput4;
+	private static boolean ISCreat4 = false;
 
 	// webmarketer
+	private JFrame creditFrame8;
+	private JLabel label18;
+	private JTextArea text18;
+	private JLabel label28;
+	private JTextArea text28;
+	private JLabel label38;
+	private JTextArea text38;
+	private JLabel label48;
+	private JTextArea text48;
+	private JLabel label58;
+	private JPasswordField text58;
+	private JButton edit8;
+	private JButton save8;
+	private JButton cancle8;
+
+	// selfinfo
 	public static void main(String[] args) {
-		WebManagerUI ui = new WebManagerUI();
+		WebManagerUI ui = new WebManagerUI("");
 	}
 
-	public WebManagerUI() {
+	public WebManagerUI(String accountstr) {
+		this.account = accountstr;
+		try {
+			UserController ucon = new UserController();
+			UserVO vo = ucon.getUser(accountstr);
+			this.id = vo.getId();
+		} catch (RemoteException e5) {
+			// TODO Auto-generated catch block
+			e5.printStackTrace();
+		}
 		frame = new JFrame();
 		frame.setFont(font);
 		customer = new JPanel();
@@ -139,13 +173,19 @@ public class WebManagerUI extends JFrame {
 		webmarketer = new JPanel();
 		webmarketer.setFont(font);
 		webmarketer.setPreferredSize(preferredSize7);
+		selfinfo = new JPanel();
+		selfinfo.setFont(font);
+		selfinfo.setPreferredSize(preferredSize7);
 		tab = new JTabbedPane(JTabbedPane.LEFT);
+		tab.setFont(font);
 		// 容器
 
 		tab.add(customer, "用户信息管理");
 		tab.add(hotel, "酒店信息管理");
 		tab.add(hotelworker, "酒店管理人员");
 		tab.add(webmarketer, "网站营销人员");
+		tab.add(selfinfo, "账户信息");
+		tab.setSelectedIndex(0);
 
 		frame.add(tab);
 		frame.setBackground(Color.darkGray);
@@ -209,7 +249,7 @@ public class WebManagerUI extends JFrame {
 				{ "", "", "", "", "", "", "", "", "", "" }, { "", "", "", "", "", "", "", "", "", "" },
 				{ "", "", "", "", "", "", "", "", "", "" }, { "", "", "", "", "", "", "", "", "", "" },
 				{ "", "", "", "", "", "", "", "", "", "" }, { "", "", "", "", "", "", "", "", "", "" } };
-		String[] n = { "ID", "用户名", "信用值", "用户电话", "所属企业" };
+		String[] n = { "ID", "用户名", "信用值", "用户电话", "所属企业", "生日" };
 		DefaultTableModel defaultModel = new DefaultTableModel(p, n) {
 			public boolean isCellEditable(int row, int column) {
 				return false;
@@ -280,7 +320,7 @@ public class WebManagerUI extends JFrame {
 		label5.setPreferredSize(preferredSize5);// short label
 		JTextArea text5 = new JTextArea();
 		text5.setPreferredSize(preferredSize5);
-		JLabel label6 = new JLabel("密码:");
+		JLabel label6 = new JLabel("生日:");
 		label6.setPreferredSize(preferredSize41);// short label
 		JTextArea text6 = new JTextArea();
 		text6.setPreferredSize(preferredSize51);
@@ -391,6 +431,7 @@ public class WebManagerUI extends JFrame {
 				} else {
 					try {
 						CustomerController cc = new CustomerController();
+						UserController uc = new UserController();
 						long ID = Long.parseLong(idInput.getText().toString());
 						if (ID > cc.findMaxId() || ID < USERIDBegin) {
 							JOptionPane.showMessageDialog(null, "未查询到对应用户信息", "提示", JOptionPane.PLAIN_MESSAGE);
@@ -400,7 +441,7 @@ public class WebManagerUI extends JFrame {
 						CustomerVO vo = cc.getCustomer(ID);
 						// 获取
 						String[] ob = { vo.getId() + "", vo.getCustomerName(), vo.getCredit() + "",
-								vo.getCustomerPhone(), vo.getCompanyName() };
+								vo.getCustomerPhone(), vo.getCompanyName(), vo.getBirthday() };
 						// 处理值
 						for (int i = 0; i < ob.length; i++) {
 							table.setValueAt(ob[i], 0, i);
@@ -435,7 +476,7 @@ public class WebManagerUI extends JFrame {
 					try {
 						CustomerController cc = new CustomerController();
 						long ID = Long.parseLong(id) - defaultModel.getRowCount();
-						if (ID < USERIDBegin) {
+						if (ID <= USERIDBegin) {
 							JOptionPane.showMessageDialog(null, "前面已经没有更多用户信息了", "提示", JOptionPane.PLAIN_MESSAGE);
 							return;
 						}
@@ -447,7 +488,7 @@ public class WebManagerUI extends JFrame {
 							// 获取数据
 							//
 							String[] ob = { vo.getId() + "", vo.getCustomerName(), vo.getCredit() + "",
-									vo.getCustomerPhone(), vo.getCompanyName() };
+									vo.getCustomerPhone(), vo.getCompanyName(), vo.getBirthday() };
 							// 处理值
 							for (int i = 0; i < ob.length; i++) {
 								table.setValueAt(ob[i], count, i);
@@ -478,7 +519,7 @@ public class WebManagerUI extends JFrame {
 
 						CustomerController cc = new CustomerController();
 						long ID = Long.parseLong(id) + defaultModel.getRowCount();
-						if (ID > cc.findMaxId()) {
+						if (ID >= cc.findMaxId()) {
 							JOptionPane.showMessageDialog(null, "后面已经没有更多用户信息了", "提示", JOptionPane.PLAIN_MESSAGE);
 							return;
 						}
@@ -488,7 +529,7 @@ public class WebManagerUI extends JFrame {
 							// 获取数据
 							//
 							String[] ob = { vo.getId() + "", vo.getCustomerName(), vo.getCredit() + "",
-									vo.getCustomerPhone(), vo.getCompanyName() };
+									vo.getCustomerPhone(), vo.getCompanyName(), vo.getBirthday() };
 							// 处理值
 							for (int i = 0; i < ob.length; i++) {
 								table.setValueAt(ob[i], count, i);
@@ -524,13 +565,9 @@ public class WebManagerUI extends JFrame {
 					text3.setText((table.getValueAt(table.getSelectedRow(), 2).toString()));
 					text4.setText((table.getValueAt(table.getSelectedRow(), 3).toString()));
 					text5.setText((table.getValueAt(table.getSelectedRow(), 4).toString()));
-					UserController uc = new UserController();
-					UserVO pvo = uc.getUser(table.getValueAt(table.getSelectedRow(), 1).toString());
-					text6.setText(pvo.getPasssword());
+					text6.setText((table.getValueAt(table.getSelectedRow(), 5).toString()));
+
 				} catch (NumberFormatException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (RemoteException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
@@ -544,17 +581,13 @@ public class WebManagerUI extends JFrame {
 				try {
 					CustomerController cc = new CustomerController();
 					CustomerVO vo = cc.getCustomer(Long.parseLong(text1.getText()));
-					//
-					UserController uc = new UserController();
-					UserVO uvo = uc.getUser(table.getValueAt(table.getSelectedRow(), 1).toString());
-					uvo.setAccout(text2.getText());
-					uvo.setPasssword(text6.getText());
 
-					vo.setCustomerName(text2.getText());
 					//
+					vo.setCustomerName(text2.getText());
 					vo.setCustomerPhone(text4.getText());
-					// 处理值
 					vo.setCompanyName(text5.getText());
+					vo.setBirthday(text6.getText());
+					// 处理值
 					cc.changeCustomer(vo);
 					creditFrame.dispose();
 				} catch (NumberFormatException e) {
@@ -593,6 +626,7 @@ public class WebManagerUI extends JFrame {
 		search2.setPreferredSize(preferredSize6);
 		creat2 = new JButton("新增");
 		creat2.setFont(font);
+
 		creat2.setPreferredSize(preferredSize6);
 		edit2 = new JButton("编辑");
 		edit2.setFont(font);
@@ -824,7 +858,7 @@ public class WebManagerUI extends JFrame {
 						// 获取
 
 						String[] ob = { vo.getID() + "", vo.getHotelName(), vo.getHotelPhone(), vo.getHotelLocation(),
-								vo.getTradeArea(), vo.getStars(), "评价机制不明", vo.getCooperatateCompany() };
+								vo.getTradeArea(), vo.getStars(), vo.getTradeArea(), vo.getCooperatateCompany() };
 						// 处理值
 						for (int i = 0; i < defaultModel2.getColumnCount(); i++) {
 							table2.setValueAt(ob[i], 0, i);
@@ -859,7 +893,7 @@ public class WebManagerUI extends JFrame {
 					try {
 						HotelController hc = new HotelController();
 						long ID = Long.parseLong(id) - defaultModel2.getRowCount();
-						if (ID < HOTELIDBegin) {
+						if (ID <= HOTELIDBegin) {
 							JOptionPane.showMessageDialog(null, "前面已经没有更多酒店了", "提示", JOptionPane.PLAIN_MESSAGE);
 							return;
 						}
@@ -900,7 +934,7 @@ public class WebManagerUI extends JFrame {
 					try {
 						HotelController hc = new HotelController();
 						long ID = Long.parseLong(id) + defaultModel2.getRowCount();
-						if (ID > hc.findMaxId()) {
+						if (ID >= hc.findMaxId()) {
 							JOptionPane.showMessageDialog(null, "后面已经没有更多酒店了", "提示", JOptionPane.PLAIN_MESSAGE);
 							return;
 						}
@@ -943,27 +977,23 @@ public class WebManagerUI extends JFrame {
 		creat2.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				try {
-					HotelController hc = new HotelController();
-					text12.setText(hc.findMaxId() + 1 + "");
-					text22.setText("");
-					text32.setText("");
-					text42.setText("");
-					text52.setText("");
-					text62.setText("");
-					text72.setText("");
-					text82.setText("");
-					creditFrame2.setVisible(true);
-				} catch (RemoteException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				text12.setText("自动生成");
+				text22.setText("");
+				text32.setText("");
+				text42.setText("");
+				text52.setText("");
+				text62.setText("");
+				text72.setText("");
+				text82.setText("");
+				ISCreat2 = true;
+				creditFrame2.setVisible(true);
+
 			}
 		});
 		edit2.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				creditFrame2.setVisible(true);
+
 				text12.setText(table2.getValueAt(table2.getSelectedRow(), 0).toString());
 				text22.setText(table2.getValueAt(table2.getSelectedRow(), 1).toString());
 				text32.setText(table2.getValueAt(table2.getSelectedRow(), 2).toString());
@@ -972,15 +1002,18 @@ public class WebManagerUI extends JFrame {
 				text62.setText(table2.getValueAt(table2.getSelectedRow(), 5).toString());
 				text72.setText(table2.getValueAt(table2.getSelectedRow(), 6).toString());
 				text82.setText(table2.getValueAt(table2.getSelectedRow(), 7).toString());
+
+				ISCreat2 = false;
+				creditFrame2.setVisible(true);
 			}
 		});
 		button12.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				try {
+
 					HotelController hc = new HotelController();
 					HotelVO vo = new HotelVO();
-					vo.setID(Long.parseLong(text12.getText()));
 					vo.setHotelName(text22.getText());
 					vo.setHotelPhone(text32.getText());
 					vo.setHotelLocation(text42.getText());
@@ -991,18 +1024,22 @@ public class WebManagerUI extends JFrame {
 					vo.setCooperatateCompany(text82.getText());
 					//
 					UserController uc = new UserController();
-					UserVO uvo = uc.getUser(table2.getValueAt(table2.getSelectedRow(), 0).toString());
-					//
-					uvo.setId(Long.parseLong(text12.getText()));
-					uvo.setAccout(text22.getText());
-					uvo.setUser(User.hotel);
-					uvo.setPasssword("");
-					if (hc.getHotel(vo.getID()) == null) {
-						// uc.
-						// ************hotelbi no add
+
+					if (ISCreat2) {
+						hc.createHotel(vo);
+						uc.register(vo.getHotelName(), "123456", User.hotel);
+						/*********************************
+						 * 
+						 * 
+						 * 创建酒店时, 酒店工作人员: 登录名被初始化为酒店名， 密码初始化为123456.
+						 * 
+						 * 
+						 ***********************************/
 					} else {
+						vo.setID(Long.parseLong(text12.getText()));
 						hc.changeHotel(vo);
 					}
+					ISCreat2 = false;
 					// 添加或者更改
 					creditFrame2.dispose();
 				} catch (NumberFormatException e) {
@@ -1256,7 +1293,7 @@ public class WebManagerUI extends JFrame {
 					try {
 						HotelController hc = new HotelController();
 						long ID = Long.parseLong(id) - defaultModel3.getRowCount();
-						if (ID < HOTELIDBegin || ID > hc.findMaxId()) {
+						if (ID <= HOTELIDBegin || ID > hc.findMaxId()) {
 							JOptionPane.showMessageDialog(null, "前面没有更多酒店管理人员信息了", "提示", JOptionPane.PLAIN_MESSAGE);
 							return;
 						}
@@ -1296,7 +1333,7 @@ public class WebManagerUI extends JFrame {
 					try {
 						HotelController hc = new HotelController();
 						long ID = Long.parseLong(id) + defaultModel3.getRowCount();
-						if (ID < HOTELIDBegin || ID > hc.findMaxId()) {
+						if (ID < HOTELIDBegin || ID >= hc.findMaxId()) {
 							JOptionPane.showMessageDialog(null, "后面没有更多酒店管理人员信息了", "提示", JOptionPane.PLAIN_MESSAGE);
 							return;
 						}
@@ -1463,7 +1500,7 @@ public class WebManagerUI extends JFrame {
 		creditFrame4 = new JFrame();
 		creditFrame4.setBackground(Color.darkGray);
 		creditFrame4.setTitle("DS酒店管家");
-		creditFrame4.setSize(750, 170);/////
+		creditFrame4.setSize(600, 170);/////
 		//
 		creditFrame4.setLayout(layout);
 		JLabel label14 = new JLabel("ID:");
@@ -1478,10 +1515,6 @@ public class WebManagerUI extends JFrame {
 		label34.setPreferredSize(preferredSize5);// short label
 		JTextArea text34 = new JTextArea();
 		text34.setPreferredSize(preferredSize5);
-		JLabel label44 = new JLabel("密码:");
-		label44.setPreferredSize(preferredSize5);// short label
-		JTextArea text44 = new JTextArea();
-		text44.setPreferredSize(preferredSize5);
 		JButton button14 = new JButton("确定");
 		button14.setPreferredSize(preferredSize6);
 		JButton button24 = new JButton("取消");
@@ -1489,11 +1522,9 @@ public class WebManagerUI extends JFrame {
 		text14.setFont(font);
 		text24.setFont(font);
 		text34.setFont(font);
-		text44.setFont(font);
 		label14.setFont(font);
 		label24.setFont(font);
 		label34.setFont(font);
-		label44.setFont(font);
 		button14.setFont(font);
 		button24.setFont(font);
 
@@ -1504,8 +1535,6 @@ public class WebManagerUI extends JFrame {
 		creditFrame4.add(text24);
 		creditFrame4.add(label34);
 		creditFrame4.add(text34);
-		creditFrame4.add(label44);
-		creditFrame4.add(text44);
 		creditFrame4.add(button14);
 		creditFrame4.add(button24);
 		//
@@ -1524,18 +1553,13 @@ public class WebManagerUI extends JFrame {
 		layout.putConstraint(SpringLayout.WEST, text34, 0, SpringLayout.EAST, label34);
 		layout.putConstraint(SpringLayout.NORTH, text34, 25, SpringLayout.NORTH, creditFrame4);
 
-		layout.putConstraint(SpringLayout.WEST, label44, 10, SpringLayout.EAST, text34);
-		layout.putConstraint(SpringLayout.NORTH, label44, 25, SpringLayout.NORTH, creditFrame4);
-		layout.putConstraint(SpringLayout.WEST, text44, 0, SpringLayout.EAST, label44);
-		layout.putConstraint(SpringLayout.NORTH, text44, 25, SpringLayout.NORTH, creditFrame4);
-
 		//
 		layout.putConstraint(SpringLayout.WEST, button14,
 				(int) (creditFrame4.getWidth() / 2 - button14.getPreferredSize().getWidth() - 5), SpringLayout.WEST,
 				creditFrame4);
-		layout.putConstraint(SpringLayout.NORTH, button14, 40, SpringLayout.SOUTH, text44);
+		layout.putConstraint(SpringLayout.NORTH, button14, 40, SpringLayout.SOUTH, text34);
 		layout.putConstraint(SpringLayout.WEST, button24, 10, SpringLayout.EAST, button14);
-		layout.putConstraint(SpringLayout.NORTH, button24, 40, SpringLayout.SOUTH, text44);
+		layout.putConstraint(SpringLayout.NORTH, button24, 40, SpringLayout.SOUTH, text34);
 		// 設置位置
 
 		creditFrame4.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -1617,7 +1641,7 @@ public class WebManagerUI extends JFrame {
 					try {
 						WebworkerController wc = new WebworkerController();
 						long ID = Long.parseLong(id) - defaultModel4.getRowCount();
-						if (ID < WWIDBegin || ID > wc.findMaxId()) {
+						if (ID <= WWIDBegin || ID > wc.findMaxId()) {
 							JOptionPane.showMessageDialog(null, "前面没有更多网站营销人员信息了", "提示", JOptionPane.PLAIN_MESSAGE);
 						}
 						//
@@ -1655,7 +1679,7 @@ public class WebManagerUI extends JFrame {
 					try {
 						WebworkerController wc = new WebworkerController();
 						long ID = Long.parseLong(id) + defaultModel4.getRowCount();
-						if (ID < WWIDBegin || ID > wc.findMaxId()) {
+						if (ID < WWIDBegin || ID >= wc.findMaxId()) {
 							JOptionPane.showMessageDialog(null, "后面没有更多网站营销人员信息了", "提示", JOptionPane.PLAIN_MESSAGE);
 						}
 						//
@@ -1693,17 +1717,11 @@ public class WebManagerUI extends JFrame {
 		creat4.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				try {
-					creditFrame4.setVisible(true);
-					WebworkerController wc = new WebworkerController();
-					text14.setText(wc.findMaxId() + 1 + "");
-					text24.setText("");
-					text34.setText("");
-					text44.setText("");
-				} catch (RemoteException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				creditFrame4.setVisible(true);
+				text14.setText("自动生成");
+				text24.setText("");
+				text34.setText("");
+				ISCreat4 = true;
 			}
 		});
 		edit4.addActionListener(new ActionListener() {
@@ -1713,14 +1731,9 @@ public class WebManagerUI extends JFrame {
 					text14.setText(table4.getValueAt(table4.getSelectedRow(), 0).toString());
 					text24.setText(table4.getValueAt(table4.getSelectedRow(), 1).toString());
 					text34.setText(table4.getValueAt(table4.getSelectedRow(), 2).toString());
-					UserController uc = new UserController();
-					UserVO uvo = uc.getUser(table4.getValueAt(table4.getSelectedRow(), 0).toString());
-					text44.setText(uvo.getPasssword());
+					ISCreat4 = false;
 					creditFrame4.setVisible(true);
 				} catch (NumberFormatException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (RemoteException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
@@ -1732,36 +1745,36 @@ public class WebManagerUI extends JFrame {
 				try {
 					UserController uc = new UserController();
 					WebworkerController wc = new WebworkerController();
-					if (uc.getUser(text24.getText()) == null) {// 新增
+					if (ISCreat4) {// 新增
 						WebworkerVO vo = new WebworkerVO();
-						UserVO uvo = new UserVO();
 						//
-						vo.setID(Long.parseLong(text14.getText()));
 						vo.setWebworkerName(text24.getText());
 						vo.setWebworkerPhone(text34.getText());
+						vo.setAuthority(Authority.Marketer);
 						wc.creatWebworker(vo);
 						// 信息
-						uvo.setId(Long.parseLong(text14.getText()));
-						uvo.setAccout(text24.getText());
-						uvo.setUser(User.webworker);
-						uvo.setPasssword(text44.getText());
-						uc.changeUser(uvo);
+						/******************************
+						 * 
+						 * 
+						 * 
+						 * 创建网站营销人员时， 其登录名初始为其名字， 其登录密码初始为123456。
+						 * 
+						 * 
+						 * 
+						 *****************************/
+						uc.register(text24.getText(), "123456", User.webworker);
 						JOptionPane.showMessageDialog(null, "操作成功", "提示", JOptionPane.PLAIN_MESSAGE);
-						// 密码
 						// 新增
 					} else {
 						WebworkerVO vo = wc.getWebworker(Long.parseLong(text14.getText()));
-						UserVO uvo = uc.getUser(text14.getText().toString());
-						//
+
 						vo.setWebworkerName(text24.getText());
 						vo.setWebworkerPhone(text34.getText());
 						wc.changeWebworker(vo);
 						// 改变信息
-						uvo.setAccout(text24.getText());
-						uvo.setPasssword(text44.getText());
-						uc.changeUser(uvo);
+
 						JOptionPane.showMessageDialog(null, "操作成功", "提示", JOptionPane.PLAIN_MESSAGE);
-						// 改变密码
+
 					}
 
 				} catch (NumberFormatException e) {
@@ -1781,15 +1794,443 @@ public class WebManagerUI extends JFrame {
 				creditFrame4.dispose();
 			}
 		});
+		//
+
+		// selfinfo
+		// 布局
+		selfinfo.setLayout(layout);
+		// 数据栏
+		label18 = new JLabel("ID:");
+		label18.setPreferredSize(preferredSize51);
+		text18 = new JTextArea();
+		text18.setPreferredSize(preferredSize51);
+		label28 = new JLabel("NAME:");
+		label28.setPreferredSize(preferredSize51);
+		text28 = new JTextArea();
+		text28.setPreferredSize(preferredSize51);
+		label38 = new JLabel("电话:");
+		label38.setPreferredSize(preferredSize51);
+		text38 = new JTextArea();
+		text38.setPreferredSize(preferredSize51);
+		label48 = new JLabel("登录名:");
+		label48.setPreferredSize(preferredSize51);
+		text48 = new JTextArea();
+		text48.setPreferredSize(preferredSize51);
+		label58 = new JLabel("密码:");
+		label58.setPreferredSize(preferredSize51);
+		text58 = new JPasswordField();
+		text58.setPreferredSize(preferredSize51);
+		edit8 = new JButton("修改信息");
+		edit.setPreferredSize(preferredSize2);
+		save8 = new JButton("保存");
+		save8.setPreferredSize(preferredSize);
+		cancle8 = new JButton("取消");
+		cancle8.setPreferredSize(preferredSize);
+		text18.setFont(font);
+		text28.setFont(font);
+		text38.setFont(font);
+		text48.setFont(font);
+		text58.setFont(font);
+		label18.setFont(font);
+		label28.setFont(font);
+		label38.setFont(font);
+		label48.setFont(font);
+		label58.setFont(font);
+		edit8.setFont(font);
+		save8.setFont(font);
+		cancle8.setFont(font);
+		// 添加
+		selfinfo.add(label18);
+		selfinfo.add(text18);
+		text18.setEditable(false);
+		selfinfo.add(label28);
+		selfinfo.add(text28);
+		text28.setEditable(false);
+		selfinfo.add(label38);
+		selfinfo.add(text38);
+		text38.setEditable(false);
+		selfinfo.add(label48);
+		selfinfo.add(text48);
+		text48.setEditable(false);
+		selfinfo.add(label58);
+		selfinfo.add(text58);
+		text58.setEnabled(false);
+		selfinfo.add(edit8);
+		selfinfo.add(save8);
+		save8.setVisible(false);
+		selfinfo.add(cancle8);
+		cancle8.setVisible(false);
+		//
+		layout.putConstraint(SpringLayout.WEST, label18, 80, SpringLayout.WEST, selfinfo);
+		layout.putConstraint(SpringLayout.NORTH, label18, 45, SpringLayout.NORTH, selfinfo);
+		layout.putConstraint(SpringLayout.WEST, text18, 0, SpringLayout.EAST, label18);
+		layout.putConstraint(SpringLayout.NORTH, text18, 45, SpringLayout.NORTH, selfinfo);
+
+		layout.putConstraint(SpringLayout.WEST, label28, 30, SpringLayout.EAST, text18);
+		layout.putConstraint(SpringLayout.NORTH, label28, 45, SpringLayout.NORTH, selfinfo);
+		layout.putConstraint(SpringLayout.WEST, text28, 0, SpringLayout.EAST, label28);
+		layout.putConstraint(SpringLayout.NORTH, text28, 45, SpringLayout.NORTH, selfinfo);
+
+		layout.putConstraint(SpringLayout.WEST, label38, 30, SpringLayout.EAST, text28);
+		layout.putConstraint(SpringLayout.NORTH, label38, 45, SpringLayout.NORTH, selfinfo);
+		layout.putConstraint(SpringLayout.WEST, text38, 0, SpringLayout.EAST, label38);
+		layout.putConstraint(SpringLayout.NORTH, text38, 45, SpringLayout.NORTH, selfinfo);
+
+		layout.putConstraint(SpringLayout.WEST, label48, 190, SpringLayout.WEST, selfinfo);
+		layout.putConstraint(SpringLayout.NORTH, label48, 120, SpringLayout.NORTH, selfinfo);
+		layout.putConstraint(SpringLayout.WEST, text48, 0, SpringLayout.EAST, label48);
+		layout.putConstraint(SpringLayout.NORTH, text48, 120, SpringLayout.NORTH, selfinfo);
+
+		layout.putConstraint(SpringLayout.WEST, label58, 30, SpringLayout.EAST, text48);
+		layout.putConstraint(SpringLayout.NORTH, label58, 120, SpringLayout.NORTH, selfinfo);
+		layout.putConstraint(SpringLayout.WEST, text58, 0, SpringLayout.EAST, label58);
+		layout.putConstraint(SpringLayout.NORTH, text58, 120, SpringLayout.NORTH, selfinfo);
+
+		layout.putConstraint(SpringLayout.WEST, edit8,
+				(int) (selfinfo.getWidth() / 2 - edit8.getPreferredSize().getWidth()), SpringLayout.WEST, selfinfo);
+		layout.putConstraint(SpringLayout.NORTH, edit8, 100, SpringLayout.SOUTH, text58);
+
+		layout.putConstraint(SpringLayout.WEST, save8,
+				(int) (selfinfo.getWidth() / 2 - save8.getPreferredSize().getWidth() - 5), SpringLayout.WEST, selfinfo);
+		layout.putConstraint(SpringLayout.NORTH, save8, 100, SpringLayout.NORTH, text58);
+		layout.putConstraint(SpringLayout.WEST, cancle8, 10, SpringLayout.EAST, save8);
+		layout.putConstraint(SpringLayout.NORTH, cancle8, 100, SpringLayout.NORTH, text58);
+
+		// 初始化位置信息
+
+		//
+		creditFrame8 = new JFrame();
+		SpringLayout layout4 = new SpringLayout();
+		creditFrame8.setBackground(Color.darkGray);
+		creditFrame8.setTitle("DS酒店管家");
+		creditFrame8.setSize(400, 300);
+		creditFrame8.setLayout(layout4);
+
+		//
+		JLabel ori = new JLabel("原密码");
+		ori.setPreferredSize(preferredSize5);
+		JPasswordField original = new JPasswordField();
+		original.setPreferredSize(preferredSize2);
+		JLabel pre = new JLabel("新密码");
+		pre.setPreferredSize(preferredSize5);
+		JPasswordField present = new JPasswordField();
+		present.setPreferredSize(preferredSize2);
+		JLabel pre2 = new JLabel("密码确认");
+		pre2.setPreferredSize(preferredSize5);
+		JPasswordField present2 = new JPasswordField();
+		present2.setPreferredSize(preferredSize2);
+		JButton button18 = new JButton("确认");
+		button18.setPreferredSize(preferredSize);
+		JButton button28 = new JButton("取消");
+		button28.setPreferredSize(preferredSize);
+		ori.setFont(font);
+		original.setFont(font);
+		pre.setFont(font);
+		present.setFont(font);
+		pre2.setFont(font);
+		present2.setFont(font);
+		button18.setFont(font);
+		button28.setFont(font);
+
+		creditFrame8.add(ori);
+		creditFrame8.add(original);
+		creditFrame8.add(pre);
+		creditFrame8.add(present);
+		creditFrame8.add(pre2);
+		creditFrame8.add(present2);
+		creditFrame8.add(button18);
+		creditFrame8.add(button28);
+		//
+
+		layout4.putConstraint(SpringLayout.WEST, ori, 110, SpringLayout.WEST, creditFrame8);
+		layout4.putConstraint(SpringLayout.NORTH, ori, 45, SpringLayout.NORTH, creditFrame8);
+		layout4.putConstraint(SpringLayout.WEST, original, 0, SpringLayout.EAST, ori);
+		layout4.putConstraint(SpringLayout.NORTH, original, 45, SpringLayout.NORTH, creditFrame8);
+
+		layout4.putConstraint(SpringLayout.WEST, pre, 110, SpringLayout.WEST, creditFrame8);
+		layout4.putConstraint(SpringLayout.NORTH, pre, 90, SpringLayout.NORTH, creditFrame8);
+		layout4.putConstraint(SpringLayout.WEST, present, 0, SpringLayout.EAST, pre);
+		layout4.putConstraint(SpringLayout.NORTH, present, 90, SpringLayout.NORTH, creditFrame8);
+
+		layout4.putConstraint(SpringLayout.WEST, pre2, 110, SpringLayout.WEST, creditFrame8);
+		layout4.putConstraint(SpringLayout.NORTH, pre2, 135, SpringLayout.NORTH, creditFrame8);
+		layout4.putConstraint(SpringLayout.WEST, present2, 0, SpringLayout.EAST, pre2);
+		layout4.putConstraint(SpringLayout.NORTH, present2, 135, SpringLayout.NORTH, creditFrame8);
+
+		layout4.putConstraint(SpringLayout.WEST, button18,
+				(int) (creditFrame8.getWidth() / 2 - button28.getPreferredSize().getWidth() - 5), SpringLayout.WEST,
+				creditFrame8);
+		layout4.putConstraint(SpringLayout.NORTH, button18, 45, SpringLayout.NORTH, present2);
+		layout4.putConstraint(SpringLayout.WEST, button28, 10, SpringLayout.EAST, button18);
+		layout4.putConstraint(SpringLayout.NORTH, button28, 45, SpringLayout.NORTH, present2);
+		//
+		Dimension dm8 = Toolkit.getDefaultToolkit().getScreenSize();// 获得屏幕尺寸
+		Dimension tm8 = creditFrame8.getSize();
+		if (tm8.width > dm8.width) { // 修正
+			tm8.width = dm8.width;
+		}
+		if (tm8.height > dm8.height) {
+			tm8.height = dm8.height;
+		}
+		creditFrame8.setLocation(dm8.width / 2 - tm8.width / 2, dm8.height / 2 - tm8.height / 2);// 设置尺寸
+																									// 为屏幕中央
+		creditFrame8.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+		creditFrame8.setFont(font);
+		creditFrame8.setVisible(false);
+		// 对Frame的监听
+
+		creditFrame8.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				int exi = JOptionPane.showConfirmDialog(null, "确定取消么？", "提示", JOptionPane.YES_NO_OPTION,
+						JOptionPane.QUESTION_MESSAGE);
+				if (exi == JOptionPane.YES_OPTION) {
+					creditFrame8.dispose();
+				} else {
+					return;
+				}
+			}
+		});
+		edit8.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				text28.setEditable(true);
+				text48.setEditable(true);
+				text58.setEnabled(true);
+				edit8.setVisible(false);
+				save8.setVisible(true);
+				cancle8.setVisible(true);
+			}
+		});
+		text58.addMouseListener(new java.awt.event.MouseAdapter() {
+			public void mouseClicked(java.awt.event.MouseEvent e) {
+				if (text58.isEnabled()) {
+					creditFrame8.setVisible(true);
+				}
+			}
+		});
+		save8.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				WebworkerVO wvo = new WebworkerVO(Long.parseLong(text18.getText().toString()), text28.getText(),
+						text38.getText(), Authority.Manager);
+				String pass = "";
+				char[] str = text58.getPassword();
+				for (int i = 0; i < str.length; i++) {
+					pass = pass + str[i];
+				}
+				UserVO uvo = new UserVO(account, pass, id, User.webworker);
+				try {
+					WebworkerController wc = new WebworkerController();
+					wc.changeWebworker(wvo);
+					UserController uc = new UserController();
+					uc.changeUser(uvo);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+				text28.setEditable(false);
+				text48.setEditable(false);
+				text58.setEnabled(false);
+				edit8.setVisible(true);
+				save8.setVisible(false);
+				cancle8.setVisible(false);
+			}
+		});
+		cancle8.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				tab.setSelectedIndex(4);
+				text28.setEditable(false);
+				text48.setEditable(false);
+				text58.setEnabled(false);
+				edit8.setVisible(true);
+				save8.setVisible(false);
+				cancle8.setVisible(false);
+			}
+		});
+		button18.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					UserController uc = new UserController();
+					UserVO uvo = uc.getUser(account);
+					String pass = "";
+					char[] str = original.getPassword();
+					for (int i = 0; i < str.length; i++) {
+						pass = pass + str[i];
+					}
+					String pass1 = "";
+					char[] str1 = present.getPassword();
+					for (int i = 0; i < str1.length; i++) {
+						pass1 = pass1 + str1[i];
+					}
+					String pass2 = "";
+					char[] str2 = present2.getPassword();
+					for (int i = 0; i < str2.length; i++) {
+						pass2 = pass2 + str2[i];
+					}
+					if (uvo.getPasssword().equals(pass) && pass1.equals(pass2)) {
+						text58.setText(pass1);
+					}
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+		button28.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				original.setText("");
+				present.setText("");
+				present2.setText("");
+				creditFrame8.dispose();
+			}
+		});
+		// selfinfo
 
 		// 初始化与刷新
+
 		tab.addMouseListener(new java.awt.event.MouseAdapter() {
 			public void mouseClicked(java.awt.event.MouseEvent e) {
 				int selectedIndex = tab.getSelectedIndex(); // 获得选中的选项卡索引
 				// String title = tab.getTitleAt(selectedIndex); // 获得选项卡标签
 				// System.out.println(title);
 				switch (selectedIndex) {
+				case '0': {
+					try {
+						CustomerController cc = new CustomerController();
+						long ID = USERIDBegin;
+						//
+						for (int count = 0; count < defaultModel.getRowCount()
+								&& (!(ID > cc.findMaxId() || ID < USERIDBegin)); count++) {
+							CustomerVO vo = cc.getCustomer(ID);
+							ID = ID + 1;
+							// 获取数据
+							//
+							String[] ob = { vo.getId() + "", vo.getCustomerName(), vo.getCredit() + "",
+									vo.getCustomerPhone(), vo.getCompanyName(), vo.getBirthday() };
+							// 处理值
+							for (int i = 0; i < ob.length; i++) {
+								table.setValueAt(ob[i], count, i);
+							}
+							// 赋值
+						}
+					} catch (NumberFormatException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (RemoteException e2) {
+						// TODO Auto-generated catch block
+						e2.printStackTrace();
 
+					}
+					break;
+				}
+				case '1': {
+					try {
+						HotelController hc = new HotelController();
+						long ID = HOTELIDBegin;
+						//
+						for (int count = 0; count < defaultModel2.getRowCount()
+								&& (!(ID < HOTELIDBegin || ID > hc.findMaxId())); count++) {
+
+							HotelVO vo = hc.getHotel(ID);
+							ID = ID + 1;
+							// 获取数据
+							String[] ob = { vo.getID() + "", vo.getHotelName(), vo.getHotelPhone(),
+									vo.getHotelLocation(), vo.getTradeArea(), vo.getStars(), vo.getGoal() + "",
+									vo.getCooperatateCompany() };
+							// 处理值
+							for (int i = 0; i < ob.length; i++) {
+								table2.setValueAt(ob[i], count, i);
+							}
+							// 赋值
+						}
+					} catch (NumberFormatException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (RemoteException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					break;
+				}
+				case '2': {
+					try {
+						HotelController hc = new HotelController();
+						long ID = HOTELIDBegin;
+						//
+						for (int count = 0; count < defaultModel3.getRowCount()
+								&& (!(ID < HOTELIDBegin || ID > hc.findMaxId())); count++) {
+
+							HotelVO vo = hc.getHotel(ID);
+							ID = ID + 1;
+							// 获取数据
+							String[] ob = { vo.getID() + "", vo.getHotelManager(), vo.getHotelManPhone(),
+									vo.getHotelName() };
+							// 处理值
+							for (int i = 0; i < ob.length; i++) {
+								table3.setValueAt(ob[i], count, i);
+							}
+							// 赋值
+						}
+					} catch (NumberFormatException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (RemoteException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					break;
+				}
+				case '3': {
+					try {
+						WebworkerController wc = new WebworkerController();
+						long ID = WWIDBegin;
+						for (int count = 0; count < defaultModel4.getRowCount()
+								&& (!(ID < WWIDBegin || ID > wc.findMaxId())); count++) {
+
+							WebworkerVO vo = wc.getWebworker(ID);
+							ID = ID + 1;
+							// 获取数据
+							String[] ob = { vo.getID() + "", vo.getWebworkerName(), vo.getWebworkerPhone() };
+							// 处理值
+							for (int i = 0; i < ob.length; i++) {
+								table4.setValueAt(ob[i], count, i);
+							}
+							// 赋值
+						}
+					} catch (NumberFormatException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (RemoteException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					break;
+				}
+				case 4: {
+					try {
+						UserController uc = new UserController();
+						UserVO uvo = uc.getUser(account);
+						WebworkerController wc = new WebworkerController();
+						WebworkerVO wvo = wc.getWebworker(uvo.getId());
+						text18.setText(uvo.getId() + "");
+						text28.setText(wvo.getWebworkerName());
+						text38.setText(wvo.getWebworkerPhone());
+						text48.setText(account);
+						text58.setText(uvo.getPasssword());
+					} catch (NumberFormatException e2) {
+						// TODO Auto-generated catch block
+						e2.printStackTrace();
+					} catch (RemoteException e2) {
+						// TODO Auto-generated catch block
+						e2.printStackTrace();
+					}
+					break;
+				}
 				}
 			}
 		});
