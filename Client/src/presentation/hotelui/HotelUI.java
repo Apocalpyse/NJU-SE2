@@ -393,8 +393,8 @@ public class HotelUI extends JFrame {
 				//roomInformation
 				roomInformation.setLayout(null);
 				
-				RoomController rcl = new RoomController();
-			/*	rvo00=rcl.getRoom(100000); 
+				/*RoomController rcl = new RoomController();
+				rvo00=rcl.getRoom(100000); 
 				rvo01=rcl.getRoom(100001);
 				rvo02=rcl.getRoom(100002);
 				rvo03=rcl.getRoom(100003);
@@ -2314,3 +2314,4 @@ public class HotelUI extends JFrame {
 		}
 	}
 }
+	
