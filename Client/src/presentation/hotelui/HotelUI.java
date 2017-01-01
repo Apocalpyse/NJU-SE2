@@ -55,6 +55,7 @@ import businesslogic.hotelbl.HotelController;
 import businesslogic.orderbl.OrderController;
 import businesslogic.promotionbl.PromotionController;
 import businesslogic.roombl.RoomController;
+import businesslogic.userbl.UserController;
 import dataservice.hoteldataservice.HotelDataService;
 import po.HotelPO;
 import po.MemberType;
@@ -67,6 +68,7 @@ import vo.HotelVO;
 import vo.MemberPromotionVO;
 import vo.OrderVO;
 import vo.RoomVO;
+import vo.UserVO;
 import vo.WebPromotionVO;
 
 public class HotelUI extends JFrame {
@@ -184,7 +186,7 @@ public class HotelUI extends JFrame {
 	// THE orders
 	
 
-	public HotelUI() throws RemoteException{
+	public HotelUI(String account) throws RemoteException{
 
 		frame = new JFrame();
 
@@ -258,11 +260,14 @@ public class HotelUI extends JFrame {
 
 		// 界面框架
 		//hotelInformation
+				UserController ucl=new UserController();
+				UserVO uv=ucl.getUser(account);
+				long id=uv.getId();
 				hotelInformation.setLayout(null);
 				HotelController hcl;
 				try {
 					hcl = new HotelController();
-//删除注释					hvo=hcl.getHotel(10000);
+					hvo=hcl.getHotel(id);
 				} catch (RemoteException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -280,7 +285,7 @@ public class HotelUI extends JFrame {
 				jth.setBounds(320,15,200,20);
 				jth.setFont(font);
 				jth.setEditable(false);
-				//jth.setText(hvo.getHotelManager());
+				jth.setText(hvo.getHotelManager());
 				hotelInformation.add(jth);
 				
 				JLabel jh0=new JLabel();
@@ -294,7 +299,7 @@ public class HotelUI extends JFrame {
 				jth01.setBounds(320,65,200,20);
 				jth01.setFont(font);
 				jth01.setEditable(false);
-				//jth01.setText(hvo.getHotelManPhone());
+				jth01.setText(hvo.getHotelManPhone());
 				hotelInformation.add(jth01);
 				
 				JLabel jh1=new JLabel();
@@ -308,7 +313,7 @@ public class HotelUI extends JFrame {
 				jth11.setBounds(320,115,200,20);
 				jth11.setFont(font);
 				jth11.setEditable(false);
-				//jth11.setText(hvo.getHotelName());
+				jth11.setText(hvo.getHotelName());
 				hotelInformation.add(jth11);
 				
 				JLabel jh2=new JLabel();
@@ -334,7 +339,7 @@ public class HotelUI extends JFrame {
 				jth13.setBounds(320,165,200,20);
 				jth13.setFont(font);
 				jth13.setEditable(false);
-				//jth13.setText(hvo.getHotelLocation());
+				jth13.setText(hvo.getHotelLocation());
 				hotelInformation.add(jth13);
 				
 				JLabel jh4=new JLabel();
@@ -348,7 +353,7 @@ public class HotelUI extends JFrame {
 				jth14.setBounds(320,215,200,20);
 				jth14.setFont(font);
 				jth14.setEditable(false);
-				//jth14.setText(hvo.getInstruction());
+				jth14.setText(hvo.getInstruction());
 				hotelInformation.add(jth14);
 				
 				JLabel j5=new JLabel();
@@ -362,7 +367,7 @@ public class HotelUI extends JFrame {
 				jth15.setBounds(320,265,200,20);
 				jth15.setFont(font);
 				jth15.setEditable(false);
-				//jth15.setText(hvo.getHotelPhone());
+				jth15.setText(hvo.getHotelPhone());
 				hotelInformation.add(jth15);
 				
 				JLabel jh6=new JLabel();
@@ -393,14 +398,14 @@ public class HotelUI extends JFrame {
 				//roomInformation
 				roomInformation.setLayout(null);
 				
-				/*RoomController rcl = new RoomController();
-				rvo00=rcl.getRoom(100000); 
-				rvo01=rcl.getRoom(100001);
-				rvo02=rcl.getRoom(100002);
-				rvo03=rcl.getRoom(100003);
-				rvo04=rcl.getRoom(100004);
-				rvo05=rcl.getRoom(100005);
-				*/
+				RoomController rcl = new RoomController();
+				rvo00=rcl.getRoom(Long.parseLong(id+"0")); 
+				rvo01=rcl.getRoom(Long.parseLong(id+"1"));
+				rvo02=rcl.getRoom(Long.parseLong(id+"2"));
+				rvo03=rcl.getRoom(Long.parseLong(id+"3"));
+				rvo04=rcl.getRoom(Long.parseLong(id+"4"));
+				rvo05=rcl.getRoom(Long.parseLong(id+"5"));
+				
 				
 				JLabel j10=new JLabel();
 				j10.setText("房间类型");
@@ -413,7 +418,7 @@ public class HotelUI extends JFrame {
 				jt100.setBounds(80,65,50,20);
 				jt100.setFont(font);
 				jt100.setEditable(false);
-			    //jt100.setText(rvo00.getRoomType());
+			    jt100.setText(rvo00.getRoomType());
 				roomInformation.add(jt100);
 				
 				JLabel j11=new JLabel();
@@ -427,7 +432,7 @@ public class HotelUI extends JFrame {
 				jt110.setBounds(80,105,50,20);
 				jt110.setFont(font);
 				jt110.setEditable(false);
-				//jt110.setText(rvo00.getRoomAccessNumber()+"");
+				jt110.setText(rvo00.getRoomAccessNumber()+"");
 				roomInformation.add(jt110);
 				
 				JLabel j12=new JLabel();
@@ -441,7 +446,7 @@ public class HotelUI extends JFrame {
 				jt120.setBounds(80,145,50,20);
 				jt120.setFont(font);
 				jt120.setEditable(false);
-				//jt120.setText(rvo00.getRoomPrice()+"");
+				jt120.setText(rvo00.getRoomPrice()+"");
 				roomInformation.add(jt120);
 				
 				//第二，类型数量差40，文本差55，15，大模块差135
@@ -458,7 +463,7 @@ public class HotelUI extends JFrame {
 				jt200.setBounds(80,215,50,20);
 				jt200.setFont(font);
 				jt200.setEditable(false);
-				//jt200.setText(rvo01.getRoomType());
+				jt200.setText(rvo01.getRoomType());
 				roomInformation.add(jt200);
 				
 				JLabel j21=new JLabel();
@@ -472,7 +477,7 @@ public class HotelUI extends JFrame {
 				jt210.setBounds(80,255,50,20);
 				jt210.setFont(font);
 				jt210.setEditable(false);
-				//jt210.setText(rvo01.getRoomAccessNumber()+"");
+				jt210.setText(rvo01.getRoomAccessNumber()+"");
 				roomInformation.add(jt210);
 				
 				JLabel j22=new JLabel();
@@ -486,7 +491,7 @@ public class HotelUI extends JFrame {
 				jt220.setBounds(80,295,50,20);
 				jt220.setFont(font);
 				jt220.setEditable(false);
-				//jt220.setText(rvo01.getRoomPrice()+"");
+				jt220.setText(rvo01.getRoomPrice()+"");
 				roomInformation.add(jt220);
 				
 				//第三
@@ -501,7 +506,7 @@ public class HotelUI extends JFrame {
 				jt300.setBounds(270,65,50,20);
 				jt300.setFont(font);
 				jt300.setEditable(false);
-				//jt300.setText(rvo02.getRoomType());
+				jt300.setText(rvo02.getRoomType());
 				roomInformation.add(jt300);
 				
 				JLabel j31=new JLabel();
@@ -515,7 +520,7 @@ public class HotelUI extends JFrame {
 				jt310.setBounds(270,105,50,20);
 				jt310.setFont(font);
 				jt310.setEditable(false);
-				//jt310.setText(rvo02.getRoomAccessNumber()+"");
+				jt310.setText(rvo02.getRoomAccessNumber()+"");
 				roomInformation.add(jt310);
 				
 				JLabel j32=new JLabel();
@@ -529,7 +534,7 @@ public class HotelUI extends JFrame {
 				jt320.setBounds(270,145,50,20);
 				jt320.setFont(font);
 				jt320.setEditable(false);
-				//jt320.setText(rvo02.getRoomPrice()+"");
+				jt320.setText(rvo02.getRoomPrice()+"");
 				roomInformation.add(jt320);
 				//第四
 				JLabel j40=new JLabel();
@@ -543,7 +548,7 @@ public class HotelUI extends JFrame {
 				jt400.setBounds(270,215,50,20);
 				jt400.setFont(font);
 				jt400.setEditable(false);
-				//jt400.setText(rvo03.getRoomType());
+				jt400.setText(rvo03.getRoomType());
 				roomInformation.add(jt400);
 				
 				JLabel j41=new JLabel();
@@ -557,7 +562,7 @@ public class HotelUI extends JFrame {
 				jt410.setBounds(270,255,50,20);
 				jt410.setFont(font);
 				jt410.setEditable(false);
-				//jt410.setText(rvo03.getRoomAccessNumber()+"");
+				jt410.setText(rvo03.getRoomAccessNumber()+"");
 				roomInformation.add(jt410);
 				
 				JLabel j42=new JLabel();
@@ -571,7 +576,7 @@ public class HotelUI extends JFrame {
 				jt420.setBounds(270,295,50,20);
 				jt420.setFont(font);
 				jt420.setEditable(false);
-				//jt420.setText(rvo03.getRoomPrice()+"");
+				jt420.setText(rvo03.getRoomPrice()+"");
 				roomInformation.add(jt420);
 				
 				//第五
@@ -586,7 +591,7 @@ public class HotelUI extends JFrame {
 				jt500.setBounds(460,65,50,20);
 				jt500.setFont(font);
 				jt500.setEditable(false);
-				//jt500.setText(rvo04.getRoomType());
+				jt500.setText(rvo04.getRoomType());
 				roomInformation.add(jt500);
 				
 				JLabel j51=new JLabel();
@@ -600,7 +605,7 @@ public class HotelUI extends JFrame {
 				jt510.setBounds(460,105,50,20);
 				jt510.setFont(font);
 				jt510.setEditable(false);
-				//jt510.setText(rvo04.getRoomAccessNumber()+"");
+				jt510.setText(rvo04.getRoomAccessNumber()+"");
 				roomInformation.add(jt510);
 				
 				JLabel j52=new JLabel();
@@ -614,7 +619,7 @@ public class HotelUI extends JFrame {
 				jt520.setBounds(460,145,50,20);
 				jt520.setFont(font);
 				jt520.setEditable(false);
-				//jt520.setText(rvo04.getRoomPrice()+"");
+				jt520.setText(rvo04.getRoomPrice()+"");
 				roomInformation.add(jt520);
 				
 				//第六
@@ -629,7 +634,7 @@ public class HotelUI extends JFrame {
 				jt600.setBounds(460,215,50,20);
 				jt600.setFont(font);
 				jt600.setEditable(false);
-				//jt600.setText(rvo05.getRoomType());
+				jt600.setText(rvo05.getRoomType());
 				roomInformation.add(jt600);
 				
 				JLabel j61=new JLabel();
@@ -643,7 +648,7 @@ public class HotelUI extends JFrame {
 				jt610.setBounds(460,255,50,20);
 				jt610.setFont(font);
 				jt610.setEditable(false);
-				//jt610.setText(rvo05.getRoomAccessNumber()+"");
+				jt610.setText(rvo05.getRoomAccessNumber()+"");
 				roomInformation.add(jt610);
 				
 				JLabel j62=new JLabel();
@@ -657,7 +662,7 @@ public class HotelUI extends JFrame {
 				jt620.setBounds(460,295,50,20);
 				jt620.setFont(font);
 				jt620.setEditable(false);
-				//jt620.setText(rvo05.getRoomPrice()+"");
+				jt620.setText(rvo05.getRoomPrice()+"");
 				roomInformation.add(jt620);
 				
 				JButton br1=new JButton("编辑");
@@ -678,8 +683,8 @@ public class HotelUI extends JFrame {
 				
 				//promotionInformation
 				promotionInformation.setLayout(null);
-				//PromotionController pcl=new PromotionController();
-				//hpvo=pcl.getHotelPromotion(60000);
+				PromotionController pcl=new PromotionController();
+				hpvo=pcl.getHotelPromotion(id);
 				
 				JLabel jp2=new JLabel();
 				jp2.setText("房间数以及对应的折扣");
@@ -699,7 +704,7 @@ public class HotelUI extends JFrame {
 				jtp22.setBounds(380,65,50,20);
 				jtp22.setFont(font);
 				jtp22.setEditable(false);
-				//jtp22.setText(hpvo.getDiscountForLargerAmount()+"");
+				jtp22.setText(hpvo.getDiscountForLargerAmount()+"");
 				promotionInformation.add(jtp22);
 				
 				JLabel jp23=new JLabel();
@@ -713,7 +718,7 @@ public class HotelUI extends JFrame {
 				jtp24.setBounds(495,65,50,20);
 				jtp24.setFont(font);
 				jtp24.setEditable(false);
-				//jtp24.setText(hpvo.getDiscountforlargeramount()+"");
+				jtp24.setText(hpvo.getDiscountforlargeramount()+"");
 				promotionInformation.add(jtp24);
 				
 				//第二
@@ -735,7 +740,7 @@ public class HotelUI extends JFrame {
 				jtp32.setBounds(380,115,50,20);
 				jtp32.setFont(font);
 				jtp32.setEditable(false);
-				//jtp32.setText(hpvo.getBirthDiscount()+"");
+				jtp32.setText(hpvo.getBirthDiscount()+"");
 				promotionInformation.add(jtp32);
 				
 				//第三
@@ -757,7 +762,7 @@ public class HotelUI extends JFrame {
 				jtp42.setBounds(380,165,50,20);
 				jtp42.setFont(font);
 				jtp42.setEditable(false);
-				//jtp42.setText(hpvo.getCompanyDiscount()+"");
+				jtp42.setText(hpvo.getCompanyDiscount()+"");
 				promotionInformation.add(jtp42);
 				
 				//第四
@@ -779,7 +784,7 @@ public class HotelUI extends JFrame {
 				jtp52.setBounds(380,215,50,20);
 				jtp52.setFont(font);
 				jtp52.setEditable(false);
-				//jtp52.setText(hpvo.getBeginTime());
+				jtp52.setText(hpvo.getBeginTime());
 				promotionInformation.add(jtp52);
 				
 				JLabel jp53=new JLabel();
@@ -793,7 +798,7 @@ public class HotelUI extends JFrame {
 				jtp54.setBounds(495,215,50,20);
 				jtp54.setFont(font);
 				jtp54.setEditable(false);
-				//jtp54.setText(hpvo.getEndTime());
+				jtp54.setText(hpvo.getEndTime());
 				promotionInformation.add(jtp54);
 				
 				JLabel jp55=new JLabel();
@@ -807,7 +812,7 @@ public class HotelUI extends JFrame {
 				jtp56.setBounds(380,265,50,20);
 				jtp56.setFont(font);
 				jtp56.setEditable(false);
-				//jtp56.setText(hpvo.getDiscount()+"");
+				jtp56.setText(hpvo.getDiscount()+"");
 				promotionInformation.add(jtp56);
 				
 				JButton p1=new JButton("编辑");
@@ -2314,4 +2319,3 @@ public class HotelUI extends JFrame {
 		}
 	}
 }
-	
